@@ -1,0 +1,6 @@
+.cache/
+.dbdata/
+.vscode/
+.env
+.idea/
+.tmp/
