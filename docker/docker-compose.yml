@@ -14,6 +14,14 @@ services:
     networks:
       - homebee
 
+  workspace:
+    image: php:7.4
+    container_name: homebee-console
+    volumes:
+      - ./:/var/www
+    networks:
+      - homebee
+
   db:
     image: mysql:5.7.31
     container_name: homebee-db
@@ -33,6 +41,26 @@ services:
     networks:
       - homebee
 
+  memcached:
+    container_name: homebee-memcached
+    image: memcached:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+      - app
+    networks:
+      - homebee
+
+  redis:
+    image: redis:4.0
+    container_name: homebee-redis
+    restart: unless-stopped
+    depends_on:
+      - db
+      - app
+    networks:
+      - homebee
+
   nginx:
     image: nginx:alpine
     container_name: homebee-nginx
@@ -42,6 +70,9 @@ services:
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - db
+      - app
     networks:
       - homebee
 
