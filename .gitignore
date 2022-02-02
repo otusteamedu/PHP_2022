@@ -1,3 +1,6 @@
 /.vagrant/
 /.idea
 /vendor/
+/.env
+/Vagrantfile
+/dbdata/
