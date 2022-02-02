@@ -1,0 +1,32 @@
+---
+ip: "192.168.56.56"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+  - ~/.ssh/id_rsa
+
+folders:
+  - map: /home/decole/PhpstormProjects/PHP_2022
+    to: /home/vagrant/code
+
+sites:
+  - map: application.local
+    to: /home/vagrant/code/public
+
+databases:
+  - laravel
+
+features:
+  - mysql: true
+  - mariadb: false
+  - postgresql: false
+  - ohmyzsh: false
+  - webdriver: false
+
+services:
+  - enabled:
+      - "mysql"
