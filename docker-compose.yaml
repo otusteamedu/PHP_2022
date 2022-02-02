@@ -1,50 +1,59 @@
-# версия синтаксиса
 version: '3'
 
-# в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
-  #контейнер с Nginx
   nginx:
     build:
       context: ./docker/nginx
-      dockerfile: Dockerfile
     image: myapp/nginx
     container_name: webserver
-    # проброс портов
     ports:
       - "80:80"
     volumes:
-       - ./public:/data/mysite.local
+      - ./public:/data/mysite.local
     networks:
       - app-network
 
-  #Контейнер с PHP-FPM, назовём его app
   app:
-    # Если нет секции build, то система будет искать образ в репозиториях
     build:
       context: ./docker/fpm
-      dockerfile: Dockerfile
-    image: myapp/php # имя будущего образа
-    container_name: app1 # имя контейнера после запуска
+    image: myapp/php
+    container_name: app1
     volumes:
-       - ./public:/data/mysite.local
-    # мы можем создать для контейнеров внутреннюю сеть
+      - ./public:/data/mysite.local
     networks:
       - app-network
 
-  # контейнер с MySQL
-  # строим на базе стандартного образа
   db:
-    image: mysql:5.7.22
-    container_name: db
-    ports:
-      - "3306:3306"
-    # описываем, какую БД мы создаём
+    container_name: mysql
+    build:
+      context: ./docker/mysql
+      args:
+        - TZ=${TZ}
+        - TEMP_DIR=${TEMP_DIR}
+        - DB_PORT=${DB_PORT}
+        - DB_CHARSET=${DB_CHARSET}
+        - DB_COLLASION=${DB_COLLASION}
+        - DB_NAME=${DB_NAME}
+    restart: always
+    command: --init-file /usr/local/etc/mysql/init.sql
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - ./dbdata:/var/lib/mysql
+      - ./public:/data/mysite.local
+    networks:
+      - app-network
+
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+      - app
     networks:
       - app-network
 
@@ -56,7 +65,16 @@ services:
     networks:
       - app-network
 
-#Docker Networks
+  redis:
+    image: redis:4.0
+    container_name: redis
+    restart: unless-stopped
+    depends_on:
+      - db
+      - app
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
