@@ -1,0 +1,7 @@
+.idea
+.git
+dbdata
+.app/vendor
+
+.gitignore
+.env
