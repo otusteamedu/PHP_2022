@@ -15,10 +15,8 @@ RUN apt-get update && apt-get install -y \
     &&  docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
     &&  pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis
-
-# install composer 2
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    &&  docker-php-ext-enable redis \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
