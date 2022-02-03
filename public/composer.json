@@ -2,6 +2,7 @@
     "require": {
         "predis/predis": "^1.1",
         "clickalicious/memcached.php": "^1.0",
-        "ext-mysqli": "*"
+        "ext-mysqli": "*",
+        "vlucas/phpdotenv": "^5.4"
     }
 }

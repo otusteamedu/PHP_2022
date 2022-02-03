@@ -6,8 +6,10 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 add to file /etc/hosts
 
 ```shell
-127.0.0.1  mysite.local
+127.0.0.1  application.local
 ```
+
+copy file .env.example to .env file
 
 ```shell
 # first up

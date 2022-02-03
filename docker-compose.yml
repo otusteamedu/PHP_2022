@@ -7,8 +7,9 @@ services:
     image: homebee
     container_name: homebee-app
     restart: unless-stopped
+    working_dir: /var/www/public
     volumes:
-      - ./public:/var/www
+      - ./:/var/www
     networks:
       - homebee
 
@@ -18,8 +19,9 @@ services:
       dockerfile: ./docker/ConsoleDockerfile
     image: homebee-console
     container_name: homebee-workspace
+    working_dir: /var/www/public
     volumes:
-      - ./public:/var/www
+      - ./:/var/www
     networks:
       - homebee
 
@@ -68,7 +70,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./public:/var/www
+      - ./:/var/www
       - ./docker/nginx:/etc/nginx/conf.d/
     depends_on:
       - db

@@ -1,7 +1,10 @@
 <?php
 include 'vendor/autoload.php';
 
-$memcached = new \Clickalicious\Memcached\Client('memcached');
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$params = $dotenv->load();
+
+$memcached = new \Clickalicious\Memcached\Client($params['MEMCACHED_HOST']);
 $memcached->set('foo', 1.00);
 $memcachedResponse = $memcached->get('foo');
 
@@ -10,9 +13,9 @@ if ($memcachedResponse == 1) {
 }
 
 $single_server = [
-    'host' => 'redis',
-    'port' => 6379,
-    'database' => 0,
+    'host' => $params['REDIS_HOST'],
+    'port' => $params['REDIS_PORT'],
+    'database' => $params['REDIS_DB'],
 ];
 
 $redis = new \Predis\Client($single_server);
@@ -23,9 +26,9 @@ if ($redisResponse == 'predis') {
     echo 'redis is work! <br>';
 }
 
-$servername = "db";
-$username = "root";
-$password = "nZ2JUNFqDNwapMe3";
+$servername = $params['DB_HOST'];
+$username = $params['DB_USERNAME'];
+$password = $params['DB_PASSWORD'];
 
 $mysql = new mysqli($servername, $username, $password);
 
