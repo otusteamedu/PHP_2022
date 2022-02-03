@@ -3,11 +3,9 @@ FROM ubuntu:latest
 RUN apt-get update && \
     apt-get install -y nginx
 
-COPY hosts/mysite.local.conf /etc/nginx/sites-enabled/mysite.local.conf
+COPY hosts/application.local.conf /etc/nginx/sites-enabled/application.local.conf
 
 WORKDIR /data  
-
-VOLUME /data  
 
 EXPOSE 80
 

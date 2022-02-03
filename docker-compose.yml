@@ -9,7 +9,7 @@ services:
     ports:
       - "80:80"
     volumes:
-       - ./app:/data/mysite.local
+       - ./app:/data/application.local
     networks:
       - app-network
 
@@ -19,7 +19,7 @@ services:
     image: myapp/php
     container_name: app1
     volumes:
-       - ./app:/data/mysite.local
+       - ./app:/data/application.local
     networks:
       - app-network
 
@@ -32,15 +32,32 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - ./dbdata:/var/lib/mysql  
+      - ./images/mysql/dbdata:/var/lib/mysql
     networks:
       - app-network
+
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./images/redis:/var/lib/redis
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
 
   workspace:
     image: php:7.4
     container_name: console
     volumes:
-      - ./app:/data/mysite.local
+      - ./app:/data/application.local
     networks:
       - app-network
 
