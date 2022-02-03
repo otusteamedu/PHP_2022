@@ -1,0 +1,8 @@
+.cache/
+.dbdata/
+.vscode/
+.env
+.idea/
+.tmp/
+docker/.dev/*
+public/vendor/*
