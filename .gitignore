@@ -1,4 +1,5 @@
 .idea/
 .env
-dbdata/
+dbdata/mysql/
+dbdata/redis/
 log/nginx/
