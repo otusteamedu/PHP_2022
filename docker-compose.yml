@@ -27,7 +27,7 @@ services:
     image: postgres:13.1
     container_name: postgres
     volumes:
-      - ../volumes/db/postgres:/var/lib/postgresql/data
+      - ./volumes/db/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${DB_DATABASE}
       - POSTGRES_USER=${DB_USERNAME}
