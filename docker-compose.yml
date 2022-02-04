@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: application/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: application/php
+    container_name: application
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  db:
+    image: mariadb:10.5.8
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  workspace:
+    image: php:7.4
+    container_name: console
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
