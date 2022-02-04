@@ -6,11 +6,15 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     image: myapp/nginx
-    container_name: webserver
+    container_name: nginx
     ports:
       - "80:80"
     volumes:
        - ./code:/data/application.local
+       - ./sock:/sock
+       - ./log/nginx:/var/log/nginx
+    depends_on:
+      - app
     networks:
       - app-network
 
@@ -22,6 +26,8 @@ services:
     container_name: app
     volumes:
        - ./code:/data/application.local
+       - ./sock:/sock
+       - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
     networks:
       - app-network
 
@@ -35,14 +41,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./dbdata:/var/lib/mysql
-    networks:
-      - app-network
-
-  workspace:
-    image: php:7.4
-    container_name: console
-    volumes:
-      - ./code:/data/application.local
     networks:
       - app-network
 
