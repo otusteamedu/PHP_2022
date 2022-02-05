@@ -1,4 +1,10 @@
 .idea/
+.vagrant/
+Vagrantfile
+after.sh
+aliases
 .env
 /logs/
 /dbdata/
+/vendor/
+composer.lock
