@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: app
+    build: ./public
+    volumes:
+      - ./public:/var/www
+      - ./zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - "phpsocket:/var/run"
+    networks:
+      - app_net
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    ports:
+      - ${APP_PORT}
+    volumes:
+      - ./nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
+      - ./public:/var/www
+      - "phpsocket:/var/run"
+    networks:
+      - app_net
+
+  postgres:
+    image: postgres:13.1
+    container_name: postgres
+    volumes:
+      - ./volumes/db/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}
+    networks:
+      - app_net
+
+  redis:
+    container_name: redis
+    image: redis:4.0
+    restart: always
+    ports:
+      - ${REDIS_PORT}
+    networks:
+      - app_net
+
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    restart: always
+    ports:
+      - ${MEMCACHED_PORT}
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
+
+volumes:
+  phpsocket:
