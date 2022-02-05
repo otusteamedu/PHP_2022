@@ -1,3 +1,4 @@
 .env
 .idea
 dbdata
+vagrant/Homestead
