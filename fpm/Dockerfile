@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y libpq-dev \
     zlib1g-dev \
     && pecl install -of redis && docker-php-ext-enable redis \
     && pecl install -of memcached && docker-php-ext-enable memcached \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install sockets pdo_pgsql
+    && docker-php-ext-install pdo pdo_mysql \
+    && docker-php-ext-enable pdo pdo_mysql
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
