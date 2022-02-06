@@ -1,0 +1,8 @@
+.idea
+.env
+vendor/
+runtime/
+tmp/
+dbdata/
+*.log
+cavhe/
