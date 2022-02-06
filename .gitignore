@@ -1,0 +1,5 @@
+.idea/
+.env
+dbdata/mysql/
+dbdata/redis/
+log/nginx/
