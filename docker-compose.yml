@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfiles/php-fpm.dockerfile
+    container_name: hw1-php-fpm
+    env_file:
+      - .env
+    volumes:
+    - ./:/var/www/
+
+  nginx-app:
+    image: nginx:1.21.5-alpine
+    container_name: hw1-nginx
+    restart: always
+    ports:
+    - 80:80
+    volumes:
+      - ./dockerfiles/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www
+      - ./logs:/var/log/nginx
+    networks:
+      default:
+    depends_on:
+      - app
+
+  redis:
+    image: redis:6.2
+    container_name: hw1-redis
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+
+  postgres:
+    image: postgres
+    restart: always
+    container_name: hw1-postgres
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_USER}
+      - POSTGRES_USER=${DB_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data/
+
+  memcached:
+    container_name: hw1-memcached
+    image: memcached:latest
+    ports:
+    - 11211:11211
+  php-cli:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/php-cli.dockerfile
+    container_name: hw1-php-cli
+    volumes:
+    - ./:/var/www
