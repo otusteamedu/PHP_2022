@@ -1,0 +1,17 @@
+# phpstorm project files
+.idea
+
+# composer vendor dir
+/vendor
+
+# dotenv
+.env
+
+#temporary and logs
+/runtime
+/logs
+
+#postgres data
+/pg-data
+
+
