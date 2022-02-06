@@ -11,10 +11,6 @@
 /runtime
 /logs
 
-# ssh
-id_rsa
-known_hosts
-
 #postgres data
 /pg-data
 
