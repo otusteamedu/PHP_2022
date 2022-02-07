@@ -1,0 +1,9 @@
+.env
+*.log
+Homestead.json
+Homestead.yaml
+.idea/
+vendor/
+runtime/
+tmp/
+cache/
