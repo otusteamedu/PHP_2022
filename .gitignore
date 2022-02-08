@@ -1,0 +1,7 @@
+.idea
+.env
+code/*.log
+dbdata/*
+redis/*
+vendor
+.vagrant
