@@ -5,3 +5,5 @@ dbdata/*
 redis/*
 vendor
 .vagrant
+aliases
+after.sh
