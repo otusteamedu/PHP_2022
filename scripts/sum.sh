@@ -12,7 +12,7 @@ function check_lib()
 
 function main()
 {
-    regexp=^-?[0-9]?[.]*[0-9]+$
+    regexp='^-?[0-9]([.][0-9]+)?$'
 
     if ! [[ $1 =~ $regexp ]] || ! [[ $1 =~ $regexp ]]
     then
