@@ -1,2 +1,3 @@
 .idea/
-.evn/
+.env
+/docker/dbdata
