@@ -1,0 +1,7 @@
+.idea
+.git
+dbdata
+Homestead
+
+.gitignore
+.env
