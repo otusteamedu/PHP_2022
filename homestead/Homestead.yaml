@@ -1,0 +1,44 @@
+---
+ip: "192.168.56.56"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: C:\Users\Ekaterina\.ssh\id_rsa.pub
+
+keys:
+    - C:\Users\Ekaterina\.ssh\id_rsa
+
+folders:
+    - map: D:\Work\Homestead
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code/public
+      php: "7.4"
+
+databases:
+    - homestead
+
+features:
+    - mysql: true
+    - ohmyzsh: false
+    - webdriver: false
+
+services:
+    - enabled:
+          - "mysql"
+
+#services:
+#    - enabled:
+#        - "postgresql@12-main"
+#    - disabled:
+#        - "postgresql@11-main"
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
