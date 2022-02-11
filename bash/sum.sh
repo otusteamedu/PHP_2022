@@ -11,5 +11,5 @@ elif [[ ! $2 =~ $pattern ]]
 then
 echo "Warning: second parameter to be number"
 else
-echo "Sum $1 + $2 = $[ $1 + $2 ]"
+echo "Sum $1 + $2 = $(awk "BEGIN{print $1 + $2}")"
 fi
