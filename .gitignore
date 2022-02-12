@@ -1,0 +1,7 @@
+.idea/
+docker/data
+/vendor/
+yarn-error.log
+package.lock
+/node_modules/
+.env
