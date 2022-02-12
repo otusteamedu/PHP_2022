@@ -1,0 +1,10 @@
+**/.idea/
+**/dbdata/
+**/node_modules/
+**/tmp/
+**/vendor/
+*.env
+package.lock
+*.log
+
+
