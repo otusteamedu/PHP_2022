@@ -1,0 +1,27 @@
+ip: "192.168.56.56"
+memory: 2048
+cpus: 4
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+keys:
+  - ~/.ssh/id_rsa
+
+folders:
+  - map: ~/tests/test
+    to: /home/vagrant/test
+
+sites:
+  - map: test.local
+    to: /home/vagrant/test
+
+databases:
+  - homestead
+
+features:
+  - mysql: false
+  - mariadb: false
+  - postgresql: true
+
+services:
+  - enabled:
