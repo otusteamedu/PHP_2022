@@ -9,6 +9,11 @@ if ! [[ $number1 =~ $regular ]] || ! [[ $number2 =~ $regular ]]; then
   exit 1
 fi
 
+package=$(brew list | grep bc)
+if [ $package != "bc" ]; then
+    $(brew install bc)
+fi
+
 sum=$(bc <<<$number1+$number2)
 
 echo $sum
