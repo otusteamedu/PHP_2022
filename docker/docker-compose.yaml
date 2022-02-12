@@ -1,0 +1,84 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./tmp:/run
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./phpfpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+      - ./code:/data/mysite.local
+      - ./tmp:/run
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с Redis, назовём его redis
+  redis:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: myapp/redis # имя будущего образа
+    container_name: redis # имя контейнера после запуска
+    volumes:
+      - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с Memcached, назовём его memcached
+  memcached:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: myapp/memcached # имя будущего образа
+    container_name: memcached # имя контейнера после запуска
+    volumes:
+      - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  # контейнер с MySQL
+  # строим на базе стандартного образа
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    ports:
+      - "3306:3306"
+    # описываем, какую БД мы создаём
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
