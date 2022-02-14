@@ -10,13 +10,16 @@ services:
       dockerfile: Dockerfile
     image: otus/nginx
     container_name: webserver
+    depends_on:
+      - php
     # проброс портов
     ports:
       - "80:80"
     volumes:
        - ./code:/data/otus.local
     networks:
-      - app-network
+      - internal
+
 
   #Контейнер с PHP-FPM, назовём его app
   php:
@@ -32,13 +35,17 @@ services:
       - redis
     volumes:
        - ./code:/data/otus.local
+       - ./fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    environment:
+      XDEBUG_CONFIG: "remote_host=192.168.220.1 remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=otus.local"
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
-      - app-network
+      - internal
 
   # контейнер с MySQL
   db:
-    image: mysql:5.7.22
+    image: mysql:8.0.23
     container_name: db
     ports:
       - "3306:3306"
@@ -47,17 +54,28 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - ./dbdata:/var/lib/mysql  
+      - ./dbdata:/var/lib/mysql
     networks:
-      - app-network
+      - internal
 
   workspace:
-    image: php:7.4
+    build:
+      context: ./console
+      dockerfile: Dockerfile
     container_name: console
+    image: otus/php-cli
     volumes:
       - ./code:/data/otus.local
+      - ./console/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    depends_on:
+      - db
+      - memcached
+      - redis
+    environment:
+      XDEBUG_CONFIG: "remote_host=192.168.220.1 remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=otus.local"
     networks:
-      - app-network
+      - internal
 
   memcached:
     image: 'bitnami/memcached:latest'
@@ -65,7 +83,7 @@ services:
     ports:
       - '11211:11211'
     networks:
-      - app-network
+      - internal
 
   redis:
     image: redis:6.2-alpine
@@ -77,7 +95,7 @@ services:
     volumes:
       - redis:/data
     networks:
-      - app-network
+      - internal
 
 volumes:
   redis:
@@ -87,5 +105,9 @@ volumes:
 
 #Docker Networks
 networks:
-  app-network:
+  internal:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.220.0/28
