@@ -4,3 +4,6 @@
 /.env
 /Vagrantfile
 /dbdata/
+/config.php
+/after.sh
+/aliases

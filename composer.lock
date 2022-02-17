@@ -4,8 +4,42 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cf65024dba5188b937724c051dccdb4",
+    "content-hash": "5931a75cc5d24b52eb3834a28e5fdbe1",
     "packages": [
+        {
+            "name": "julia-queen/kinopoisk-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YuliaQueen/kinpoisk-package.git",
+                "reference": "1920e3016bef6e8cf8d273890be6af83880eaa04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YuliaQueen/kinpoisk-package/zipball/1920e3016bef6e8cf8d273890be6af83880eaa04",
+                "reference": "1920e3016bef6e8cf8d273890be6af83880eaa04",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Queen\\KinopoiskPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Julia Koroleva",
+                    "email": "youlka2@gmail.com"
+                }
+            ],
+            "description": "Getting movie info from the Kinopoisk website",
+            "support": {
+                "issues": "https://github.com/YuliaQueen/kinpoisk-package/issues",
+                "source": "https://github.com/YuliaQueen/kinpoisk-package/tree/v1.0.0"
+            },
+            "time": "2022-02-17T11:07:05+00:00"
+        },
         {
             "name": "laravel/homestead",
             "version": "v13.1.1",

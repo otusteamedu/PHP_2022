@@ -9,7 +9,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./public:/data/mysite.local
+      - .:/data/mysite.local
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
     networks:
       - app-network
 
@@ -19,7 +21,7 @@ services:
     image: myapp/php
     container_name: app1
     volumes:
-      - ./public:/data/mysite.local
+      - .:/data/mysite.local
     networks:
       - app-network
 
@@ -43,7 +45,7 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - ./dbdata:/var/lib/mysql
-      - ./public:/data/mysite.local
+      - .:/data/mysite.local
     networks:
       - app-network
 
@@ -61,7 +63,7 @@ services:
     image: php:7.4
     container_name: console
     volumes:
-      - ./public:/data/mysite.local
+      - .:/data/mysite.local
     networks:
       - app-network
 
