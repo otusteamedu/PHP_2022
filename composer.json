@@ -1,0 +1,11 @@
+{
+  "autoload": {
+    "psr-4": {
+      "app\\": "src/"
+    }
+  },
+  "require": {
+    "laravel/homestead": "*",
+    "julia-queen/kinopoisk-package": "^1.0"
+  }
+}
