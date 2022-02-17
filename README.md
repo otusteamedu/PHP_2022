@@ -1,3 +1,10 @@
-# PHP_2022
+# Домашняя работа по Composer
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+- ссылка на документацию и сам репозиторий с примерами кода - 
+https://github.com/decole/yr.no-api-client-php
+
+``` bash
+$ composer require decole/yr-no
+```
+
+Писал нативную библиотеку для Laravel, но можно пользоваться и как обычной.
