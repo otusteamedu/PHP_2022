@@ -1,0 +1,20 @@
+{
+    "name": "philip/otus",
+    "authors": [
+        {
+            "name": "philip",
+            "email": "belousovfilip@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.2"
+        }
+    },
+    "require": {}
+}

@@ -57,6 +57,7 @@ services:
         - PHP_VERSION=${DOCKER_PHP_VERSION}
     volumes:
       - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+      - ./vendor:${DOCKER_WORKDIR}/vendor
     depends_on:
       - postgres
     networks:
