@@ -1,0 +1,5 @@
+{
+    "require": {
+        "betelgeyzua/format-date": "^1.0"
+    }
+}
