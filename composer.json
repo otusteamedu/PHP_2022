@@ -1,0 +1,18 @@
+{
+    "name": "pavelgaponenko/php_2022",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Pavelgaponenko\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Павел",
+            "email": "p.gaponenko@worksolutions.ru"
+        }
+    ],
+    "require": {
+        "pavelgaponenko/pg-otus-composer-package": "^1.0"
+    }
+}
