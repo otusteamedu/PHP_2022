@@ -1,0 +1,13 @@
+{
+  "name": "konstantin-dmitrienko/hw3",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Konstantin Dmitrienko",
+      "email": "kos200490@mail.ru"
+    }
+  ],
+  "require": {
+    "konstantin-dmitrienko/php-versions-parser": "^1.0"
+  }
+}

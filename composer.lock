@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "f658700940fb8025a5d42a079810696c",
+    "packages": [
+        {
+            "name": "konstantin-dmitrienko/php-versions-parser",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kos2290/php-versions-parser.git",
+                "reference": "7e2c4a9be0118bf6db470a9cca13599d9857979a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kos2290/php-versions-parser/zipball/7e2c4a9be0118bf6db470a9cca13599d9857979a",
+                "reference": "7e2c4a9be0118bf6db470a9cca13599d9857979a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "KonstantinDmitrienko\\PHPVersionsParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Konstantin Dmitrienko",
+                    "email": "kos220490@mail.ru"
+                }
+            ],
+            "description": "Detects latest versions of the PHP",
+            "support": {
+                "issues": "https://github.com/kos2290/php-versions-parser/issues",
+                "source": "https://github.com/kos2290/php-versions-parser/tree/v1.0.0"
+            },
+            "time": "2022-02-19T11:07:54+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}
