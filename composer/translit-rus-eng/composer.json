@@ -1,0 +1,16 @@
+{
+  "name": "mapaxa/translit-rus-eng",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Mapaxa\\TranslitPackage\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "mapaxa",
+      "email": "alexeybespalov86@gmail.com"
+    }
+  ],
+  "require": {}
+}
