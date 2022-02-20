@@ -1,0 +1,18 @@
+{
+    "name": "konstantin-dmitrienko/string-validator",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Konstantin Dmitrienko",
+            "email": "kos220490@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "KonstantinDmitrienko\\StringValidator\\": "src/"
+        }
+    }
+}
