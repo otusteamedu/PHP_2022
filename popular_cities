@@ -1,0 +1,1 @@
+awk '{if (NR!=1) {print $3}}' ./cityList | sort -k1 | uniq -c | sort -rt1 | head -n3
