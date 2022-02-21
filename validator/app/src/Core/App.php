@@ -24,9 +24,17 @@ class App
         try {
             $string = $this->request->post('string');
             $this->validator->validate($string);
-            $this->response->create('Строка валидна.');
+
+            $this->response->toJson([
+                'result' => true,
+                'message' => 'Валидация прошла успешно!'
+            ]);
+
         } catch (\Exception $e) {
-            $this->response->create($e->getMessage(), $e->getCode());
+            $this->response->toJson([
+                'result' => false,
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 }
