@@ -5,7 +5,7 @@ namespace Otus\App\Service;
 class StringValidator
 {
     private const STRING_IS_EMPTY_ERROR = 'Ошибка: Строка пуста.';
-    private const IS_NOT_EQUAL_COUNT_ERROR = 'Ошибка: Количество "(" должно совпадать с ")".';
+    private const IS_NOT_EQUAL_COUNT_ERROR = 'Ошибка: Количество ( должно совпадать с ).';
     private const INVALID_CHARACTERS_ERROR = 'Ошибка: Недопустимые символы.';
     private const BAD_REQUEST_CODE = 400;
 
