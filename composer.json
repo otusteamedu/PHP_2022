@@ -1,0 +1,20 @@
+{
+    "name": "anosovm/first-package",
+    "description": "Default package",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Anosovm\\FirstPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "anosovm",
+            "email": "m.anosov@napopravku.ru"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "ext-mbstring": "*"
+    }
+}
