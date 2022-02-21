@@ -1,0 +1,20 @@
+{
+    "name": "k.kirillov/hw3",
+    "description": "Getting Album Info From Deezer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kiril Kirilov",
+            "email": "kirill.kirillov@itglobal.com"
+        }
+    ],
+    "require": {
+        "k.kirillov/deezer-album-info": "^1.0",
+        "php-di/php-di": "^6.3"
+    }
+}
