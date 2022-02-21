@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw5/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/hw5.local
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: hw5/php-fpm
+    container_name: php-fpm
+    volumes:
+      - ./code:/data/hw5.local
+    networks:
+      - app-network
+
+  workspace:
+    image: php:7.4
+    container_name: console
+    volumes:
+      - /code:/data/hw5.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

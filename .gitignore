@@ -1,0 +1,9 @@
+.idea/
+.vagrant/
+/dbdata/
+/vendor/
+/logs/
+.ENV
+after.sh
+aliases
+Vagrantfile
