@@ -5,7 +5,7 @@ services:
     container_name: app
     build: ./fpm
     volumes:
-      - ./public:/var/www
+      - ./app:/var/www
     networks:
       - app-net
 
@@ -16,7 +16,7 @@ services:
       - ${APP_PORT}
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - ./public:/var/www
+      - ./app:/var/www
     networks:
       - app-net
 
