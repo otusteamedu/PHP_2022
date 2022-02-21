@@ -1,0 +1,87 @@
+version: "3.8"
+
+services:
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    ports:
+      - ${APP_PORT}
+    volumes:
+      - ./nginx/nginx.proxy.conf:/etc/nginx/conf.d/nginx.conf
+      - ./public:/var/www
+    networks:
+      - app-net
+
+  nginx1:
+    container_name: nginx1
+    image: nginx:stable
+    ports:
+      - ${APP_PORT1}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./public:/var/www
+    networks:
+      - app-net
+
+  app1:
+    container_name: app1
+    build: ./fpm
+    volumes:
+      - ./public:/var/www
+      - ./fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - app-net
+
+  nginx2:
+    container_name: nginx2
+    image: nginx:stable
+    ports:
+      - ${APP_PORT2}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./public:/var/www
+    networks:
+      - app-net
+
+  app2:
+    container_name: app2
+    build: ./fpm
+    volumes:
+      - ./public:/var/www
+      - ./fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - app-net
+
+  nginx3:
+    container_name: nginx3
+    image: nginx:stable
+    ports:
+      - ${APP_PORT3}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./public:/var/www
+    networks:
+      - app-net
+
+  app3:
+    container_name: app3
+    build: ./fpm
+    volumes:
+      - ./public:/var/www
+      - ./fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - app-net
+
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    restart: always
+    ports:
+      - ${MEMCACHED_PORT}
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
