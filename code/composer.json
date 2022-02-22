@@ -12,5 +12,7 @@
             "email": "masteritua@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "masteritua/test_app": "^1.0"
+    }
 }
