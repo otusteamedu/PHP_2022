@@ -1,0 +1,116 @@
+version: "3"
+
+services:
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx/hosts
+    ports:
+      - ${NGINX_PORT}
+    volumes:
+      - ./docker/nginx/hosts/nginx.balance.conf:/etc/nginx/conf.d/nginx.conf
+      - .:/var/www/mysite.local
+    networks:
+      - my-net
+
+  nginx1:
+    container_name: nginx1
+    image: nginx:stable
+    ports:
+      - ${NGINX_PORT1}
+    volumes:
+      - ./docker/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - .:/var/www/mysite.local
+    networks:
+      - my-net
+
+  app1:
+    container_name: app1
+    build: ./docker/fpm
+    volumes:
+      - .:/var/www/mysite.local
+      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - my-net
+
+  nginx2:
+    container_name: nginx2
+    image: nginx:stable
+    ports:
+      - ${NGINX_PORT2}
+    volumes:
+      - ./docker/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - .:/var/www/mysite.local
+    networks:
+      - my-net
+
+  app2:
+    container_name: app2
+    build: ./docker/fpm
+    volumes:
+      - .:/var/www/mysite.local
+      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - my-net
+
+  nginx3:
+    container_name: nginx3
+    image: nginx:stable
+    ports:
+      - ${NGINX_PORT3}
+    volumes:
+      - ./docker/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - .:/var/www/mysite.local
+    networks:
+      - my-net
+
+  app3:
+    container_name: app3
+    build: ./docker/fpm
+    volumes:
+      - .:/var/www/mysite.local
+      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - my-net
+
+  db:
+    container_name: mysql
+    build:
+      context: ./docker/mysql
+      args:
+        - TZ=${TZ}
+        - TEMP_DIR=${TEMP_DIR}
+        - DB_PORT=${DB_PORT}
+        - DB_CHARSET=${DB_CHARSET}
+        - DB_COLLASION=${DB_COLLASION}
+        - DB_NAME=${DB_NAME}
+    restart: always
+    command: --init-file /usr/local/etc/mysql/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - ${DB_PORT}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - .:/var/www/mysite.local
+    networks:
+      - my-net
+
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    ports:
+      - ${MEMCACHED_PORT}
+    restart: unless-stopped
+    depends_on:
+      - app1
+      - app2
+      - app3
+    networks:
+      - my-net
+
+networks:
+  my-net:
+    driver: bridge
