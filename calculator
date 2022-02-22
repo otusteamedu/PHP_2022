@@ -2,16 +2,18 @@
 
 total=0
 maxCountNum=2
-if [[ $# -ne $maxCountNum ]]; then
+if [[ $# -ge $maxCountNum+1 ]]; then
     echo "Max number of parameters $maxCountNum"
     exit 1
 fi
+
+REGEX_IS_NUMBER='^[-]?[0-9]+([.]{1}[0-9]+)?$'
 for var in "$@"; do
-    if ! [[ $var =~ ^[\-0-9]+$ ]] ; then
+    if ! [[ $var =~ $REGEX_IS_NUMBER ]] ; then
       echo "error: $var Not a number"; exit 1
     fi
-	  total=$(($total + $var))
+	  total="$total+$var"
 done
 
+total=$(awk "BEGIN {print ($total)}")
 echo "Total is $total"
-echo $countNum
