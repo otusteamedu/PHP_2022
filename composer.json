@@ -1,0 +1,17 @@
+{
+    "name": "philip/lesson_3",
+    "autoload": {
+        "psr-4": {
+            "Philip\\Lesson3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "philip",
+            "email": "belousovfilip@gmail.com"
+        }
+    ],
+    "require": {
+        "belfil/fan": "^1.0"
+    }
+}
