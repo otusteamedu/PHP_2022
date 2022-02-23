@@ -9,7 +9,7 @@ services:
     ports:
       - ${NGINX_PORT}
     volumes:
-      - ./docker/nginx/hosts/nginx.balance.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/balance/nginx.balance.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
@@ -20,17 +20,19 @@ services:
     ports:
       - ${NGINX_PORT1}
     volumes:
-      - ./docker/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/nginx1/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
 
   app1:
     container_name: app1
-    build: ./docker/fpm
+    build: ./docker/fpm/app1
+    links:
+      - memcached:memcached3
     volumes:
       - .:/var/www/mysite.local
-      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/fpm/app1/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
     networks:
       - my-net
 
@@ -40,17 +42,19 @@ services:
     ports:
       - ${NGINX_PORT2}
     volumes:
-      - ./docker/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/nginx2/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
 
   app2:
     container_name: app2
-    build: ./docker/fpm
+    build: ./docker/fpm/app2
+    links:
+      - memcached2:memcached2
     volumes:
       - .:/var/www/mysite.local
-      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/fpm/app2/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
     networks:
       - my-net
 
@@ -60,17 +64,19 @@ services:
     ports:
       - ${NGINX_PORT3}
     volumes:
-      - ./docker/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/nginx3/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
 
   app3:
     container_name: app3
-    build: ./docker/fpm
+    build: ./docker/fpm/app3
+    links:
+      - memcached3:memcached3
     volumes:
       - .:/var/www/mysite.local
-      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/fpm/app3/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
     networks:
       - my-net
 
@@ -102,12 +108,28 @@ services:
     container_name: memcached
     image: memcached:latest
     ports:
-      - ${MEMCACHED_PORT}
+      - "11211:11211"
     restart: unless-stopped
-    depends_on:
-      - app1
-      - app2
-      - app3
+    networks:
+      - my-net
+
+
+  memcached2:
+    container_name: memcached2
+    image: memcached:latest
+    ports:
+      - "11212:11211"
+    restart: unless-stopped
+    networks:
+      - my-net
+
+
+  memcached3:
+    container_name: memcached3
+    image: memcached:latest
+    ports:
+      - "11213:11211"
+    restart: unless-stopped
     networks:
       - my-net
 
