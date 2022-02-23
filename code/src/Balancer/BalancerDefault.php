@@ -38,7 +38,7 @@ class BalancerDefault
 
         } catch (\Exception $e) {
             $this->response->getHeaderCode();
-            echo $e->getMessage(); exit;
+            echo $e->getMessage();
         }
     }
 }
