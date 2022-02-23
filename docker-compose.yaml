@@ -5,7 +5,7 @@ services:
   nginx:
     container_name: nginx
     build:
-      context: ./docker/nginx/hosts
+      context: ./docker/nginx
     ports:
       - ${NGINX_PORT}
     volumes:
@@ -27,12 +27,12 @@ services:
 
   app1:
     container_name: app1
-    build: ./docker/fpm/app1
+    build: ./docker/fpm
     links:
-      - memcached:memcached3
+      - memcached1:memcached1
     volumes:
       - .:/var/www/mysite.local
-      - ./docker/fpm/app1/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
     networks:
       - my-net
 
@@ -49,12 +49,12 @@ services:
 
   app2:
     container_name: app2
-    build: ./docker/fpm/app2
+    build: ./docker/fpm
     links:
       - memcached2:memcached2
     volumes:
       - .:/var/www/mysite.local
-      - ./docker/fpm/app2/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
     networks:
       - my-net
 
@@ -71,12 +71,12 @@ services:
 
   app3:
     container_name: app3
-    build: ./docker/fpm/app3
+    build: ./docker/fpm
     links:
       - memcached3:memcached3
     volumes:
       - .:/var/www/mysite.local
-      - ./docker/fpm/app3/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
     networks:
       - my-net
 
