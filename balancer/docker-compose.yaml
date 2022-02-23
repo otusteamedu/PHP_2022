@@ -1,0 +1,101 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    image: balance/nginx-balancer
+    container_name: nginx-balancer
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx1:
+    build:
+      context: ./nginx1
+      dockerfile: Dockerfile
+    image: balance/nginx1
+    container_name: nginx1
+    ports:
+      - "8001:8001"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: ./nginx2
+      dockerfile: Dockerfile
+    image: balance/nginx2
+    container_name: nginx2
+    ports:
+      - "8002:8002"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx3:
+    build:
+      context: ./nginx3
+      dockerfile: Dockerfile
+    image: balance/nginx3
+    container_name: nginx3
+    ports:
+      - "8003:8003"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    volumes:
+      - ./code:/data/mysite.local
+    ports:
+        - "11211:11211"
+    networks:
+        - app-network
+
+networks:
+  app-network:
+    driver: bridge
