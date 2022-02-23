@@ -12,5 +12,7 @@
             "email": "p.gaponenko@worksolutions.ru"
         }
     ],
-    "require": {}
+    "require": {
+        "php-di/php-di": "^6.3"
+    }
 }

@@ -2,41 +2,19 @@
 
 namespace Email\App\Core;
 
-use Email\App\Http\Request;
-use Email\App\Http\Response;
-use Email\App\Service\EmailValidator;
+use Email\App\Controller\ValidateController;
 
 class App
 {
-    private Request $request;
-    private Response $response;
-    private EmailValidator $validator;
+    private ValidateController $validateController;
 
-    public function __construct()
+    public function __construct(ValidateController $validateController)
     {
-        $this->request = new Request();
-        $this->response = new Response();
-        $this->validator = new EmailValidator();
-
+        $this->validateController = $validateController;
     }
 
     public function run(): void
     {
-        try {
-            $email = $this->request->post('email');
-
-            $this->validator->validate($email);
-
-            $this->response->toJson([
-                'result' => true,
-                'message' => 'E-mail корректный!'
-            ]);
-
-        } catch (\Exception $e) {
-            $this->response->toJson([
-                'result' => false,
-                'message' => $e->getMessage()
-            ], $e->getCode());
-        }
+        $this->validateController->validateEmail();
     }
 }
