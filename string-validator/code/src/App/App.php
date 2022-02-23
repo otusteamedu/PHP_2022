@@ -4,20 +4,21 @@ namespace KonstantinDmitrienko\StringValidator\App;
 
 use KonstantinDmitrienko\StringValidator\Response\Response;
 use KonstantinDmitrienko\StringValidator\StringValidator\StringValidator;
+use KonstantinDmitrienko\StringValidator\View\View;
 
 class App
 {
     protected string $string = '';
-    protected static string $viewDir = '';
+    protected object $view;
 
     public function __construct() {
-        self::$viewDir = $_SERVER['DOCUMENT_ROOT'] . '/view/';
+        $this->view = new View();
     }
 
     public function run(): void
     {
         if (!isset($_POST['string'])) {
-            require self::$viewDir . 'components/form.php';
+            $this->view->showForm();
             return;
         }
 
