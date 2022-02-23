@@ -1,0 +1,16 @@
+{
+    "name": "email/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Email\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Павел",
+            "email": "p.gaponenko@worksolutions.ru"
+        }
+    ],
+    "require": {}
+}
