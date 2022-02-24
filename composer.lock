@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0240cd3ffe1b01d8eb192a5729427634",
+    "content-hash": "08e0427ffce3d215fecc5c4d9def1f32",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -533,16 +533,16 @@
         },
         {
             "name": "nka20/easy-s3",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nkinash/easy-s3.git",
-                "reference": "1c2b8fc05e9e2c10031f7bf79ced713026adec6a"
+                "reference": "b033ece6c4226f23e1299d3338397850bda48ca6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nkinash/easy-s3/zipball/1c2b8fc05e9e2c10031f7bf79ced713026adec6a",
-                "reference": "1c2b8fc05e9e2c10031f7bf79ced713026adec6a",
+                "url": "https://api.github.com/repos/nkinash/easy-s3/zipball/b033ece6c4226f23e1299d3338397850bda48ca6",
+                "reference": "b033ece6c4226f23e1299d3338397850bda48ca6",
                 "shasum": ""
             },
             "require": {
@@ -566,9 +566,9 @@
             "description": "S3 decorator for easy use AWS S3 protocol. Supports simple s3 commands",
             "support": {
                 "issues": "https://github.com/nkinash/easy-s3/issues",
-                "source": "https://github.com/nkinash/easy-s3/tree/1.0.2"
+                "source": "https://github.com/nkinash/easy-s3/tree/1.0.3"
             },
-            "time": "2022-02-24T22:25:10+00:00"
+            "time": "2022-02-24T22:45:13+00:00"
         },
         {
             "name": "psr/http-client",
