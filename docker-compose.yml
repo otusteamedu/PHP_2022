@@ -19,9 +19,12 @@ services:
     image: myapp/php
     container_name: app1
     volumes:
-       - ./app:/data/application.local
+       - ./app:/data/application.local/src
+       - ./vendor:/data/application.local/vendor
     networks:
       - app-network
+    env_file:
+      - .env
 
   db:
     image: mysql:5.7.22

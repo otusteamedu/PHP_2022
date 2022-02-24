@@ -1,0 +1,13 @@
+{
+    "name": "nka20/php_2022",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Nikita Kinash",
+            "email": "nka2018nn@gmail.com"
+        }
+    ],
+    "require": {
+        "nka20/easy-s3": "^1.0.2"
+    }
+}
