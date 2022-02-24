@@ -108,7 +108,7 @@ services:
     container_name: memcached
     image: memcached:latest
     ports:
-      - "11211:11211"
+      - ${MEMCACHED_PORT}
     restart: unless-stopped
     networks:
       - my-net
