@@ -1,0 +1,13 @@
+{
+  "name": "Faker Demonstration",
+  "description": "for Envato Tuts+",
+  "keywords": ["faker","php","jeff reifman"],
+  "homepage": "https://www.lookahead.io/",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.6.0",
+    "fzaninotto/faker" : "*"
+  }
+}
