@@ -9,7 +9,7 @@ services:
     ports:
       - ${NGINX_PORT}
     volumes:
-      - ./docker/nginx/balance/nginx.balance.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/nginx.balance.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
@@ -20,7 +20,7 @@ services:
     ports:
       - ${NGINX_PORT1}
     volumes:
-      - ./docker/nginx/nginx1/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
@@ -29,7 +29,7 @@ services:
     container_name: app1
     build: ./docker/fpm
     links:
-      - memcached1:memcached1
+      - memcached
     volumes:
       - .:/var/www/mysite.local
       - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
@@ -42,7 +42,7 @@ services:
     ports:
       - ${NGINX_PORT2}
     volumes:
-      - ./docker/nginx/nginx2/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
@@ -51,7 +51,7 @@ services:
     container_name: app2
     build: ./docker/fpm
     links:
-      - memcached2:memcached2
+      - memcached
     volumes:
       - .:/var/www/mysite.local
       - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
@@ -64,7 +64,7 @@ services:
     ports:
       - ${NGINX_PORT3}
     volumes:
-      - ./docker/nginx/nginx3/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/nginx/mysite.local.conf:/etc/nginx/conf.d/nginx.conf
       - .:/var/www/mysite.local
     networks:
       - my-net
@@ -73,7 +73,7 @@ services:
     container_name: app3
     build: ./docker/fpm
     links:
-      - memcached3:memcached3
+      - memcached
     volumes:
       - .:/var/www/mysite.local
       - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
@@ -109,26 +109,6 @@ services:
     image: memcached:latest
     ports:
       - "11211:11211"
-    restart: unless-stopped
-    networks:
-      - my-net
-
-
-  memcached2:
-    container_name: memcached2
-    image: memcached:latest
-    ports:
-      - "11212:11211"
-    restart: unless-stopped
-    networks:
-      - my-net
-
-
-  memcached3:
-    container_name: memcached3
-    image: memcached:latest
-    ports:
-      - "11213:11211"
     restart: unless-stopped
     networks:
       - my-net
