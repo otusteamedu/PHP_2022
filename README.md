@@ -2,6 +2,6 @@
 
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
 
-### Валидация формы
+### Валидатор скобок
 
 http://mysite.local/form
