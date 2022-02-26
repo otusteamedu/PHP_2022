@@ -1,0 +1,20 @@
+{
+    "name": "philip/lesson_6",
+    "autoload": {
+        "psr-4": {
+            "Philip\\Otus\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "philip",
+            "email": "belousovfilip@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.0"
+    }
+}
