@@ -16,6 +16,7 @@ class FormController extends DefaultController
     public function index()
     {
         $params = [];
+        $string = '';
         try {
             if ($this->request->getMethod() === HttpRequest::POST) {
                 if (!preg_match('~\((\)*\)*)\)~', $string = $this->request->getParameter('string'))) {
@@ -42,14 +43,14 @@ class FormController extends DefaultController
                 $params = [
                     'result' => count($brackets) === 0 ? self::SUCCESS : '',
                     'class' => 'badge bg-success',
-                    'value' => $this->request->getParameter('string'),
+                    'value' => $string,
                 ];
             }
         } catch (Exception $exception) {
             $params = [
                 'result' => $exception->getMessage(),
                 'class' => 'badge bg-danger',
-                'value' => $this->request->getParameter('string'),
+                'value' => $string,
             ];
         }
 
