@@ -6,8 +6,6 @@ class HomeController extends DefaultController
 {
     public function index()
     {
-        $html = $this->renderer->render('index');
-        $this->response->setContent($html);
-        echo $this->response->getContent();
+        $this->render('index');
     }
 }
