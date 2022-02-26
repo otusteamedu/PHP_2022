@@ -1,0 +1,13 @@
+{
+    "name": "konstantin-dmitrienko/hw5",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Konstantin Dmitrienko",
+            "email": "kos220490@mail.ru"
+        }
+    ],
+    "require": {
+        "konstantin-dmitrienko/email-validator": "^1.0"
+    }
+}
