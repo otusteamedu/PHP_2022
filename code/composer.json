@@ -1,0 +1,16 @@
+{
+    "name": "masteritua/test_app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Masteritua\\TestApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksey Shevchenko",
+            "email": "masteritua@gmail.com"
+        }
+    ],
+    "require": {}
+}

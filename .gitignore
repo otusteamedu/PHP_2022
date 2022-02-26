@@ -2,3 +2,4 @@
 .idea
 dbdata
 vagrant/Homestead
+code/vendor/*
