@@ -15,6 +15,7 @@ class FormController extends DefaultController
      */
     public function index()
     {
+        $params = [];
         try {
             if ($this->request->getMethod() === HttpRequest::POST) {
                 if (!preg_match('~\((\)*\)*)\)~', $string = $this->request->getParameter('string'))) {
@@ -38,15 +39,12 @@ class FormController extends DefaultController
                         }
                     }
                 }
-                $res =  count($brackets) === 0 ? self::SUCCESS : '';
-                $this->response->redirect('form', 301, $res);
-                echo $this->response->getContent();
+                $params = ['result' => count($brackets) === 0 ? self::SUCCESS : '', 'class' => 'badge bg-success', 'value' => $this->request->getParameter('string')];
             }
         } catch (Exception $exception) {
-            $this->response->redirect('form', 400, $exception->getMessage());
-            echo $this->response->getContent();
+            $params = ['result' => $exception->getMessage(), 'class' => 'badge bg-danger', 'value' => $this->request->getParameter('string')];
         }
 
-        $this->render('form');
+        $this->render('form', $params);
     }
 }

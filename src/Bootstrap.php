@@ -6,14 +6,12 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Queen\App\Core\Http\HttpRequest;
-use Queen\App\Core\Http\HttpResponse;
 use function FastRoute\simpleDispatcher;
 
 $injector = include('Dependencies.php');
 
-$request = new HttpRequest($_GET, $_POST, $_SERVER);
-$response = new HttpResponse();
+$request = $injector->make('Queen\App\Core\Http\HttpRequest');
+$response = $injector->make('Queen\App\Core\Http\HttpResponse');
 
 $routeDefinitionCallback = function (RouteCollector $r) {
     $routes = include('Core/Routes.php');

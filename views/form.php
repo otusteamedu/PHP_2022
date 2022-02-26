@@ -18,10 +18,11 @@
     <form method="post" action="/form">
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Validate brackets</label>
-            <input type="text" name="string" class="form-control">
+            <input type="text" name="string" class="form-control" value="{{#value}} {{.}} {{/value}}">
         </div>
         <button type="submit" class="btn btn-primary">Validate</button>
     </form>
+    <span class="{{#class}} {{.}} {{/class}}">Result: {{result}} </span>
 </div>
 </body>
 </html>
