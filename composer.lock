@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "4de3ae75eda6ea19520178ddbfb21869",
+    "packages": [
+        {
+            "name": "konstantin-dmitrienko/email-validator",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kos2290/email-validator.git",
+                "reference": "a73f2c15c4386509b439a85b968fb54e4781e5f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kos2290/email-validator/zipball/a73f2c15c4386509b439a85b968fb54e4781e5f7",
+                "reference": "a73f2c15c4386509b439a85b968fb54e4781e5f7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "KonstantinDmitrienko\\EmailValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Konstantin Dmitrienko",
+                    "email": "kos220490@mail.ru"
+                }
+            ],
+            "description": "Validate the list of email addresses",
+            "support": {
+                "issues": "https://github.com/kos2290/email-validator/issues",
+                "source": "https://github.com/kos2290/email-validator/tree/v1.0.0"
+            },
+            "time": "2022-02-26T09:14:16+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

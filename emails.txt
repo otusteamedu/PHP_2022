@@ -1,0 +1,11 @@
+kos220490@mail.ru
+simple_string1
+test@asdasd.ru
+simple_string2
+test@domain.com
+simple_string3
+kos220490@domain.com
+simple_string4
+test@test.ru
+simple_string5
+bbbbb@aaaaaaaaaa.ru
