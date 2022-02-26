@@ -15,7 +15,7 @@
 <div class="container">
     <h1 class="mb-5">Hello, {{name}}</h1>
 
-    <form method="post" action="/validate">
+    <form method="post" action="/form">
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Validate brackets</label>
             <input type="text" name="string" class="form-control">

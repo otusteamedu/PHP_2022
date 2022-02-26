@@ -3,5 +3,5 @@
 return [
     ['GET', '/', ['Queen\App\Controllers\HomeController', 'index']],
     ['GET', '/form', ['Queen\App\Controllers\FormController', 'index']],
-    ['POST', '/validate', ['Queen\App\Controllers\FormController', 'validate']]
+    ['POST', '/form', ['Queen\App\Controllers\FormController', 'index']]
 ];

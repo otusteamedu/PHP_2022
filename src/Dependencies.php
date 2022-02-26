@@ -2,7 +2,7 @@
 
 $injector = new \Auryn\Injector;
 //request
-$injector->alias('Queen\App\Core\Http\Request', 'Queen\App\Core\Http\HttpRequest');
+$injector->alias('Queen\App\Core\Http\HttpRequest', 'Queen\App\Core\Http\HttpRequest');
 $injector->share('Queen\App\Core\Http\HttpRequest');
 $injector->define('Queen\App\Core\Http\HttpRequest', [
     ':get'     => $_GET,
@@ -11,7 +11,7 @@ $injector->define('Queen\App\Core\Http\HttpRequest', [
 ]);
 
 //response
-$injector->alias('Queen\App\Core\Http\Response', 'Queen\App\Core\Http\HttpResponse');
+$injector->alias('Queen\App\Core\Http\HttpResponse', 'Queen\App\Core\Http\HttpResponse');
 $injector->share('Queen\App\Core\Http\HttpResponse');
 
 //render

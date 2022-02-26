@@ -3,7 +3,7 @@
 namespace Queen\App\Controllers;
 
 use Exception;
-use Queen\App\Core\Http\RequestException;
+use Queen\App\Core\Http\HttpRequest;
 
 class FormController extends DefaultController
 {
@@ -15,16 +15,8 @@ class FormController extends DefaultController
      */
     public function index()
     {
-        $this->render('form');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function validate()
-    {
         try {
-            if ($this->request->getMethod() === 'POST') {
+            if ($this->request->getMethod() === HttpRequest::POST) {
                 if (!preg_match('~\((\)*\)*)\)~', $string = $this->request->getParameter('string'))) {
                     throw new Exception(self::ERROR);
                 }

@@ -4,6 +4,8 @@ namespace Queen\App\Core\Http;
 
 class HttpRequest
 {
+    const POST = 'POST';
+
     protected $getParameters;
     protected $postParameters;
     protected $server;
