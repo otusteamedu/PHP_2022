@@ -39,10 +39,18 @@ class FormController extends DefaultController
                         }
                     }
                 }
-                $params = ['result' => count($brackets) === 0 ? self::SUCCESS : '', 'class' => 'badge bg-success', 'value' => $this->request->getParameter('string')];
+                $params = [
+                    'result' => count($brackets) === 0 ? self::SUCCESS : '',
+                    'class' => 'badge bg-success',
+                    'value' => $this->request->getParameter('string'),
+                ];
             }
         } catch (Exception $exception) {
-            $params = ['result' => $exception->getMessage(), 'class' => 'badge bg-danger', 'value' => $this->request->getParameter('string')];
+            $params = [
+                'result' => $exception->getMessage(),
+                'class' => 'badge bg-danger',
+                'value' => $this->request->getParameter('string'),
+            ];
         }
 
         $this->render('form', $params);
