@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  socket-server:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: socket-server # имя контейнера после запуска
+    working_dir: /data/mysite.local
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  socket-client:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: socket-client # имя контейнера после запуска
+    working_dir: /data/mysite.local
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  workspace:
+    build:
+      context: .
+      dockerfile: php/ConsoleDockerfile
+    image: balance/workspace
+    container_name: workspace
+    working_dir: /data/mysite.local
+    command: php server.php
+    volumes:
+      - ./code:/var/www
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
