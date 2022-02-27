@@ -1,11 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
-echo "Привет, Otus!<br>".date("Y-m-d H:i:s")."<br><br>";
+use Decole\NginxBalanceApp\App;
 
-echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];
+require __DIR__ . '/src/bootstrap/bootstrap.php';
 
-// add composer
-// session - memcache
-// add form and validate
+$app = new App();
+echo $app->run();
+
+//echo "Привет, Otus!<br>".date("Y-m-d H:i:s")."<br><br>";
+
+//echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];
