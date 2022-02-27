@@ -27,12 +27,12 @@ class MainController
     {
         $params = [];
 
-        if ($this->requester->request('field')) {
-            $field = $this->requester->request('field');
-            $validate = $this->validator->validateParentheses($field);
+        if ($this->requester->request('email')) {
+            $email = $this->requester->request('email');
+            $validate = $this->validator->validateEmail($email);
 
             $params = [
-                'field' => $field,
+                'email' => $email,
                 'validation' => $validate,
             ];
         }

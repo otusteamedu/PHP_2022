@@ -4,20 +4,20 @@ namespace Decole\NginxBalanceApp\Core;
 
 class Validator
 {
-    public function validateParentheses(?string $field): array
+    public function validateEmail(?string $email): array
     {
         $validation = [
             'is_validated' => false,
-            'message' => 'Parenthesis not valid!',
+            'message' => 'Email not valid!',
         ];
 
-        if (!$field) {
+        if (!$email) {
             return $validation;
         }
 
-        if ($this->validate($field)) {
+        if ($this->validate($email)) {
             $validation['is_validated'] = true;
-            $validation['message'] = 'validate successfully';
+            $validation['message'] = 'Email validate successfully';
 
             return $validation;
         }
@@ -25,12 +25,16 @@ class Validator
         return $validation;
     }
 
-    private function validate(string $field):bool
+    private function validate(string $email):bool
     {
-        for ($i = 1, $iMax = mb_strlen($field); $i <= $iMax; $i++) {
-            $field = str_replace('()', '', $field);
-        }
+        return filter_var($email, FILTER_VALIDATE_EMAIL) && $this->checkEmailMxRecord($email);
+    }
 
-        return empty($field);
+    private function checkEmailMxRecord(string $email): bool
+    {
+        $record = 'MX';
+        $domain = explode('@', $email)[1];
+
+        return checkdnsrr($domain, $record);
     }
 }

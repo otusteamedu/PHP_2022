@@ -1,6 +1,6 @@
 {
-    "name": "decole/nginx-balance-app",
-    "description": "Home work 4",
+    "name": "decole/nginx-balance-app-with-email-validation",
+    "description": "Home work 5",
     "type": "project",
     "license": "MIT",
     "autoload": {
