@@ -38,3 +38,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<?php
+
+echo "Current nginx container is: {$_SERVER['HOSTNAME']}<br><br>";
+
+echo 'Session ID is: ' . session_id() . '<br><br>';
+
+echo '<hr><br>Checking of session in the Memcached:';
+
+if ($_SESSION['CODE_TEST']) {
+echo 'Value from session: <strong>' . $_SESSION['CODE_TEST'] . '</strong>';
+} else {
+$_SESSION['CODE_TEST'] = 'some text';
+echo 'Value <strong>' . $_SESSION['CODE_TEST'] . '</strong> added in session, you can reload of page.';
+}
+
+?>
