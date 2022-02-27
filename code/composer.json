@@ -1,0 +1,19 @@
+{
+    "name": "decole/nginx-balance-app",
+    "description": "Home work 4",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Decole\\NginxBalanceApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "decole",
+            "email": "decole2014@yandex.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

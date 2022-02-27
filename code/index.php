@@ -7,5 +7,5 @@ echo "Привет, Otus!<br>".date("Y-m-d H:i:s")."<br><br>";
 echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];
 
 // add composer
-// session - redis cache
+// session - memcache
 // add form and validate
