@@ -3,8 +3,8 @@ version: '3'
 services:
   balanser:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: nginx/Dockerfile
     image: balance/nginx-balanser
     container_name: nginx-balacer
     ports:
@@ -17,8 +17,8 @@ services:
 
   nginx1:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: nginx/Dockerfile
     image: balance/nginx
     container_name: nginx1
     volumes:
@@ -29,8 +29,8 @@ services:
 
   app1:
     build:
-      context: ./fpm
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: php/Dockerfile
     image: balance/php # имя будущего образа
     container_name: app1 # имя контейнера после запуска
     volumes:
@@ -52,10 +52,10 @@ services:
 
   app2:
     build:
-      context: ./fpm
-      dockerfile: Dockerfile
-    image: balance/php
-    container_name: app2
+      context: .
+      dockerfile: php/Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
     volumes:
       - ./code:/data/mysite.local
     networks:
@@ -75,12 +75,30 @@ services:
 
   app3:
     build:
-      context: ./fpm
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: php/Dockerfile
     image: balance/php # имя будущего образа
     container_name: app3 # имя контейнера после запуска
     volumes:
       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  workspace:
+    build:
+      context: .
+      dockerfile: php/ConsoleDockerfile
+    image: balance/workspace
+    container_name: workspace
+    volumes:
+      - ./code:/var/www
+    networks:
+      - app-network
+
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    restart: unless-stopped
     networks:
       - app-network
 

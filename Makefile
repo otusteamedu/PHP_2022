@@ -23,7 +23,7 @@ app-install:
 	$(compose) run workspace composer install
 
 app:
-	$(compose) exec app bash
+	$(compose) exec app1 bash
 
 console:
 	$(compose) run workspace bash
@@ -33,3 +33,6 @@ db:
 
 ps:
 	$(compose) ps
+
+log:
+	$(compose) logs
