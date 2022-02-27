@@ -19,29 +19,30 @@ class FormController extends DefaultController
         $string = '';
         try {
             if ($this->request->getMethod() === HttpRequest::POST) {
-                if (!preg_match('~\((\)*\)*)\)~', $string = $this->request->getParameter('string'))) {
+
+                $string = $this->request->getParameter('string');
+
+                if (empty($string)) {
                     throw new Exception(self::ERROR);
                 }
 
-                $len = strlen($string);
-
-                $brackets = [];
-                for ($i = 0; $i < $len; $i++) {
-                    $symbol = $string[$i];
-                    if ($symbol == '(') {
-                        $brackets[] = $symbol;
-                    } elseif ($symbol == ')') {
-                        if (!$last = array_pop($brackets)) {
-                            throw new Exception(self::ERROR);
-                        }
-
-                        if ($symbol === ')' && $last != '(') {
-                            throw new Exception(self::ERROR);
-                        }
-                    }
+                if (!preg_match('~\((\)*\)*)\)~', $string)) {
+                    throw new Exception(self::ERROR);
                 }
+
+                $open = 0;
+                $close = 0;
+                for ($i = 0; $i < strlen($string); $i++) {
+                    if ($string[$i] === '(') $open++;
+                    if ($string[$i] === ')') $close++;
+                }
+
+                if ($open !== $close) {
+                    throw new Exception(self::ERROR);
+                }
+
                 $params = [
-                    'result' => count($brackets) === 0 ? self::SUCCESS : '',
+                    'result' => self::SUCCESS,
                     'class' => 'badge bg-success',
                     'value' => $string,
                 ];
