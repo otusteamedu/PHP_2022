@@ -2,3 +2,6 @@
 .idea
 dbdata
 vagrant/Homestead
+/verification.run
+/verification_email
+/code/vendor
