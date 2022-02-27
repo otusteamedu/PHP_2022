@@ -5,5 +5,9 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 ## First step:
 copy **.env.example** to **.env**
 
+`docker-compose run workspace bash`
+
+`composer install`
+
 ## For upping project execute this:
 `docker-compose up -d --build --remove-orphans`
