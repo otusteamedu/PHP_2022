@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0a0a9f4d11bad1b5cb3aacc99181ea1c",
+    "packages": [
+        {
+            "name": "masteritua/verification_email",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/masteritua/verification_email.git",
+                "reference": "77be0b962252718b371137a1c827e8e43b39328d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/masteritua/verification_email/zipball/77be0b962252718b371137a1c827e8e43b39328d",
+                "reference": "77be0b962252718b371137a1c827e8e43b39328d",
+                "shasum": ""
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Masteritua\\Verification\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksey Shevchenko",
+                    "email": "masteritua@gmail.com"
+                }
+            ],
+            "description": "Проверка Email",
+            "support": {
+                "issues": "https://github.com/masteritua/verification_email/issues",
+                "source": "https://github.com/masteritua/verification_email/tree/v1.0"
+            },
+            "time": "2022-02-27T20:24:38+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}

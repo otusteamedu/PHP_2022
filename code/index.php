@@ -1,5 +1,13 @@
 <?php
 
-echo "Привет, Otus!<br>".date("Y-m-d H:i:s");
+use Masteritua\Verification\Verification;
 
-phpinfo();
+include "vendor/autoload.php";
+
+$verification = new Verification();
+
+try {
+    echo $verification->check();
+} catch (JsonException $e) {
+    echo $e->getMessage();
+}
