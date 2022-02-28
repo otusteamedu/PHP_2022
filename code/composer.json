@@ -1,0 +1,16 @@
+{
+    "name": "konstantin-dmitrienko/hw6",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Konstantin Dmitrienko",
+            "email": "kos220490@mail.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "KonstantinDmitrienko\\App\\": "src/"
+        }
+    }
+}
