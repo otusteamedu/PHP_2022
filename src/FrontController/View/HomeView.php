@@ -16,6 +16,7 @@ class HomeView
     {
         $redis = new Redis();
         $redis->connect('redis');
+        $redis->Del(EmailDnsRule::CACHE_DNS_KEY);
         $validator = Validator::instance();
         $emails = $this->getEmails();
         foreach ($emails as $email) {
