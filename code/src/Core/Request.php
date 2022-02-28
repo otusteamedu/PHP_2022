@@ -5,26 +5,16 @@ namespace Decole\NginxBalanceApp\Core;
 
 class Request
 {
-    private ?string $data;
-
-    public function setData(?string $data): void
-    {
-        $this->data = $data;
-    }
-
-    public function getData(): ?string
-    {
-        return $this->data;
-    }
-
+    /**
+     * @param $field
+     * @return array|mixed|null
+     */
     public function request($field = null)
     {
-        $request = $_REQUEST;
-
         if (!$field) {
-            return $request;
+            return $_REQUEST;
         }
 
-        return $request[$field] ?? null;
+        return $_REQUEST[$field] ?? null;
     }
 }
