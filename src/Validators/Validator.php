@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Philip\Otus\Validators;
 
+use Philip\Otus\Validators\Exceptions\ValidationException;
 use RuntimeException;
 use Philip\Otus\Validators\Helpers\ErrorBag;
 use Philip\Otus\Validators\Rules\RuleInterface;
@@ -23,7 +24,7 @@ class Validator
         return new self(new ErrorBag());
     }
 
-    public function validate(array $listRules, array $data): bool
+    public function validate(array $listRules, array $data)
     {
         $this->errorBag->clear();
         foreach ($listRules as $field => $rules) {
@@ -39,7 +40,9 @@ class Validator
                 }
             }
         }
-        return $this->errorBag->hasErrors() === false;
+        if ($this->errorBag->hasErrors()) {
+            throw new ValidationException($this->errorBag->all());
+        }
     }
 
     public function errors(): ErrorBag

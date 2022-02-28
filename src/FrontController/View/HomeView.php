@@ -8,6 +8,7 @@ use Redis;
 use Philip\Otus\Validators\Validator;
 use Philip\Otus\Validators\Rules\EmailRule;
 use Philip\Otus\Validators\Rules\EmailDnsRule;
+use Philip\Otus\Validators\Exceptions\ValidationException;
 
 class HomeView
 {
@@ -18,21 +19,23 @@ class HomeView
         $validator = Validator::instance();
         $emails = $this->getEmails();
         foreach ($emails as $email) {
-            $result = $validator->validate(
-                ['email' => [new EmailRule(), new EmailDnsRule($redis)]],
-                ['email' => $email]
-            );
-            if ($result) {
+            try {
+                $validator->validate(
+                    ['email' => [new EmailRule(), new EmailDnsRule($redis)]],
+                    ['email' => $email]
+                );
                 dump("Email ($email) is valid");
-            } else {
-                dump([$email, $validator->errors()->all()['email'][0]]);
+            } catch (ValidationException $exception) {
+                $errors = $exception->errors();
+                [$error] = $errors['email'];
+                dump([$email, $error]);
             }
         }
     }
 
     private function getEmails(): array
     {
-        return  [
+        return [
             "a1@email.com",
             "a2@mail.ru",
             "a3@gmail.com",
