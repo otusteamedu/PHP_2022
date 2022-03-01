@@ -8,6 +8,7 @@ use Philip\Otus\Core\Dispatcher;
 require __DIR__ . '/../vendor/autoload.php';
 
 $frontController = new App;
+$frontController->dispatchRequest(Dispatcher::VIEW_CHECK_BRACKETS);
 $frontController->dispatchRequest(Dispatcher::VIEW_GREETING);
 
 
