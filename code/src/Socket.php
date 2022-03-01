@@ -2,96 +2,139 @@
 
 namespace KonstantinDmitrienko\App;
 
-use Exception;
-
+/**
+ * Class for working with unix sockets
+ */
 class Socket
 {
+    /**
+     * @var false|resource|\Socket
+     */
     public $socket;
 
-    protected $socketFile = '/sock/sock.sock';
+    /**
+     * @var string
+     */
+    protected string $socketFile = '';
 
-    public function create($removeSocketFile = false)
+    /**
+     * @var int
+     */
+    protected int $maxBytes = 0;
+
+    /**
+     * @param array $configs
+     */
+    public function __construct(array $configs)
+    {
+        if (!$configs['path'] || !$configs['max_bytes']) {
+            throw new \InvalidArgumentException('Error: Missing socket path or max_bytes in configs parameter');
+        }
+
+        $this->socketFile = $configs['path'];
+        $this->maxBytes   = $configs['max_bytes'];
+    }
+
+    /**
+     * @param bool $removeSocketFile
+     *
+     * @return false|resource|\Socket
+     */
+    public function create(bool $removeSocketFile = false)
     {
         if ($removeSocketFile && file_exists($this->socketFile)) {
             unlink($this->socketFile);
         }
 
         if ($this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0) ) {
-            echo "Socket created \n";
             return $this->socket;
         }
 
-        throw new \RuntimeException('Socket is not created.');
+        throw new \RuntimeException('Error: Socket did not created.');
     }
 
+    /**
+     * @return void
+     */
     public function bind()
     {
-        if (socket_bind($this->socket, $this->socketFile)) {
-            echo "Socket bind OK \n";
-        } else {
-            throw new \RuntimeException();
+        if (!socket_bind($this->socket, $this->socketFile)) {
+            throw new \RuntimeException('Error: Cannot bind to socket.');
         }
     }
 
+    /**
+     * @return void
+     */
     public function listen()
     {
-        if (socket_listen($this->socket, 5)) {
-            echo "Socket listen OK \n";
-        } else {
-            throw new \RuntimeException();
+        if (!socket_listen($this->socket, 5)) {
+            throw new \RuntimeException('Error: Cannot listen the socket.');
         }
     }
 
+    /**
+     * @return void
+     */
     public function connect()
     {
-        if (socket_connect($this->socket, $this->socketFile)) {
-            echo "Socket connect OK \n";
-            return;
+        if (!socket_connect($this->socket, $this->socketFile)) {
+            throw new \RuntimeException('Error: Cannot connect to socket.');
         }
-
-        throw new \RuntimeException();
     }
 
+    /**
+     * @return resource|\Socket
+     */
     public function accept()
     {
         if ($socket = socket_accept($this->socket)) {
-            echo "Socket accept OK \n";
             return $socket;
         }
 
-        throw new \RuntimeException();
+        throw new \RuntimeException('Error: Cannot accept connection to socket.');
     }
 
+    /**
+     * @param $message
+     * @param $socket
+     *
+     * @return void
+     */
     public function write($message, $socket = null)
     {
         $socket = $socket ?: $this->socket;
-        if (socket_write($socket, $message, strlen($message))) {
-            echo "Message written OK \n";
-            return;
-        }
 
-        throw new \RuntimeException();
+        if (!socket_write($socket, $message, strlen($message))) {
+            throw new \RuntimeException('Error: Cannot write to socket.');
+        }
     }
 
+    /**
+     * @param $socket
+     *
+     * @return false|string
+     */
     public function read($socket = null)
     {
         $socket = $socket ?: $this->socket;
-        return socket_read($socket, 2048);
+        return socket_read($socket, $this->maxBytes);
     }
 
-    public function close($socket = null)
+    /**
+     * @param $socket
+     *
+     * @return array
+     */
+    public function receive($socket): array
     {
+        $buffer = '';
         $socket = $socket ?: $this->socket;
-        socket_close($this->socket);
-    }
 
-    public function setBlock()
-    {
-        socket_set_block($this->socket);
-    }
+        if ($bytes = socket_recv($socket, $buffer, $this->maxBytes, 0)) {
+            return ['message' => $buffer, 'bytes' => $bytes];
+        }
 
-    public function unBlock()
-    {
-        socket_set_nonblock($this->socket);
+        throw new \RuntimeException('Error: Message could not be read');
     }
 }

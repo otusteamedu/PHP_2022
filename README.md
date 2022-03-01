@@ -11,8 +11,8 @@ git checkout KDmitrienko/hw6
 ### Run chat via unix-sockets
 
 ```
-cd /code/ && composer install && cd ../
-docker-compose up
+cd code && composer install && cd ..
+docker-compose up -d
 
 1. in one terminal start the server:
 docker exec -ti app-server php app.php server

@@ -5,32 +5,56 @@ namespace KonstantinDmitrienko\App;
 use KonstantinDmitrienko\App\Entity\Client;
 use KonstantinDmitrienko\App\Entity\Server;
 
+/**
+ * Simple server-client chat via unix socket
+ */
 class App
 {
-    protected $socket;
+    /**
+     * @var Socket
+     */
+    protected Socket $socket;
+
+    /**
+     * @var Server
+     */
     protected Server $server;
+
+    /**
+     * @var Client
+     */
     protected Client $client;
 
+    public array $configs;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
+        $this->configs = parse_ini_file('config.ini', true);
+        $this->socket = new Socket($this->configs['socket']);
         $this->server = new Server();
         $this->client = new Client();
     }
 
+    /**
+     * @return void
+     */
     public function run(): void
     {
-        $type = $_SERVER['argv'][1] ?: null;
+        if (!$type = $_SERVER['argv'][1]) {
+            throw new \RuntimeException('Error: Required parameter client/server is not specified.');
+        }
 
-        $socket = new Socket();
+        $this->socket->create($type === 'server');
 
         switch ($type) {
             case 'server':
-                $socket->create(true);
-                $this->server->listen($socket);
+                $this->server->listen($this->socket);
                 break;
             case 'client':
-                $socket->create();
-                $this->client->sendMessage($socket);
+                $this->client->sendMessage($this->socket);
                 break;
         }
     }
