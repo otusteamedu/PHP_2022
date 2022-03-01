@@ -14,13 +14,18 @@ class Request
     public function request($field = null)
     {
         if (!$field) {
-            return $_REQUEST;
+            return $_POST;
         }
 
-        if (isset($_REQUEST[$field]) && !empty($_REQUEST[$field])) {
-            return $_REQUEST[$field];
+        if (isset($_POST[$field])) {
+            return $_POST[$field];
         }
 
         throw new Exception('Поле ' . $field . ' не должно быть пустым!');
+    }
+
+    public function isPost(): bool
+    {
+        return !empty($_POST);
     }
 }

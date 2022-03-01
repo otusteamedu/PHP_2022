@@ -4,6 +4,10 @@ namespace Decole\NginxBalanceApp\Core;
 
 class Validator
 {
+    /**
+     * @param string|null $field
+     * @return array
+     */
     public function validateParentheses(?string $field): array
     {
         $validation = [

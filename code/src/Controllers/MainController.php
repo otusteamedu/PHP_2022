@@ -27,7 +27,7 @@ class MainController
     {
         $params = [];
 
-        if ($this->requester->request('field')) {
+        if ($this->requester->isPost()) {
             $field = $this->requester->request('field');
             $validate = $this->validator->validateParentheses($field);
 
@@ -39,9 +39,15 @@ class MainController
 
         $data = $this->render->compile('index.php', $params);
 
-        return $this->responder
-            ->setData($data)
-            ->setCode(Response::SERVER_SUCCESS_REQUEST)
-            ->getData();
+        $response = $this->responder
+            ->setData($data);
+
+        if ($validate['is_validated']) {
+            $response->setCode(Response::SERVER_SUCCESS_REQUEST);
+        } else {
+            $response->setCode(Response::SERVER_BAD_REQUEST);
+        }
+
+        return $response->getData();
     }
 }
