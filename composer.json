@@ -1,0 +1,22 @@
+{
+    "name": "otus/dwaydeapp",
+    "type": "app",
+    "description": "HW4",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Maksim Potapov",
+            "email": "klnpotap@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "otus\\dwaydeapp\\": "src/"
+        }
+    },
+    "require": {
+        "danielstjules/stringy": "^3.1",
+        "dwayde/hwpackage": "dev-main"
+    }
+}
