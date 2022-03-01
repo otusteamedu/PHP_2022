@@ -2,6 +2,8 @@
 
 namespace KonstantinDmitrienko\App\Entity;
 
+use KonstantinDmitrienko\App\Phrases;
+
 /**
  * Class for sending outgoing messages
  */
@@ -17,9 +19,8 @@ class Client
         $socket->connect();
 
         while (true) {
-            $message = readline('Enter your message: ');
-            $socket->write($message);
-            echo "Server response: {$socket->read()}\n\n";
+            $socket->write(readline(Phrases::get('enter_message')));
+            Phrases::show('server_response', ['{text}' => $socket->read()]);
         }
     }
 }

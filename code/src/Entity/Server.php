@@ -2,6 +2,8 @@
 
 namespace KonstantinDmitrienko\App\Entity;
 
+use KonstantinDmitrienko\App\Phrases;
+
 /**
  * Class for getting incoming messages
  */
@@ -17,17 +19,16 @@ class Server
         $socket->bind();
         $socket->listen();
 
-        echo "Waiting for incoming messages...\n\n";
+        Phrases::show('waiting_messages');
 
         $client = $socket->accept();
 
         while (true) {
             $incomingData = $socket->receive($client);
 
-            echo "Received message: \"{$incomingData['message']}\"\n";
+            Phrases::show('received_message', ['{message}' => $incomingData['message']]);
 
-            $response = "Received {$incomingData['bytes']} bytes";
-            $socket->write($response, $client);
+            $socket->write(Phrases::get('received_bytes', ['{bytes}' => $incomingData['bytes']]), $client);
         }
     }
 }
