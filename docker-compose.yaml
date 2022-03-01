@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  balanser:
+    build:
+      context: docker/nginx
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+    ports:
+      - ${DOCKER_NGINX_PORT}:80
+    volumes:
+      - ./${DOCKER_DIR}/nginx/conf/balanser.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - webserver_1
+      - webserver_2
+    networks:
+      - app-network
+  webserver_1:
+    build:
+      context: docker/nginx
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+    volumes:
+      - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+      - ./${DOCKER_DIR}/data/nginx/logs:/var/log/nginx
+      - ./${DOCKER_DIR}/nginx/conf/host.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+  webserver_2:
+    build:
+      context: docker/nginx
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+    volumes:
+      - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+      - ./${DOCKER_DIR}/data/nginx/logs:/var/log/nginx
+      - ./${DOCKER_DIR}/nginx/conf/host.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+  app_1:
+    build:
+      context: docker/php-fpm
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+    depends_on:
+      - memcached_1
+    networks:
+      - app-network
+  app_2:
+    build:
+      context: docker/php-fpm
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+    depends_on:
+      - memcached_2
+    networks:
+      - app-network
+  memcached_master:
+    image: 'bitnami/memcached:latest'
+    networks:
+      - app-network
+  memcached_1:
+    image: oktec/repcached
+    environment:
+      - SLAVE=memcached_master
+    networks:
+      - app-network
+  memcached_2:
+    image: oktec/repcached
+    environment:
+      - SLAVE=memcached_master
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
