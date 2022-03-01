@@ -39,3 +39,5 @@ ps:
 
 log:
 	$(compose) logs
+
+restart: down up

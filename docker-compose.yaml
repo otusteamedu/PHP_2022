@@ -32,9 +32,8 @@ services:
     image: balance/workspace
     container_name: workspace
     working_dir: /data/mysite.local
-    command: php server.php
     volumes:
-      - ./code:/var/www
+      - ./code:/data/mysite.local
     networks:
       - app-network
 
