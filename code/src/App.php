@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Decole\NginxBalanceApp;
 
 use Decole\NginxBalanceApp\Controllers\MainController;
+use Decole\NginxBalanceApp\Core\Response;
+use Exception;
 
 class App
 {
@@ -16,6 +18,13 @@ class App
 
     public function run(): ?string
     {
-        return $this->controller->index();
+        try {
+            return $this->controller->index();
+        } catch (Exception $e) {
+            return (new Response())
+                ->setData($e->getMessage())
+                ->setCode(Response::SERVER_BAD_REQUEST)
+                ->getData();
+        }
     }
 }

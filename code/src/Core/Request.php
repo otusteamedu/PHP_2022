@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Decole\NginxBalanceApp\Core;
 
+use Exception;
+
 class Request
 {
     /**
@@ -15,6 +17,10 @@ class Request
             return $_REQUEST;
         }
 
-        return $_REQUEST[$field] ?? null;
+        if (isset($_REQUEST[$field]) && !empty($_REQUEST[$field])) {
+            return $_REQUEST[$field];
+        }
+
+        throw new Exception('Поле ' . $field . ' не должно быть пустым!');
     }
 }
