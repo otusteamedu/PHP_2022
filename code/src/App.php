@@ -25,6 +25,9 @@ class App
      */
     protected Client $client;
 
+    /**
+     * @var array|false 
+     */
     public array $configs;
 
     /**
