@@ -1,3 +1,5 @@
 # PHP_2022
 
+RUN composer install
+
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus

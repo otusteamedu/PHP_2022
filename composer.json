@@ -1,0 +1,17 @@
+{
+    "authors": [
+        {
+            "name": "Kirill Kirillov",
+            "email": "kirill.kirillov@itglobal.com"
+        }
+    ],
+    "require": {
+        "symfony/dotenv": "^6.0",
+        "php-di/php-di": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kirillov\\": "src/"
+        }
+    }
+}
