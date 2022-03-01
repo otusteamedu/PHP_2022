@@ -64,11 +64,3 @@ ALTER TABLE "price" ADD CONSTRAINT "price_fk0" FOREIGN KEY ("hall_id") REFERENCE
 ALTER TABLE "price" ADD CONSTRAINT "price_fk1" FOREIGN KEY ("place_type_id") REFERENCES "place_type"("place_type_id");
 ALTER TABLE "price" ADD CONSTRAINT "price_fk2" FOREIGN KEY ("session_id") REFERENCES "session"("session_id");
 ALTER TABLE "price" ADD CONSTRAINT "price_fk3" FOREIGN KEY ("film_id") REFERENCES "film"("film_id");
-
--- самый прибыльный фильм --
-SELECT SUM("p.amount") as "profit", "f.film_name" FROM "ticket t"
-INNER JOIN "price p" ON "p.price_id" = "t.price_id"
-INNER JOIN "film f" ON "f.film_id" = "p.film_id"
-GROUP BY "profit", "f.film_name"
-ORDER BY "profit" DESC
-LIMIT 1;
