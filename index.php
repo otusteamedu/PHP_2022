@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Kirillov\App;
+use Kirillov\Exception\InvalidMethodException;
 
 require __DIR__ . '/config/bootstrap.php';
 
