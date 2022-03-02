@@ -23,16 +23,13 @@ app-install:
 	$(compose) run workspace composer install
 
 cliest:
-	$(compose) exec socket-client bash
+	$(compose) run socket-client bash
 
 server:
-	$(compose) exec socket-server bash
+	$(compose) run socket-server bash
 
 console:
 	$(compose) run workspace bash
-
-db:
-	$(compose) exec db bash
 
 ps:
 	$(compose) ps

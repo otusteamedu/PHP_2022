@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4
 
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
         libpng-dev \
         libonig-dev \
         libzip-dev \
-        libmemcached-dev \
         libmcrypt-dev \
         && docker-php-ext-install sockets
 
@@ -15,5 +14,3 @@ COPY php/php.ini /usr/local/etc/php/conf.d/php-custom.ini
 WORKDIR /data
 
 VOLUME /data
-
-CMD ["php-fpm"]

@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: php/Dockerfile
-    image: balance/php # имя будущего образа
-    container_name: socket-server # имя контейнера после запуска
+    image: balance/php
+    container_name: socket-server
     working_dir: /data/mysite.local
     volumes:
       - ./code:/data/mysite.local
@@ -17,8 +17,8 @@ services:
     build:
       context: .
       dockerfile: php/Dockerfile
-    image: balance/php # имя будущего образа
-    container_name: socket-client # имя контейнера после запуска
+    image: balance/php
+    container_name: socket-client
     working_dir: /data/mysite.local
     volumes:
       - ./code:/data/mysite.local
