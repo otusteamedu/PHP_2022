@@ -1,0 +1,20 @@
+{
+    "name": "k.kirillov/hw5",
+    "description": "Homework five, email validator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kiril Kirilov",
+            "email": "kirill.kirillov@itglobal.com"
+        }
+    ],
+    "require": {
+        "k.kirillov/email-validator": "^1.0",
+        "php-di/php-di": "^6.3"
+    }
+}
