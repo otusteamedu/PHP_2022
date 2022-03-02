@@ -2,7 +2,7 @@
 
 namespace Kirillov\Validator;
 
-use Exception;
+use Kirillov\Exception\SymbolException;
 use Kirillov\ValueObject\StatusCode;
 
 class StringValidator
@@ -12,13 +12,11 @@ class StringValidator
         $count = 0;
 
         if ($brackets[0] === ')') {
-            http_response_code(StatusCode::BAD_REQUEST);
-            throw new Exception('String must start with \')\'');
+            throw new SymbolException('String must start with \')\'');
         }
 
         if ($brackets[strlen($brackets) - 1] === '(') {
-            http_response_code(StatusCode::BAD_REQUEST);
-            throw new Exception('String must end with \')\'');
+            throw new SymbolException('String must end with \')\'');
         }
 
         for ($i = 0; $i < strlen($brackets); $i++) {
@@ -32,8 +30,7 @@ class StringValidator
                 continue;
             }
 
-            http_response_code(StatusCode::BAD_REQUEST);
-            throw new Exception('String contains wrong symbols.');
+            throw new SymbolException('String contains wrong symbols.');
         }
 
         return $count === 0;
