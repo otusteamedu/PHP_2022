@@ -2,6 +2,7 @@
 .vagrant/
 /dbdata/
 /vendor/
+/code/vendor/
 /logs/
 .ENV
 after.sh
