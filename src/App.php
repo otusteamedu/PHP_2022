@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kirillov;
 
+use InvalidArgumentException;
 use DI\Container;
 use Kirillov\Controller\StringController;
 use Kirillov\Exception\InvalidPathException;
@@ -24,7 +25,7 @@ class App
     {
         $this->validatePath();
 
-        $string = $this->getString()['string'];
+        $string = $this->getString();
         $answer = $this->stringController->validate($string);
 
         echo json_encode([
@@ -33,9 +34,15 @@ class App
         ], JSON_PRETTY_PRINT);
     }
 
-    private function getString(): array
+    private function getString(): string
     {
-        return json_decode(file_get_contents('php://input'), true, flags:JSON_THROW_ON_ERROR);
+        $body = json_decode(file_get_contents('php://input'), true, flags:JSON_THROW_ON_ERROR);
+
+        if (!isset($body['string'])) {
+            throw new InvalidArgumentException("Only string parameter is required.", StatusCode::BAD_REQUEST);
+        }
+
+        return $body['string'];
     }
 
     private function validatePath(): void
