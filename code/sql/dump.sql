@@ -50,6 +50,7 @@ DROP TABLE IF EXISTS `film`;
 CREATE TABLE `film` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
+  `cost` double NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,7 +61,7 @@ CREATE TABLE `film` (
 
 LOCK TABLES `film` WRITE;
 /*!40000 ALTER TABLE `film` DISABLE KEYS */;
-INSERT INTO `film` VALUES (1,'Титаник'),(2,'Терминатор2'),(3,'Властелин колец'),(4,'Форсаж9');
+INSERT INTO `film` VALUES (1,'Титаник',10),(2,'Терминатор2',20),(3,'Властелин колец',30),(4,'Форсаж9',40);
 /*!40000 ALTER TABLE `film` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,6 +133,8 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
+  `hall_id` int DEFAULT NULL,
+  `place_id` int DEFAULT NULL,
   `film_id` int DEFAULT NULL,
   `status_id` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -139,7 +142,11 @@ CREATE TABLE `order` (
   KEY `fk_order_id` (`film_id`),
   KEY `fk_status_id` (`status_id`),
   KEY `fk_user_id` (`user_id`),
+  KEY `fk_order_hall_id` (`hall_id`),
+  KEY `fk_order_place_id` (`place_id`),
+  CONSTRAINT `fk_order_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`),
   CONSTRAINT `fk_order_id` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
+  CONSTRAINT `fk_order_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`),
   CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -151,7 +158,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,1,1,3),(2,1,2,1),(3,2,3,2),(4,2,4,3);
+INSERT INTO `order` VALUES (1,1,1,1,1,3),(2,1,1,2,2,1),(3,2,2,1,3,2),(4,2,2,2,4,3);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,6 +185,33 @@ LOCK TABLES `order_status` WRITE;
 /*!40000 ALTER TABLE `order_status` DISABLE KEYS */;
 INSERT INTO `order_status` VALUES (1,'Новый'),(2,'В обработке'),(3,'Выполнен');
 /*!40000 ALTER TABLE `order_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `places`
+--
+
+DROP TABLE IF EXISTS `places`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `places` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `place` int DEFAULT NULL,
+  `hall_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_place_hall_id` (`hall_id`),
+  CONSTRAINT `fk_place_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `places`
+--
+
+LOCK TABLES `places` WRITE;
+/*!40000 ALTER TABLE `places` DISABLE KEYS */;
+INSERT INTO `places` VALUES (1,1,1),(2,2,1),(3,3,1),(4,4,1),(5,5,1),(6,1,2),(7,2,2),(8,3,2),(9,4,2),(10,5,2);
+/*!40000 ALTER TABLE `places` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -214,4 +248,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-01 14:10:01
+-- Dump completed on 2022-03-02  9:17:19
