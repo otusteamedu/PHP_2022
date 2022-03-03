@@ -4,29 +4,27 @@ namespace Command;
 
 use Kirillov\EmailValidator\Storage\HostsStorage;
 use Kirillov\EmailValidator\Validator\EmailValidator;
-use Service\GetEmailsService;
+use Service\GetConfigDataService;
+use ValueObject\ConfigFileName;
 
 class CheckEmailCommand
 {
-    /** @var string[] */
-    private array $hosts = ['itglobal.com', 'mail.ru'];
-
     public function __construct(
         private EmailValidator $emailValidator,
         private HostsStorage $hostsStorage,
-        private GetEmailsService $getEmailsService
+        private GetConfigDataService $getConfigDataService
     ) { }
 
     public function execute(string $mail = ''): void
     {
-        $this->hostsStorage->set($this->hosts);
-
+        $hosts = $this->getConfigDataService->get(ConfigFileName::HOSTS);
+        $this->hostsStorage->set($hosts);
         if (!empty($mail)) {
             $this->validate($mail);
             return;
         }
 
-        $emails = $this->getEmailsService->get();
+        $emails = $this->getConfigDataService->get(ConfigFileName::EMAIL);
         foreach ($emails as $email) {
             $this->validate($email);
         }

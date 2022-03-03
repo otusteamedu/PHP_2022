@@ -8,4 +8,5 @@ services:
     container_name: php-homework-5
     volumes:
       - ./:/var/www
-      - ./config/config.template.json:/var/www/config/config.json
+      - ./config/email.template.json:/var/www/config/email.json
+      - ./config/hosts.template.json:/var/www/config/hosts.json

@@ -4,13 +4,13 @@ namespace Service;
 
 use Exception\FileNotFoundException;
 
-class GetEmailsService
+class GetConfigDataService
 {
-    public function get(): array
+    public function get(string $fileName): array
     {
-        $filePath = getcwd() . '/config/config.json';
+        $filePath = getcwd() . '/config/' . $fileName . '.json';
         if (!file_exists($filePath)) {
-            throw new FileNotFoundException("There is no $filePath." . PHP_EOL);
+            throw new FileNotFoundException("There is no $fileName." . PHP_EOL);
         }
 
         $json = file_get_contents($filePath);
