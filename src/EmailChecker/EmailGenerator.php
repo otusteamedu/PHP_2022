@@ -28,7 +28,7 @@ class EmailGenerator {
      */
     public function writeEmails()
     {
-        $file = __DIR__ . '/../../emails.txt';
+        $file = $_SERVER['DOCUMENT_ROOT'] . $_ENV['EMAIL_LIST_FILE'];
         $emails  = $this->generateEmail();
 
         return file_put_contents($file, $emails, FILE_APPEND | LOCK_EX);

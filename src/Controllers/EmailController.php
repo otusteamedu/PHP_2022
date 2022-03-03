@@ -17,7 +17,7 @@ class EmailController extends DefaultController
      */
     public function index()
     {
-        $file = __DIR__ . '/../../emails.txt';
+        $file = $_SERVER['DOCUMENT_ROOT'] . $_ENV['EMAIL_LIST_FILE'];
         $array = [];
         $error = '';
 
