@@ -51,6 +51,8 @@ CREATE TABLE `film` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   `cost` double NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -61,7 +63,7 @@ CREATE TABLE `film` (
 
 LOCK TABLES `film` WRITE;
 /*!40000 ALTER TABLE `film` DISABLE KEYS */;
-INSERT INTO `film` VALUES (1,'Титаник',10),(2,'Терминатор2',20),(3,'Властелин колец',30),(4,'Форсаж9',40);
+INSERT INTO `film` VALUES (1,'Титаник',500,'2022-03-03 14:16:38','2022-03-03 14:17:01'),(2,'Терминатор2',500,'2022-03-03 14:16:38','2022-03-03 14:17:01'),(3,'Властелин колец',600,'2022-03-03 14:16:38','2022-03-03 14:17:01'),(4,'Форсаж9',700,'2022-03-03 14:16:38','2022-03-03 14:17:01');
 /*!40000 ALTER TABLE `film` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,8 +121,38 @@ CREATE TABLE `hall_film` (
 
 LOCK TABLES `hall_film` WRITE;
 /*!40000 ALTER TABLE `hall_film` DISABLE KEYS */;
-INSERT INTO `hall_film` VALUES (1,1,2),(2,2,3),(3,1,3),(6,2,4),(7,1,1);
+INSERT INTO `hall_film` VALUES (1,1,1),(2,1,2),(3,1,3),(6,2,1),(7,2,2);
 /*!40000 ALTER TABLE `hall_film` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hall_places`
+--
+
+DROP TABLE IF EXISTS `hall_places`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hall_places` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `hall_id` int DEFAULT NULL,
+  `place_id` int DEFAULT NULL,
+  `row` smallint unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_hall_places_hall_id` (`hall_id`),
+  KEY `fk_hall_places_place_id` (`place_id`),
+  CONSTRAINT `fk_hall_places_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`),
+  CONSTRAINT `fk_hall_places_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hall_places`
+--
+
+LOCK TABLES `hall_places` WRITE;
+/*!40000 ALTER TABLE `hall_places` DISABLE KEYS */;
+INSERT INTO `hall_places` VALUES (1,1,6,1),(2,1,4,1),(3,1,2,1),(4,1,1,1),(5,1,7,1),(6,1,5,1),(7,1,3,1);
+/*!40000 ALTER TABLE `hall_places` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -137,6 +169,9 @@ CREATE TABLE `order` (
   `place_id` int DEFAULT NULL,
   `film_id` int DEFAULT NULL,
   `status_id` int NOT NULL DEFAULT '0',
+  `cost` double DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_id_uindex` (`id`),
   KEY `fk_order_id` (`film_id`),
@@ -158,7 +193,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,1,1,1,1,3),(2,1,1,2,2,1),(3,2,2,1,3,2),(4,2,2,2,4,3);
+INSERT INTO `order` VALUES (1,1,1,1,1,3,500,'2022-03-02 16:03:50','2022-04-03 16:03:57'),(2,1,1,2,2,1,500,'2022-03-02 16:03:53','2022-03-04 16:03:58'),(3,2,2,1,3,2,600,'2022-03-03 16:03:55','2022-03-03 16:03:59'),(4,2,2,2,4,3,600,'2022-03-03 16:03:56','2022-03-03 16:04:00');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,11 +232,9 @@ DROP TABLE IF EXISTS `places`;
 CREATE TABLE `places` (
   `id` int NOT NULL AUTO_INCREMENT,
   `place` int DEFAULT NULL,
-  `hall_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_place_hall_id` (`hall_id`),
-  CONSTRAINT `fk_place_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `places_id_uindex` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +243,7 @@ CREATE TABLE `places` (
 
 LOCK TABLES `places` WRITE;
 /*!40000 ALTER TABLE `places` DISABLE KEYS */;
-INSERT INTO `places` VALUES (1,1,1),(2,2,1),(3,3,1),(4,4,1),(5,5,1),(6,1,2),(7,2,2),(8,3,2),(9,4,2),(10,5,2);
+INSERT INTO `places` VALUES (1,18),(2,17),(3,16),(4,15),(5,1),(6,2),(7,3),(8,4),(9,5),(10,6),(11,7),(12,8),(13,9),(14,10),(15,11),(16,12),(17,13),(18,14);
 /*!40000 ALTER TABLE `places` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-02  9:17:19
+-- Dump completed on 2022-03-03 15:11:27
