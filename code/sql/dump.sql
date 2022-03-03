@@ -165,8 +165,7 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
-  `hall_id` int DEFAULT NULL,
-  `place_id` int DEFAULT NULL,
+  `hall_places_id` int DEFAULT NULL,
   `film_id` int DEFAULT NULL,
   `status_id` int NOT NULL DEFAULT '0',
   `cost` double DEFAULT NULL,
@@ -177,11 +176,9 @@ CREATE TABLE `order` (
   KEY `fk_order_id` (`film_id`),
   KEY `fk_status_id` (`status_id`),
   KEY `fk_user_id` (`user_id`),
-  KEY `fk_order_hall_id` (`hall_id`),
-  KEY `fk_order_place_id` (`place_id`),
-  CONSTRAINT `fk_order_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`),
+  KEY `fk_hall_places_id` (`hall_places_id`),
+  CONSTRAINT `fk_hall_places_id` FOREIGN KEY (`hall_places_id`) REFERENCES `hall_places` (`id`),
   CONSTRAINT `fk_order_id` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
-  CONSTRAINT `fk_order_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`),
   CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -193,7 +190,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,1,1,1,1,3,500,'2022-03-02 16:03:50','2022-04-03 16:03:57'),(2,1,1,2,2,1,500,'2022-03-02 16:03:53','2022-03-04 16:03:58'),(3,2,2,1,3,2,600,'2022-03-03 16:03:55','2022-03-03 16:03:59'),(4,2,2,2,4,3,600,'2022-03-03 16:03:56','2022-03-03 16:04:00');
+INSERT INTO `order` VALUES (1,1,1,1,3,500,'2022-03-02 16:03:50','2022-04-03 16:03:57'),(2,1,1,2,1,500,'2022-03-02 16:03:53','2022-03-04 16:03:58'),(3,2,2,3,2,600,'2022-03-03 16:03:55','2022-03-03 16:03:59'),(4,2,2,4,3,600,'2022-03-03 16:03:56','2022-03-03 16:04:00');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,4 +278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-03 15:11:27
+-- Dump completed on 2022-03-03 15:56:50
