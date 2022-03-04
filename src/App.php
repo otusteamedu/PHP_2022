@@ -13,8 +13,13 @@ class App
         $this->checkEmailCommand = $container->get(CheckEmailCommand::class);
     }
 
-    public function run(string $email = '')
+    public function run(array $params)
     {
+        $email = '';
+        if (isset($params[1])) {
+            $email = $params[1];
+        }
+
         try {
             !empty($email) ? $this->checkEmailCommand->execute($email) : $this->checkEmailCommand->execute();
         } catch (Exception $exception) {
