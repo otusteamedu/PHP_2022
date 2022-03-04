@@ -1,0 +1,4 @@
+/vendor/
+.idea
+config/config.json
+config/hosts.json

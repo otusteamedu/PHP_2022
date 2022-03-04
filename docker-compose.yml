@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
+    container_name: php-homework-5
+    volumes:
+      - ./:/var/www
+      - ./config/email.template.json:/var/www/config/email.json
+      - ./config/hosts.template.json:/var/www/config/hosts.json
