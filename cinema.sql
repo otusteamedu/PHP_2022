@@ -108,7 +108,7 @@ INSERT INTO tickets ("Price_ID", "Row_ID", "Place", "Date") VALUES
 (10, 1, 4, '2022-03-06'),
 (15, 2, 3, '2022-03-06');
 
--- Show most cach film
+-- Show most profitable film
 
 SELECT "films"."Title", sum("prices"."Price") as "price"
 FROM "films", "tickets", "prices"
