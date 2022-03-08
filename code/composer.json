@@ -7,7 +7,9 @@
             "email": "kos220490@mail.ru"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=8.0"
+    },
     "autoload": {
         "psr-4": {
             "KonstantinDmitrienko\\App\\": "src/"
