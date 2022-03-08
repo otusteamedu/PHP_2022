@@ -1,5 +1,14 @@
 <?php
 
-echo "Привет, Otus!<br>".date("Y-m-d H:i:s");
+declare(strict_types=1);
 
-phpinfo();
+require __DIR__ . '/vendor/autoload.php';
+
+use masteritua\Socket\Server;
+
+try {
+    $app = new Server();
+    $app->execute();
+} catch (Exception $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
