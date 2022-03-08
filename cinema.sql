@@ -35,12 +35,21 @@ CREATE TABLE "prices" (
 	"Price" numeric(10, 2) not null
 );
 
+CREATE TABLE "price_history" (
+	"ID" serial primary key,
+	"Price_ID" int not null REFERENCES "prices" ("ID"),
+	"Old_price" numeric(10, 2) not null,
+	"New_price" numeric(10, 2) not null,
+	"Date" date not null
+);
+
 CREATE TABLE "tickets" (
 	"ID" serial primary key,
 	"Price_ID" int not null REFERENCES "prices" ("ID"),
 	"Row_ID" int REFERENCES "hall_places" ("ID"),
 	"Place" int not null,
-	"Date" date not null
+	"Date" date not null,
+	"Amount" numeric(10,2) not null
 );
 
 -- Insert data
@@ -97,22 +106,27 @@ INSERT INTO prices ("ID", "Hall_ID", "Film_ID", "Price") VALUES
 (15, 4, 3, 410),
 (16, 4, 4, 400);
 
-INSERT INTO tickets ("Price_ID", "Row_ID", "Place", "Date") VALUES
-(1, 1, 3, '2022-03-06'),
-(5, 2, 2, '2022-03-06'),
-(5, 2, 3, '2022-03-06'),
-(5, 2, 3, '2022-03-06'),
-(10, 1, 1, '2022-03-06'),
-(10, 1, 2, '2022-03-06'),
-(10, 1, 3, '2022-03-06'),
-(10, 1, 4, '2022-03-06'),
-(15, 2, 3, '2022-03-06');
+INSERT INTO price_history ("Price_ID", "Old_price", "New_price", "Date") VALUES
+(5, 250, 300, '2022-01-08'),
+(10, 540, 620, '2022-02-08'),
+(10, 620, 640, '2022-02-18');
+
+INSERT INTO tickets ("Price_ID", "Row_ID", "Place", "Date", "Amount") VALUES
+(1, 1, 3, '2022-03-06', 300),
+(5, 2, 2, '2022-01-06', 250),
+(5, 2, 3, '2022-03-06', 300),
+(5, 2, 3, '2022-03-06', 300),
+(10, 1, 1, '2022-02-06', 540),
+(10, 1, 2, '2022-03-06', 640),
+(10, 1, 3, '2022-03-06', 640),
+(10, 1, 4, '2022-03-06', 640),
+(15, 2, 3, '2022-03-06', 402);
 
 -- Show most profitable film
 
-SELECT "films"."Title", sum("prices"."Price") as "price"
+SELECT "films"."Title", sum("tickets"."Amount") as "Total_profit"
 FROM "films", "tickets", "prices"
 WHERE "tickets"."Price_ID" = "prices"."ID" AND "prices"."Film_ID" = "films"."ID"
 GROUP BY "films"."Title"
-ORDER BY "price" DESC
+ORDER BY "Total_profit" DESC
 LIMIT 1
