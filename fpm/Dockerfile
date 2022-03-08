@@ -15,8 +15,9 @@ RUN pecl install xdebug-2.9.5 && docker-php-ext-enable xdebug \
         && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
-     && pecl install memcached && \
-        docker-php-ext-enable memcached
+    && pecl install memcached && \
+        docker-php-ext-enable memcached \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./php.ini /usr/local/etc/php/php.ini
 

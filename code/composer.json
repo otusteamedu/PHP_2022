@@ -1,0 +1,18 @@
+{
+    "name": "root/otus.local",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Root\\OtusLocal\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksey Shevchenko",
+            "email": "masteritua@gmail.com"
+        }
+    ],
+    "require": {
+        "masteritua/test_app": "^1.0"
+    }
+}
