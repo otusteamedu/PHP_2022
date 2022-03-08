@@ -3,3 +3,5 @@
 dbdata
 vagrant/Homestead
 code/vendor/
+verification.run/
+verification_email/
