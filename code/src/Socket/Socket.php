@@ -1,6 +1,6 @@
 <?php
 
-namespace KonstantinDmitrienko\App;
+namespace KonstantinDmitrienko\App\Socket;
 
 /**
  * Class for working with unix sockets
@@ -23,6 +23,11 @@ class Socket
     protected int $maxBytes = 0;
 
     /**
+     * @var string
+     */
+    public string $exitCommand = 'exit';
+
+    /**
      * @param array $configs
      */
     public function __construct(array $configs)
@@ -38,9 +43,9 @@ class Socket
     /**
      * @param bool $removeSocketFile
      *
-     * @return false|resource|\Socket
+     * @return bool|\Socket
      */
-    public function create(bool $removeSocketFile = false)
+    public function create(bool $removeSocketFile = false): bool|\Socket
     {
         if ($removeSocketFile && file_exists($this->socketFile)) {
             unlink($this->socketFile);
@@ -136,5 +141,21 @@ class Socket
         }
 
         throw new \RuntimeException('Error: Message could not be read');
+    }
+
+    /**
+     * @param $socket
+     *
+     * @return void
+     */
+    public function close($socket = null): void
+    {
+        $socket = $socket ?: $this->socket;
+
+        if (!$socket) {
+            throw new \RuntimeException('Error: Missing socket for closing.');
+        }
+
+        socket_close($socket);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace KonstantinDmitrienko\App\Entity;
+namespace KonstantinDmitrienko\App\CommandControllers;
 
 use KonstantinDmitrienko\App\Phrases;
 
@@ -20,15 +20,21 @@ class Server
         $socket->listen();
 
         Phrases::show('waiting_messages');
-
         $client = $socket->accept();
 
         while (true) {
             $incomingData = $socket->receive($client);
 
-            Phrases::show('received_message', ['{message}' => $incomingData['message']]);
+            if ($incomingData['message'] === $socket->exitCommand) {
+                Phrases::show('server_finish_chat');
+                $socket->close($client);
+                break;
+            }
 
+            Phrases::show('received_message', ['{message}' => $incomingData['message']]);
             $socket->write(Phrases::get('received_bytes', ['{bytes}' => $incomingData['bytes']]), $client);
         }
+
+        $socket->close();
     }
 }

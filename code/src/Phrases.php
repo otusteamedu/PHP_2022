@@ -11,11 +11,14 @@ class Phrases
      * @var array|string[]
      */
     protected static array $phrases = [
-        'enter_message'    => 'Enter your message: ',
-        'server_response'  => "Server response: {text}\n\n",
-        'waiting_messages' => "Waiting for incoming messages...\n\n",
-        'received_message' => "Received message: \"{message}\"\n",
-        'received_bytes'   => "Received {bytes} bytes",
+        'client_start_chat' => "Chat has been started. You can write \"{exit}\" to finish.\r\n",
+        'client_finish_chat' => "Chat has been finished. Bye bye",
+        'server_finish_chat' => "Client finished the chat. Bye bye",
+        'enter_message'     => "Enter your message: ",
+        'server_response'   => "Server response: {text}\n\n",
+        'waiting_messages'  => "Waiting for incoming messages...\n\n",
+        'received_message'  => "Received message: \"{message}\"\n",
+        'received_bytes'    => "Received {bytes} bytes",
     ];
 
     /**

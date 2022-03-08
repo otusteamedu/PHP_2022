@@ -1,6 +1,6 @@
 <?php
 
-namespace KonstantinDmitrienko\App\Entity;
+namespace KonstantinDmitrienko\App\CommandControllers;
 
 use KonstantinDmitrienko\App\Phrases;
 
@@ -17,9 +17,19 @@ class Client
     public function sendMessage($socket): void
     {
         $socket->connect();
+        Phrases::show('client_start_chat', ['{exit}' => $socket->exitCommand]);
 
         while (true) {
-            $socket->write(readline(Phrases::get('enter_message')));
+            $message = readline(Phrases::get('enter_message'));
+
+            $socket->write($message);
+
+            if ($message === $socket->exitCommand) {
+                Phrases::show('client_finish_chat');
+                $socket->close();
+                break;
+            }
+
             Phrases::show('server_response', ['{text}' => $socket->read()]);
         }
     }

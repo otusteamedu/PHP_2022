@@ -2,8 +2,10 @@
 
 namespace KonstantinDmitrienko\App;
 
-use KonstantinDmitrienko\App\Entity\Client;
-use KonstantinDmitrienko\App\Entity\Server;
+use KonstantinDmitrienko\App\CommandControllers\Client;
+use KonstantinDmitrienko\App\CommandControllers\Server;
+use KonstantinDmitrienko\App\Socket\SocketClient;
+use KonstantinDmitrienko\App\Socket\SocketServer;
 
 /**
  * Simple server-client chat via unix socket
@@ -11,9 +13,9 @@ use KonstantinDmitrienko\App\Entity\Server;
 class App
 {
     /**
-     * @var Socket
+     * @var SocketServer|SocketClient
      */
-    protected Socket $socket;
+    protected SocketServer|SocketClient $socket;
 
     /**
      * @var Server
@@ -26,9 +28,9 @@ class App
     protected Client $client;
 
     /**
-     * @var array|false 
+     * @var array|false
      */
-    public array $configs;
+    public array|bool $configs;
 
     /**
      * Constructor
@@ -36,7 +38,6 @@ class App
     public function __construct()
     {
         $this->configs = parse_ini_file('config.ini', true);
-        $this->socket = new Socket($this->configs['socket']);
         $this->server = new Server();
         $this->client = new Client();
     }
@@ -50,13 +51,15 @@ class App
             throw new \RuntimeException('Error: Required parameter client/server is not specified.');
         }
 
-        $this->socket->create($type === 'server');
-
         switch ($type) {
             case 'server':
+                $this->socket = new SocketServer($this->configs['socket']);
+                $this->socket->create();
                 $this->server->listen($this->socket);
                 break;
             case 'client':
+                $this->socket = new SocketClient($this->configs['socket']);
+                $this->socket->create();
                 $this->client->sendMessage($this->socket);
                 break;
         }
