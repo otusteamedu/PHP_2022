@@ -28,7 +28,7 @@ CREATE TABLE "films" (
 	"Status" status not null
 );
 
-CREATE TABLE "prices" (
+CREATE TABLE "schedule" (
 	"ID" serial primary key,
 	"Hall_ID" int not null REFERENCES "halls" ("ID"),
 	"Film_ID" int not null REFERENCES "films" ("ID"),
@@ -37,7 +37,7 @@ CREATE TABLE "prices" (
 
 CREATE TABLE "price_history" (
 	"ID" serial primary key,
-	"Price_ID" int not null REFERENCES "prices" ("ID"),
+	"Price_ID" int not null REFERENCES "schedule" ("ID"),
 	"Old_price" numeric(10, 2) not null,
 	"New_price" numeric(10, 2) not null,
 	"Date" date not null
@@ -45,7 +45,7 @@ CREATE TABLE "price_history" (
 
 CREATE TABLE "tickets" (
 	"ID" serial primary key,
-	"Price_ID" int not null REFERENCES "prices" ("ID"),
+	"Price_ID" int not null REFERENCES "schedule" ("ID"),
 	"Row_ID" int REFERENCES "hall_places" ("ID"),
 	"Place" int not null,
 	"Date" date not null,
@@ -88,7 +88,7 @@ INSERT INTO films ("Title", "Duration", "Release_date", "Status") VALUES
 ('Titanic', 194, '1997-11-18', 'active'),
 ('The Avengers', 143, '2012-04-25', 'active');
 
-INSERT INTO prices ("ID", "Hall_ID", "Film_ID", "Price") VALUES
+INSERT INTO schedule ("ID", "Hall_ID", "Film_ID", "Price") VALUES
 (1, 1, 1, 300),
 (2, 1, 2, 320),
 (3, 1, 3, 310),
@@ -125,8 +125,8 @@ INSERT INTO tickets ("Price_ID", "Row_ID", "Place", "Date", "Amount") VALUES
 -- Show most profitable film
 
 SELECT "films"."Title", sum("tickets"."Amount") as "Total_profit"
-FROM "films", "tickets", "prices"
-WHERE "tickets"."Price_ID" = "prices"."ID" AND "prices"."Film_ID" = "films"."ID"
+FROM "films", "tickets", "schedule"
+WHERE "tickets"."Price_ID" = "schedule"."ID" AND "schedule"."Film_ID" = "films"."ID"
 GROUP BY "films"."Title"
 ORDER BY "Total_profit" DESC
 LIMIT 1
