@@ -55,6 +55,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./dbdata:/var/lib/mysql
+      - ./code/sql:/sql
     networks:
       - internal
 
