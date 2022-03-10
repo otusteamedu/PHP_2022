@@ -103,12 +103,9 @@ DROP TABLE IF EXISTS `film`;
 CREATE TABLE `film` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
-  `cost_id` int DEFAULT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `fk_cost_id` (`cost_id`),
-  CONSTRAINT `fk_cost_id` FOREIGN KEY (`cost_id`) REFERENCES `cost` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -118,7 +115,7 @@ CREATE TABLE `film` (
 
 LOCK TABLES `film` WRITE;
 /*!40000 ALTER TABLE `film` DISABLE KEYS */;
-INSERT INTO `film` VALUES (1,'Титаник',1,'2022-03-03 14:16:38','2022-03-03 14:17:01'),(2,'Терминатор2',2,'2022-03-03 14:16:38','2022-03-03 14:17:01'),(3,'Властелин колец',3,'2022-03-03 14:16:38','2022-03-03 14:17:01'),(4,'Форсаж9',4,'2022-03-03 14:16:38','2022-03-03 14:17:01');
+INSERT INTO `film` VALUES (1,'Титаник','2022-03-03 14:16:38','2022-03-03 14:17:01'),(2,'Терминатор2','2022-03-03 14:16:38','2022-03-03 14:17:01'),(3,'Властелин колец','2022-03-03 14:16:38','2022-03-03 14:17:01'),(4,'Форсаж9','2022-03-03 14:16:38','2022-03-03 14:17:01');
 /*!40000 ALTER TABLE `film` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,36 +148,6 @@ INSERT INTO `hall` VALUES (1,'Первый зал',1),(2,'Второй зал',1
 UNLOCK TABLES;
 
 --
--- Table structure for table `hall_film`
---
-
-DROP TABLE IF EXISTS `hall_film`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `hall_film` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `hall_id` int DEFAULT NULL,
-  `film_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `hall_film_id_uindex` (`id`),
-  KEY `fk_film_id` (`film_id`),
-  KEY `fk_hall_id` (`hall_id`),
-  CONSTRAINT `fk_film_id` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
-  CONSTRAINT `fk_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hall_film`
---
-
-LOCK TABLES `hall_film` WRITE;
-/*!40000 ALTER TABLE `hall_film` DISABLE KEYS */;
-INSERT INTO `hall_film` VALUES (1,1,1),(2,1,2),(3,1,3),(6,2,1),(7,2,2);
-/*!40000 ALTER TABLE `hall_film` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `hall_places`
 --
 
@@ -189,12 +156,18 @@ DROP TABLE IF EXISTS `hall_places`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `hall_places` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `film_id` int DEFAULT NULL,
   `hall_id` int DEFAULT NULL,
   `place_id` int DEFAULT NULL,
   `row` smallint unsigned NOT NULL,
+  `cost_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_hall_places_hall_id` (`hall_id`),
   KEY `fk_hall_places_place_id` (`place_id`),
+  KEY `fk_hall_places_cost_id` (`cost_id`),
+  KEY `fk_hall_places_film_id` (`film_id`),
+  CONSTRAINT `fk_hall_places_cost_id` FOREIGN KEY (`cost_id`) REFERENCES `cost` (`id`),
+  CONSTRAINT `fk_hall_places_film_id` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
   CONSTRAINT `fk_hall_places_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`),
   CONSTRAINT `fk_hall_places_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -206,7 +179,7 @@ CREATE TABLE `hall_places` (
 
 LOCK TABLES `hall_places` WRITE;
 /*!40000 ALTER TABLE `hall_places` DISABLE KEYS */;
-INSERT INTO `hall_places` VALUES (1,1,6,1),(2,1,4,1),(3,1,2,1),(4,1,1,1),(5,1,7,1),(6,1,5,1),(7,1,3,1);
+INSERT INTO `hall_places` VALUES (1,1,1,6,1,1),(2,1,1,4,1,2),(3,1,1,2,1,3),(4,1,1,1,1,4),(5,1,1,7,1,1),(6,1,1,5,1,2),(7,1,1,3,1,3);
 /*!40000 ALTER TABLE `hall_places` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,22 +194,16 @@ CREATE TABLE `order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
   `hall_places_id` int DEFAULT NULL,
-  `film_id` int DEFAULT NULL,
   `status_id` int NOT NULL DEFAULT '0',
-  `cost_id` int DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_id_uindex` (`id`),
-  KEY `fk_order_id` (`film_id`),
-  KEY `fk_status_id` (`status_id`),
   KEY `fk_user_id` (`user_id`),
   KEY `fk_hall_places_id` (`hall_places_id`),
-  KEY `fk_order_cost_id` (`cost_id`),
+  KEY `fk_order_status_id` (`status_id`),
   CONSTRAINT `fk_hall_places_id` FOREIGN KEY (`hall_places_id`) REFERENCES `hall_places` (`id`),
-  CONSTRAINT `fk_order_cost_id` FOREIGN KEY (`cost_id`) REFERENCES `cost` (`id`),
-  CONSTRAINT `fk_order_id` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
-  CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
+  CONSTRAINT `fk_order_status_id` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -247,7 +214,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,1,1,1,3,NULL,'2022-03-02 16:03:50','2022-04-03 16:03:57'),(2,1,1,2,1,NULL,'2022-03-02 16:03:53','2022-03-04 16:03:58'),(3,2,2,3,2,NULL,'2022-03-03 16:03:55','2022-03-03 16:03:59'),(4,2,2,4,3,NULL,'2022-03-03 16:03:56','2022-03-03 16:04:00');
+INSERT INTO `order` VALUES (1,1,1,3,'2022-03-02 16:03:50','2022-04-03 16:03:57'),(2,1,1,1,'2022-03-02 16:03:53','2022-03-04 16:03:58'),(3,2,2,2,'2022-03-03 16:03:55','2022-03-03 16:03:59'),(4,2,2,3,'2022-03-03 16:03:56','2022-03-03 16:04:00');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,4 +302,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-08 10:07:39
+-- Dump completed on 2022-03-10  5:50:38
