@@ -5,7 +5,7 @@ RUN apt-get update && \
 
 COPY hosts/application.local.conf /etc/nginx/sites-enabled/application.local.conf
 
-WORKDIR /data  
+WORKDIR /data
 
 EXPOSE 80
 

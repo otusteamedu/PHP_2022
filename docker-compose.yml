@@ -9,7 +9,8 @@ services:
     ports:
       - "80:80"
     volumes:
-       - ./app:/data/application.local
+       - ./app:/data/application.local/
+       - ./app/vendor:/data/application.local/vendor:cached
     networks:
       - app-network
 
@@ -19,7 +20,8 @@ services:
     image: myapp/php
     container_name: app1
     volumes:
-       - ./app:/data/application.local
+      - ./app:/data/application.local/
+      - ./app/vendor:/data/application.local/vendor:cached
     networks:
       - app-network
 
@@ -54,7 +56,7 @@ services:
       - "11211:11211"
 
   workspace:
-    image: php:7.4
+    image: myapp/php
     container_name: console
     volumes:
       - ./app:/data/application.local

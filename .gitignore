@@ -2,6 +2,7 @@
 .git
 dbdata
 Homestead
+vendor
 
 .gitignore
 .env
