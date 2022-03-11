@@ -1,20 +1,7 @@
 version: '3'
 
 services:
-  nginx:
-    build:
-      context: images/nginx
-    image: myapp/nginx
-    container_name: webserver
-    ports:
-      - "80:80"
-    volumes:
-       - ./app:/data/application.local/
-       - ./app/vendor:/data/application.local/vendor:cached
-    networks:
-      - app-network
-
-  app:
+  app1:
     build:
       context: images/fpm
     image: myapp/php
@@ -25,27 +12,25 @@ services:
     networks:
       - app-network
 
-  db:
-    image: mysql:5.7.22
-    container_name: db
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  app2:
+    build:
+      context: images/fpm
+    image: myapp/php
+    container_name: app2
     volumes:
-      - ./images/mysql/dbdata:/var/lib/mysql
+      - ./app:/data/application.local/
+      - ./app/vendor:/data/application.local/vendor:cached
     networks:
       - app-network
 
-
-  redis:
-    image: redis
-    container_name: redis
-    ports:
-      - "6379:6379"
+  app3:
+    build:
+      context: images/fpm
+    image: myapp/php
+    container_name: app3
     volumes:
-      - ./images/redis:/var/lib/redis
+      - ./app:/data/application.local/
+      - ./app/vendor:/data/application.local/vendor:cached
     networks:
       - app-network
 
@@ -55,11 +40,57 @@ services:
     ports:
       - "11211:11211"
 
-  workspace:
-    image: myapp/php
-    container_name: console
+  balancer:
+    build:
+      context: images/nginx
+      dockerfile: Balancer.Dockerfile
+    image: myapp/nginx
+    container_name: balancer
     volumes:
-      - ./app:/data/application.local
+      - ./app:/data/application.local/
+      - ./app/vendor:/data/application.local/vendor:cached
+
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  nginx1:
+    build:
+      context: images/nginx
+    image: myapp/nginx
+    container_name: webserver1
+    volumes:
+      - ./app:/data/application.local/
+      - ./app/vendor:/data/application.local/vendor:cached
+    ports:
+      - "81:80"
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: images/nginx
+    image: myapp/nginx
+    container_name: webserver2
+    volumes:
+      - ./app:/data/application.local/
+      - ./app/vendor:/data/application.local/vendor:cached
+    ports:
+      - "82:80"
+    networks:
+      - app-network
+
+  nginx3:
+    build:
+      context: images/nginx
+    image: myapp/nginx
+    container_name: webserver3
+    volumes:
+      - ./app:/data/application.local/
+      - ./app/vendor:/data/application.local/vendor:cached
+    ports:
+      - "83:80"
     networks:
       - app-network
 
