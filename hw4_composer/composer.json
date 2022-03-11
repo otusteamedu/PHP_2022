@@ -1,0 +1,21 @@
+{
+  "name": "nujensait/translit",
+  "description": "Strings transliterator",
+  "authors": [
+    {
+      "name": "Mishaikon",
+      "email": "mishaikon@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.3.9"
+  },
+  "require-dev": {
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "nujensait\\Translit\\": "src/"
+    }
+  }
+}
