@@ -4,41 +4,19 @@ namespace hw4\components;
 
 class CorrectBracketChecker
 {
-    public function check(string $string)
-    {
-        if (!empty($string)) {
-            $washedString = $this->washString($string);
-            return $this->testString($washedString);
-        }
-        return false;
-    }
-
     /**
-     * В тз написано, что проверять только на пустоту
-     * Поэтому допускаем, что могут быть другие символы
-     * и вычищаем их
-     * @param $string
-     * @return string $string
+     * Сначала чистим строку от других символов,
+     * затем проверяем на корректность, как регулярное выражение
      */
-    public function washString($string)
+    public function check(string $string): bool
     {
-        return preg_replace('/[^()]/', '', $string);
-    }
-
-    /**
-     * Скобочки - вполне корректные регулярные выражения
-     * Поэтому мы проверяем их на корректность с помощью валидности regexp
-     * @param $string
-     * @return bool
-     */
-    public function testString($string)
-    {
+        $result = false;
+        $string = preg_replace('/[^()]/', '', $string);
         if (!empty($string)) {
             set_error_handler(function() {}, E_WARNING);
-            $result = preg_match("/$string/", 'test') !== false;
+            $result = preg_match("/$string/", 'I love Otus') !== false;
             restore_error_handler();
-            return $result;
         }
-        return false;
+        return $result;
     }
 }
