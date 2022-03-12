@@ -34,6 +34,8 @@ class SiteController extends WebController
                    'msg' => $e->getMessage()
                ], 400);
             }
+        } else {
+            view('validate');
         }
     }
 
@@ -42,6 +44,6 @@ class SiteController extends WebController
      */
     public function actionError()
     {
-        echo 'You have error<br>';
+        view('404');
     }
 }

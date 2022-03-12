@@ -1,0 +1,29 @@
+ip: 192.168.56.56
+memory: 2048
+cpus: 2
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    - map: E:\OTUS\PHP_2022\homestad
+      to: /home/vagrant/code
+sites:
+    - map: application.local
+      to: /home/vagrant/code/public
+      php: "7.4"
+ports:
+    - send: 33060
+      to: 3306
+databases:
+    - laravel
+features:
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+services:
+    - enabled: [mysql]
+name: otus-php-2022
+hostname: otus-php-2022

@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  nginx:
+  nginx_general:
     build:
-      context: ./nginx
+      context: ./nginx/general
       dockerfile: Dockerfile
-    image: hw5/nginx
-    container_name: webserver
+    image: hw5/nginx_general
+    container_name: nginx_general
     ports:
       - "80:80"
     volumes:
@@ -15,14 +15,87 @@ services:
     networks:
       - app-network
 
-  php:
+  nginx1:
+    build:
+      context: nginx/balance
+      dockerfile: Dockerfile
+    image: hw5/nginx1
+    container_name: nginx1
+    volumes:
+      - ./code:/data/hw5.local
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: nginx/balance
+      dockerfile: Dockerfile
+    image: hw5/nginx2
+    container_name: nginx2
+    volumes:
+      - ./code:/data/hw5.local
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - app-network
+
+  nginx3:
+      build:
+        context: nginx/balance
+        dockerfile: Dockerfile
+      image: hw5/nginx3
+      container_name: nginx3
+      volumes:
+        - ./code:/data/hw5.local
+        - ./logs/nginx:/var/log/nginx
+      networks:
+        - app-network
+
+  php1:
     build:
       context: ./php
       dockerfile: Dockerfile
     image: hw5/php-fpm
-    container_name: php-fpm
+    container_name: php1
     volumes:
       - ./code:/data/hw5.local
+    networks:
+      - app-network
+
+  php2:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: hw5/php-fpm
+    container_name: php2
+    volumes:
+      - ./code:/data/hw5.local
+    networks:
+      - app-network
+
+  php3:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: hw5/php-fpm
+    container_name: php3
+    volumes:
+      - ./code:/data/hw5.local
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: db
+    ports:
+      - "3306:3306"
+    volumes:
+      - /db/etc/mysql:/etc/mysql
+      - ./logs/mysql:/var/log/mysql
+      - /dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - app-network
 
@@ -31,6 +104,16 @@ services:
     container_name: console
     volumes:
       - /code:/data/hw5.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    volumes:
+      - ./code:/data/mysite.local
+    ports:
+      - "11211:11211"
     networks:
       - app-network
 
