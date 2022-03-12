@@ -1,0 +1,18 @@
+{
+    "name": "erazdorova/hw3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Erazdorova\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ekaterina Razdorova",
+            "email": "e.razdorova@gmail.com"
+        }
+    ],
+    "require": {
+        "erazdorova/otus-userdata-package": "^1.0"
+    }
+}
