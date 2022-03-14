@@ -25,13 +25,14 @@ CREATE TABLE "attribute" (
 );
 
 CREATE TABLE "attr_value" (
-	"value_id" serial NOT NULL,
-	"attr_id" serial NOT NULL,
-	"text_val" varchar(255) NULL,
+	"attr_value_id" serial NOT NULL,
+	"attr_id"  serial NOT NULL,
+	"text_val" text NULL,
 	"bool_val" boolean NULL,
-	"date_val" date NULL,
-	"film_id" integer NOT NULL,
-	CONSTRAINT "attr_value_pk" PRIMARY KEY ("value_id")
+	"date_val" timestamp NULL,
+	"num_val"  numeric NULL,
+	"film_id"  integer NOT NULL,
+	CONSTRAINT "attr_value_pk" PRIMARY KEY ("attr_value_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -81,7 +82,7 @@ INSERT INTO attribute (attr_id, attr_name, attr_type_id) VALUES
 (12, 'Сборы в России', 9),
 (13, 'Количество рецензий', 9);
 
-INSERT INTO attr_value (value_id, attr_id, text_val, bool_val, date_val, film_id) VALUES
+INSERT INTO attr_value (attr_value_id, attr_id, text_val, bool_val, date_val, film_id) VALUES
 (1, 1, 'Рецензия критика 1', null, null, 1),
 (2, 1, 'Рецензия критика 2', null, null, 1),
 (3, 1, 'Рецензия критика 1', null, null, 2),
