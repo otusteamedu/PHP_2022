@@ -20,9 +20,9 @@ require(__DIR__ . '/../Core/Init/helpers.php');
  */
 require(__DIR__ . '/../vendor/autoload.php');
 $config = require(__DIR__ . '/../config/config.php');
+
 try {
-    $application = new App\Application($config);
-    $result = $application->run();
+    (new App\Application($config))->run();
 }catch (Core\Exceptions\InvalidApplicationConfig $e){
     echo($e->getMessage());
 }

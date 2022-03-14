@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Core\Base\Router;
 use Core\Components\Request;
+use Core\Exceptions\InvalidArgumentException;
 
 class Application
 {
@@ -15,12 +17,35 @@ class Application
      */
     protected string $id;
     protected string $baseDir;
-    protected string $controllersNamespace;
-    protected string $baseController;
-    protected string $errorAction;
+    protected string $controllersNamespace = '\\App\\Controllers';
+    protected string $baseController = 'site';
+    protected string $errorAction = 'site/error';
     protected Request $request;
+    protected Router $router;
+    static public Application $app;
 
     public function __construct(array $config = [])
+    {
+        $this->preInit($config);
+        $this->setInstance($this);
+        $this->request = new Request();
+        $this->router = new Router();
+    }
+
+    /**
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public function run() :void
+    {
+        $this->router->init();
+    }
+
+    /**
+     * @param array $config
+     * @return void
+     */
+    public function preInit(array $config) :void
     {
         if (count($config) > 0) {
             foreach ($config as $key => $param) {
@@ -29,38 +54,46 @@ class Application
                 }
             }
         }
-
-        $this->request = new Request();
     }
 
     /**
-     * @return int
-     */
-    public function run() :int
-    {
-        $defaultController = $this->request->hasQueryString() ? null : $this->baseController;
-        $controllerNamespace = $this->request->getControllerNamespace($defaultController);
-        $controllerNamespace = $this->controllersNamespace . $controllerNamespace . 'Controller';
-
-        if(class_exists($controllerNamespace)){
-            $controller = new $controllerNamespace();
-            $controller->runAction($this->request->getControllerAction($defaultController));
-        }else{
-            $this->errorActionLaunch();
-        }
-
-        return 1;
-    }
-
-    /**
+     * @param Application $instance
      * @return void
      */
-    protected function errorActionLaunch()
+    private function setInstance(Application $instance) :void
     {
-        $arr = explode('/', ltrim($this->errorAction, "/"));
-        $controller = "App\\Controllers\\".ucfirst($arr[0])."Controller";
-        $action = ucfirst($arr[1]);
-        $controller = new $controller;
-        $controller->runAction($action);
+        self::$app = $instance;
+    }
+
+    /**
+     * @return Request
+     * @throws InvalidArgumentException
+     */
+    public function getRequest() :Request
+    {
+        return $this->get('request');
+    }
+
+    /**
+     * @return Router
+     * @throws InvalidArgumentException
+     */
+    public function getRouter() :Router
+    {
+        return $this->get('router');
+    }
+
+    /**
+     * @param string $property
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function get(string $property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->{$property};
+        }
+
+        throw new InvalidArgumentException(__METHOD__ . ': Undefined Property');
     }
 }
