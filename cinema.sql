@@ -64,4 +64,6 @@ INSERT INTO "attribute_values" ("Film_ID", "Attribute_ID", "Date", "Text", "Numb
 (2, 7, '2022-04-01', null, null),
 (2, 8, '2022-04-14', null, null),
 (2, 10, current_date, null, null),
-(2, 11, current_date + INTERVAL '20 day', null, null);
+(2, 11, current_date + INTERVAL '20 day', null, null),
+(3, 10, current_date + INTERVAL '20 day', null, null),
+(4, 10, current_date + INTERVAL '20 day', null, null);
