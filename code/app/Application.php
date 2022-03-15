@@ -9,13 +9,11 @@ use Core\Exceptions\InvalidArgumentException;
 class Application
 {
     /**
-     * @var string $id
      * @var string $baseDir
      * @var string $controllersNamespace
      * @var string $baseController
      * @var string $errorAction
      */
-    protected string $id;
     protected string $baseDir;
     protected string $controllersNamespace = '\\App\\Controllers';
     protected string $baseController = 'site';
