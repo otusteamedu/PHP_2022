@@ -4,8 +4,15 @@ require_once './vendor/autoload.php';
 
 $fileManager = new App\FileManager\FileManager();
 
-$input = $fileManager->open('emails.txt', 'r');
-$output = $fileManager->createOrOpen('output.txt', 'r+');
+$inputName = trim($argv[1]);
+$outputName = trim($argv[2]);
+
+if (!$inputName || !$outputName) {
+    throw new \Exception('fill file name');
+}
+
+$input = $fileManager->open($inputName, 'r');
+$output = $fileManager->createOrOpen($outputName, 'r+');
 
 $validator = new App\Validator\EmailValidator();
 
