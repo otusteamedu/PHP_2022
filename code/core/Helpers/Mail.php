@@ -2,6 +2,10 @@
 
 namespace Core\Helpers;
 
+use App\Application;
+use Core\Widgets\Alert;
+use Core\Exceptions\InvalidArgumentException;
+
 class Mail
 {
 
@@ -20,5 +24,28 @@ class Mail
         }
 
         return false;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function checkEmail(string $email)
+    {
+        Application::$app->getValidator()->validated($email, ['required', 'email']);
+
+        if (Application::$app->getValidator()->check()) {
+            if ($dns = self::mxRecordValidate($email)) {
+                Application::$app->getSession()
+                                 ->alertMessage()
+                                 ->setFlashMessage('success', $email . ' validate email is successful', Alert::FLASH_SUCCESS);
+                Application::$app->getSession()
+                                 ->alertMessage()
+                                 ->setFlashMessage('mx_record', 'This MX records exists: target - ' . $dns, Alert::FLASH_INFO);
+            } else {
+                throw new InvalidArgumentException('This MX records is not exists for email ' . $email);
+            }
+        } else {
+           throw new InvalidArgumentException(Application::$app->getValidator()->getErrorsToString());
+        }
     }
 }

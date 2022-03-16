@@ -10,16 +10,10 @@ class WebController
      */
     protected string $defaultAction = 'index';
     protected Request $request;
-    protected Response $response;
-    protected Session $session;
-    protected Validator $validator;
 
     public function __construct()
     {
         $this->request = new Request();
-        $this->response = new Response();
-        $this->session = new Session();
-        $this->validator = new Validator();
     }
 
     /**
