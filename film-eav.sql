@@ -26,12 +26,13 @@ CREATE TABLE "attribute" (
 
 CREATE TABLE "attr_value" (
 	"attr_value_id" serial NOT NULL,
-	"attr_id"  serial NOT NULL,
-	"text_val" text NULL,
-	"bool_val" boolean NULL,
-	"date_val" timestamp NULL,
-	"num_val"  numeric NULL,
-	"film_id"  integer NOT NULL,
+	"attr_id"   serial NOT NULL,
+	"text_val"  text NULL,
+	"bool_val"  boolean NULL,
+	"date_val"  timestamp NULL,
+	"int_val"   integer NULL,
+	"float_val" float NULL,
+	"film_id"   integer NOT NULL,
 	CONSTRAINT "attr_value_pk" PRIMARY KEY ("attr_value_id")
 ) WITH (
   OIDS=FALSE

@@ -1,8 +1,10 @@
 select f.film_name as "Фильм", at.type_name as "Тип", a.attr_name as "Аттрибут",
 CASE
-       WHEN v.text_val IS NOT NULL THEN v.text_val::text
-       WHEN v.bool_val IS NOT NULL THEN v.bool_val::text
-       WHEN v.date_val IS NOT NULL THEN v.date_val::text
+       WHEN v.text_val  IS NOT NULL THEN v.text_val::text
+       WHEN v.bool_val  IS NOT NULL THEN v.bool_val::text
+       WHEN v.date_val  IS NOT NULL THEN v.date_val::text
+       WHEN v.int_val   IS NOT NULL THEN v.int_val::text
+       WHEN v.float_val IS NOT NULL THEN v.float_val::text
 END AS "Значение"
 from attr_value v
 join film f on f.film_id=v.film_id
