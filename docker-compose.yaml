@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:11.2-alpine
+    volumes:
+      - ./dump/dump.sql:/docker-entrypoint-initdb.d/create_extension.sql
+      - .dev/postgres:/var/lib/postgresql/data
+    ports:
+      - "54321:5432"
+    environment:
+      - "POSTGRES_DB=cinema"
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=root"
+    networks:
+      - local
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+        PGADMIN_DEFAULT_PASSWORD: root
+    volumes:
+        - .dev/pgadmin:/data/postgres
+    ports:
+        - "8080:80"
+    networks:
+        - local
+
+networks:
+  local:
+    driver: bridge
