@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/data/hw7.local
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myapp/php-fpm
+    container_name: php
+    volumes:
+      - ./code:/data/hw7.local
+    networks:
+      - app-network
+
+  php-server:
+    build:
+      context: ./php/server
+      dockerfile: Dockerfile
+    image: myapp/php-fpm
+    container_name: php-server
+    volumes:
+      - ./code:/data/hw7.local
+    networks:
+      - app-network
+
+  php-client:
+    build:
+      context: ./php/client
+      dockerfile: Dockerfile
+    image: myapp/php-fpm
+    container_name: php-client
+    volumes:
+      - ./code:/data/hw7.local
+    networks:
+      - app-network
+
+  workspace:
+    image: php:7.4
+    container_name: console
+    volumes:
+      - /code:/data/hw7.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
