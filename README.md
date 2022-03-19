@@ -1,3 +1,10 @@
 # PHP_2022
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Homework 11
+
+1. Сначала создаем пользовательские функции. Необходимые для заполнения данными функции находятся в файле functions.sql
+2. Создаем таблицы из файла create_tables.sql
+3. Заполняем таблицы данными из файла insert_data.sql
+4. Тяжелые запросы находятся в файле hard_query.sql
+5. Легкие запросы - в разработке
+
