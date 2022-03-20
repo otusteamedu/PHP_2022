@@ -1,17 +1,4 @@
-create table if not exists film
-(
-    film_id      serial
-        constraint film_pk
-            primary key,
-    film_name    varchar(255) not null,
-    description  text,
-    premier_date timestamp
-);
-
-alter table film
-    owner to root;
-
-create table if not exists attr_type
+create table attr_type
 (
     type_id   serial
         constraint attr_type_pk
@@ -25,7 +12,7 @@ create table if not exists attr_type
 alter table attr_type
     owner to root;
 
-create table if not exists attribute
+create table attribute
 (
     attr_id      serial
         constraint attribute_pk
@@ -40,7 +27,69 @@ create table if not exists attribute
 alter table attribute
     owner to root;
 
-create table if not exists attr_value
+create table cinema_hall
+(
+    hall_id            serial
+        constraint cinema_hall_pk
+            primary key,
+    name               varchar(100) not null,
+    quantity_of_places integer      not null
+);
+
+alter table cinema_hall
+    owner to root;
+
+create table place_type
+(
+    place_type_id serial
+        constraint place_type_pk
+            primary key,
+    type          varchar(255) not null
+);
+
+alter table place_type
+    owner to root;
+
+create table session
+(
+    session_id serial
+        constraint session_pk
+            primary key,
+    title      varchar(255) not null,
+    time       time         not null
+);
+
+alter table session
+    owner to root;
+
+create table genre
+(
+    genre_id serial
+        constraint genre_pk
+            primary key,
+    title    varchar not null
+);
+
+alter table genre
+    owner to root;
+
+create table film
+(
+    film_id      serial
+        constraint film_pk
+            primary key,
+    film_name    varchar(255) not null,
+    description  text,
+    premier_date timestamp,
+    genre_id     integer
+        constraint genre_id_fk
+            references genre
+);
+
+alter table film
+    owner to root;
+
+create table attr_value
 (
     attr_value_id serial
         constraint attr_value_pk
@@ -61,42 +110,10 @@ create table if not exists attr_value
 alter table attr_value
     owner to root;
 
-create table if not exists cinema_hall
-(
-    hall_id            serial
-        constraint cinema_hall_pk
-            primary key,
-    name               varchar(100) not null,
-    quantity_of_places integer      not null
-);
+create index text_val_index
+    on attr_value (text_val);
 
-alter table cinema_hall
-    owner to root;
-
-create table if not exists place_type
-(
-    place_type_id serial
-        constraint place_type_pk
-            primary key,
-    type          varchar(255) not null
-);
-
-alter table place_type
-    owner to root;
-
-create table if not exists session
-(
-    session_id serial
-        constraint session_pk
-            primary key,
-    title      varchar(255) not null,
-    time       time         not null
-);
-
-alter table session
-    owner to root;
-
-create table if not exists price
+create table price
 (
     price_id      serial
         constraint price_pk
@@ -119,7 +136,7 @@ create table if not exists price
 alter table price
     owner to root;
 
-create table if not exists ticket
+create table ticket
 (
     ticket_id     serial
         constraint ticket_pk
@@ -132,3 +149,5 @@ create table if not exists ticket
 
 alter table ticket
     owner to root;
+
+
