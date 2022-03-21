@@ -4,7 +4,7 @@ WHERE EXTRACT(YEAR FROM t."Date") = EXTRACT(YEAR FROM now())
       and EXTRACT(MONTH FROM t."Date") = EXTRACT(MONTH FROM now())
 ORDER BY t."Date" DESC LIMIT 20;
 
--- Get 10 films with Duration more 2 hours and less 2.5 hours
+-- Get 10 films with Duration more 2 hours and less 3 hours
 SELECT f.* FROM "films" f
 WHERE f."Duration" >= 120 AND f."Duration" <= 180
 ORDER BY f."Duration" LIMIT 10;
