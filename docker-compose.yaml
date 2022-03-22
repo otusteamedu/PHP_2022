@@ -1,4 +1,4 @@
-version: '3'
+version: "3.7"
 
 services:
   postgres:
@@ -7,7 +7,7 @@ services:
       - ./dump/dump.sql:/docker-entrypoint-initdb.d/create_extension.sql
       - .dev/postgres:/var/lib/postgresql/data
     ports:
-      - "54321:5432"
+      - "54322:5432"
     environment:
       - "POSTGRES_DB=cinema"
       - "POSTGRES_USER=root"
@@ -25,7 +25,7 @@ services:
     volumes:
         - .dev/pgadmin:/data/postgres
     ports:
-        - "8080:80"
+        - "8081:80"
     networks:
         - local
 
