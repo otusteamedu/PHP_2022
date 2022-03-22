@@ -70,3 +70,5 @@ CREATE TABLE ticket
     film_session_id INT REFERENCES film_session (id),
     place_id INT REFERENCES place (id)
 );
+
+ALTER TABLE ticket ALTER COLUMN price TYPE REAL;
