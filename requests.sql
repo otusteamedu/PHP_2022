@@ -1,3 +1,6 @@
+SET max_parallel_workers_per_gather = 8;
+SET work_mem TO '64MB';
+
 -- Get 20 tickets in current month
 SELECT t.* FROM "tickets" t
 WHERE EXTRACT(YEAR FROM t."Date") = EXTRACT(YEAR FROM now())
