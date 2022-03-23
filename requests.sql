@@ -28,10 +28,10 @@ AND h."Title" LIKE 'Hall IMAX'
 LIMIT 1;
 
 -- Get the most profitable film
-SELECT "films"."Title", sum("tickets"."Amount") as "Total_profit"
-FROM "films", "tickets", "schedule"
-WHERE "tickets"."Schedule_ID" = "schedule"."ID" AND "schedule"."Film_ID" = "films"."ID"
-GROUP BY "films"."Title"
+SELECT f."Title", sum(t."Amount") AS "Total_profit" FROM "tickets" t
+LEFT JOIN "schedule" sh ON sh."ID" = t."Schedule_ID"
+LEFT JOIN "films" f ON f."ID" = sh."Film_ID"
+GROUP BY f."Title"
 ORDER BY "Total_profit" DESC
 LIMIT 1;
 
