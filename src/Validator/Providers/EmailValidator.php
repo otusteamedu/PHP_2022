@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Validator;
+namespace App\Validator\Providers;
+
+use App\Validator\Contracts\ValidatorInterface;
 
 class EmailValidator implements ValidatorInterface
 {
