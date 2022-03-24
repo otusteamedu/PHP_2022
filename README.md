@@ -1,3 +1,18 @@
 # PHP_2022
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Instructions (HW10 ElasticSearch)
+
+### Checkout GIT project
+```
+git clone https://github.com/otusteamedu/PHP_2022.git
+git checkout KDmitrienko/hw10
+```
+
+### Run app
+
+```
+cd code && composer install && cd ..
+docker-compose up -d
+
+
+```
