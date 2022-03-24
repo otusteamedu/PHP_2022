@@ -1,0 +1,18 @@
+{
+    "name": "sergey.krasilnikov/code",
+    "description": "home work #5 OTUS PHP 2022",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Krasilnikov.Sergey",
+            "email": "sergey.krasilnikov@udkgazbeton.com"
+        }
+    ],
+    "require": {}
+}

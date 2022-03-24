@@ -35,6 +35,7 @@ services:
     container_name: php-server
     volumes:
       - ./code:/data/hw7.local
+      - "sock:/var/tmp"
     networks:
       - app-network
 
@@ -46,6 +47,9 @@ services:
     container_name: php-client
     volumes:
       - ./code:/data/hw7.local
+      - "sock:/var/tmp"
+    depends_on:
+      - 'php-server'
     networks:
       - app-network
 
@@ -56,6 +60,9 @@ services:
       - /code:/data/hw7.local
     networks:
       - app-network
+
+volumes:
+  sock:
 
 networks:
   app-network:
