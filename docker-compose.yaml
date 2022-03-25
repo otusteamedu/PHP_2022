@@ -15,19 +15,19 @@ services:
     networks:
       - local
 
-  pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-        PGADMIN_DEFAULT_EMAIL: admin@admin.com
-        PGADMIN_DEFAULT_PASSWORD: root
-    volumes:
-        - .dev/pgadmin:/data/postgres
-    ports:
-        - "8081:80"
-    networks:
-        - local
+#  pgadmin:
+#    container_name: pgadmin4_container
+#    image: dpage/pgadmin4
+#    restart: always
+#    environment:
+#        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#        PGADMIN_DEFAULT_PASSWORD: root
+#    volumes:
+#        - .dev/pgadmin:/data/postgres
+#    ports:
+#        - "8081:80"
+#    networks:
+#        - local
 
 networks:
   local:

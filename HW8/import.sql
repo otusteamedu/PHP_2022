@@ -1,4 +1,4 @@
-CREATE DATABASE "cinema_busines";
+CREATE DATABASE "cinema";
 
 CREATE SEQUENCE sequence_id INCREMENT 1 START 1;
 
@@ -11,10 +11,10 @@ CREATE TABLE "type_price"
 );
 
 CREATE TABLE price_history(
-                              "id" SERIAL NOT NULL PRIMARY KEY,
-                              "type_price_id" serial NOT NULL,
-                              "date_time" TIMESTAMP NOT NULL,
-                              "price" DEC(10,2) NOT NULL,
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "type_price_id" serial NOT NULL,
+    "date_time" TIMESTAMP NOT NULL,
+    "price" DEC(10,2) NOT NULL
 );
 
 CREATE SEQUENCE serial START 1;
