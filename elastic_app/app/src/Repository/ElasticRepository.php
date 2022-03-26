@@ -73,4 +73,8 @@ class ElasticRepository
         ];
     }
 
+    public function search(array $query)
+    {
+        return $this->client->search($query);
+    }
 }

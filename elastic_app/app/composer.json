@@ -11,6 +11,7 @@
         "slim/slim": "^4.10",
         "slim/psr7": "dev-master",
         "elasticsearch/elasticsearch": "7.*",
-        "pavelgaponenko/pg-otus-composer-package": "^1.0"
+        "pavelgaponenko/pg-otus-composer-package": "^1.0",
+        "worksolutions/php-collections": "^1.1"
     }
 }
