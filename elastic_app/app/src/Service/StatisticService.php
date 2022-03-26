@@ -15,7 +15,6 @@ class StatisticService
         $this->repository = $repository;
     }
 
-    #[ArrayShape(['like' => "int", 'dislike' => "int"])]
     public function getChannelLikes(string $channelId): array
     {
         $query = [

@@ -2,8 +2,6 @@
 
 namespace Elastic\App\Model;
 
-use JetBrains\PhpStorm\ArrayShape;
-
 class Video implements ElasticModel
 {
     private const INDEX = 'video';

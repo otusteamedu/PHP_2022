@@ -74,12 +74,6 @@ class Channel implements ElasticModel
         $this->subscribers = (int)$data['subscribers'];
     }
 
-    #[ArrayShape([
-        'id' => "string",
-        'name' => "string",
-        'description' => "string",
-        'subscribers' => "int"
-    ])]
     public function toArray(): array
     {
         return [
