@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ilia\Otus;
 
+use Exception;
 use Ilia\Otus\Http\Request;
 use Ilia\Otus\Http\Response;
 
@@ -21,39 +22,38 @@ class BracketValidation
 
     public function run($string)
     {
-
-
-        if (!$string) {   
-            $this->response->setContent('Строка пустая');
-            $this->response->setStatusCode(400);
-            return $this->response->send();
-        }
-
-        $counter = 0;
-
-        $openBracket = ['('];
-        $closedBracket = [')'];
-
-        $length = strlen($string);
-
-        for ($i = 0; $i < $length; $i++) {
-            $char = $string[$i];
-
-            if (in_array($char, $openBracket)) {
-                $counter++;
-            } elseif (in_array($char, $closedBracket)) {
-                $counter--;
+        try{
+            if (!$string) {   
+                throw new \Exception('Строка пустая', 400);               
             }
-        }
-
-        if ($counter != 0) {
-            $this->response->setContent('Строка не валидна');
-            $this->response->setStatusCode(400);
+    
+            $counter = 0;
+    
+            $openBracket = ['('];
+            $closedBracket = [')'];
+    
+            $length = strlen($string);
+    
+            for ($i = 0; $i < $length; $i++) {
+                $char = $string[$i];
+    
+                if (in_array($char, $openBracket)) {
+                    $counter++;
+                } elseif (in_array($char, $closedBracket)) {
+                    $counter--;
+                }
+            }
+    
+            if ($counter != 0) {               
+                throw new \Exception('Строка не валидна', 400);          
+            }
+            
+            $this->response->setContent('Строка валидна');
+        } catch ( Exception $e){
+            $this->response->setContent($e->getMessage());
+            $this->response->setStatusCode($e->getCode()); 
+        } finally {
             return $this->response->send();
-      
-        }
-        
-        $this->response->setContent('Строка валидна');
-        return $this->response->send();
+        }   
     }
 }
