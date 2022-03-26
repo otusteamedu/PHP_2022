@@ -12,6 +12,8 @@ class Video implements ElasticModel
     private string $name;
     private string $description;
     private string $time;
+    private int $likeCount;
+    private int $dislikeCount;
     private string $channelId;
 
     public static function create(): self
@@ -63,6 +65,28 @@ class Video implements ElasticModel
         return $this;
     }
 
+    public function getLikeCount(): int
+    {
+        return $this->likeCount;
+    }
+
+    public function setLikeCount(int $likeCount): self
+    {
+        $this->likeCount = $likeCount;
+        return $this;
+    }
+
+    public function getDislikeCount(): int
+    {
+        return $this->dislikeCount;
+    }
+
+    public function setDislikeCount(int $dislikeCount): self
+    {
+        $this->dislikeCount = $dislikeCount;
+        return $this;
+    }
+
     public function getChannelId(): string
     {
         return $this->channelId;
@@ -84,16 +108,19 @@ class Video implements ElasticModel
         $this->name = (string)$data['name'];
         $this->description = (string)$data['description'];
         $this->time = (string)$data['time'];
+        $this->likeCount = (int)$data['likeCount'];
+        $this->dislikeCount = (int)$data['dislikeCount'];
         $this->channelId = (string)$data['channelId'];
     }
 
-    #[ArrayShape(['name' => "string", 'description' => "string", 'time' => "string", 'channelId' => "string"])]
     public function toArray(): array
     {
         return [
             'name' => $this->name,
             'description' => $this->description,
             'time' => $this->time,
+            'likeCount' => $this->likeCount,
+            'dislikeCount' => $this->dislikeCount,
             'channelId' => $this->channelId,
         ];
     }

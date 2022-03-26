@@ -31,6 +31,8 @@ class VideoController
             ->setName($data['name'])
             ->setDescription($data['description'])
             ->setTime($data['time'])
+            ->setLikeCount($data['likeCount'])
+            ->setDislikeCount($data['dislikeCount'])
             ->setChannelId($data['channelId']);
 
         $result = $this->service->addVideo($video);
