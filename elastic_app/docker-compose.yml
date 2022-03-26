@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: app
+    build: ./fpm
+    environment:
+      - PHP_IDE_CONFIG=serverName=application
+    volumes:
+      - ./app:/var/www
+      - ./app/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - app-net
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    ports:
+      - ${APP_PORT}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./app:/var/www
+    networks:
+      - app-net
+
+  elasticsearch:
+    image: elasticsearch:7.7.0
+    ports:
+      - ${ELASTIC_SEARCH_PORT}
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - ./volumes/elastic:/usr/share/elasticsearch/data
+    networks:
+      - app-net
+    restart: always
+
+networks:
+  app-net:
+    driver: bridge
