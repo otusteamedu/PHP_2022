@@ -17,12 +17,12 @@ class VideoService
 
     public function addVideo(Video $channel): array
     {
-        return $this->repository->set($channel);
+        return $this->repository->setDocument($channel);
     }
 
     public function getVideo(string $index, string $id): ElasticModel
     {
-        return $this->repository->get($index, $id);
+        return $this->repository->getDocument($index, $id);
     }
 
     public function deleteVideo(string $index, string $id = ''): array

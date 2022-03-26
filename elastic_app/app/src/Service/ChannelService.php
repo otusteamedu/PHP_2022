@@ -17,12 +17,12 @@ class ChannelService
 
     public function createChannel(Channel $channel): array
     {
-        return $this->repository->set($channel);
+        return $this->repository->setDocument($channel);
     }
 
     public function getChannel(string $index, string $id): ElasticModel
     {
-        return $this->repository->get($index, $id);
+        return $this->repository->getDocument($index, $id);
     }
 
     public function deleteChannel(string $index, string $id = ''): array

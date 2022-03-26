@@ -20,7 +20,17 @@ class ElasticRepository
         $this->modelFactory = $modelFactory;
     }
 
-    public function set(ElasticModel $model): array
+    public function createIndex(string $index): array
+    {
+        $result = $this->client->index(['index' => $index]);
+
+        return [
+            'result' => $result['result'],
+            'index' => $result['_index'],
+        ];
+    }
+
+    public function setDocument(ElasticModel $model): array
     {
         $result = $this->client->index([
             'index' => $model->getIndex(),
@@ -35,7 +45,7 @@ class ElasticRepository
         ];
     }
 
-    public function get(string $index, string $id): ElasticModel
+    public function getDocument(string $index, string $id): ElasticModel
     {
         $data = $this->client->get([
            'index' => $index,
