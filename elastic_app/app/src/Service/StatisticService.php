@@ -3,7 +3,6 @@
 namespace Elastic\App\Service;
 
 use Elastic\App\Repository\ElasticRepository;
-use JetBrains\PhpStorm\ArrayShape;
 use WS\Utils\Collections\CollectionFactory;
 
 class StatisticService
