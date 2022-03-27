@@ -249,6 +249,35 @@ create index price_history_date_time_index
 
 **Выводы**: После добавления индексов, самый дорогой по ресурсам запрос не выжрал память и за 44 секунды смог вычислить полезные данные. Скорость обработки запросов с индексами увеличилась в несколько раз относительно таблиц, у которых было 1 млн записей. В таблицах где было мало записей, время работы практически не менялось. Индексы нужны больше всего на тех таблицах, где хранится большое количество данных. 
 
+Пример сложных запросов:
+
+- Самый прибыльный фильм
+```SQL
+select film.name, sum(ph.price) as price from film
+  left join cinema_sessions cs on film.id = cs.film_id
+  left join cinema_hall_place chp on cs.id = chp.cinema_session_id
+  left join tickets t on chp.id = t.cinema_hall_place_id
+  left join price_history ph on t.price_history_id = ph.id
+  left join type_price tp on ph.type_price_id = tp.id
+GROUP BY film.name
+ORDER BY price DESC LIMIT 1;
+```
+
+- Список фильмов на определенный диапазон времени:
+```SQL
+select film.name, cs.date_time_start as price from film
+    left join cinema_sessions cs on film.id = cs.film_id
+where cs.date_time_start between '2022-03-27 00:00:00' AND '2022-03-27 23:00:00';
+```
+
+- Получение занятых мест на определенный сеанс фильма
+```SQL
+select film.name, count(chp.id) from film
+  left join cinema_sessions cs on film.id = cs.film_id
+  left join cinema_hall_place chp on cs.id = chp.cinema_session_id
+where cs.id = 21
+GROUP BY film.name;
+```
 # Настройки по работе с PgAdmin
 
 ## PgAdmin (адрес и креды для PgAdmin)
@@ -263,4 +292,4 @@ create index price_history_date_time_index
  - DB: cinema
  - Username: root
  - Password: root
-
+ 
