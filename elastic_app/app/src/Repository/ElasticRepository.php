@@ -6,6 +6,7 @@ use Elastic\App\Model\ElasticModel;
 use Elastic\App\Model\Factory\ElasticModelFactory;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use WS\Utils\Collections\CollectionFactory;
 
 class ElasticRepository
 {
@@ -73,8 +74,23 @@ class ElasticRepository
         ];
     }
 
-    public function search(array $query)
+    /**
+     * @param array $query
+     * @return ElasticModel[]
+     */
+    public function search(array $query): array
     {
-        return $this->client->search($query);
+        $result = $this->client->search($query);
+
+        return CollectionFactory::from($result['hits']['hits'])
+            ->stream()
+            ->map(function (array $elem) {
+                $model = $this->modelFactory->get((string)$elem['_index']);
+                $model->setId((string)$elem['_id']);
+                $model->setData((array)$elem['_source']);
+
+                return $model;
+            })
+            ->toArray();
     }
 }

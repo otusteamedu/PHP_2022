@@ -2,6 +2,8 @@
 
 namespace Elastic\App\Service;
 
+use Elastic\App\Model\Channel;
+use Elastic\App\Model\Video;
 use Elastic\App\Repository\ElasticRepository;
 use WS\Utils\Collections\CollectionFactory;
 
@@ -27,9 +29,7 @@ class StatisticService
             ]
         ];
 
-        $result = $this->repository->search($query);
-
-        $videos = (array)$result['hits']['hits'];
+        $videos = $this->repository->search($query);
 
         return [
             'like' => $this->getLikeSum($videos),
@@ -39,21 +39,14 @@ class StatisticService
 
     public function getTopChannels(int $limit): array
     {
-        $result = $this->repository->search(['index' => 'channel']);
+        $channels = $this->repository->search(['index' => 'channel']);
 
-        $channelIds = CollectionFactory::from((array)$result['hits']['hits'])
+        $limit = count($channels) < $limit ? count($channels) : $limit;
+
+        return CollectionFactory::from($channels)
             ->stream()
-            ->map(function (array $channel) {
-                return (string)$channel['_id'];
-            })
-            ->toArray();
-
-        $limit = count($channelIds) < $limit ? count($channelIds) : $limit;
-
-        return CollectionFactory::from($channelIds)
-            ->stream()
-            ->sortByDesc(function (string $channelId) {
-                $channelLikes = $this->getChannelLikes($channelId);
+            ->sortByDesc(function (Channel $channel) {
+                $channelLikes = $this->getChannelLikes($channel->getId());
 
                 if (!$channelLikes['dislike']) {
                     return $channelLikes['like'];
@@ -62,6 +55,9 @@ class StatisticService
                 return $channelLikes['like'] / $channelLikes['dislike'];
             })
             ->limit($limit)
+            ->map(function (Channel $channel) {
+                return $channel->getName();
+            })
             ->toArray();
     }
 
@@ -69,8 +65,8 @@ class StatisticService
     {
         return (int)CollectionFactory::from($videos)
             ->stream()
-            ->reduce(function (array $video, $carry = null) {
-                $carry += (int)$video['_source']['likeCount'];
+            ->reduce(function (Video $video, $carry = null) {
+                $carry += $video->getLikeCount();
                 return $carry;
             });
     }
@@ -79,8 +75,8 @@ class StatisticService
     {
         return (int)CollectionFactory::from($videos)
             ->stream()
-            ->reduce(function (array $video, $carry = null) {
-                $carry += (int)$video['_source']['dislikeCount'];
+            ->reduce(function (Video $video, $carry = null) {
+                $carry += $video->getDislikeCount();
                 return $carry;
             });
     }
