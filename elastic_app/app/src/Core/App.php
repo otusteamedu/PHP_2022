@@ -24,7 +24,7 @@ class App
             $app->map(['GET'], '/info/getTopChannels', InfoController::class . ':getTopChannels');
             $app->run();
         } catch (Exception $e) {
-
+            header('Status: 500 Error: ' . $e->getMessage());
         }
     }
 }
