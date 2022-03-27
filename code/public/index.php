@@ -5,6 +5,6 @@ use Ilia\Otus\BracketValidation;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 $validator = new BracketValidation();
-$validator->run($_POST['string']);
+$validator->run();
 
 

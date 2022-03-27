@@ -20,9 +20,11 @@ class BracketValidation
         }
     }
 
-    public function run($string)
+    public function run()
     {
         try{
+            $string = $_POST['string'];
+            
             if (!$string) {   
                 throw new \Exception('Строка пустая', 400);               
             }

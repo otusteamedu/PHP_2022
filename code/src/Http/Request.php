@@ -17,23 +17,14 @@ class Request
      */
     public function getPathInfo()
     {
-        // получаем значения:
-        // 
-        // - URI без имени хоста
-        // - строки запроса после ? 
-        // - имя выполняемого скрипта
-        $request_uri = $_SERVER['REQUEST_URI'];
-        $query_string = $_SERVER['QUERY_STRING'];
-        $script_name = $_SERVER['SCRIPT_NAME'];
-
         // извлекаем из URI путь запроса,
         $path_info = str_replace(
-            '?' . $query_string,
+            '?' . $_SERVER['QUERY_STRING'],
             '',
-            $request_uri
+            $_SERVER['REQUEST_URI']
         );
         $path_info = str_replace(
-            $script_name,
+            $_SERVER['SCRIPT_NAME'],
             '',
             $path_info
         );
