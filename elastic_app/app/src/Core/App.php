@@ -14,6 +14,7 @@ class App
     {
         try {
             $app = AppFactory::create();
+
             $app->map(['POST'], '/channel/create', ChannelController::class . ':create');
             $app->map(['GET'], '/channel/get', ChannelController::class . ':get');
             $app->map(['GET'], '/channel/delete', ChannelController::class . ':delete');
@@ -22,6 +23,7 @@ class App
             $app->map(['GET'], '/video/delete', VideoController::class . ':delete');
             $app->map(['GET'], '/info/getChannelLikes', InfoController::class . ':getChannelLikes');
             $app->map(['GET'], '/info/getTopChannels', InfoController::class . ':getTopChannels');
+
             $app->run();
         } catch (Exception $e) {
             header('Status: 500 Error: ' . $e->getMessage());
