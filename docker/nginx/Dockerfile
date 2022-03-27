@@ -4,9 +4,9 @@ RUN apt-get update
 
 RUN apt-get install -y nginx
 
-WORKDIR /data
+WORKDIR /var/www
 
-VOLUME /data
+VOLUME /var/www/application.local
 
 EXPOSE 80
 
