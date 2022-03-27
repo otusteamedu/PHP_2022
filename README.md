@@ -2,7 +2,7 @@
 
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
 
-# !!! Осторожно c файлом /dump/dump.sql - может быть 40 миллионов записей в 2х таблицах !!!
+# !!! Осторожно c файлом /dump/dump.sql - может быть 1 миллион записей в таблицах !!!
 Они будут созданы из генеративных циклов в /dump/dump.sql. Данный файл будет отработан один раз, при первичном создании БД. 
 
 
