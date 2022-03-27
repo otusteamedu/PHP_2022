@@ -42,8 +42,8 @@ CREATE TABLE "film" (
     "film_time_minutes" integer NOT NULL,
     "rating" integer NOT NULL,
     "date_start" DATE NOT NULL,
-    "date_finish" DATE NOT NULL --,
---     CONSTRAINT "film_pk" PRIMARY KEY ("id")
+    "date_finish" DATE NOT NULL,
+    CONSTRAINT "film_pk" PRIMARY KEY ("id")
 ) WITH (
       OIDS=FALSE
     );
@@ -52,8 +52,8 @@ CREATE TABLE "type_price" (
     "id" serial NOT NULL,
     "name" varchar(255) NOT NULL,
     "description" TEXT NOT NULL,
-    "cost" DECIMAL(5, 2) NOT NULL --,
---     CONSTRAINT "type_price_pk" PRIMARY KEY ("id")
+    "cost" DECIMAL(5, 2) NOT NULL,
+    CONSTRAINT "type_price_pk" PRIMARY KEY ("id")
 ) WITH (
       OIDS=FALSE
     );
@@ -62,12 +62,11 @@ CREATE TABLE "price_history" (
     "id" serial NOT NULL,
     "type_price_id" integer NOT NULL,
     "date_time" TIMESTAMP NOT NULL,
-    "price" DECIMAL(5, 2) NOT NULL --,
---     CONSTRAINT "price_history_pk" PRIMARY KEY ("id")
+    "price" DECIMAL(5, 2) NOT NULL,
+    CONSTRAINT "price_history_pk" PRIMARY KEY ("id")
 ) WITH (
       OIDS=FALSE
     );
-
 
 
 -- Dump first data
@@ -99,7 +98,7 @@ VALUES  ('VIP билеты', 'VIP билеты', 900.00),
 DO
 $$
     BEGIN
-        FOR i IN 1..10000 LOOP
+        FOR i IN 1..1000000 LOOP
                 INSERT INTO price_history (type_price_id, date_time, price)
                 VALUES (
                            (SELECT (random() * 4 + 1)::int),
@@ -114,10 +113,10 @@ $$;
 DO
 $$
     BEGIN
-        FOR i IN 1..400000 LOOP
+        FOR i IN 1..1000000 LOOP
                 INSERT INTO cinema_sessions (date_time_start, cinema_hall_id, film_id)
                 VALUES (
-                               now() - i * interval '1 day',
+                               now() - i * interval '10 minutes',
                                (SELECT (random() * 5 + 1)::int),
                                (SELECT (random() * 2 + 1)::int)
                        );
@@ -128,11 +127,14 @@ $$;
 
 DO
 $$
+    DECLARE myvar integer;
     BEGIN
+        SELECT (SELECT max(id) - 1 FROM cinema_sessions) INTO myvar;
+
         FOR i IN 1..(SELECT count(id) FROM price_history) LOOP
             INSERT INTO cinema_hall_place (cinema_session_id)
             VALUES (
-               (SELECT (random() * (SELECT max(id) - 1 FROM cinema_sessions) + 1)::int)
+               (SELECT (random() * myvar + 1)::int)
             );
 
         END LOOP;
@@ -149,7 +151,6 @@ $$
                            (SELECT id from cinema_hall_place LIMIT 1 OFFSET i - 1),
                            (SELECT id from price_history LIMIT 1 OFFSET i - 1)
                        );
-
             END LOOP;
     END;
 $$;
@@ -157,14 +158,14 @@ $$;
 
 
 
--- FOREIGN KEYS
+-- -- FOREIGN KEYS
 
-ALTER TABLE "cinema_hall_place" ADD CONSTRAINT "cinema_hall_place_fk0" FOREIGN KEY ("cinema_session_id") REFERENCES "cinema_sessions" ("id");
-
-ALTER TABLE "cinema_sessions" ADD CONSTRAINT "cinema_sessions_fk0" FOREIGN KEY ("cinema_hall_id") REFERENCES "cinema_hall" ("id");
-ALTER TABLE "cinema_sessions" ADD CONSTRAINT "cinema_sessions_fk1" FOREIGN KEY ("film_id") REFERENCES "film" ("id");
-
-ALTER TABLE "tickets" ADD CONSTRAINT "tickets_fk0" FOREIGN KEY ("cinema_hall_place_id") REFERENCES "cinema_hall_place" ("id");
-ALTER TABLE "tickets" ADD CONSTRAINT "tickets_fk1" FOREIGN KEY ("price_history_id") REFERENCES "price_history" ("id");
-
-ALTER TABLE "price_history" ADD CONSTRAINT "price_history_fk0" FOREIGN KEY ("type_price_id") REFERENCES "type_price" ("id");
+-- ALTER TABLE "cinema_hall_place" ADD CONSTRAINT "cinema_hall_place_fk0" FOREIGN KEY ("cinema_session_id") REFERENCES "cinema_sessions" ("id");
+--
+-- ALTER TABLE "cinema_sessions" ADD CONSTRAINT "cinema_sessions_fk0" FOREIGN KEY ("cinema_hall_id") REFERENCES "cinema_hall" ("id");
+-- ALTER TABLE "cinema_sessions" ADD CONSTRAINT "cinema_sessions_fk1" FOREIGN KEY ("film_id") REFERENCES "film" ("id");
+--
+-- ALTER TABLE "tickets" ADD CONSTRAINT "tickets_fk0" FOREIGN KEY ("cinema_hall_place_id") REFERENCES "cinema_hall_place" ("id");
+-- ALTER TABLE "tickets" ADD CONSTRAINT "tickets_fk1" FOREIGN KEY ("price_history_id") REFERENCES "price_history" ("id");
+--
+--  ALTER TABLE "price_history" ADD CONSTRAINT "price_history_fk0" FOREIGN KEY ("type_price_id") REFERENCES "type_price" ("id");
