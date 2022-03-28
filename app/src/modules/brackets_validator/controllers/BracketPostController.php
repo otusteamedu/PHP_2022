@@ -1,11 +1,11 @@
 <?php
 
-namespace hw4\modules\brackets_validator\controllers;
+namespace nka\otus\modules\brackets_validator\controllers;
 
-use hw4\core\exceptions\ApplicationException;
-use hw4\modules\brackets_validator\base\AbstractModuleController;
-use hw4\modules\brackets_validator\components\CorrectBracketChecker;
-use hw4\core\Request;
+use nka\otus\core\exceptions\ApplicationException;
+use nka\otus\modules\brackets_validator\base\AbstractModuleController;
+use nka\otus\modules\brackets_validator\components\CorrectBracketChecker;
+use nka\otus\core\Request;
 
 class BracketPostController extends AbstractModuleController
 {

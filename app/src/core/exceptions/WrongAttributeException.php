@@ -1,8 +1,8 @@
 <?php
 
-namespace hw4\core\exceptions;
+namespace nka\otus\core\exceptions;
 
-class WrongAttributeException extends ApplicationException
+class WrongAttributeException extends CoreException
 {
     protected $message = 'Wrong attribute';
 }

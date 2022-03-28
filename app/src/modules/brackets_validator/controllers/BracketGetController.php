@@ -1,13 +1,13 @@
 <?php
 
-namespace hw4\modules\brackets_validator\controllers;
+namespace nka\otus\modules\brackets_validator\controllers;
 
-use hw4\core\View;
-use hw4\modules\brackets_validator\base\AbstractModuleController;
+use nka\otus\core\View;
+use nka\otus\modules\brackets_validator\base\AbstractModuleController;
 
 class BracketGetController extends AbstractModuleController
 {
-    public function run()
+    public function run(): View
     {
         return $this->render('main');
     }

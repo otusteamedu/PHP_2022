@@ -1,33 +1,11 @@
 version: '3'
 
 services:
-  app1:
+  app:
     build:
       context: images/fpm
     image: myapp/php
-    container_name: app1
-    volumes:
-      - ./app:/data/application.local/
-      - ./app/vendor:/data/application.local/vendor:cached
-    networks:
-      - app-network
-
-  app2:
-    build:
-      context: images/fpm
-    image: myapp/php
-    container_name: app2
-    volumes:
-      - ./app:/data/application.local/
-      - ./app/vendor:/data/application.local/vendor:cached
-    networks:
-      - app-network
-
-  app3:
-    build:
-      context: images/fpm
-    image: myapp/php
-    container_name: app3
+    container_name: app
     volumes:
       - ./app:/data/application.local/
       - ./app/vendor:/data/application.local/vendor:cached
@@ -40,57 +18,16 @@ services:
     ports:
       - "11211:11211"
 
-  balancer:
+  nginx:
     build:
       context: images/nginx
-      dockerfile: Balancer.Dockerfile
     image: myapp/nginx
-    container_name: balancer
+    container_name: webserver
     volumes:
       - ./app:/data/application.local/
       - ./app/vendor:/data/application.local/vendor:cached
-
     ports:
       - "80:80"
-    networks:
-      - app-network
-
-  nginx1:
-    build:
-      context: images/nginx
-    image: myapp/nginx
-    container_name: webserver1
-    volumes:
-      - ./app:/data/application.local/
-      - ./app/vendor:/data/application.local/vendor:cached
-    ports:
-      - "81:80"
-    networks:
-      - app-network
-
-  nginx2:
-    build:
-      context: images/nginx
-    image: myapp/nginx
-    container_name: webserver2
-    volumes:
-      - ./app:/data/application.local/
-      - ./app/vendor:/data/application.local/vendor:cached
-    ports:
-      - "82:80"
-    networks:
-      - app-network
-
-  nginx3:
-    build:
-      context: images/nginx
-    image: myapp/nginx
-    container_name: webserver3
-    volumes:
-      - ./app:/data/application.local/
-      - ./app/vendor:/data/application.local/vendor:cached
-    ports:
-      - "83:80"
     networks:
       - app-network
 

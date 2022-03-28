@@ -1,6 +1,6 @@
 <?php
 
-namespace hw4\core\exceptions;
+namespace nka\otus\core\exceptions;
 
 class RouteNotFoundException extends ApplicationException
 {

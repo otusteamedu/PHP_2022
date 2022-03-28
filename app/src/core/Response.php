@@ -1,6 +1,6 @@
 <?php
 
-namespace hw4\core;
+namespace nka\otus\core;
 
 class Response
 {

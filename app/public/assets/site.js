@@ -29,7 +29,7 @@ function resultCallback(res, string) {
         }
         card.classList.add(successOutline)
         title.innerText = 'Проверка пройдена успешна!';
-        text.innerText = 'В строке ' + string + ' скобки расположны корректно!';
+        text.innerText = 'Строка ' + string + ' корректна!';
 
     } else {
         if (card.classList.contains(successOutline)) {

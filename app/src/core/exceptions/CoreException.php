@@ -2,7 +2,7 @@
 
 namespace nka\otus\core\exceptions;
 
-class ApplicationException extends \Exception
+class CoreException extends \Exception
 {
 
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace hw4\modules\brackets_validator\base;
+namespace nka\otus\modules\brackets_validator\base;
 
 
-use hw4\core\AbstractController;
+use nka\otus\core\AbstractController;
 
 abstract class AbstractModuleController extends AbstractController
 {

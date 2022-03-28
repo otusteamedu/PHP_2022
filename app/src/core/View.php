@@ -1,8 +1,8 @@
 <?php
 
-namespace hw4\core;
+namespace nka\otus\core;
 
-use hw4\core\exceptions\ApplicationException;
+use nka\otus\core\exceptions\ApplicationException;
 
 class View
 {

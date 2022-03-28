@@ -2,13 +2,13 @@
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use hw4\core\App;
-use hw4\core\Request;
-use hw4\core\RequestHandler;
-use hw4\core\Response;
-use hw4\modules\brackets_validator\components\CorrectBracketChecker;
-use hw4\modules\brackets_validator\controllers\BracketGetController;
-use hw4\modules\brackets_validator\controllers\BracketPostController;
+use nka\otus\core\App;
+use nka\otus\core\Request;
+use nka\otus\core\RequestHandler;
+use nka\otus\core\Response;
+use nka\otus\modules\brackets_validator\components\CorrectBracketChecker;
+use nka\otus\modules\brackets_validator\controllers\BracketGetController;
+use nka\otus\modules\brackets_validator\controllers\BracketPostController;
 use function DI\create;
 use function DI\get;
 use function FastRoute\simpleDispatcher;

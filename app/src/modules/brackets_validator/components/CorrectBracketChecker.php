@@ -1,6 +1,6 @@
 <?php
 
-namespace hw4\modules\brackets_validator\components;
+namespace nka\otus\modules\brackets_validator\components;
 
 class CorrectBracketChecker
 {

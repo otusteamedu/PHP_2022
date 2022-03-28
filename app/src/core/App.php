@@ -1,9 +1,9 @@
 <?php
 
-namespace hw4\core;
+namespace nka\otus\core;
 
 
-use hw4\core\exceptions\ApplicationException;
+use nka\otus\core\exceptions\ApplicationException;
 use Psr\Container\ContainerInterface;
 
 class App extends Component
@@ -34,7 +34,6 @@ class App extends Component
      */
     public function run()
     {
-
         $response = $this->response;
 
         try {
@@ -44,12 +43,10 @@ class App extends Component
                     $this->getPathConfig()
                 )
             );
-
         } catch (ApplicationException $e) {
             $response->createResponse($e->getMessage(), $e->getCode());
-        } finally {
-            $response->send();
         }
+        $response->send();
     }
 
     private function setPathConfig()

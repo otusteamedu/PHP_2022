@@ -1,12 +1,12 @@
 <?php
 
-namespace hw4\core;
+namespace nka\otus\core;
 
 use DI\Container;
 use FastRoute\Dispatcher;
-use hw4\core\exceptions\ApplicationException;
-use hw4\core\exceptions\MethodNotAllowedException;
-use hw4\core\exceptions\RouteNotFoundException;
+use nka\otus\core\exceptions\ApplicationException;
+use nka\otus\core\exceptions\MethodNotAllowedException;
+use nka\otus\core\exceptions\RouteNotFoundException;
 
 class RequestHandler
 {
