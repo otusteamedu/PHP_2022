@@ -3,12 +3,12 @@
 namespace Core\Helpers;
 
 use App\Application;
+use Core\Base\Validator;
 use Core\Widgets\Alert;
 use Core\Exceptions\InvalidArgumentException;
 
 class Mail
 {
-
     /**
      * @param string $email
      * @return false|mixed
@@ -29,11 +29,12 @@ class Mail
     /**
      * @throws InvalidArgumentException
      */
-    public static function checkEmail(string $email)
+    public static function checkEmail(string $email): void
     {
-        Application::$app->getValidator()->validated($email, ['required', 'email']);
+        $validator = new Validator();
+        $validator->validated($email, ['required', 'email']);
 
-        if (Application::$app->getValidator()->check()) {
+        if ($validator->check()) {
             if ($dns = self::mxRecordValidate($email)) {
                 Application::$app->getSession()
                                  ->alertMessage()
@@ -45,7 +46,7 @@ class Mail
                 throw new InvalidArgumentException('This MX records is not exists for email ' . $email);
             }
         } else {
-           throw new InvalidArgumentException(Application::$app->getValidator()->getErrorsToString());
+           throw new InvalidArgumentException($validator->getErrorsToString());
         }
     }
 }

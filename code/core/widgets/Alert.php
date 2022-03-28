@@ -2,8 +2,6 @@
 
 namespace Core\Widgets;
 
-use Core\Base\Session;
-
 class Alert
 {
     const FLASH = 'FLASH_MESSAGES';

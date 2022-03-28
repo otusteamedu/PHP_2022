@@ -5,7 +5,6 @@ namespace App;
 use Core\Base\Response;
 use Core\Base\Router;
 use Core\Base\Session;
-use Core\Base\Validator;
 use Core\Components\Request;
 use Core\Exceptions\InvalidArgumentException;
 
@@ -25,7 +24,6 @@ class Application
     protected Router $router;
     protected Response $response;
     protected Session $session;
-    protected Validator $validator;
     static public Application $app;
 
     public function __construct(array $config = [])
@@ -36,7 +34,6 @@ class Application
         $this->router = new Router();
         $this->response = new Response();
         $this->session = new Session();
-        $this->validator = new Validator();
     }
 
     /**
@@ -106,15 +103,6 @@ class Application
     public function getSession() :Session
     {
         return $this->get('session');
-    }
-
-    /**
-     * @return Validator
-     * @throws InvalidArgumentException
-     */
-    public function getValidator() :Validator
-    {
-        return $this->get('validator');
     }
 
     /**

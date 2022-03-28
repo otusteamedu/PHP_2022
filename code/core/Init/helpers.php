@@ -1,7 +1,5 @@
 <?php
 
-use Widgets\Alert;
-
 if (! function_exists('view'))
 {
     /**
@@ -25,5 +23,16 @@ if (! function_exists('session'))
     function session()
     {
         return new \Core\Base\Session();
+    }
+}
+
+if(! function_exists('validator')) {
+
+    /**
+     * @return \Core\Base\Validator
+     */
+    function validator()
+    {
+        return new \Core\Base\Validator();
     }
 }
