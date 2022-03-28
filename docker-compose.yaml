@@ -16,7 +16,6 @@ services:
     ports:
       - "80:80"
     volumes:
-       #- ./code:/var/www/application.local
        - ./docker/nginx/hosts/balancer.conf:/etc/nginx/conf.d/application.local.conf
     networks:
       - app-network
