@@ -2,8 +2,6 @@
 
 namespace hw4\core;
 
-use http\Message\Body;
-
 class Response
 {
     public array $headers = [];
@@ -35,7 +33,7 @@ class Response
             $rawBody = $this->body->renderBody();
         } else {
             $this->headers['Content-Type'] = self::JSON;
-            $bodyArray['status'] = $this->status > 400 ? 'success' : 'error';
+            $bodyArray['status'] = $this->status >= 400 ? 'error' : 'success';
             $bodyArray['code'] = $this->status;
             if (is_array($this->body)) {
                 $bodyArray['data'] = $this->body;
@@ -50,9 +48,11 @@ class Response
 
     public function send()
     {
+        $stdout = fopen('php://stdout', 'w');
         $rawBody = $this->prepareResponse();
         $this->sendHeaders();
         echo $rawBody;
+        fclose($stdout);
     }
 
     public function sendHeaders()

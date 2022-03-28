@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use DI\ContainerBuilder;
+use hw4\core\App;
 
 require '../vendor/autoload.php';
 
@@ -15,6 +16,9 @@ $appContainer = $containerBuilder->build();
 
 /**
  * Получаем и запускаем приложение
+ * @var App $app
  */
 $app = $appContainer->get('app');
+
+$app->setContainer($appContainer);
 $app->run();

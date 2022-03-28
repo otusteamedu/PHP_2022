@@ -2,25 +2,30 @@
 
 namespace hw4\core;
 
-use hw4\controllers\MainController;
 
-class App
+use hw4\core\exceptions\ApplicationException;
+use Psr\Container\ContainerInterface;
+
+class App extends Component
 {
-    protected string $basePath = '';
-    protected string $publicDir = '/public/';
-    protected string $projectDir = '/src/';
-    protected string $viewsDir = 'views';
-    protected string $baseLayout = 'layout';
+    protected string $basePath   =  '';
+    protected string $publicDir  =  '/public/';
+    protected string $projectDir =  '/src/';
+    protected string $modulesDir =  'modules';
+    protected string $viewsDir   =  'views';
+    protected string $baseLayout =  'layout';
+    protected array $pathConfig  =  [];
+    protected ContainerInterface $container;
 
     public function __construct(
-        public MainController $controller,
-        public Request $request,
-        public Response $response,
-        array $config = []
+        public Request           $request,
+        public Response          $response,
+        protected RequestHandler $handler,
+        array                    $config = []
     )
     {
-        $this->loadConfig($config);
-        $this->setUpController();
+        $this->loadParams($config);
+        $this->setPathConfig();
     }
 
     /**
@@ -29,31 +34,46 @@ class App
      */
     public function run()
     {
+
         $response = $this->response;
 
         try {
-            $responseBody = match ($this->request->getMethod()) {
-                'GET' => $this->controller->actionGet(),
-                'POST' => $this->controller->actionPost(),
-            };
-            $response->createResponse($responseBody);
-        } catch (Exception $e) {
+            $response->createResponse(
+                $this->handler->handle(
+                    $this->getContainer(),
+                    $this->getPathConfig()
+                )
+            );
+
+        } catch (ApplicationException $e) {
             $response->createResponse($e->getMessage(), $e->getCode());
         } finally {
             $response->send();
         }
     }
 
-    private function setUpController()
+    private function setPathConfig()
     {
-        $this->controller->viewsDir = $this->projectDir . $this->viewsDir . '/';
-        $this->controller->layout = $this->baseLayout;
+        $this->pathConfig = [
+            'layoutDir' => $this->projectDir . $this->viewsDir . '/',
+            'layout' => $this->baseLayout,
+            'projectDir' => $this->projectDir,
+            'viewsDir' => $this->viewsDir
+        ];
     }
 
-    private function loadConfig($config = [])
+    private function getPathConfig(): array
     {
-        foreach ($config as $attribute => $value) {
-            $this->$attribute = $value;
-        }
+        return $this->pathConfig;
+    }
+
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    public function getContainer(): ContainerInterface
+    {
+        return $this->container;
     }
 }

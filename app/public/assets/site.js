@@ -1,6 +1,5 @@
 function check() {
     let string = document.getElementById('str-input').value;
-    console.log(string)
 
     fetch('/', {
             method: 'POST',

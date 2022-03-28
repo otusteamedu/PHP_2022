@@ -7,12 +7,14 @@ class Request
     protected string $method = '';
     protected array $body = [];
     protected array $headers = [];
+    protected string $uri;
 
     public function __construct()
     {
         $this->setMethod();
         $this->setHeaders();
         $this->setBody();
+        $this->setUri();
     }
 
     public function setMethod()
@@ -53,5 +55,15 @@ class Request
     public function getValue(string $name)
     {
         return $this->body[$name] ?? null;
+    }
+
+    public function setUri()
+    {
+        $this->uri = $_SERVER['REQUEST_URI'];
+    }
+
+    public function getUri(): string
+    {
+        return $this->uri;
     }
 }

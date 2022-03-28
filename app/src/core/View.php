@@ -2,6 +2,8 @@
 
 namespace hw4\core;
 
+use hw4\core\exceptions\ApplicationException;
+
 class View
 {
     protected string $content = '';
@@ -16,12 +18,16 @@ class View
 
     protected function getContent()
     {
-        ob_start();
-        extract($this->variables);
-        include $this->getFileName($this->view);
-        $content = ob_get_contents();
-        ob_end_clean();
-        return $content;
+        $view = $this->getFileName($this->view);
+        if (file_exists($view)) {
+            ob_start();
+            extract($this->variables);
+            include $this->getFileName($this->view);
+            $content = ob_get_contents();
+            ob_end_clean();
+            return $content;
+        }
+        throw new ApplicationException('Cannot find view file ' . $view);
     }
 
     public function renderBody()
@@ -29,8 +35,8 @@ class View
         $content = $this->getContent();
         ob_start();
         include $this->getFileName($this->layout);
-            $output = ob_get_contents();
-            ob_end_clean();
+        $output = ob_get_contents();
+        ob_end_clean();
         return $output;
     }
 
@@ -38,7 +44,4 @@ class View
     {
         return $file . '.php';
     }
-
-
-
 }
