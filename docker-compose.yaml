@@ -114,7 +114,7 @@ services:
     image: memcached:latest
     container_name: memcached
     ports:
-      - "127.55.0.1:11211:11211"
+      - "11211:11211"
     networks:
       - app-network
 
