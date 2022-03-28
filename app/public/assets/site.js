@@ -1,7 +1,8 @@
 function check() {
     let string = document.getElementById('str-input').value;
+    let uri = window.location.href
 
-    fetch('/', {
+    fetch(uri, {
             method: 'POST',
             body: JSON.stringify({
                 string: string
