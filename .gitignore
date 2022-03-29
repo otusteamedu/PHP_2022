@@ -1,4 +1,4 @@
 .idea/
 /code/vendor/
 .env
-elastic-search-data/
+tmp/

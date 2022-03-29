@@ -2,15 +2,13 @@
 
 namespace KonstantinDmitrienko\App;
 
-// use Elastic\Elasticsearch\ClientBuilder;
-
 use Elasticsearch\ClientBuilder;
 use KonstantinDmitrienko\App\Interfaces\StorageInterface;
 
 class ElasticSearch implements StorageInterface
 {
-    private $elasticSearchClient;
-    private $hosts = [];
+    private \Elasticsearch\Client $elasticSearchClient;
+    private array                 $hosts;
 
     public function __construct()
     {
@@ -19,40 +17,24 @@ class ElasticSearch implements StorageInterface
     }
 
     /**
-     * @param array $statement
+     * @param array $request
      *
      * @return array
      */
-    public function search(array $data): array
+    public function search(array $request): array
     {
-        echo "<pre>";
-        var_dump($data);
-
-        // $response = $this->elasticSearchClient->getSource($data);
-
-        $params['index'] = 'youtube_channel';
-        $response = $this->elasticSearchClient->indices()->stats($params);
-        echo "<pre>";
-        print_r($response);
-        exit;
-
         $params = [
             'index' => 'youtube_channel',
             'body'  => [
                 'query' => [
                     'match' => [
-                        'Title' => $data['title']
+                        'query' => $request['youtube']['name']
                     ]
                 ]
             ]
         ];
 
-        print_r($params);
-
-        $response = $this->elasticSearchClient->search($params);
-
-        print_r($response);
-        exit;
+        return $this->elasticSearchClient->search($params);
     }
 
     /**
@@ -68,9 +50,9 @@ class ElasticSearch implements StorageInterface
      *
      * @return void
      */
-    public function add($data): void
+    public function add($data): array
     {
-        $this->elasticSearchClient->index($data);
+        return $this->elasticSearchClient->index($data);
     }
 
     /**

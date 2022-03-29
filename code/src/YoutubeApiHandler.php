@@ -16,67 +16,66 @@ class YoutubeApiHandler
         $this->client = new Google_Client();
         $this->client->setApplicationName('YoutubeChannelsAnalyzer');
         $this->client->setDeveloperKey(getenv('YOUTUBE_API_KEY'));
-
-        // Define service object for making API requests.
         $this->service = new Google_Service_YouTube($this->client);
     }
 
     public function getChannelInfo($request): array
     {
         try {
+            // Find channel by name
             $response = $this->service->channels->listChannels(
                 'snippet,contentDetails,statistics',
                 ['forUsername' => $request['youtube']['name']]
             );
+
+            // Find channel by ID
+            if (!$response['items']) {
+                $response = $this->service->channels->listChannels(
+                    'snippet,contentDetails,statistics',
+                    ['id' => $request['youtube']['name']]
+                );
+            }
         } catch (RuntimeException $e) {
             throw new RuntimeException('Error. Data about channel is not found.');
         }
 
-        return [
-            'ID'          => $response['items'][0]['id'],
-            'Title'       => $response['items'][0]['snippet']['title'],
-            'Description' => $response['items'][0]['snippet']['description'],
-            'PlaylistID'  => $response['items'][0]['contentDetails']['relatedPlaylists']['uploads'],
-        ];
+        if ($response['items']) {
+            return [
+                'ID'          => $response['items'][0]['id'],
+                'Title'       => $response['items'][0]['snippet']['title'],
+                'Description' => $response['items'][0]['snippet']['description'],
+            ];
+        }
+
+        throw new RuntimeException('Error. Channel is not found by ID/Username.');
     }
 
-    public function getChannelVideosInfo(string $channelID)
+    public function getChannelVideosInfo(string $channelID): array
     {
         try {
+            $videos = [];
+            // do {
+                $videosInfo = $this->service->search->listSearch('snippet', ['channelId' => $channelID]);
 
-            $response = $this->service->search->listSearch('snippet', ['channelId' => $channelID, 'maxResults' => 5]);
+                foreach ($videosInfo['items'] as $item) {
+                    $videoInfo = $this->service->videos->listVideos(
+                        'snippet,statistics',
+                        ['id' => $item['id']['videoId']]
+                    );
 
-            $index = 0;
-            foreach ($response['items'] as $item) {
-                $videos[$index] = [
-                    'ID'          => $item['id']['videoId'],
-                    'Title'       => $item['snippet']['title'],
-                    'Description' => $item['snippet']['description'],
-                ];
+                    $videos[] = [
+                        'ID'          => $item['id']['videoId'],
+                        'Title'       => $item['snippet']['title'],
+                        'Description' => $item['snippet']['description'],
+                        'Likes'       => $videoInfo['items'][0]['statistics']['likeCount'],
+                        'Dislikes'    => $videoInfo['items'][0]['statistics']['dislikeCount'],
+                    ];
+                }
+            // } while ($videosInfo['nextPageToken']);
 
-                echo "<pre>";
-                print_r($response);
-                print_r($this->service->videos->listVideos(['id' => $item['id']['video_id']]));
-                exit;
-
-                $index++;
-            }
-
-
-
-//            if ($response['nextPageToken']);
-//
-//            do {
-//                $videosInfo = $this->service->search->listSearch('snippet', ['channelId' => $playlistID, 'maxResults' => 50]);
-//            } while ($response['nextPageToken']);
-
-
-            echo "<pre>";
-            print_r($response);
-            print_r($videos);
-            exit;
+            return $videos;
         } catch (RuntimeException $e) {
-            throw new RuntimeException('Error. Data about channel is not found.');
+            throw new RuntimeException('Error. Data about channel videos is not found.');
         }
     }
 }
