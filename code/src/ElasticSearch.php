@@ -2,26 +2,20 @@
 
 namespace KonstantinDmitrienko\App;
 
-use Elastic\Elasticsearch\ClientBuilder;
-use Elastic\Elasticsearch\Exception\AuthenticationException;
-use KonstantinDmitrienko\App\Interfaces\ElasticSearchInterface;
+// use Elastic\Elasticsearch\ClientBuilder;
 
-class ElasticSearch implements ElasticSearchInterface
+use Elasticsearch\ClientBuilder;
+use KonstantinDmitrienko\App\Interfaces\StorageInterface;
+
+class ElasticSearch implements StorageInterface
 {
     private $elasticSearchClient;
+    private $hosts = [];
 
-    private $hosts = [
-        'elastic_search',
-    ];
-    private YoutubeApiHandler $youtubeApi;
-
-    /**
-     * @throws AuthenticationException
-     */
-    public function __construct($youtubeApi)
+    public function __construct()
     {
-        $this->elasticSearchClient = ClientBuilder::create()->setHosts(['elastic_search:' . getenv('ES_PORT')])->build();
-        $this->youtubeApi = $youtubeApi;
+        $this->hosts = ['elastic_search:' . getenv('ES_PORT')];
+        $this->elasticSearchClient = ClientBuilder::create()->setHosts($this->hosts)->build();
     }
 
     /**
@@ -29,9 +23,36 @@ class ElasticSearch implements ElasticSearchInterface
      *
      * @return array
      */
-    public function search(array $statement): array
+    public function search(array $data): array
     {
-        // TODO: Implement search() method.
+        echo "<pre>";
+        var_dump($data);
+
+        // $response = $this->elasticSearchClient->getSource($data);
+
+        $params['index'] = 'youtube_channel';
+        $response = $this->elasticSearchClient->indices()->stats($params);
+        echo "<pre>";
+        print_r($response);
+        exit;
+
+        $params = [
+            'index' => 'youtube_channel',
+            'body'  => [
+                'query' => [
+                    'match' => [
+                        'Title' => $data['title']
+                    ]
+                ]
+            ]
+        ];
+
+        print_r($params);
+
+        $response = $this->elasticSearchClient->search($params);
+
+        print_r($response);
+        exit;
     }
 
     /**
@@ -43,24 +64,13 @@ class ElasticSearch implements ElasticSearchInterface
     }
 
     /**
-     * @param $request
+     * @param $data
      *
-     * @return bool
-     * @throws \Elastic\Elasticsearch\Exception\ClientResponseException
-     * @throws \Elastic\Elasticsearch\Exception\MissingParameterException
-     * @throws \Elastic\Elasticsearch\Exception\ServerResponseException
+     * @return void
      */
-    public function add($request): bool
+    public function add($data): void
     {
-        $channelInfo = $this->youtubeApi->getChannelInfo($request);
-        $cache = ['index' => 'youtube_channel', 'id' => $channelInfo['ID'], 'body' => $channelInfo];
-
-        echo "<pre>";
-        var_dump($cache);
-        var_dump( $this->elasticSearchClient->index([$cache]) );
-        exit;
-
-        return true;
+        $this->elasticSearchClient->index($data);
     }
 
     /**

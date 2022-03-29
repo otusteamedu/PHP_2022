@@ -9,7 +9,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "elasticsearch/elasticsearch": "^8.0",
+        "elasticsearch/elasticsearch": "^7.0",
         "google/apiclient": "^2.12"
     },
     "autoload": {

@@ -36,6 +36,47 @@ class YoutubeApiHandler
             'ID'          => $response['items'][0]['id'],
             'Title'       => $response['items'][0]['snippet']['title'],
             'Description' => $response['items'][0]['snippet']['description'],
+            'PlaylistID'  => $response['items'][0]['contentDetails']['relatedPlaylists']['uploads'],
         ];
+    }
+
+    public function getChannelVideosInfo(string $channelID)
+    {
+        try {
+
+            $response = $this->service->search->listSearch('snippet', ['channelId' => $channelID, 'maxResults' => 5]);
+
+            $index = 0;
+            foreach ($response['items'] as $item) {
+                $videos[$index] = [
+                    'ID'          => $item['id']['videoId'],
+                    'Title'       => $item['snippet']['title'],
+                    'Description' => $item['snippet']['description'],
+                ];
+
+                echo "<pre>";
+                print_r($response);
+                print_r($this->service->videos->listVideos(['id' => $item['id']['video_id']]));
+                exit;
+
+                $index++;
+            }
+
+
+
+//            if ($response['nextPageToken']);
+//
+//            do {
+//                $videosInfo = $this->service->search->listSearch('snippet', ['channelId' => $playlistID, 'maxResults' => 50]);
+//            } while ($response['nextPageToken']);
+
+
+            echo "<pre>";
+            print_r($response);
+            print_r($videos);
+            exit;
+        } catch (RuntimeException $e) {
+            throw new RuntimeException('Error. Data about channel is not found.');
+        }
     }
 }

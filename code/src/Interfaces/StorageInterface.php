@@ -2,9 +2,9 @@
 
 namespace KonstantinDmitrienko\App\Interfaces;
 
-interface ElasticSearchInterface
+interface StorageInterface
 {
-    public function search(array $statement): array;
+    public function search(array $data): array;
 
     public function getAll(): array;
 
@@ -12,7 +12,7 @@ interface ElasticSearchInterface
 
     // public function create($channel): void;
 
-    public function add($request): bool;
+    public function add($data): void;
 
     public function delete(string $channelId): void;
 

@@ -20,7 +20,7 @@ class App
     public function __construct() {
         $this->view = new View();
         $this->youtubeApi = new YoutubeApiHandler();
-        $this->storage = new ElasticSearch($this->youtubeApi);
+        $this->storage = new ElasticSearch();
     }
 
     /**
@@ -40,13 +40,27 @@ class App
         switch ($request['youtube']['action']) {
             case 'add_channel':
                 RequestValidator::checkChannelName($request);
-                $this->storage->add($request);
+
+                $channelInfo = $this->youtubeApi->getChannelInfo($request);
+
+                $this->storage->add([
+                    'index' => 'youtube_channel',
+                    'id'    => $channelInfo['ID'],
+                    'body'  => $channelInfo
+                ]);
+
+                echo "<pre>";
+                print_r($channelInfo);
+
+                $videos = $this->youtubeApi->getChannelVideosInfo($channelInfo['ID']);
+
+                print_r($videos);
+                exit;
+
+
+                Response::success('Channel successfully added.');
                 break;
         }
-
-        echo "<pre>";
-        var_dump($request);
-        exit;
 
     }
 }
