@@ -109,14 +109,23 @@ RUN echo -e "\n\n====================== Remove unised ======================\n" 
     && dpkg -la | awk '{print $2}' | grep '\-dev' | xargs apt-get remove -y \
     && rm -rf /tmp/*
 
-WORKDIR /var/www
-
 # Add user for laravel application
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www
+
+# Set working directory
+WORKDIR /var/www
+
+# Configs, etc
+COPY docker-compose/php/local.ini /usr/local/etc/php/conf.d/local.ini
+
+RUN mkfifo /tmp/stdout && chmod 777 /tmp/stdout
+
+# Change current user to www
+USER www
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000

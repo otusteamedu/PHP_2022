@@ -5,7 +5,7 @@ ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 root = $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 compose = docker-compose
 
-app = $(compose) run -T workspace
+app = $(compose) run --user www -T workspace
 artisan = $(app) php artisan
 
 pull:
@@ -33,7 +33,7 @@ app-key-generate:
 	$(app) php artisan key:generate
 
 console-in:
-	$(compose) run workspace bash
+	$(compose) run --user www workspace bash
 
 migrate:
 	$(app) php artisan migrate --no-interaction
