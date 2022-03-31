@@ -2,19 +2,19 @@
 
 namespace Nka\Otus\Core\Http;
 
+use Nka\Otus\Core\Http\Headers\ContentTypeHeader;
+use Nka\Otus\Core\Http\Headers\HeaderInterface;
 use Nka\Otus\Core\View;
 
 class Response
 {
+    /**
+     * @var array<HeaderInterface>
+     */
     public array $headers = [];
 
     public string|View $body;
     public int $status = 200;
-
-
-    const JSON = 'application/json';
-    const HTML = 'text/html';
-    const PLAIN = 'text/plain';
 
     public function createResponse(
         string|View $body,
@@ -29,35 +29,39 @@ class Response
 
     protected function prepareResponse(): string
     {
+        $header = new ContentTypeHeader();
         if ($this->body instanceof View) {
-            $this->headers['Content-Type'] = self::HTML;
+            $header->setValue(ContentTypeHeader::HTML);
             $rawBody = $this->body->renderBody();
         } else {
-            $this->headers['Content-Type'] = self::JSON;
+            $header->setValue(ContentTypeHeader::JSON);
+
             $bodyArray['status'] = $this->status >= 400 ? 'error' : 'success';
             $bodyArray['code'] = $this->status;
             $bodyArray['message'] = $this->body;
 
             $rawBody = json_encode($bodyArray, JSON_UNESCAPED_UNICODE);
         }
+        $this->addHeader($header);
         return $rawBody;
     }
 
     public function send()
     {
-        $stdout = fopen('php://stdout', 'w');
         $rawBody = $this->prepareResponse();
         $this->sendHeaders();
         echo $rawBody;
-        fclose($stdout);
     }
 
     public function sendHeaders()
     {
         http_response_code($this->status);
-        array_walk($this->headers, function ($value, $header) {
-            header($header . ': ' . $value);
-        });
+        array_walk($this->headers, fn (HeaderInterface $header) => header((string)$header));
+    }
+
+    public function addHeader(HeaderInterface $header)
+    {
+        $this->headers[] = $header;
     }
 
 }
