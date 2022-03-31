@@ -1,10 +1,10 @@
 <?php
 
 use FastRoute\RouteCollector;
-use nka\otus\modules\brackets_validator\controllers\BracketGetController;
-use nka\otus\modules\brackets_validator\controllers\BracketPostController;
-use nka\otus\modules\email_validator\controllers\EmailGetController;
-use nka\otus\modules\email_validator\controllers\EmailPostController;
+use Nka\Otus\Modules\BracketsValidator\Controllers\BracketGetController;
+use Nka\Otus\Modules\BracketsValidator\Controllers\BracketPostController;
+use Nka\Otus\Modules\EmailValidator\Controllers\EmailGetController;
+use Nka\Otus\Modules\EmailValidator\Controllers\EmailPostController;
 
 /**
  * @var RouteCollector $r

@@ -2,16 +2,17 @@
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use nka\otus\core\App;
-use nka\otus\core\Request;
-use nka\otus\core\RequestHandler;
-use nka\otus\core\Response;
-use nka\otus\modules\brackets_validator\components\CorrectBracketChecker;
-use nka\otus\modules\brackets_validator\controllers\BracketGetController;
-use nka\otus\modules\brackets_validator\controllers\BracketPostController;
-use nka\otus\modules\email_validator\components\CorrectEmailChecker;
-use nka\otus\modules\email_validator\controllers\EmailGetController;
-use nka\otus\modules\email_validator\controllers\EmailPostController;
+use Nka\Otus\Components\Checker\CheckerService;
+use Nka\Otus\Core\App;
+use Nka\Otus\Core\Http\Request;
+use Nka\Otus\Core\Http\RequestHandler;
+use Nka\Otus\Core\Http\Response;
+use Nka\Otus\Modules\BracketsValidator\Components\CorrectBracketChecker;
+use Nka\Otus\Modules\BracketsValidator\Controllers\BracketGetController;
+use Nka\Otus\Modules\BracketsValidator\Controllers\BracketPostController;
+use Nka\Otus\Modules\EmailValidator\Components\CorrectEmailChecker;
+use Nka\Otus\Modules\EmailValidator\Controllers\EmailGetController;
+use Nka\Otus\Modules\EmailValidator\Controllers\EmailPostController;
 use function DI\create;
 use function DI\get;
 use function FastRoute\simpleDispatcher;
@@ -21,7 +22,6 @@ $config = include "config.php";
 return [
     'app' => create(App::class)
         ->constructor(
-            get(Request::class),
             get(Response::class),
             get(RequestHandler::class),
             $config
@@ -31,7 +31,6 @@ return [
             get(Dispatcher::class),
             get(Request::class)
         ),
-    Request::class => create(Request::class),
     Dispatcher::class => function () {
         return simpleDispatcher(fn(RouteCollector $r) => include "routes.php");
     },
@@ -39,12 +38,14 @@ return [
     BracketPostController::class => create(BracketPostController::class)
         ->constructor(
             get(Request::class),
-            get(CorrectBracketChecker::class)
+            create(CheckerService::class)
+                ->constructor(get(CorrectBracketChecker::class))
         ),
     EmailGetController::class => create(EmailGetController::class),
     EmailPostController::class => create(EmailPostController::class)
         ->constructor(
             get(Request::class),
-            get(CorrectEmailChecker::class)
+            create(CheckerService::class)
+                ->constructor(get(CorrectEmailChecker::class))
         ),
 ];
