@@ -1,0 +1,108 @@
+version: '3'
+
+services:
+  nginx-main:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx-main
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./../:/data/otus.local
+      - ./nginx/main.conf:/etc/nginx/sites-enabled/default
+    networks:
+      - app-network
+
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx1
+    # проброс портов
+    ports:
+      - "81:80"
+    volumes:
+      - ./../:/data/otus.local
+      - ./nginx/site1.conf:/etc/nginx/sites-enabled/default
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx2
+    # проброс портов
+    ports:
+      - "82:80"
+    volumes:
+      - ./../:/data/otus.local
+      - ./nginx/site1.conf:/etc/nginx/sites-enabled/default
+    networks:
+      - app-network
+
+  nginx3:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx3
+    # проброс портов
+    ports:
+      - "83:80"
+    volumes:
+      - ./../:/data/otus.local
+      - ./nginx/site1.conf:/etc/nginx/sites-enabled/default
+    networks:
+      - app-network
+
+
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app1
+    volumes:
+      - ./../:/data/otus.local
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app2
+    volumes:
+      - ./../:/data/otus.local
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app3
+    volumes:
+      - ./../:/data/otus.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
