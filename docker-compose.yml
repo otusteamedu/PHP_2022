@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/html
+      - ./hosts:/etc/nginx/conf.d
+    links:
+      - php
+  php:
+    build: ./php
+    container_name: php-fpm
+    volumes:
+      - ./html:/html
+
+  db:
+      image: mariadb:latest
+      container_name: mariadb
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      volumes:
+        - ./dbdata:/var/lib/mysql
