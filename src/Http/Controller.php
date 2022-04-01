@@ -7,9 +7,11 @@ use App\Validator\Validator;
 class Controller
 {
 
-    public function handle(Request $request): Response
+    public function handle(): Response
     {
-        $string = trim($request->post('string'));
+        $request = new Request();
+
+        $string = trim($request->get('string'));
 
         if (!$string || $string === '') {
             throw new \Exception('empty string');

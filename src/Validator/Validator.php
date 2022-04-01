@@ -4,31 +4,31 @@ namespace App\Validator;
 
 class Validator
 {
+    const BRACKETS = ['(', ')'];
 
     public function validate(string $value = ''): bool
     {
-        $brackets = [];
+        $brackets = 0;
 
         $length = strlen($value);
 
         for ($i = 0; $i < $length; $i++) {
+            if (!in_array($value[$i], self::BRACKETS)) {
+                continue;
+            }
+
             if ($value[$i] === '(') {
-                $brackets[] = '(';
+                $brackets++;
+                continue;
             }
 
-            if ($value[$i] === ')') {
-                if (!count($brackets)) {
-                    return false;
-                }
-
-                array_shift($brackets);
+            if ($brackets < 1) {
+                return false;
             }
+
+            $brackets--;
         }
 
-        if (count($brackets)) {
-            return false;
-        }
-
-        return true;
+        return $brackets === 0;
     }
 }
