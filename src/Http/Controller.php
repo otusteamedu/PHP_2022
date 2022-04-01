@@ -11,7 +11,7 @@ class Controller
     {
         $request = new Request();
 
-        $string = trim($request->get('string'));
+        $string = trim($request->post('string'));
 
         if (!$string || $string === '') {
             throw new \Exception('empty string');
