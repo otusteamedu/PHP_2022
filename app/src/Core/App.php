@@ -5,6 +5,7 @@ namespace Nka\Otus\Core;
 
 use DI\ContainerBuilder;
 use Nka\Otus\Core\Exceptions\ApplicationException;
+use Nka\Otus\Core\Exceptions\CoreException;
 use Nka\Otus\Core\Http\RequestHandler;
 use Nka\Otus\Core\Http\Response;
 use Psr\Container\ContainerExceptionInterface;
@@ -13,23 +14,17 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class App extends Component
 {
-    protected string $basePath   =  '';
-    protected string $publicDir  =  '/public/';
-    protected string $projectDir =  '/src/';
-    protected string $modulesDir =  'Modules';
-    protected string $viewsDir   =  'Views';
-    protected string $baseLayout =  'layout';
-    protected array $pathConfig  =  [];
-    protected ContainerInterface $container;
+    protected static string $bootstrap = 'bootstrap.php';
 
+    protected ContainerInterface $container;
 
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public static function init($definition) : App
+    public static function init(): App
     {
-        $appContainer = self::buildContainer($definition);
+        $appContainer = self::buildContainer();
         /**
          * @var App $app
          */
@@ -39,17 +34,12 @@ class App extends Component
         return $app;
     }
 
-    /**
-     * @throws Exceptions\WrongAttributeException
-     */
+
     public function __construct(
-        public Response          $response,
+        protected Response       $response,
         protected RequestHandler $handler,
-        array                    $config = []
     )
     {
-        $this->loadParams($config);
-        $this->setPathConfig();
     }
 
     /**
@@ -63,8 +53,7 @@ class App extends Component
         try {
             $response->createResponse(
                 $this->handler->handle(
-                    $this->getContainer(),
-                    $this->getPathConfig()
+                    $this->getContainer()
                 )
             );
         } catch (ApplicationException $e) {
@@ -73,26 +62,21 @@ class App extends Component
         $response->send();
     }
 
-    private static function buildContainer($definition): ContainerInterface
+    private static function getDefinition(): array
     {
+        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . self::$bootstrap;
+        if (!file_exists($file)) {
+            throw new CoreException('Couldn`t find bootstrap file: ' . $file);
+        }
+        return require $file;
+    }
+
+    private static function buildContainer(): ContainerInterface
+    {
+        $appDefinition = self::getDefinition();
         $containerBuilder = new ContainerBuilder();
-        $containerBuilder->addDefinitions($definition);
+        $containerBuilder->addDefinitions($appDefinition);
         return $containerBuilder->build();
-    }
-
-    private function setPathConfig()
-    {
-        $this->pathConfig = [
-            'layoutDir'  => $this->projectDir . $this->viewsDir . '/',
-            'layout'     => $this->baseLayout,
-            'projectDir' => $this->projectDir,
-            'viewsDir'   => $this->viewsDir
-        ];
-    }
-
-    private function getPathConfig(): array
-    {
-        return $this->pathConfig;
     }
 
     private function setContainer(ContainerInterface $container)

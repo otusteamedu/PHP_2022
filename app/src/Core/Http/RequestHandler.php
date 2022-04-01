@@ -5,6 +5,7 @@ namespace Nka\Otus\Core\Http;
 use DI\Container;
 use FastRoute\Dispatcher;
 use Nka\Otus\Core\AbstractController;
+use Nka\Otus\Core\Config;
 use Nka\Otus\Core\Exceptions\ApplicationException;
 use Nka\Otus\Core\Exceptions\MethodNotAllowedException;
 use Nka\Otus\Core\Exceptions\RouteNotFoundException;
@@ -13,17 +14,13 @@ class RequestHandler
 {
     public function __construct(
         public Dispatcher $dispatcher,
-        public Request $request
+        public Request $request,
+        public Config $config
     )
     {
     }
 
-    /**
-     * @throws \DI\DependencyException
-     * @throws ApplicationException
-     * @throws \DI\NotFoundException
-     */
-    public function handle(Container $container, array $pathConfig = [])
+    public function handle(Container $container)
     {
         $result = $this->dispatcher->dispatch(
             $this->request->getMethod(),
@@ -32,12 +29,12 @@ class RequestHandler
 
         return match ($result[0]) {
             Dispatcher::FOUND => $container->call(
-                function (Container $container) use ($result, $pathConfig) {
+                function (Container $container) use ($result) {
                     /**
                      * @var AbstractController $controller
                      */
                     $controller = $container->get($result[1]);
-                    $controller->loadParams($pathConfig);
+                    $controller->setConfig($this->config);
                     return $controller();
                 }
             ),

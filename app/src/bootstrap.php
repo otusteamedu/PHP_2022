@@ -4,6 +4,7 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use Nka\Otus\Components\Checker\CheckerService;
 use Nka\Otus\Core\App;
+use Nka\Otus\Core\Config;
 use Nka\Otus\Core\Http\Request;
 use Nka\Otus\Core\Http\RequestHandler;
 use Nka\Otus\Core\Http\Response;
@@ -24,13 +25,15 @@ return [
         ->constructor(
             get(Response::class),
             get(RequestHandler::class),
-            $config
+            get(Config::class)
         ),
     RequestHandler::class => create(RequestHandler::class)
         ->constructor(
             get(Dispatcher::class),
             get(Request::class)
         ),
+    Config::class => create(Config::class)
+        ->constructor($config),
     Dispatcher::class => function () {
         return simpleDispatcher(fn(RouteCollector $r) => include "routes.php");
     },

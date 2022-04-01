@@ -4,22 +4,26 @@ namespace Nka\Otus\Core;
 
 use Nka\Otus\Core\Exceptions\WrongAttributeException;
 
-class Component
+class Component implements Configurable
 {
+    protected Config $config;
+
     /**
-     * @param array $params
+     * @param $params
      * @return bool
-     * @throws WrongAttributeException
      */
-    public function loadParams(array $params)
+    public function loadParams(Config|array $params)
     {
-        try {
-            foreach ($params as $param => $value) {
+        foreach ($params as $param => $value) {
+            if (property_exists($this, $param)) {
                 $this->$param = $value;
             }
-        } catch (\Exception $e) {
-            throw new WrongAttributeException($e->getMessage());
         }
         return true;
+    }
+
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
     }
 }

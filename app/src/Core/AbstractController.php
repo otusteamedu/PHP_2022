@@ -7,12 +7,8 @@ use Nka\Otus\Core\Exceptions\CoreException;
 
 abstract class AbstractController extends Component
 {
-    public ?string $layout = null;
-    public ?string $layoutDir = null;
-    public ?string $viewsDir = null;
+    protected Config $config;
     public ?string $moduleName = null;
-    public ?string $projectDir = null;
-
 
     public function __invoke()
     {
@@ -22,7 +18,7 @@ abstract class AbstractController extends Component
     protected function render(string $view, $params = []) : View
     {
         return (new View(
-            $this->layoutDir . $this->layout,
+            $this->config->layoutDir . ($this->layout ?? $this->config->baseLayout),
             $this->getViewsDir() .  $view,
             $params
         ));
@@ -40,9 +36,12 @@ abstract class AbstractController extends Component
     protected function getViewsDir(): string
     {
         if (!is_null($this->moduleName)) {
-            return $this->projectDir . 'Modules/' . $this->moduleName . '/' . $this->viewsDir . '/';
+            return $this->config->projectDir . '/'
+                .  $this->config->modulesDir . '/'
+                . $this->moduleName . '/'
+                . $this->config->viewsDir . '/';
         }
-        return $this->projectDir . $this->viewsDir . '/';
+        return $this->config->projectDir . $this->config->viewsDir . '/';
     }
 
     abstract function run();
