@@ -17,26 +17,26 @@ class View
     /**
      * @var string Основной макет страницы
      */
-    private $layout;
+    private string $layout;
 
     /**
      * @var string блок с выводом результат
      */
-    private $result;
+    private string $result;
 
     /**
-     * @var mixed|string Заголовок страницы
+     * @var string блок с выводом результат
      */
-    private $template_h1;
+    private string $notFound;
 
     /**
      * Constructor
      */
-    public function __construct($template_h1 = '')
+    public function __construct()
     {
-        $this->template_h1 = $template_h1;
         $this->layout = 'layout.php';
         $this->result = 'response.php';
+        $this->notFound = '404.php';
     }
 
     /**
@@ -45,7 +45,7 @@ class View
      * @param ServerData $obData
      * @return void
      */
-    public function page(ServerData $obData)
+    public function page(ServerData $obData): void
     {
         require self::DIR_TEMPLATE . '/' . $this->layout;
     }
@@ -57,8 +57,18 @@ class View
      * @param BracketsValidator $obValidator
      * @return void
      */
-    public function result(ServerData $obData, BracketsValidator $obValidator)
+    public function result(ServerData $obData, BracketsValidator $obValidator): void
     {
         require self::DIR_TEMPLATE . '/' . $this->result;
+    }
+
+    /**
+     * Вывод 404 страницы
+     *
+     * @return void
+     */
+    public function notFound(): void
+    {
+        require self::DIR_TEMPLATE . '/' . $this->notFound;
     }
 }

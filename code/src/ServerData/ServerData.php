@@ -26,9 +26,13 @@ class ServerData
      */
     public function __construct()
     {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
         $this->date = date('d.m.Y H:i:s') ?: null;
         $this->sessionId = session_id() ?: null;
-        $this->hostName = $_SERVER['HOSTNAME'] ?: null;
+        $this->hostName = self::getServerInfo('HOSTNAME');
     }
 
     /**
@@ -60,4 +64,16 @@ class ServerData
     {
         return $this->hostName ?? 'нет данных';
     }
+
+    /**
+     * Получение значения  $name из $_SERVER
+     *
+     * @param string $name
+     * @return mixed|null
+     */
+    public static function getServerInfo(string $name)
+    {
+        return $_SERVER[$name] ?: null;
+    }
+
 }

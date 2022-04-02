@@ -35,8 +35,10 @@ class BracketsValidator
 
     /**
      * Constructor
+     *
+     * @param array $request
      */
-    public function __construct($request)
+    public function __construct(array $request)
     {
         $this->brackets = $request['string'] ?? null;
     }
@@ -74,7 +76,7 @@ class BracketsValidator
      *
      * @return string
      */
-    public function getTextStatus()
+    public function getTextStatus(): string
     {
         return empty($this->error) ? 'Валидация прошла успешно' : 'Ошибка! ' . $this->error;
     }
@@ -93,10 +95,10 @@ class BracketsValidator
     /**
      * Подсчет открывающихся и закрывающихся скобочек
      *
-     * @param $arBrackets
+     * @param array $arBrackets
      * @return bool
      */
-    private function calcBrackets($arBrackets): bool
+    private function calcBrackets(array $arBrackets): bool
     {
         $count = 0;
         foreach ($arBrackets as $bracket) {

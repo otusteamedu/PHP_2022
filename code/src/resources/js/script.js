@@ -1,6 +1,6 @@
 function sendForm() {
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', document.forms.brackets_form.action);
+  xhr.open('POST', '/validate');
   xhr.onload = () => {
     document.querySelector('#result').innerHTML = xhr.response;
   }
