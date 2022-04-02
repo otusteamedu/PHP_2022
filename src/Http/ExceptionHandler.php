@@ -13,6 +13,5 @@ class ExceptionHandler
     {
         $response = new Response($exception->getMessage(), 400);
         $response->send();
-        die();
     }
 }
