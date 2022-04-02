@@ -5,14 +5,9 @@ use App\Http\Response;
 
 require_once './../vendor/autoload.php';
 
-try {
-    $app = new \App\App();
-    $response = $app->handle();
-} catch (\Exception $exception) {
-    $handler = new ExceptionHandler();
-    $handler->handle($exception);
+$handler = new ExceptionHandler();
 
-    $response = new Response($exception->getMessage(), 400);
-}
+$app = new \App\App();
+$response = $app->handle();
 
 $response->send();
