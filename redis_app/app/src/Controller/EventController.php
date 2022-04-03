@@ -50,8 +50,8 @@ class EventController
     {
         $data = $this->decoder->toArray($request->getBody()->getContents());
         $event = $this->eventService->getEvent($data);
-
-        $response->getBody()->write($this->decoder->toJson($event->toArray()));
+        $result = $event ? $event->jsonSerialize() : 'Событие не найдено';
+        $response->getBody()->write($result);
 
         return $response->withHeader('Content-Type', 'application/json');
     }

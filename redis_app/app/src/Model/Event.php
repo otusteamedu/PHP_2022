@@ -2,7 +2,9 @@
 
 namespace Redis\App\Model;
 
-class Event implements Model
+use JsonSerializable;
+
+class Event implements Model, JsonSerializable
 {
     public const NAME_FIELD = 'name';
     public const PRIORITY_FIELD = 'priority';
@@ -70,5 +72,10 @@ class Event implements Model
             'priority' => $this->priority,
             'conditions' => json_decode($this->conditions),
         ];
+    }
+
+    public function jsonSerialize()
+    {
+        return json_encode($this->toArray());
     }
 }

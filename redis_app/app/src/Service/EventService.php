@@ -27,7 +27,7 @@ class EventService
         $this->repository->delete();
     }
 
-    public function getEvent(array $request): Event
+    public function getEvent(array $request): ?Event
     {
         return $this->repository->get($request);
     }
