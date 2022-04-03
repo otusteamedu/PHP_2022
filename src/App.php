@@ -8,17 +8,17 @@ use App\Http\Response;
 
 class App
 {
-    private ExceptionHandler $handler;
-
-    public function __construct()
+    public function handle(): void
     {
-        $this->handler = new ExceptionHandler();
-    }
+        try {
+            // по факту тут должен вызываться роутер, но чтобы лишнего не пилить
+            // вызовем сразу контроллер
+            $response = (new Controller())->handle();
 
-    public function handle(): Response
-    {
-        // по факту тут должен вызываться роутер, но чтобы лишнего не пилить
-        // вызовем сразу контроллер
-        return (new Controller())->handle();
+            $response->send();
+        } catch (\Exception $exception) {
+            $response = new Response($exception->getMessage(), 400);
+            $response->send();
+        }
     }
 }

@@ -3,6 +3,9 @@
 require_once './../vendor/autoload.php';
 
 $app = new \App\App();
-$response = $app->handle();
 
-$response->send();
+try {
+    $app->handle();
+} catch (\Exception $e) {
+    //
+}
