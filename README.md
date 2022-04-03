@@ -16,4 +16,6 @@ git checkout KDmitrienko/hw10
 and put key to variable YOUTUBE_API_KEY
 3. "cd code && composer install && cd .."
 4. "docker-compose up -d"
+5. add line '127.0.0.1 mysite.local' to your hosts file
+6. open in browser: http://mysite.local/
 ```
