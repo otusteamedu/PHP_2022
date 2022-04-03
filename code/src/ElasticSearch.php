@@ -2,47 +2,47 @@
 
 namespace KonstantinDmitrienko\App;
 
+use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use Elasticsearch\Common\Exceptions\ElasticsearchException;
 use KonstantinDmitrienko\App\Interfaces\StorageInterface;
 
 class ElasticSearch implements StorageInterface
 {
-    private \Elasticsearch\Client $elasticSearchClient;
-    private array                 $hosts;
+    private Client $elasticSearchClient;
 
     public function __construct()
     {
-        $this->hosts = ['elastic_search:' . getenv('ES_PORT')];
-        $this->elasticSearchClient = ClientBuilder::create()->setHosts($this->hosts)->build();
+        $this->elasticSearchClient = ClientBuilder::create()
+            ->setHosts(['elastic_search:' . getenv('ES_PORT')])
+            ->build();
+
+        try {
+            $this->elasticSearchClient->search([
+                'index' => App::CHANNEL_INDEX,
+                'body'  => [
+                    'query' => [
+                        'match' => [
+                            'query' => App::CHANNEL_INDEX
+                        ]
+                    ]
+                ]
+            ]);
+        } catch (ElasticSearchException $e) {
+            // Create base indexes
+            $this->elasticSearchClient->index(['index' => App::CHANNEL_INDEX, 'body' => []]);
+            $this->elasticSearchClient->index(['index' => App::VIDEO_INDEX, 'body' => []]);
+        }
     }
 
     /**
-     * @param array $request
+     * @param array $params
      *
      * @return array
      */
-    public function search(array $request): array
+    public function search(array $params): array
     {
-        $params = [
-            'index' => 'youtube_channel',
-            'body'  => [
-                'query' => [
-                    'match' => [
-                        'query' => $request['youtube']['name']
-                    ]
-                ]
-            ]
-        ];
-
         return $this->elasticSearchClient->search($params);
-    }
-
-    /**
-     * @return array
-     */
-    public function getAll(): array
-    {
-        // TODO: Implement getAll() method.
     }
 
     /**
@@ -56,28 +56,13 @@ class ElasticSearch implements StorageInterface
     }
 
     /**
-     * @param string $channelId
+     * @param string $index
+     * @param string $id
      *
-     * @return void
+     * @return array
      */
-    public function delete(string $channelId): void
+    public function delete(string $index, string $id): array
     {
-        // TODO: Implement delete() method.
-    }
-
-    /**
-     * @return void
-     */
-    public function populate(): void
-    {
-        // TODO: Implement populate() method.
-    }
-
-    /**
-     * @return void
-     */
-    public function clear(): void
-    {
-        // TODO: Implement clear() method.
+        return $this->elasticSearchClient->delete(['index' => $index, 'id' => $id]);
     }
 }

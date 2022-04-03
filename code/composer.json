@@ -10,7 +10,8 @@
     "require": {
         "php": ">=7.4",
         "elasticsearch/elasticsearch": "^7.0",
-        "google/apiclient": "^2.12"
+        "google/apiclient": "^2.12",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

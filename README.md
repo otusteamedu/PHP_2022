@@ -11,8 +11,9 @@ git checkout KDmitrienko/hw10
 ### Run app
 
 ```
-cd code && composer install && cd ..
-docker-compose up -d
-
-
+1. Copy file example.env to .env
+2. Create app in YouTube Data API https://developers.google.com/youtube/v3/quickstart/php
+and put key to variable YOUTUBE_API_KEY
+3. "cd code && composer install && cd .."
+4. "docker-compose up -d"
 ```
