@@ -54,7 +54,7 @@ class YoutubeApiHandler
     {
         try {
             $videos = [];
-            // do {
+            do {
                 $videosInfo = $this->service->search->listSearch('snippet', ['channelId' => $channelID]);
 
                 foreach ($videosInfo['items'] as $item) {
@@ -71,7 +71,7 @@ class YoutubeApiHandler
                         'Dislikes'    => $videoInfo['items'][0]['statistics']['dislikeCount'],
                     ];
                 }
-            // } while ($videosInfo['nextPageToken']);
+            } while ($videosInfo['nextPageToken']);
 
             return $videos;
         } catch (RuntimeException $e) {
