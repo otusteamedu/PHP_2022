@@ -31,6 +31,15 @@ services:
     networks:
       - app-net
 
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    restart: always
+    ports:
+      - ${MEMCACHED_PORT}
+    networks:
+      - app-net
+
 networks:
   app-net:
     driver: bridge
