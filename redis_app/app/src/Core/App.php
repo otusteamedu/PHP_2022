@@ -2,14 +2,9 @@
 
 namespace Redis\App\Core;
 
-use Elastic\App\Controller\ChannelController;
-use Elastic\App\Controller\InfoController;
-use Elastic\App\Controller\VideoController;
 use Exception;
 use Redis\App\Controller\EventController;
-use Redis\App\Controller\IndexController;
 use Slim\Factory\AppFactory;
-use Symfony\Component\Dotenv\Dotenv;
 
 class App
 {
