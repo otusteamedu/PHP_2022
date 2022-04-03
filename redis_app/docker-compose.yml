@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: app
+    build: ./fpm
+    environment:
+      - PHP_IDE_CONFIG=serverName=application
+    volumes:
+      - ./app:/var/www
+      - ./app/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - app-net
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    ports:
+      - ${APP_PORT}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./app:/var/www
+    networks:
+      - app-net
+
+  redis:
+    image: redis:4.0
+    restart: always
+    ports:
+      - ${REDIS_PORT}
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
