@@ -13,6 +13,9 @@ class EventController
 {
     use ContainerFactory;
 
+    private const EVENTS_DELETE_MESSAGE = 'События удалены';
+    private const EVENT_NOT_FOUND_MESSAGE = 'Событие не найдено';
+
     private JsonDecoder $decoder;
     private EventService $eventService;
 
@@ -32,7 +35,6 @@ class EventController
             ->setConditions(($this->decoder->toJson((array)$data['conditions'])));
 
         $result = $this->eventService->addEvent($event);
-
         $response->getBody()->write($result);
 
         return $response->withHeader('Content-Type', 'application/json');
@@ -41,7 +43,7 @@ class EventController
     public function delete(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $this->eventService->deleteEvents();
-        $response->getBody()->write('События удалены');
+        $response->getBody()->write(self::EVENTS_DELETE_MESSAGE);
 
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -50,7 +52,7 @@ class EventController
     {
         $data = $this->decoder->toArray($request->getBody()->getContents());
         $event = $this->eventService->getEvent($data);
-        $result = $event ? $event->jsonSerialize() : 'Событие не найдено';
+        $result = $event ? $event->jsonSerialize() : self::EVENT_NOT_FOUND_MESSAGE;
         $response->getBody()->write($result);
 
         return $response->withHeader('Content-Type', 'application/json');
