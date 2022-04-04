@@ -35,17 +35,15 @@ class EventController
             ->setConditions(($this->decoder->toJson((array)$data['conditions'])));
 
         $result = $this->eventService->addEvent($event);
-        $response->getBody()->write($result);
 
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->createJsonResponse($response, $result);
     }
 
     public function delete(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $this->eventService->deleteEvents();
-        $response->getBody()->write(self::EVENTS_DELETE_MESSAGE);
 
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->createJsonResponse($response, self::EVENTS_DELETE_MESSAGE);
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -53,7 +51,13 @@ class EventController
         $data = $this->decoder->toArray($request->getBody()->getContents());
         $event = $this->eventService->getEvent($data);
         $result = $event ? $event->jsonSerialize() : self::EVENT_NOT_FOUND_MESSAGE;
-        $response->getBody()->write($result);
+
+        return $this->createJsonResponse($response, $result);
+    }
+
+    private function createJsonResponse(ResponseInterface $response, string $message): ResponseInterface
+    {
+        $response->getBody()->write($message);
 
         return $response->withHeader('Content-Type', 'application/json');
     }
