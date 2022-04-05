@@ -26,17 +26,21 @@ class App
 
             $app->run();
         } catch (Exception $e) {
-            $responseEmitter = $this->getContainer()->get(ResponseEmitter::class);
-            $responseEmitter->emit($this->createErrorResponse($e->getMessage(), $e->getCode()));
+            $this->createErrorResponse($e->getMessage(), $e->getCode());
         }
     }
 
-    private function createErrorResponse(string $message, int $code): Response
+    private function createErrorResponse(string $message, int $code): void
     {
-        $response = $this->getContainer()->get(Response::class);
-        $response->getBody()->write(' Error: ' . $message);
+        try {
+            $response = $this->getContainer()->get(Response::class);
+            $response->getBody()->write(' Error: ' . $message);
 
-        return $response->withStatus($code);
+            $responseEmitter = $this->getContainer()->get(ResponseEmitter::class);
+            $responseEmitter->emit($response->withStatus($code));
+        } catch (Exception $e) {
+            header('Status: 500 Error: ' . $e->getMessage());
+        }
     }
 
     private function configure(): void
