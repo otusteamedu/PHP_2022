@@ -6,8 +6,14 @@
 - [ ] finish configure
 - [x] add elastick search
 - [ ] HW - in progress
-- [ ] lol kek
 
-Работаю по гайду - https://laravel.demiart.ru/configuring-elasticsearch-in-laravel/
 
-Есть некоторые несоответствия ибо написано для лары 8, а делаю для 9й версии
+Работал по гайду, гайд не описывает некоторые тонкости и завел лишь в заблуждения 
+- https://laravel.demiart.ru/configuring-elasticsearch-in-laravel/
+
+взял пример - https://github.com/yehorherasymchuk/otus-php-elasticsearch
+
+он не работает под php8.0 буду переделывать чтобы работал, 
+минус в .env - нет настроек нужных для Эластика, добавил в .env
+
+продолжаю разбираться
