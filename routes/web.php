@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\HomeWorkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [
+    \App\Http\Controllers\ArticleController::class,
+    'index',
+])->name('articles.index');;
+Route::get('/articles/{article}', [
+    \App\Http\Controllers\ArticleController::class,
+    'show',
+])->name('articles.show');
 
-Route::get('/test', [HomeWorkController::class, 'index']);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
