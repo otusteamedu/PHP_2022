@@ -10,40 +10,41 @@ class Router
 
     public function __construct()
     {
-        $routesPath = ROOT . '/config/routes.php';
+        $routesPath = 'config/routes.php';
         $this->routes = include($routesPath);
     }
 
 
-    public function run()
+    public function run(): void
     {
         $uri = $this->getUri();
 
         foreach ($this->routes as $uriPattern => $path) {
             if (preg_match("~$uriPattern~", $uri)) {
                 $segments = explode('/', $path);
-
                 $controllerName = array_shift($segments).'Controller';
 
                 $controllerName = ucfirst($controllerName);
                 $actionName = ucfirst(array_shift($segments));
 
-                $controllerFile = ROOT . '/src/Controller/'.$controllerName.'.php';
-                if (file_exists($controllerFile )) {
-                    include_once ($controllerFile);
-                }
-
                 $controllerObjectFullPath = self::CONTROLLERS.$controllerName;
+
                 $controllerObject = new $controllerObjectFullPath;
+
                 $result = $controllerObject->$actionName();
                 if ($result != null) {
                     break;
                 }
             }
+
         }
+        if (!isset($controllerObject)) {
+            header("Location: /page_not_found");
+        }
+
     }
 
-    private function getUri()
+    private function getUri(): string
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
             $uri = trim($_SERVER['REQUEST_URI']);

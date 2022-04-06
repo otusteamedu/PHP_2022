@@ -2,8 +2,9 @@
 declare(strict_types=1);
 namespace Mapaxa\BalancerApp\Controller;
 
-
+use Mapaxa\BalancerApp\Service\Http\Response;
 use Mapaxa\BalancerApp\Service\RoundBracesValidator;
+use Mapaxa\BalancerApp\HandBook\HttpStatusHandbook;
 
 class BracesController
 {
@@ -18,13 +19,13 @@ class BracesController
 
         if ($roundBracesAreValid) {
             $resultText = 'String is valid';
-            header("HTTP/1.1 200 Not Found");
+            Response::setResponseCode(HttpStatusHandbook::OK);
         } else {
             $resultText = 'String is not valid';
-            header("HTTP/1.1 400 Bad Request");
+            Response::setResponseCode(HttpStatusHandbook::BAD_REQUEST);
         }
     }
 
-        require_once (ROOT.'/src/View/balancer/index.php');
+        require_once ('src/View/balancer/index.php');
     }
 }
