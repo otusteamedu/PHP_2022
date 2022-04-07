@@ -86,7 +86,9 @@ class User
         $in  = str_repeat('?,', count($array) - 1) . '?';
         $this->selectManyStatement->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectManyStatement->execute($array);
-        $data = $this->selectManyStatement->fetchAll();    
+        $data = $this->selectManyStatement->fetchAll();
+        
+        return $data;
     }
 
     public function getId(): ?int
