@@ -75,8 +75,8 @@ services:
   kibana:
     container_name: kb-container
     image: docker.elastic.co/kibana/kibana:7.11.0
-    volumes:
-      - ./.dev/kibana/kibana.yml:/usr/share/kibana/kibana.yml
+#    volumes:
+#      - ./.dev/kibana/kibana.yml:/usr/share/kibana/kibana.yml
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
