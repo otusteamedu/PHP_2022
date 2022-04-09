@@ -1,0 +1,132 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  # Контейнер с Nginx-балансировщиком
+  nginx-balancer:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx-balancer
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./docker/nginx/hosts/balancer.conf:/etc/nginx/conf.d/application.local.conf
+    networks:
+      - app-network
+
+  # Контейнеры с Nginx
+  nginx1:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx1
+    # проброс портов, т.к. 80й уже занят балансировщиком, указываем 81
+    ports:
+      - "81:80"
+    volumes:
+       - ./code:/var/www/application.local
+       - ./docker/nginx/hosts/nginx1.conf:/etc/nginx/conf.d/application.local.conf
+    networks:
+      - app-network
+
+  nginx2:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx2
+    # проброс портов
+    ports:
+      - "82:80"
+    volumes:
+      - ./code:/var/www/application.local
+      - ./docker/nginx/hosts/nginx2.conf:/etc/nginx/conf.d/application.local.conf
+    networks:
+      - app-network
+
+  nginx3:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx3
+    # проброс портов
+    ports:
+      - "83:80"
+    volumes:
+      - ./code:/var/www/application.local
+      - ./docker/nginx/hosts/nginx3.conf:/etc/nginx/conf.d/application.local.conf
+    networks:
+      - app-network
+
+  # Контейнеры с PHP-FPM
+  app1:
+    image: php:7.4
+    build:
+      context: ./docker/php_fpm
+      dockerfile: Dockerfile
+    container_name: app1
+    volumes:
+       - ./code:/var/www/application.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  app2:
+    image: php:7.4
+    build:
+      context: ./docker/php_fpm
+      dockerfile: Dockerfile
+    container_name: app2
+    volumes:
+      - ./code:/var/www/application.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  app3:
+    image: php:7.4
+    build:
+      context: ./docker/php_fpm
+      dockerfile: Dockerfile
+    container_name: app3
+    volumes:
+      - ./code:/var/www/application.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  # Контейнер с Memcached
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+  workspace:
+    image: php:7.4
+    container_name: console
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
