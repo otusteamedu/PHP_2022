@@ -1,6 +1,6 @@
 function sendForm() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', '/validate');
+  xhr.open('POST', '/validate');
   xhr.onload = () => {
     let validateInfo = document.querySelector('#result .validate-info');
     let serverData = document.querySelector('#result .server-data');
