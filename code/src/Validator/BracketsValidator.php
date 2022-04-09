@@ -7,31 +7,32 @@ namespace Ekaterina\Hw4\Validator;
 class BracketsValidator
 {
     /**
-     * Строка со скобками
-     *
-     * @var mixed|null
-     */
-    private $brackets;
-
-    /**
-     * Ошибки при валидации
-     *
-     * @var string|null
-     */
-    private ?string $error = null;
-
-    /**
-     * Статусы валидации
-     */
-    private const STATUS_ERROR = 'danger';
-    private const STATUS_SUCCESS = 'success';
-
-    /**
      * Тексты ошибок
      */
     private const ERROR_EMPTY = 'Не введены данные';
     private const ERROR_INVALID_CHARACTER = 'Должны быть введены только скобочки';
     private const ERROR_INVALID_BRACKETS = 'Строка со скобками не валидна';
+    private const ERROR_NONE_VALIDATE = 'Валидация не проводилась';
+
+    /**
+     * Текст успешной валидации
+     */
+    private const SUCCESS_VALIDATE = 'Валидация прошла успешно';
+
+    /**
+     * @var mixed|null Строка со скобками
+     */
+    private $brackets;
+
+    /**
+     * @var string|null Ошибки при валидации
+     */
+    private ?string $error = null;
+
+    /**
+     * @var bool Определение проводилась ли валидация
+     */
+    private bool $isChecked;
 
     /**
      * Constructor
@@ -41,15 +42,18 @@ class BracketsValidator
     public function __construct(array $request)
     {
         $this->brackets = $request['string'] ?? null;
+        $this->isChecked = false;
     }
 
     /**
      * Валидация
      *
-     * @return bool
+     * @return void
      */
-    public function validate(): bool
+    public function validate(): void
     {
+        $this->isChecked = true;
+
         if (empty($this->brackets)) {
             $this->error = self::ERROR_EMPTY;
         } elseif (!empty(preg_replace('/[\(\)]+/', '', $this->brackets))) {
@@ -57,28 +61,6 @@ class BracketsValidator
         } elseif (!$this->validBrackets()) {
             $this->error = self::ERROR_INVALID_BRACKETS;
         }
-
-        return empty($this->error);
-    }
-
-    /**
-     * Получить статус валидации
-     *
-     * @return string
-     */
-    public function getStatus(): string
-    {
-        return empty($this->error) ? self::STATUS_SUCCESS : self::STATUS_ERROR;
-    }
-
-    /**
-     * Получить текстовую расшифровку статуса
-     *
-     * @return string
-     */
-    public function getTextStatus(): string
-    {
-        return empty($this->error) ? 'Валидация прошла успешно' : 'Ошибка! ' . $this->error;
     }
 
     /**
@@ -88,26 +70,55 @@ class BracketsValidator
      */
     private function validBrackets(): bool
     {
-        $arBrackets = str_split($this->brackets);
-        return !($arBrackets[0] !== '(' || $arBrackets[count($arBrackets) - 1] !== ')' || !$this->calcBrackets($arBrackets));
+        if ($this->brackets[0] !== '(' || $this->brackets[strlen($this->brackets) - 1] !== ')') {
+            return false;
+        }
+
+        return $this->calcBrackets();
     }
 
     /**
      * Подсчет открывающихся и закрывающихся скобочек
      *
-     * @param array $arBrackets
      * @return bool
      */
-    private function calcBrackets(array $arBrackets): bool
+    private function calcBrackets(): bool
     {
         $count = 0;
-        foreach ($arBrackets as $bracket) {
-            if ($bracket === '(') {
+        $strlen = strlen($this->brackets);
+
+        for ($i = 0; $i < $strlen; $i++) {
+            if ($this->brackets[$i] === '(') {
                 $count++;
-            } elseif ($bracket === ')') {
+            } elseif ($this->brackets[$i] === ')') {
                 $count--;
             }
         }
+
         return $count === 0;
+    }
+
+    /**
+     * Получить результат валидации
+     *
+     * @return bool
+     */
+    public function getResultValidate(): bool
+    {
+        return $this->isChecked && empty($this->error);
+    }
+
+    /**
+     * Получить текстовую расшифровку валидации
+     *
+     * @return string
+     */
+    public function getResultMessage(): string
+    {
+        if (!$this->isChecked) {
+            return self::ERROR_NONE_VALIDATE;
+        }
+
+        return empty($this->error) ? self::SUCCESS_VALIDATE : 'Ошибка! ' . $this->error;
     }
 }

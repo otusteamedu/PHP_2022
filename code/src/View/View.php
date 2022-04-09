@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ekaterina\Hw4\View;
 
 use Ekaterina\Hw4\ServerData\ServerData;
-use Ekaterina\Hw4\Validator\BracketsValidator;
 
 class View
 {
@@ -22,11 +21,6 @@ class View
     /**
      * @var string блок с выводом результат
      */
-    private string $result;
-
-    /**
-     * @var string блок с выводом результат
-     */
     private string $notFound;
 
     /**
@@ -35,7 +29,6 @@ class View
     public function __construct()
     {
         $this->layout = 'layout.php';
-        $this->result = 'response.php';
         $this->notFound = '404.php';
     }
 
@@ -48,18 +41,6 @@ class View
     public function page(ServerData $obData): void
     {
         require self::DIR_TEMPLATE . '/' . $this->layout;
-    }
-
-    /**
-     * Вывод результата
-     *
-     * @param ServerData        $obData
-     * @param BracketsValidator $obValidator
-     * @return void
-     */
-    public function result(ServerData $obData, BracketsValidator $obValidator): void
-    {
-        require self::DIR_TEMPLATE . '/' . $this->result;
     }
 
     /**

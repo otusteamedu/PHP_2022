@@ -29,16 +29,31 @@
                 <br>
                 <h2>Сервер запроса</h2>
                 <br>
-                <div>
-                    Дата: <?= $obData->getDate();?><br>
-                    Сервер: <?= $obData->getHostName();?><br>
-                    ID сессии: <?= $obData->getSessionId();?><br>
+                <div class="server-data">
+                    <div>Дата: <span class="date"><?= $obData->getDate();?></span></div>
+                    <div>Сервер: <span class="host-name"><?= $obData->getHostName();?></span></div>
+                    <div>ID сессии: <span class="session-id"><?= $obData->getSessionId();?></span></div>
                 </div>
             </div>
             <div class="col-4 offset-2">
                 <h2>Результат</h2>
                 <br>
-                <div id="result">- нет данных -</div>
+                <div id="result">
+                    <div class="response">
+                        <br>
+                        <div class="validate-info alert alert-info"  role="alert">- нет данных -</div>
+                        <br>
+                        <br>
+                        <br>
+                        <h2>Сервер ответа</h2>
+                        <br>
+                        <div class="server-data">
+                            <div>Дата: <span class="date">- нет данных -</span></div>
+                            <div>Сервер: <span class="host-name">- нет данных -</span></div>
+                            <div>ID сессии: <span class="session-id">- нет данных -</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

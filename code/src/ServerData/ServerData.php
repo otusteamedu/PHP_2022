@@ -76,4 +76,17 @@ class ServerData
         return $_SERVER[$name] ?: null;
     }
 
+    /**
+     * Получение всех данных о сервере в виде массива
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'date' => $this->getDate(),
+            'sessionId' => $this->getSessionId(),
+            'hostName' => $this->getHostName(),
+        ];
+    }
 }

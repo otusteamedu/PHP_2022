@@ -48,8 +48,8 @@ class MainController
      */
     public static function error(string $textError): void
     {
-        Response::setResponseCode(false);
-        echo $textError;
+        $response = new Response(null, Response::CODE_ERROR);
+        $response->send($textError);
     }
 
     /**
@@ -66,14 +66,18 @@ class MainController
             case SimpleRouter::ACTION_VALIDATE:
                 if (!empty($this->request->fields)) {
                     $brackets = new BracketsValidator($this->request->fields);
-                    Response::setResponseCode($brackets->validate());
-                    $this->view->result(new ServerData(), $brackets);
+                    $brackets->validate();
+                    $serverData = new ServerData();
+                    $response = new Response($brackets->getResultValidate());
+                    $response->send($brackets->getResultMessage(), $serverData->toArray());
                 } else {
-                    self::error('Ошибка! Не удалось проверить скобочки');
+                    $response = new Response(null, Response::CODE_ERROR);
+                    $serverData = new ServerData();
+                    $response->send('Ошибка! Не удалось проверить скобочки', $serverData->toArray());
                 }
                 break;
             case SimpleRouter::ACTION_NOT_FOUND:
-                Response::setResponseCode(null, 404);
+                Response::setHttpCode(Response::CODE_404);
                 $this->view->notFound();
                 break;
         }
