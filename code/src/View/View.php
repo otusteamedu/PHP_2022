@@ -19,7 +19,7 @@ class View
     private string $layout;
 
     /**
-     * @var string блок с выводом результат
+     * @var string Макет 4040 страницы
      */
     private string $notFound;
 
