@@ -4,19 +4,34 @@ namespace KonstantinDmitrienko\App;
 
 class Response
 {
-    public static function failure($message = ''): void
+    /**
+     * @param string $message
+     *
+     * @return void
+     */
+    public static function failure(string $message = ''): void
     {
         self::failureResponseCode();
         self::showMessage($message);
     }
 
-    public static function success($message = ''): void
+    /**
+     * @param string $message
+     *
+     * @return void
+     */
+    public static function success(string $message = ''): void
     {
         self::successResponseCode();
         self::showMessage($message);
     }
 
-    protected static function showMessage($message = ''): void
+    /**
+     * @param string $message
+     *
+     * @return void
+     */
+    protected static function showMessage(string $message = ''): void
     {
         if ($message) {
             header('Content-Type: application/json; charset=utf-8');
@@ -24,11 +39,17 @@ class Response
         }
     }
 
+    /**
+     * @return void
+     */
     protected static function failureResponseCode(): void
     {
         http_response_code(400);
     }
 
+    /**
+     * @return void
+     */
     protected static function successResponseCode(): void
     {
         http_response_code(200);

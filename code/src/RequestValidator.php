@@ -2,19 +2,31 @@
 
 namespace KonstantinDmitrienko\App;
 
+use RuntimeException;
+
 class RequestValidator
 {
+    /**
+     * @param $request
+     *
+     * @return void
+     */
     public static function validate($request): void
     {
         if (!$request || !isset($request['youtube'])) {
-            throw new \RuntimeException('Empty request or missing required youtube parameter');
+            throw new RuntimeException('Empty request or missing required youtube parameter');
         }
     }
 
-    public static function checkChannelName($request): void
+    /**
+     * @param $name
+     *
+     * @return void
+     */
+    public static function checkChannelName($name): void
     {
-        if (!$request || !isset($request['youtube']['name'])) {
-            throw new \RuntimeException('Empty request or missing required channel name parameter');
+        if (!$name) {
+            throw new RuntimeException('Missing required channel name parameter');
         }
     }
 }
