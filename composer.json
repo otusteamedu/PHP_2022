@@ -8,9 +8,9 @@
     ],
     "license": "MIT",
     "require": {
-        "ext-redis": "*",
         "php": "^7.4 || ^8.0",
-        "elasticsearch/elasticsearch": "^8.0",
+        "ext-redis": "*",
+        "elasticsearch/elasticsearch": "^7.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
