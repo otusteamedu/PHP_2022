@@ -32,11 +32,11 @@ class YoutubeChannel
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return array
      */
-    public function getChannelInfo($name): array
+    protected function getChannelInfo(string $name): array
     {
         // Find channel by name
         $response = $this->service->channels->listChannels(
@@ -68,7 +68,7 @@ class YoutubeChannel
      *
      * @return SearchListResponse
      */
-    public function getBaseVideosInfo(string $channelID): SearchListResponse
+    protected function getBaseVideosInfo(string $channelID): SearchListResponse
     {
         try {
             return $this->service->search->listSearch('snippet', ['channelId' => $channelID]);
@@ -82,7 +82,7 @@ class YoutubeChannel
      *
      * @return VideoListResponse
      */
-    public function getVideoInfo(string $videoID): VideoListResponse
+    protected function getVideoInfo(string $videoID): VideoListResponse
     {
         try {
             return $this->service->videos->listVideos('snippet,statistics', ['id' => $videoID]);

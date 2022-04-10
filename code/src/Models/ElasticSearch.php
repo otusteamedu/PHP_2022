@@ -12,7 +12,7 @@ class ElasticSearch implements StorageInterface
     /**
      * @var Client
      */
-    protected Client $client;
+    private Client $client;
 
     public function __construct()
     {
@@ -47,11 +47,11 @@ class ElasticSearch implements StorageInterface
     }
 
     /**
-     * @param $data
+     * @param array $data
      *
      * @return void
      */
-    public function add($data): array
+    public function add(array $data): array
     {
         return $this->client->index($data);
     }
@@ -68,11 +68,11 @@ class ElasticSearch implements StorageInterface
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return array
      */
-    public function searchYoutubeChannel($name): array
+    protected function searchYoutubeChannel(string $name): array
     {
         return $this->search([
             'index' => YoutubeChannel::CHANNEL_INDEX,
@@ -91,7 +91,7 @@ class ElasticSearch implements StorageInterface
      *
      * @return array|void
      */
-    public function saveYoutubeVideo(array $video)
+    protected function saveYoutubeVideo(array $video)
     {
         return $this->add([
             'index' => YoutubeChannel::VIDEO_INDEX,
@@ -105,7 +105,7 @@ class ElasticSearch implements StorageInterface
      *
      * @return array|void
      */
-    public function saveYoutubeChannel(array $channelInfo)
+    protected function saveYoutubeChannel(array $channelInfo)
     {
         return $this->add([
             'index' => YoutubeChannel::CHANNEL_INDEX,
@@ -117,7 +117,7 @@ class ElasticSearch implements StorageInterface
     /**
      * @return array
      */
-    public function getAllChannelsInfo(): array
+    protected function getAllChannelsInfo(): array
     {
         $cache    = $this->search(['index' => YoutubeChannel::CHANNEL_INDEX, 'size' => 1000]);
         $channels = [];
@@ -134,11 +134,11 @@ class ElasticSearch implements StorageInterface
     }
 
     /**
-     * @param $channelID
+     * @param string $channelID
      *
      * @return array
      */
-    public function getVideosFromChannel($channelID): array
+    protected function getVideosFromChannel(string $channelID): array
     {
         $cache = $this->search([
             'index' => YoutubeChannel::VIDEO_INDEX,

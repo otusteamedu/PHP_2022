@@ -4,26 +4,16 @@ namespace KonstantinDmitrienko\App\Controllers;
 
 use KonstantinDmitrienko\App\Models\ElasticSearch;
 
-class ElasticSearchController
+class ElasticSearchController extends ElasticSearch
 {
     /**
-     * @var ElasticSearch
-     */
-    protected ElasticSearch $elasticSearch;
-
-    public function __construct()
-    {
-        $this->elasticSearch = new ElasticSearch();
-    }
-
-    /**
-     * @param $name
+     * @param string $name
      *
      * @return array
      */
-    public function searchYoutubeChannel($name): array
+    public function searchYoutubeChannel(string $name): array
     {
-        return $this->elasticSearch->searchYoutubeChannel($name);
+        return parent::searchYoutubeChannel($name);
     }
 
     /**
@@ -33,7 +23,7 @@ class ElasticSearchController
      */
     public function saveYoutubeVideo(array $video)
     {
-        return $this->elasticSearch->saveYoutubeVideo($video);
+        return parent::saveYoutubeVideo($video);
     }
 
     /**
@@ -43,7 +33,7 @@ class ElasticSearchController
      */
     public function saveYoutubeChannel(array $channelInfo)
     {
-        return $this->elasticSearch->saveYoutubeChannel($channelInfo);
+        return parent::saveYoutubeChannel($channelInfo);
     }
 
     /**
@@ -51,16 +41,16 @@ class ElasticSearchController
      */
     public function getAllChannelsInfo(): array
     {
-        return $this->elasticSearch->getAllChannelsInfo();
+        return parent::getAllChannelsInfo();
     }
 
     /**
-     * @param $channelID
+     * @param string $channelID
      *
      * @return array
      */
-    public function getVideosFromChannel($channelID): array
+    public function getVideosFromChannel(string $channelID): array
     {
-        return $this->elasticSearch->getVideosFromChannel($channelID);
+        return parent::getVideosFromChannel($channelID);
     }
 }

@@ -4,26 +4,16 @@ namespace KonstantinDmitrienko\App\Controllers;
 
 use KonstantinDmitrienko\App\Models\YoutubeChannel;
 
-class YoutubeChannelController
+class YoutubeChannelController extends YoutubeChannel
 {
     /**
-     * @var YoutubeChannel
-     */
-    protected YoutubeChannel $youtubeChannel;
-
-    public function __construct()
-    {
-        $this->youtubeChannel = new YoutubeChannel();
-    }
-
-    /**
-     * @param $name
+     * @param string $name
      *
      * @return array
      */
-    public function getChannelInfo($name): array
+    public function getChannelInfo(string $name): array
     {
-        $channelInfo = $this->youtubeChannel->getChannelInfo($name);
+        $channelInfo = parent::getChannelInfo($name);
         $channelInfo += ['query' => $name];
 
         return $channelInfo;
@@ -39,14 +29,14 @@ class YoutubeChannelController
         $videos = [];
 
         do {
-            $videosInfo = $this->youtubeChannel->getBaseVideosInfo($channelID);
+            $videosInfo = $this->getBaseVideosInfo($channelID);
 
             foreach ($videosInfo['items'] as $item) {
                 if (!$item['id']['videoId']) {
                     continue;
                 }
 
-                $videoInfo = $this->youtubeChannel->getVideoInfo($item['id']['videoId']);
+                $videoInfo = $this->getVideoInfo($item['id']['videoId']);
 
                 $videos[] = [
                     'ID'          => $item['id']['videoId'],

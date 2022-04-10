@@ -7,11 +7,11 @@ use RuntimeException;
 class RequestValidator
 {
     /**
-     * @param $request
+     * @param array $request
      *
      * @return void
      */
-    public static function validate($request): void
+    public static function validate(array $request): void
     {
         if (!$request || !isset($request['youtube'])) {
             throw new RuntimeException('Empty request or missing required youtube parameter');
@@ -19,11 +19,11 @@ class RequestValidator
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return void
      */
-    public static function checkChannelName($name): void
+    public static function checkChannelName(string $name): void
     {
         if (!$name) {
             throw new RuntimeException('Missing required channel name parameter');

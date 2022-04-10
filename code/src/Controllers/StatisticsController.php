@@ -4,18 +4,8 @@ namespace KonstantinDmitrienko\App\Controllers;
 
 use KonstantinDmitrienko\App\Models\Statistics;
 
-class StatisticsController
+class StatisticsController extends Statistics
 {
-    /**
-     * @var Statistics
-     */
-    protected Statistics $statistics;
-
-    public function __construct()
-    {
-        $this->statistics = new Statistics();
-    }
-
     /**
      * @param ElasticSearchController $elasticSearchController
      *
@@ -23,7 +13,7 @@ class StatisticsController
      */
     public function getAllChannelsInfo(ElasticSearchController $elasticSearchController): array
     {
-        return $this->statistics->getAllChannelsInfo($elasticSearchController);
+        return parent::getAllChannelsInfo($elasticSearchController);
     }
 
     /**
@@ -34,6 +24,6 @@ class StatisticsController
      */
     public function getTopRatedChannels(ElasticSearchController $elasticSearchController, int $limit = 3): array
     {
-        return $this->statistics->getTopRatedChannels($elasticSearchController, $limit);
+        return parent::getTopRatedChannels($elasticSearchController, $limit);
     }
 }
