@@ -20,8 +20,9 @@ class VideoStatisticTopChanelsCommand extends Command
 
     public function handle()
     {
-//        $count = $this->ask('What count for top chanels? - max 5 because chanels:  ["Neo", "Morpheus", "Trinity", "Cypher", "Tank"]');
-        $count = 2;
+        $count = (int)$this->ask('What count for top channels? - max 5 because channels:  ["Neo", "Morpheus", "Trinity", "Cypher", "Tank"]');
+
+        $this->info("You select {$count} count of top channels");
 
         $params = [
             'index' => VideoElasticsearchSearchRepository::INDEX,
@@ -29,9 +30,11 @@ class VideoStatisticTopChanelsCommand extends Command
         ];
 
         $result = $this->repository->search($params);
+        $likes = $this->sumLikes($result);
+        $dislikes = $this->sumDislikes($result);
 
-        dump('sum likes: ', $this->sumLikes($result));
-//        dump('dislikes: ' . $this->dislikes($result));
+        dump('sum likes: ', $this->range($likes, $count));
+        dump('sum dislikes: ', $this->range($dislikes, $count));
 
         return 0;
     }
@@ -61,14 +64,45 @@ class VideoStatisticTopChanelsCommand extends Command
         return $chanels;
     }
 
-    private function dislikes(array $result): int
+    private function sumDislikes(array $result): array
     {
-        $sum = 0;
+        $chanels = [];
 
         foreach ($result['hits']['hits'] as $video) {
+            $chanel = $video['_source']['video_chanel'] ?? null;
+
+            if ($chanel === null) {
+                continue;
+            }
+
+            if (isset($chanels[$chanel])) {
+                $sum = $chanels[$chanel];
+            } else {
+                $sum = 0;
+            }
+
             $sum += $video['_source']['dislike'];
+
+            $chanels[$chanel] = $sum;
         }
 
-        return $sum;
+        return $chanels;
+    }
+
+    private function range(array $data, int $count): array
+    {
+        arsort($data);
+
+        $i = 1;
+
+        foreach ($data as $key => $chanel) {
+            if ($i > $count) {
+                unset($data[$key]);
+            }
+
+            $i++;
+        }
+
+        return $data;
     }
 }
