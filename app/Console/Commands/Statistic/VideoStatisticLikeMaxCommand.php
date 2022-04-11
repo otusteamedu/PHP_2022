@@ -4,7 +4,7 @@
 namespace App\Console\Commands\Statistic;
 
 
-use App\Repositories\VideoElasticsearchSearchRepository;
+use App\Services\VideoStatisticService;
 use Illuminate\Console\Command;
 
 class VideoStatisticLikeMaxCommand extends Command
@@ -13,7 +13,7 @@ class VideoStatisticLikeMaxCommand extends Command
 
     protected $description = 'Get statistic for max likes and dislikes on chanel';
 
-    public function __construct(private VideoElasticsearchSearchRepository $repository)
+    public function __construct(private VideoStatisticService $service)
     {
         parent::__construct();
     }
@@ -22,44 +22,11 @@ class VideoStatisticLikeMaxCommand extends Command
     {
         $title = $this->ask('What name chanel? ["Neo", "Morpheus", "Trinity", "Cypher", "Tank"]');
 
-        $params = [
-            'index' => VideoElasticsearchSearchRepository::INDEX,
-            'body'  => [
-                'query' => [
-                    'match' => [
-                        'video_chanel' => $title,
-                    ]
-                ]
-            ]
-        ];
+        $result = $this->service->getData($title);
 
-        $result = $this->repository->search($params);
-
-        dump('likes: ' . $this->likes($result));
-        dump('dislikes: ' . $this->dislikes($result));
+        $this->info('likes: ' . $this->service->likes($result));
+        $this->info('dislikes: ' . $this->service->dislikes($result));
 
         return 0;
-    }
-
-    private function likes(array $result): int
-    {
-        $sum = 0;
-
-        foreach ($result['hits']['hits'] as $video) {
-            $sum += $video['_source']['like'];
-        }
-
-        return $sum;
-    }
-
-    private function dislikes(array $result): int
-    {
-        $sum = 0;
-
-        foreach ($result['hits']['hits'] as $video) {
-            $sum += $video['_source']['dislike'];
-        }
-
-        return $sum;
     }
 }

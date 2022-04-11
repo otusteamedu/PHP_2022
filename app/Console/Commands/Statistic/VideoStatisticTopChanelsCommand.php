@@ -4,8 +4,9 @@
 namespace App\Console\Commands\Statistic;
 
 
-use App\Repositories\VideoElasticsearchSearchRepository;
+use App\Services\VideoTopStatisticService;
 use Illuminate\Console\Command;
+
 
 class VideoStatisticTopChanelsCommand extends Command
 {
@@ -13,7 +14,7 @@ class VideoStatisticTopChanelsCommand extends Command
 
     protected $description = 'Get statistic for top chanel by likes and dislikes';
 
-    public function __construct(private VideoElasticsearchSearchRepository $repository)
+    public function __construct(private VideoTopStatisticService $service)
     {
         parent::__construct();
     }
@@ -24,85 +25,15 @@ class VideoStatisticTopChanelsCommand extends Command
 
         $this->info("You select {$count} count of top channels");
 
-        $params = [
-            'index' => VideoElasticsearchSearchRepository::INDEX,
-            'size' => 1000,
-        ];
+        $likes = $this->service->calculateLikes($count);
+        $dislikes = $this->service->calculateDislikes($count);
 
-        $result = $this->repository->search($params);
-        $likes = $this->sumLikes($result);
-        $dislikes = $this->sumDislikes($result);
+        $this->info('Top likes chenals:');
+        dump($likes);
 
-        dump('sum likes: ', $this->range($likes, $count));
-        dump('sum dislikes: ', $this->range($dislikes, $count));
+        $this->info('Top dislikes chenals:');
+        dump($dislikes);
 
         return 0;
-    }
-
-    private function sumLikes(array $result): array
-    {
-        $chanels = [];
-
-        foreach ($result['hits']['hits'] as $video) {
-            $chanel = $video['_source']['video_chanel'] ?? null;
-
-            if ($chanel === null) {
-                continue;
-            }
-
-            if (isset($chanels[$chanel])) {
-                $sum = $chanels[$chanel];
-            } else {
-                $sum = 0;
-            }
-
-            $sum += $video['_source']['like'];
-
-            $chanels[$chanel] = $sum;
-        }
-
-        return $chanels;
-    }
-
-    private function sumDislikes(array $result): array
-    {
-        $chanels = [];
-
-        foreach ($result['hits']['hits'] as $video) {
-            $chanel = $video['_source']['video_chanel'] ?? null;
-
-            if ($chanel === null) {
-                continue;
-            }
-
-            if (isset($chanels[$chanel])) {
-                $sum = $chanels[$chanel];
-            } else {
-                $sum = 0;
-            }
-
-            $sum += $video['_source']['dislike'];
-
-            $chanels[$chanel] = $sum;
-        }
-
-        return $chanels;
-    }
-
-    private function range(array $data, int $count): array
-    {
-        arsort($data);
-
-        $i = 1;
-
-        foreach ($data as $key => $chanel) {
-            if ($i > $count) {
-                unset($data[$key]);
-            }
-
-            $i++;
-        }
-
-        return $data;
     }
 }
