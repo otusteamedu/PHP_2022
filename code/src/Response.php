@@ -4,6 +4,11 @@ namespace KonstantinDmitrienko\App;
 
 class Response
 {
+    public const CHANNEL_ADDED_MESSAGE = 'Channel successfully added.';
+    public const SUCCESS_STATUS = 200;
+    public const JSON_HEADER_NAME = 'content-type';
+    public const JSON_HEADER_VALUE = 'application/json';
+
     /**
      * @param string $message
      *
@@ -34,7 +39,7 @@ class Response
     protected static function showMessage(string $message = ''): void
     {
         if ($message) {
-            header('Content-Type: application/json; charset=utf-8');
+            header(self::JSON_HEADER_NAME . ': ' . self::JSON_HEADER_VALUE);
             echo $message;
         }
     }

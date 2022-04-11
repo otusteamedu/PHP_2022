@@ -1,4 +1,4 @@
-<form action="" method="post">
+<form action="add-channel" method="post">
     <input type="hidden" name="youtube[action]" value="add_channel">
 
     <div style="display: flex;">
@@ -10,9 +10,7 @@
 
 <hr>
 
-<form action="" method="post">
-    <input type="hidden" name="youtube[action]" value="get_channels">
-
+<form action="get-all-channels" method="get">
     <div style="display: flex;">
         <label for="get_channels">List of channels with likes/dislikes</label>
         <button id="get_channels" type="submit" style="margin-left: 10px">Show</button>
@@ -21,9 +19,7 @@
 
 <hr>
 
-<form action="" method="post">
-    <input type="hidden" name="youtube[action]" value="get_top_rated_channels">
-
+<form action="get-top-rated-channels" method="get">
     <div style="display: flex;">
         <label for="get_top_rated_channels">Get 3 top-rated channels</label>
         <button id="get_top_rated_channels" type="submit" style="margin-left: 10px">Show</button>

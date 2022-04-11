@@ -2,8 +2,14 @@
 
 namespace KonstantinDmitrienko\App;
 
-use JsonException;
+use KonstantinDmitrienko\App\Controllers\AddYoutubeChannelController;
 use KonstantinDmitrienko\App\Controllers\AppController;
+use KonstantinDmitrienko\App\Controllers\GetAllChannelsController;
+use KonstantinDmitrienko\App\Controllers\GetTopRatedChannelsController;
+use KonstantinDmitrienko\App\Controllers\HomeController;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\Route\Router;
 
 /**
  * Base app class
@@ -21,27 +27,19 @@ class App
 
     /**
      * @return void
-     * @throws JsonException
      */
     public function run(): void
     {
-        if (!$_POST) {
-            $this->controller->showForm();
-            return;
-        }
+        $request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
-        RequestValidator::validate($_POST);
+        $router  = new Router;
+        $router->map('GET', '/', HomeController::class);
+        $router->map('POST', '/add-channel', AddYoutubeChannelController::class);
+        $router->map('GET', '/get-all-channels', GetAllChannelsController::class);
+        $router->map('GET', '/get-top-rated-channels', GetTopRatedChannelsController::class);
 
-        switch ($_POST['youtube']['action']) {
-            case 'add_channel':
-                $this->controller->addYoutubeChannel($_POST['youtube']['name']);
-                break;
-            case 'get_channels':
-                $this->controller->getAllChannelsInfo();
-                break;
-            case 'get_top_rated_channels':
-                $this->controller->getTopRatedChannels();
-                break;
-        }
+        $response = $router->dispatch($request);
+
+        (new SapiEmitter)->emit($response);
     }
 }

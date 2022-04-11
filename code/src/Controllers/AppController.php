@@ -2,10 +2,7 @@
 
 namespace KonstantinDmitrienko\App\Controllers;
 
-use JsonException;
 use KonstantinDmitrienko\App\RequestValidator;
-use KonstantinDmitrienko\App\Response;
-use KonstantinDmitrienko\App\View;
 
 class AppController
 {
@@ -20,11 +17,6 @@ class AppController
     protected ElasticSearchController $elasticSearchController;
 
     /**
-     * @var View
-     */
-    protected View $view;
-
-    /**
      * @var StatisticsController
      */
     private StatisticsController $statisticsController;
@@ -33,7 +25,6 @@ class AppController
     {
         $this->elasticSearchController  = new ElasticSearchController();
         $this->youtubeChannelController = new YoutubeChannelController();
-        $this->view                     = new View();
         $this->statisticsController     = new StatisticsController();
     }
 
@@ -58,39 +49,21 @@ class AppController
         foreach ($this->youtubeChannelController->getChannelVideosInfo($channelInfo['ID']) as $video) {
             $this->elasticSearchController->saveYoutubeVideo($video);
         }
-
-        Response::success('Channel successfully added.');
     }
 
     /**
-     * @return void
-     * @throws JsonException
+     * @return array
      */
-    public function getAllChannelsInfo(): void
+    public function getAllChannelsInfo(): array
     {
-        Response::success(json_encode(
-            $this->statisticsController->getAllChannelsInfo($this->elasticSearchController),
-            JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT
-        ));
+        return $this->statisticsController->getAllChannelsInfo($this->elasticSearchController);
     }
 
     /**
-     * @return void
-     * @throws JsonException
+     * @return array
      */
-    public function getTopRatedChannels(): void
+    public function getTopRatedChannels(): array
     {
-        Response::success(json_encode(
-            $this->statisticsController->getTopRatedChannels($this->elasticSearchController),
-            JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT
-        ));
-    }
-
-    /**
-     * @return void
-     */
-    public function showForm(): void
-    {
-        $this->view->showForm();
+        return $this->statisticsController->getTopRatedChannels($this->elasticSearchController);
     }
 }

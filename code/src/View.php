@@ -21,4 +21,12 @@ class View
     {
         require self::$viewDir . 'form.php';
     }
+
+    /**
+     * @return false|string
+     */
+    public function getForm()
+    {
+        return file_get_contents(self::$viewDir . 'form.php');
+    }
 }
