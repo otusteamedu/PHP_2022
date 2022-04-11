@@ -1,0 +1,24 @@
+{
+    "name": "konstantin-dmitrienko/hw10",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Konstantin Dmitrienko",
+            "email": "kos220490@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "elasticsearch/elasticsearch": "^7.0",
+        "google/apiclient": "^2.12",
+        "ext-json": "*",
+        "league/route": "^5.1",
+        "laminas/laminas-diactoros": "^2.9",
+        "laminas/laminas-httphandlerrunner": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "KonstantinDmitrienko\\App\\": "src/"
+        }
+    }
+}
