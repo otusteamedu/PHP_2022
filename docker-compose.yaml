@@ -1,39 +1,55 @@
 version: '3'
 
 services:
-  socket-server:
-    build:
-      context: .
-      dockerfile: php/Dockerfile
-    image: balance/php
-    container_name: socket-server
-    working_dir: /data/mysite.local
+  nginx:
+    image: nginx:alpine
+    container_name: homework-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
     volumes:
-      - ./code:/data/mysite.local
+      - ./code:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - app
     networks:
       - app-network
 
-  socket-client:
+  app:
     build:
       context: .
-      dockerfile: php/Dockerfile
-    image: balance/php
-    container_name: socket-client
-    working_dir: /data/mysite.local
+      dockerfile: docker/php/Dockerfile
+    image: homebee
+    container_name: homework-app
+    restart: unless-stopped
     volumes:
-      - ./code:/data/mysite.local
+      - ./code:/var/www
     networks:
       - app-network
 
   workspace:
     build:
       context: .
-      dockerfile: php/ConsoleDockerfile
+      dockerfile: docker/php/ConsoleDockerfile
     image: balance/workspace
-    container_name: workspace
-    working_dir: /data/mysite.local
+    container_name: homework-workspace
+    restart: unless-stopped
     volumes:
-      - ./code:/data/mysite.local
+      - ./code:/var/www
+    networks:
+      - app-network
+
+  memcached:
+    container_name: homework-memcached
+    image: memcached:latest
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  redis:
+    image: redis:4.0
+    container_name: homework-redis
+    restart: unless-stopped
     networks:
       - app-network
 
