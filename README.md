@@ -53,15 +53,6 @@ explain analyse select type_price_id, date_time, price from price_history where 
 
 - без индексов:
 ```SQL
-Seq Scan on price_history  (cost=0.00..189.00 rows=8706 width=18) (actual time=0.007..1.917 rows=8706 loops=1)
-  Filter: (price < '700'::numeric)
-  Rows Removed by Filter: 1294
-Planning Time: 0.092 ms
-Execution Time: 2.211 ms
-```
-
-- с индексами:
-```SQL
 Seq Scan on price_history  (cost=0.00..189.00 rows=8706 width=18) (actual time=0.012..3.449 rows=8706 loops=1)
   Filter: (price < '700'::numeric)
   Rows Removed by Filter: 1294
@@ -69,9 +60,36 @@ Planning Time: 0.090 ms
 Execution Time: 4.117 ms
 ```
 
+- с индексами:
+```SQL
+Seq Scan on price_history  (cost=0.00..189.00 rows=8706 width=18) (actual time=0.007..1.917 rows=8706 loops=1)
+  Filter: (price < '700'::numeric)
+  Rows Removed by Filter: 1294
+Planning Time: 0.092 ms
+Execution Time: 2.211 ms
+```
+
 ### Запрос 3
 ```SQL
 explain analyse select name, description from film where name like '%а%';
+```
+
+Без индекса на поле name
+```sql
+Seq Scan on film  (cost=0.00..11.62 rows=26 width=548) (actual time=0.011..0.012 rows=2 loops=1)
+  Filter: ((name)::text ~~ '%а%'::text)
+  Rows Removed by Filter: 1
+Planning Time: 0.227 ms
+Execution Time: 0.028 ms
+```
+
+С индексами на поле name
+```sql
+Seq Scan on film  (cost=0.00..1.04 rows=1 width=548) (actual time=0.009..0.011 rows=2 loops=1)
+  Filter: ((name)::text ~~ '%а%'::text)
+  Rows Removed by Filter: 1
+Planning Time: 0.224 ms
+Execution Time: 0.025 ms
 ```
 
 ### Запрос 4
