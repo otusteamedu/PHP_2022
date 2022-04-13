@@ -1,5 +1,9 @@
 <?php
+declare(strict_types=1);
 
-echo 'test';
+use Decole\Hw13\Core\Kernel;
 
-phpinfo();
+require __DIR__ . '/src/bootstrap/bootstrap.php';
+
+$app = new Kernel();
+$app->run();
