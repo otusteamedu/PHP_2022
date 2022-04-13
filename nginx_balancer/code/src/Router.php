@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace Mapaxa\BalancerApp;
 
+use Mapaxa\BalancerApp\Exception\RoutesFileException;
+
 class Router
 {
     const CONTROLLERS = 'Mapaxa\BalancerApp\Controller\\';
@@ -11,6 +13,9 @@ class Router
     public function __construct()
     {
         $routesPath = 'config/routes.php';
+        if (!is_readable($routesPath)) {
+            throw new RoutesFileException();
+        }
         $this->routes = include($routesPath);
     }
 
