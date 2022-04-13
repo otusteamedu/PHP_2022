@@ -2,6 +2,6 @@
 
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
 
-- [ ] переделать архитектуру на текущее ДЗ
-- [ ] начать
+- [x] переделать архитектуру на текущее ДЗ
+- [x] начать
 - [ ] закончить
