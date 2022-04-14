@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: client
+    volumes:
+      - ./../:/data/otus.local
+      -  socket:/data/socket
+
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: server
+    volumes:
+      - ./../:/data/otus.local
+      - socket:/data/socket
+
+volumes:
+  socket:
