@@ -5,12 +5,13 @@ namespace Mapaxa\BalancerApp\App;
 
 
 use Mapaxa\BalancerApp\Exception\RoutesFileException;
+use Mapaxa\BalancerApp\HandBook\HttpStatusHandbook;
 use Mapaxa\BalancerApp\Router;
 use Mapaxa\BalancerApp\Service\Http\Response;
 
 class App
 {
-    private Router $router;
+    private ?Router $router = null;
 
     public function __construct()
     {
@@ -18,8 +19,8 @@ class App
             $this->router = new Router();
         } catch (RoutesFileException $e) {
             echo $e->getMessage();
-            die;
-            // Response::setResponseCode(404);
+            Response::setResponseCode(HttpStatusHandbook::BAD_REQUEST);
+            return;
         }
     }
 
