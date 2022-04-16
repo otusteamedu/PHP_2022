@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: app
+    build: ./fpm
+    environment:
+      - PHP_IDE_CONFIG=serverName=application
+    volumes:
+      - ./app:/var/www/html
+      - ./app/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - app-net
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    ports:
+      - ${APP_PORT}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./app:/var/www/html
+    networks:
+      - app-net
+
+  database:
+    image: postgres:13.1
+    container_name: postgres
+    volumes:
+      - ./volumes/db/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
