@@ -48,11 +48,13 @@ class CompanyMapper
         $prepare->execute([$company->getId()]);
     }
 
-    public function findById(int $id): Company
+    public function findById(int $id): ?Company
     {
         $prepare = $this->pdo->prepare('SELECT id, name, address, phone, email FROM company WHERE id = ?');
         $prepare->execute([$id]);
-        $result = $prepare->fetch(\PDO::FETCH_ASSOC);
+        if (!$result = $prepare->fetch(\PDO::FETCH_ASSOC)) {
+            return null;
+        }
 
         return Company::create()
             ->setId($result['id'])

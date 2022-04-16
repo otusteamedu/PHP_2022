@@ -50,7 +50,7 @@ class UserMapper
         $this->identityMap::remove($user->getId());
     }
 
-    public function findById(int $id): User
+    public function findById(int $id): ?User
     {
         if ($user = $this->identityMap::get($id)) {
             return $user;
@@ -58,7 +58,9 @@ class UserMapper
 
         $prepare = $this->pdo->prepare('SELECT id, name, surname FROM users WHERE id = ?');
         $prepare->execute([$id]);
-        $result = $prepare->fetch(\PDO::FETCH_ASSOC);
+        if (!$result = $prepare->fetch(\PDO::FETCH_ASSOC)) {
+            return null;
+        }
 
         $user = User::create()
             ->setId($result['id'])
