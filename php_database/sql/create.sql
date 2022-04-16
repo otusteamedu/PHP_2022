@@ -5,3 +5,9 @@ CREATE TABLE company (
     phone VARCHAR(15),
     email VARCHAR(50)
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    surname VARCHAR(50)
+);

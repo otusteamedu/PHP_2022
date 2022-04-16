@@ -4,6 +4,8 @@ namespace App\Db\Core;
 
 use App\Db\Database\DataMapper\Entity\Company;
 use App\Db\Database\DataMapper\Mapper\CompanyMapper;
+use App\Db\Database\IdentityMap\Entity\User;
+use App\Db\Database\IdentityMap\Mapper\UserMapper;
 use DI\Container;
 use DI\ContainerBuilder;
 use Symfony\Component\Dotenv\Dotenv;
@@ -17,20 +19,22 @@ class App
     {
         $builder = new ContainerBuilder();
         $this->container = $builder->build();
+
+        $dotenv = new Dotenv();
+        $dotenv->load($_SERVER['DOCUMENT_ROOT'].'/.env');
     }
 
     public function run(): void
     {
-        $this->configure();
-
         try {
             $this->dataMapperExample();
+            $this->identityMapExample();
         } catch (\Exception $e) {
             header('Status: 500 Error: ' . $e->getMessage());
         }
     }
 
-    private function dataMapperExample()
+    private function dataMapperExample(): void
     {
         $company = Company::create()
             ->setName('Яндекс')
@@ -49,12 +53,32 @@ class App
                 return $company->toArray();
             })->toArray();
 
-        echo json_encode($arrayCompanies, JSON_PRETTY_PRINT);
+        $this->print('DATA MAPPER', $arrayCompanies);
     }
 
-    private function configure(): void
+    private function identityMapExample(): void
     {
-        $dotenv = new Dotenv();
-        $dotenv->load($_SERVER['DOCUMENT_ROOT'].'/.env');
+        $user = User::create()
+            ->setName('Павел')
+            ->setSurname('Гапоненко');
+
+        $userMapper = $this->container->get(UserMapper::class);
+        $userMapper->insert($user);
+        $users = $userMapper->findAll();
+
+        $arrayUsers = CollectionFactory::from($users)
+            ->stream()
+            ->map(function (User $user) {
+                return $user->toArray();
+            })
+            ->toArray();
+
+        $this->print('IDENTITY MAP', $arrayUsers);
+    }
+
+    private function print(string $header, array $content): void
+    {
+        echo "\n" . $header . "\n";
+        echo json_encode($content, JSON_PRETTY_PRINT);
     }
 }
