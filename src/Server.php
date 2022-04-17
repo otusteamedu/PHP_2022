@@ -9,8 +9,8 @@ class Server extends Socket
 
     public function connect()
     {
-        \socket_bind($this->socket, $this->address);
-        \socket_listen($this->socket);
+        $this->bind();
+        $this->listen();
     }
 
 
@@ -19,7 +19,7 @@ class Server extends Socket
         $this->connection = socket_accept($this->socket);
 
         while (true) {
-            $message = $this->read();
+            $message = $this->read($this->connection);
 
             if (!$message) {
                 continue;
@@ -36,12 +36,6 @@ class Server extends Socket
             $this->write('Сервер получил сообщение: ' . $message);
             $this->show('Сообщение от клиента: ' . $message);
         }
-    }
-
-
-    public function read()
-    {
-        return socket_read($this->connection, 1024);
     }
 
 

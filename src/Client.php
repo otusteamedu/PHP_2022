@@ -22,7 +22,9 @@ class Client extends Socket
             }
 
             $this->write($message);
-            $this->show($this->read());
+            $this->show(
+                $this->read($this->socket)
+            );
 
             if ($message === self::CLOSE_COMMAND) {
                 $this->close();
@@ -42,11 +44,5 @@ class Client extends Socket
     public function write(string $text)
     {
         socket_write($this->socket, $text);
-    }
-
-
-    public function read()
-    {
-        return socket_read($this->socket, 1024);
     }
 }

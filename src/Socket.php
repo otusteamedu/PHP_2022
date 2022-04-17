@@ -17,15 +17,12 @@ abstract class Socket
 
     abstract public function connect();
     abstract public function run();
-    abstract public function read();
     abstract public function write(string $text);
     abstract public function close();
 
-    private function create(): void
+    public function read($socket)
     {
-        if (!$this->socket) {
-            $this->socket = \socket_create(AF_UNIX, SOCK_STREAM, 0);
-        }
+        return socket_read($socket, 1024);
     }
 
 
@@ -34,4 +31,22 @@ abstract class Socket
         echo $message . PHP_EOL;
     }
 
+
+    protected function bind(): void
+    {
+        \socket_bind($this->socket, $this->address);
+    }
+
+    protected function listen(): void
+    {
+        \socket_listen($this->socket);
+    }
+
+
+    private function create(): void
+    {
+        if (!$this->socket) {
+            $this->socket = \socket_create(AF_UNIX, SOCK_STREAM, 0);
+        }
+    }
 }
