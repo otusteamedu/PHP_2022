@@ -15,6 +15,13 @@ class SocketFactory
         $this->config = $config;
     }
 
+    public function makeFromInput(): Socket
+    {
+        $socketType = $_SERVER['argv'][1] ?? '';
+
+        return $this->make($socketType);
+    }
+
     public function make(string $type): Socket
     {
         if (!in_array($type, self::AVAILABLE_TYPES, true)) {

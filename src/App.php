@@ -9,8 +9,7 @@ class App
     {
         $factory = new SocketFactory(new Config());
 
-        $socketType = $_SERVER['argv'][1] ?? '';
-        $socket = $factory->make($socketType);
+        $socket = $factory->makeFromInput();
 
         $socket->connect();
         $socket->run();
