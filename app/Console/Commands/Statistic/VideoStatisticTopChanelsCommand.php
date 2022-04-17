@@ -29,11 +29,9 @@ class VideoStatisticTopChanelsCommand extends Command
         $dislikes = $this->service->calculateDislikes($count);
 
         $this->info('Top likes chenals:');
-        dump($likes);
+        $this->info($likes);
 
         $this->info('Top dislikes chenals:');
-        dump($dislikes);
-
-        return 0;
+        $this->info($dislikes);
     }
 }

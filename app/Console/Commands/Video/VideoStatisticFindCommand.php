@@ -33,13 +33,13 @@ class VideoStatisticFindCommand extends Command
             ]
         ];
 
-        $results = $this->repository->search($params);
+        $result = $this->repository->search($params);
+        $this->info($result);
 
-        dump($results);
-        return 0;
+        return $result;
     }
 
-    protected function SearchCreatedDatafromQueryMatch(): void
+    protected function SearchCreatedDatafromQueryMatch(): array
     {
         $params = [
             'index' => VideoElasticsearchSearchRepository::INDEX,
@@ -52,18 +52,18 @@ class VideoStatisticFindCommand extends Command
             ]
         ];
 
-        $result = $this->repository->search($params);
-        dump($result);
+        return $this->repository->search($params);
     }
 
-    private function getCreatedDataFromUUID(): void
+    private function getCreatedDataFromUUID(): array
     {
+        $id = $this->ask('What is id?');
+
         $params = [
             'index' => VideoElasticsearchSearchRepository::INDEX,
-            'id'    => '70d83596-618d-43a2-a231-1cdadc894944'
+            'id'    => $id,
         ];
 
-        $result = $this->repository->get($params);
-        dump($result);
+        return $this->repository->get($params);
     }
 }

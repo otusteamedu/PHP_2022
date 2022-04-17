@@ -21,9 +21,11 @@ class VideoIndexCreateCommand extends Command
     public function handle()
     {
         $this->info('Make index for chanel video');
-        $result = $this->repository->createIndex();
-        dump($result);
 
-        return 0;
+        $result = $this->repository->createIndex();
+
+        $this->info($result);
+
+        return $result;
     }
 }

@@ -30,10 +30,10 @@ class ChanelStatisticGeneratorCommand extends Command
 
             $dto = $this->createDto($chanel);
             $this->repository->save($dto);
-            dump($dto);
+            $this->info($dto);
         }
 
-        return 0;
+        $this->info('success');
     }
 
     private function createDto(string $chanel): ChanelDto
@@ -41,7 +41,7 @@ class ChanelStatisticGeneratorCommand extends Command
         $dto = new ChanelDto();
         $dto->id = (string) Str::uuid();
         $dto->title = $chanel;
-        $dto->description = Str::random(180);
+        $dto->description = Str::random(random_int(20,255));
 
         return $dto;
     }

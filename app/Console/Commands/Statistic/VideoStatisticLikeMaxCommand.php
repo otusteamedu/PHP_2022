@@ -26,7 +26,5 @@ class VideoStatisticLikeMaxCommand extends Command
 
         $this->info('likes: ' . $this->service->likes($result));
         $this->info('dislikes: ' . $this->service->dislikes($result));
-
-        return 0;
     }
 }

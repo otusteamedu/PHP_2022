@@ -29,10 +29,10 @@ class VideoStatisticGeneratorCommand extends Command
         for ($i = 0; $i < $limit; $i++) {
             $dto = $this->createDto();
             $this->repository->save($dto);
-            dump($dto);
+            $this->info($dto);
         }
 
-        return 0;
+        $this->info('success');
     }
 
     private function createDto(): VideoDto
@@ -42,8 +42,8 @@ class VideoStatisticGeneratorCommand extends Command
         $dto = new VideoDto();
         $dto->id = (string) Str::uuid();
         $dto->videoChanel = $chanel[array_rand($chanel, 1)];
-        $dto->videoTitle =  Str::random(180);
-        $dto->description = Str::random(180);
+        $dto->videoTitle =  Str::random(random_int(20,255));
+        $dto->description = Str::random(random_int(20,255));
         $dto->videoSeconds = random_int(0, 600);
         $dto->like = random_int(0, 999999);
         $dto->dislike = random_int(0, 999999);
