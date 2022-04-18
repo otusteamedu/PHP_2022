@@ -15,6 +15,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "klein/klein": "dev-master"
+        "klein/klein": "dev-master",
+        "vlucas/phpdotenv": "5.4.x-dev",
+        "predis/predis": "v1.1.x-dev"
     }
 }

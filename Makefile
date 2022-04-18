@@ -7,9 +7,6 @@ compose = docker-compose
 
 app = $(compose) exec -T app
 
-build-app:
-	$(compose) up -d --build --remove-orphans
-
 up:
 	$(compose) up -d --remove-orphans
 

@@ -4,21 +4,40 @@
 namespace Decole\Hw13\Controllers;
 
 
+use Decole\Hw13\Core\Kernel;
+use Decole\Hw13\Core\Services\AddEventService;
+use Decole\Hw13\Core\Validators\EventsAddValidator;
 use Klein\Request;
 use Klein\Response;
-use Klein\ServiceProvider;
 
 class EventController extends AbstractController
 {
-    public function index(Request $request, Response $response, ServiceProvider $service)
+    // пример ответа на простой запрос и энтрипоинт отвечающий, что бэкэнд жив.
+    public function index(Request $request, Response $response)
     {
         try {
-            // https://github.com/klein/klein.php
-    //        $service->validateParam('username', 'Please enter a valid username')->isLen(5, 64)->isChars('a-zA-Z0-9-');
-            $service->validateParam('password')->notNull();
-            $this->success($response, ['status' => 'success']);
+            $this->success($response, ['status' => 'ok']);
         } catch (\Throwable $exception) {
             $this->error($response, [$exception->getTrace()]);
         }
+    }
+
+    // добавление события в стопку хранения
+    public function add(Request $request, Response $response)
+    {
+        $events = json_decode($request->body(), true);
+        $validator = new EventsAddValidator($events);
+
+        if (!$validator->validate()) {
+            $this->error($response, $validator->getErrors());
+
+            return;
+        }
+
+        $service = new AddEventService();
+        $dtos = $service->createDtos((array)$events);
+        $service->addEvents($dtos);
+
+        $this->success($response, ['status' => 'success']);
     }
 }
