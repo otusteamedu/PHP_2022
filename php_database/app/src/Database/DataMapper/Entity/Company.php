@@ -110,11 +110,11 @@ class Company implements Entity
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'address' => $this->getAddress(),
-            'phone' => $this->getPhone(),
-            'email' => $this->getEmail(),
+            'id' => $this->id,
+            'name' => $this->name,
+            'address' => $this->address,
+            'phone' => $this->phone,
+            'email' => $this->email,
         ];
     }
 }
