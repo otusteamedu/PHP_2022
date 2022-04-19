@@ -1,7 +1,4 @@
-.idea
-.git
-dbdata
-Homestead
-
-.gitignore
+vendor
+sock
 .env
+.idea

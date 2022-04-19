@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  client-app:
+    build:
+      context: images/cli
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: client-app
+    restart: always
+    volumes:
+      - ./app:/data/app
+      - ./sock:/tmp/sock
+    networks:
+      - app-network
+    env_file:
+      - .env
+    depends_on:
+      - server-app
+
+  server-app:
+    build:
+      context: images/cli
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: server-app
+    restart: always
+    volumes:
+      - ./app:/data/app
+      - ./sock:/tmp/sock
+    networks:
+      - app-network
+    env_file:
+      - .env
+
+networks:
+  app-network:
+    driver: bridge
