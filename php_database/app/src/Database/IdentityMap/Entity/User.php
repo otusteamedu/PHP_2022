@@ -2,7 +2,9 @@
 
 namespace App\Db\Database\IdentityMap\Entity;
 
-class User
+use App\Db\Database\Entity;
+
+class User implements Entity
 {
     private int $id;
     private string $name;

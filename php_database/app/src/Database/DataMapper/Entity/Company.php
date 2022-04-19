@@ -2,9 +2,11 @@
 
 namespace App\Db\Database\DataMapper\Entity;
 
-class Company
+use App\Db\Database\Entity;
+
+class Company implements Entity
 {
-    private int $id;
+    private ?int $id = null;
     private string $name = '';
     private string $address = '';
     private string $phone = '';
@@ -108,11 +110,11 @@ class Company
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'address' => $this->address,
-            'phone' => $this->phone,
-            'email' => $this->email,
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'address' => $this->getAddress(),
+            'phone' => $this->getPhone(),
+            'email' => $this->getEmail(),
         ];
     }
 }

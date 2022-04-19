@@ -2,59 +2,48 @@
 
 namespace App\Db\Database\DataMapper\Mapper;
 
-use App\Db\Database\Connector;
 use App\Db\Database\DataMapper\Entity\Company;
+use App\Db\Database\QueryBuilder;
 use WS\Utils\Collections\CollectionFactory;
 
 class CompanyMapper
 {
-    private \PDO $pdo;
+    private QueryBuilder $queryBuilder;
 
-    public function __construct(Connector $connector)
+    public function __construct(QueryBuilder $queryBuilder)
     {
-        $this->pdo = $connector::connect();
+        $this->queryBuilder = $queryBuilder;
     }
 
     public function insert(Company $company): int
     {
-        $prepare = $this->pdo->prepare('INSERT INTO company(name, address, phone, email) VALUES (?, ?, ?, ?)');
-
-        $prepare->execute([
-            $company->getName(),
-            $company->getAddress(),
-            $company->getPhone(),
-            $company->getEmail(),
-        ]);
-
-        return $this->pdo->lastInsertId();
+        return $this->queryBuilder
+            ->table('company')
+            ->insert($company);
     }
 
     public function update(Company $company): void
     {
-        $prepare = $this->pdo->prepare('UPDATE company SET name=?, address=?, phone=?, email=? WHERE id=?');
-
-        $prepare->execute([
-            $company->getName(),
-            $company->getAddress(),
-            $company->getPhone(),
-            $company->getEmail(),
-            $company->getId(),
-        ]);
+        $this->queryBuilder
+            ->table('company')
+            ->update($company);
     }
 
     public function delete(Company $company): void
     {
-        $prepare = $this->pdo->prepare('DELETE FROM company WHERE id = ?');
-        $prepare->execute([$company->getId()]);
+        $this->queryBuilder
+            ->table('company')
+            ->delete($company);
     }
 
     public function findById(int $id): ?Company
     {
-        $prepare = $this->pdo->prepare('SELECT id, name, address, phone, email FROM company WHERE id = ?');
-        $prepare->execute([$id]);
-        if (!$result = $prepare->fetch(\PDO::FETCH_ASSOC)) {
-            return null;
-        }
+        $result = $this->queryBuilder
+            ->select(['id', 'name', 'address', 'phone', 'email'])
+            ->from('company')
+            ->where('id = ' . $id)
+            ->getQuery()
+            ->getResult();
 
         return Company::create()
             ->setId($result['id'])
@@ -69,9 +58,13 @@ class CompanyMapper
      */
     public function findAll(): array
     {
-        $prepare = $this->pdo->query('SELECT id, name, address, phone, email FROM company', \PDO::FETCH_ASSOC);
+        $result = $this->queryBuilder
+            ->select(['id', 'name', 'address', 'phone', 'email'])
+            ->from('company')
+            ->getQuery()
+            ->getResult();
 
-        return CollectionFactory::fromIterable($prepare)
+        return CollectionFactory::from($result)
             ->stream()
             ->map(function (array $row) {
                 return Company::create()

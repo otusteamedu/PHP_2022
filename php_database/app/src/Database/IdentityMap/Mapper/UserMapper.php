@@ -2,51 +2,44 @@
 
 namespace App\Db\Database\IdentityMap\Mapper;
 
-use App\Db\Database\Connector;
 use App\Db\Database\IdentityMap\Entity\User;
 use App\Db\Database\IdentityMap\IdentityMap\UserIdentityMap;
+use App\Db\Database\QueryBuilder;
 use WS\Utils\Collections\CollectionFactory;
 
 class UserMapper
 {
-    private \PDO $pdo;
+    private QueryBuilder $queryBuilder;
     private UserIdentityMap $identityMap;
 
-    public function __construct(Connector $connector, UserIdentityMap $identityMap)
+    public function __construct(QueryBuilder $queryBuilder, UserIdentityMap $identityMap)
     {
-        $this->pdo = $connector::connect();
+        $this->queryBuilder = $queryBuilder;
         $this->identityMap = $identityMap;
     }
 
     public function insert(User $user): int
     {
-        $prepare = $this->pdo->prepare('INSERT INTO users (name, surname) VALUES (?, ?)');
-
-        $prepare->execute([
-            $user->getName(),
-            $user->getSurname(),
-        ]);
-
-        return $this->pdo->lastInsertId();
+        return $this->queryBuilder
+            ->table('users')
+            ->insert($user);
     }
 
     public function update(User $user): void
     {
-        $prepare = $this->pdo->prepare('UPDATE users SET name=?, surname=? WHERE id=?');
-
-        $prepare->execute([
-            $user->getName(),
-            $user->getSurname(),
-            $user->getId(),
-        ]);
+        $this->queryBuilder
+            ->table('users')
+            ->update($user);
 
         $this->identityMap::set($user);
     }
 
     public function delete(User $user): void
     {
-        $prepare = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
-        $prepare->execute([$user->getId()]);
+        $this->queryBuilder
+            ->table('users')
+            ->delete($user);
+
         $this->identityMap::remove($user->getId());
     }
 
@@ -56,11 +49,13 @@ class UserMapper
             return $user;
         }
 
-        $prepare = $this->pdo->prepare('SELECT id, name, surname FROM users WHERE id = ?');
-        $prepare->execute([$id]);
-        if (!$result = $prepare->fetch(\PDO::FETCH_ASSOC)) {
-            return null;
-        }
+        $result = $this->queryBuilder
+            ->table('users')
+            ->select(['id', 'name', 'surname'])
+            ->from('users')
+            ->where('id = ' . $user->getId())
+            ->getQuery()
+            ->getResult();
 
         $user = User::create()
             ->setId($result['id'])
@@ -77,15 +72,19 @@ class UserMapper
      */
     public function findAll(): array
     {
-        $count = $this->pdo->query('SELECT id FROM users')->rowCount();
+        $count = $this->queryBuilder->table('users')
+            ->select(['id', 'name', 'surname'])
+            ->from('users')
+            ->getQuery()
+            ->getCount();
 
         if ($count === $this->identityMap::count()) {
             return $this->identityMap::getAll();
         }
 
-        $prepare = $this->pdo->query('SELECT id, name, surname FROM users', \PDO::FETCH_ASSOC);
+        $result = $this->queryBuilder->getResult();
 
-        return CollectionFactory::fromIterable($prepare)
+        return CollectionFactory::fromIterable($result)
             ->stream()
             ->map(function (array $row) {
                 $user = User::create()
