@@ -30,7 +30,7 @@ class App
             $this->dataMapperExample();
             $this->identityMapExample();
         } catch (\Exception $e) {
-            header('Status: 500 Error: ' . $e->getMessage());
+            echo $e->getMessage();
         }
     }
 
