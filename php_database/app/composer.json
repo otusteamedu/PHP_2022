@@ -7,6 +7,7 @@
         }
     },
     "require": {
+        "php": ">=7.4",
         "php-di/php-di": "^6.3",
         "worksolutions/php-collections": "^1.1",
         "symfony/dotenv": "^6.0"
