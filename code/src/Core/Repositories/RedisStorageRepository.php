@@ -5,30 +5,45 @@ namespace Decole\Hw13\Core\Repositories;
 
 
 use Decole\Hw13\Core\Dtos\EventAddDto;
+use Decole\Hw13\Core\Kernel;
+use JsonException;
 use Predis\Client;
+use Ramsey\Uuid\Uuid;
 
 class RedisStorageRepository implements StorageRepositoryInterface
 {
+    public const KEY = 'event';
+
     private Client $client;
 
     public function __construct()
     {
-        $client = new Client([
+        $this->client = new Client([
             'scheme' => 'tcp',
-            'host'   => '10.0.0.1',
+            'host'   => 'redis',
             'port'   => 6379,
+            'database' => 0
         ]);
-
-        $this->client = new Client('tcp://10.0.0.1:6379');
     }
 
+    /**
+     * @throws JsonException
+     */
     public function save(EventAddDto $dto): void
     {
-        return;
+        $uuid = Uuid::uuid4();
+        $this->client->sadd(self::KEY, [$uuid]);
+        $this->client->hset($uuid, 'event_name', $dto->eventType);
+        $this->client->hset($uuid, 'priority', $dto->priority);
+        $this->client->hset($uuid, 'condition', $dto->getCondition());
     }
 
     public function getByParams(array $condition): array
     {
+        $list = $this->client->smembers(self::KEY);
+
+        Kernel::dump($list);
+
         return [];
     }
 

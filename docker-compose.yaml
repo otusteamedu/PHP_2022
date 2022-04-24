@@ -53,6 +53,15 @@ services:
     networks:
       - app-network
 
+  redisinsight:
+      image: redislabs/redisinsight:latest
+      container_name: homework-redisinsight
+      restart: unless-stopped
+      ports:
+          - "8001:8001"
+      networks:
+          - app-network
+
 networks:
   app-network:
     driver: bridge

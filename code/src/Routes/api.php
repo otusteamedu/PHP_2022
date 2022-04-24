@@ -13,4 +13,5 @@ use Decole\Hw13\Controllers\EventController;
 return [
     ['GET', '/', function ($request, $response) {(new EventController())->index($request, $response);}],
     ['POST', '/event/add', function ($request, $response) {(new EventController())->add($request, $response);}],
+    ['POST', '/event/find', function ($request, $response) {(new EventController())->find($request, $response);}],
 ];

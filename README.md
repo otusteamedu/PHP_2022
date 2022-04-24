@@ -8,7 +8,7 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 - [x] начать
 - [x] разобраться с роутингом
 - [x] разобраться с назначением контроллера по роуту
-- [ ] настроить работу с redis
+- [x] настроить работу с redis
 - [ ] репозиторий работы с редисом
 - [ ] продумать как можно будет менять редис на мэмкешед
 - [ ] прописать нужные роуты
@@ -37,3 +37,6 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 Желательно параллельно попрактиковаться и выполнить редисДЗ в других NoSQL хранилищах
 Слой кода, отвечающий за работу с хранилищем должен позволять легко менять хранилище
 
+SETTINGS:
+'database' => 0
+http://localhost:8001/ - redisinsight

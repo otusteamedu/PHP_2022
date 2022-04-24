@@ -35,9 +35,14 @@ class EventController extends AbstractController
         }
 
         $service = new AddEventService();
-        $dtos = $service->createDtos((array)$events);
-        $service->addEvents($dtos);
+        $dtoList = $service->createDtoList((array)$events);
+        $service->addEvents($dtoList);
 
         $this->success($response, ['status' => 'success']);
+    }
+
+    public function find($request, $response)
+    {
+        Kernel::dump($request);
     }
 }

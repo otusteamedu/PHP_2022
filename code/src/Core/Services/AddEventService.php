@@ -5,7 +5,6 @@ namespace Decole\Hw13\Core\Services;
 
 
 use Decole\Hw13\Core\Dtos\EventAddDto;
-use Decole\Hw13\Core\Kernel;
 
 class AddEventService
 {
@@ -22,7 +21,7 @@ class AddEventService
         }
     }
 
-    public function createDtos(array $events): array
+    public function createDtoList(array $events): array
     {
         $result = [];
 
