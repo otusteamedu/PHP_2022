@@ -8,7 +8,12 @@
         }
     ],
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "ext-json": "*",
+        "league/route": "^5.1",
+        "laminas/laminas-diactoros": "^2.9",
+        "laminas/laminas-httphandlerrunner": "^2.1",
+        "predis/predis": "^1.1"
     },
     "autoload": {
         "psr-4": {

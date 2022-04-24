@@ -23,8 +23,22 @@ services:
       dockerfile: Dockerfile
     image: app/fpm
     container_name: fpm
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PORT=${REDIS_PORT}
     volumes:
        - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - ${REDIS_PORT}:6379
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - ./tmp/redis:/data
     networks:
       - app-network
 
