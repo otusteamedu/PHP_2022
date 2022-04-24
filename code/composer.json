@@ -1,10 +1,10 @@
 {
-    "name": "decole/hw13",
-    "description": "home work 13",
+    "name": "decole/hw15",
+    "description": "home work 15",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Decole\\Hw13\\": "src/"
+            "Decole\\Hw15\\": "src/"
         }
     },
     "authors": [

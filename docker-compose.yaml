@@ -19,11 +19,12 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    image: homebee
+    image: homework/15/fpm
     container_name: homework-app
     restart: unless-stopped
     volumes:
       - ./code:/var/www
+      - .env:/var/www/.env
     networks:
       - app-network
 
@@ -31,7 +32,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/ConsoleDockerfile
-    image: balance/workspace
+    image: homework/15/workspace
     container_name: homework-workspace
     restart: unless-stopped
     volumes:
@@ -39,28 +40,20 @@ services:
     networks:
       - app-network
 
-  memcached:
-    container_name: homework-memcached
-    image: memcached:latest
-    restart: unless-stopped
+  database:
+    image: postgres:11.2-alpine
+    container_name: homework-postgres
+    volumes:
+      - ./.dev/postgres:/var/lib/postgresql/data
+      - ./docker/postgres/dump:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 54322:5432
     networks:
       - app-network
-
-  redis:
-    image: redis:4.0
-    container_name: homework-redis
-    restart: unless-stopped
-    networks:
-      - app-network
-
-  redisinsight:
-      image: redislabs/redisinsight:latest
-      container_name: homework-redisinsight
-      restart: unless-stopped
-      ports:
-          - "8001:8001"
-      networks:
-          - app-network
 
 networks:
   app-network:

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Decole\Hw13\Controllers;
+namespace Decole\Hw15\Controllers;
 
 
 use Klein\Response;

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Decole\Hw13\Core;
+namespace Decole\Hw15\Core;
 
 
 use Dotenv\Dotenv;
@@ -51,6 +51,12 @@ final class Kernel
     {
         $env = Dotenv::createImmutable(__DIR__ . '/../../');
         $env->load();
-        $env->required(['STORAGE']);
+        $env->required([
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'DB_DATABASE',
+            'DB_CONNECTION',
+            'DB_HOST',
+        ]);
     }
 }

@@ -1,25 +1,44 @@
 FROM php:8.0-cli
 
-ENV BASE_PATH="/var/www" \
-    MODE="production" \
-    PATH=/composer/vendor/bin:/scripts:/scripts/aliases:$PATH \
-    COMPOSER_ALLOW_SUPERUSER=1 \
-    COMPOSER_CACHE_DIR="/tmp" \
-    COMPOSER_HOME="/composer" \
-    XDEBUG_CLIENT_HOST="172.17.0.1"
+ENV NGINX_USER=www-data \
+    NGINX_SITECONF_DIR=/etc/nginx/sites-enabled \
+    NGINX_LOG_DIR=/var/log/nginx \
+    NGINX_TEMP_DIR=/var/lib/nginx
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
+RUN apt-get update -q -y \
+    && apt-get install -q -y --no-install-recommends \
+    libmemcached-dev zlib1g-dev \
+    curl \
+    libpq-dev \
+    libzip-dev \
+    libpng-dev \
     zip \
+    libmcrypt-dev \
     unzip \
-    libz-dev libmemcached-dev  \
-    && pecl install memcached  \
+    git \
+    supervisor \
+    nginx \
+    procps \
+    sudo \
+    && pecl install memcached \
     && docker-php-ext-enable memcached \
-    && pecl install redis-5.3.7 \
-    && docker-php-ext-enable redis
+    && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin
+RUN apt-get update -q -y \
+    && apt-get install -q -y --no-install-recommends \
+    libzip-dev \
+    zip \
+    psmisc
+
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pgsql pdo_pgsql \
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-install zip \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www
