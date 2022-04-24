@@ -8,15 +8,11 @@ use Decole\Hw13\Core\Dtos\EventAddDto;
 
 class AddEventService
 {
-    /**
-     * @param EventAddDto[] $dtos
-     * @return void
-     */
-    public function addEvents(array $dtos): void
+    public function addEvents(array $dtoList): void
     {
         $service = new StorageService();
 
-        foreach ($dtos as $dto) {
+        foreach ($dtoList as $dto) {
             $service->save($dto);
         }
     }
@@ -36,6 +32,4 @@ class AddEventService
 
         return $result;
     }
-
-
 }

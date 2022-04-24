@@ -4,16 +4,25 @@
 namespace Decole\Hw13\Controllers;
 
 
-use Decole\Hw13\Core\Kernel;
 use Decole\Hw13\Core\Services\AddEventService;
+use Decole\Hw13\Core\Services\FindEventService;
+use Decole\Hw13\Core\Services\FlushEventService;
 use Decole\Hw13\Core\Validators\EventsAddValidator;
+use Decole\Hw13\Core\Validators\EventsFindValidator;
+use JsonException;
 use Klein\Request;
 use Klein\Response;
 
 class EventController extends AbstractController
 {
-    // пример ответа на простой запрос и энтрипоинт отвечающий, что бэкэнд жив.
-    public function index(Request $request, Response $response)
+    /**
+     * Пример ответа на простой запрос и энтрипоинт отвечающий, что бэкэнд жив.
+     *
+     * @param Response $response
+     * @return void
+     * @throws JsonException
+     */
+    public function index(Response $response): void
     {
         try {
             $this->success($response, ['status' => 'ok']);
@@ -22,10 +31,14 @@ class EventController extends AbstractController
         }
     }
 
-    // добавление события в стопку хранения
-    public function add(Request $request, Response $response)
+    /**
+     * Добавление события в стопку хранения
+     *
+     * @throws JsonException
+     */
+    public function add(Request $request, Response $response): void
     {
-        $events = json_decode($request->body(), true);
+        $events = $this->getBody($request);
         $validator = new EventsAddValidator($events);
 
         if (!$validator->validate()) {
@@ -41,8 +54,49 @@ class EventController extends AbstractController
         $this->success($response, ['status' => 'success']);
     }
 
-    public function find($request, $response)
+    /**
+     * Поиск по параметрам
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     * @throws JsonException
+     */
+    public function find(Request $request, Response $response): void
     {
-        Kernel::dump($request);
+        $query = $this->getBody($request);
+        $validator = new EventsFindValidator($query);
+
+        if (!$validator->validate()) {
+            $this->error($response, $validator->getErrors());
+
+            return;
+        }
+
+        $service = new FindEventService();
+
+        $this->success($response, ['status' => $service->find($service->createDto($query))]);
+    }
+
+    /**
+     * Очистка от всего
+     *
+     * @param Response $response
+     * @return void
+     * @throws JsonException
+     */
+    public function flush(Response $response): void
+    {
+        (new FlushEventService())->flushAll();
+
+        $this->success($response, ['status' => 'success']);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    private function getBody(Request $request): array
+    {
+        return json_decode($request->body(), true, 512, JSON_THROW_ON_ERROR);
     }
 }

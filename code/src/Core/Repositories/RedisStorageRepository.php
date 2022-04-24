@@ -5,7 +5,7 @@ namespace Decole\Hw13\Core\Repositories;
 
 
 use Decole\Hw13\Core\Dtos\EventAddDto;
-use Decole\Hw13\Core\Kernel;
+use Decole\Hw13\Core\Dtos\EventSearchedContext;
 use JsonException;
 use Predis\Client;
 use Ramsey\Uuid\Uuid;
@@ -40,15 +40,40 @@ class RedisStorageRepository implements StorageRepositoryInterface
 
     public function getByParams(array $condition): array
     {
+        $result = [];
         $list = $this->client->smembers(self::KEY);
 
-        Kernel::dump($list);
+        foreach ($list as $event) {
+            $eventCondition = $this->client->hget($event, 'condition');
+            $eventConditionArray = json_decode($eventCondition, true);
 
-        return [];
+            if ($this->isConditionExist($eventConditionArray, $condition)) {
+                $priority = $this->client->hget($event, 'priority');
+
+                $result[$priority][$event] = new EventSearchedContext(
+                    name: $this->client->hget($event, 'event_name'),
+                    priority: $priority,
+                    condition: $eventConditionArray,
+                );
+            }
+        }
+
+        return $result;
     }
 
     public function deleteAll(): void
     {
-        return;
+        $this->client->flushall();
+    }
+
+    private function isConditionExist(array $eventConditionArray, array $queryCondition): bool
+    {
+        foreach ($queryCondition as $condition => $value) {
+            if (array_key_exists($condition, $eventConditionArray) && $eventConditionArray[$condition] == $value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

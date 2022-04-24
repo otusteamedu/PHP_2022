@@ -1,12 +1,13 @@
 <?php
 
+
 namespace Decole\Hw13\Core\Services;
 
-use Cassandra\Map;
+
 use Decole\Hw13\Core\Dtos\EventAddDto;
+use Decole\Hw13\Core\Dtos\EventFindDto;
 use Decole\Hw13\Core\Kernel;
 use Decole\Hw13\Core\Repositories\StorageRepositoryInterface;
-use Decole\Hw13\Core\Repositories\RedisStorageRepository;
 
 final class StorageService
 {
@@ -22,5 +23,15 @@ final class StorageService
     public function save(EventAddDto $dto): void
     {
         $this->repository->save($dto);
+    }
+
+    public function find(EventFindDto $dto): array
+    {
+        return $this->repository->getByParams($dto->params);
+    }
+
+    public function flush(): void
+    {
+        $this->repository->deleteAll();
     }
 }

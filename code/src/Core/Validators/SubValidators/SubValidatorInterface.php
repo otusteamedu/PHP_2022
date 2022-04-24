@@ -1,6 +1,8 @@
 <?php
 
+
 namespace Decole\Hw13\Core\Validators\SubValidators;
+
 
 interface SubValidatorInterface
 {
