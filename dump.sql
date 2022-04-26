@@ -23,15 +23,22 @@ CREATE TABLE halls (
                        "places_count" smallint not null
 );
 
-DROP TYPE IF EXISTS place_type;
-Create type place_type as enum ('regular', 'vip', 'premium');
 
 DROP TABLE IF EXISTS places;
+DROP TYPE IF EXISTS place_type;
+
+Create type place_type as enum ('regular', 'vip', 'premium');
+
 CREATE TABLE places (
                         "id" serial PRIMARY KEY,
                         "position" Smallint NOT NULL,
-                        "type" place_type not null
+                        "hall_id" integer NOT NULL,
+                        "type" place_type not null,
+                        FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
+                        UNIQUE ("position", "hall_id")
+
 );
+
 
 DROP TABLE IF EXISTS sessions;
 CREATE TABLE sessions (
