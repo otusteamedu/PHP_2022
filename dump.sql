@@ -23,6 +23,16 @@ CREATE TABLE halls (
                        "places_count" smallint not null
 );
 
+DROP TYPE IF EXISTS place_type;
+Create type place_type as enum ('regular', 'vip', 'premium');
+
+DROP TABLE IF EXISTS places;
+CREATE TABLE places (
+                        "id" serial PRIMARY KEY,
+                        "position" Smallint NOT NULL,
+                        "type" place_type not null
+);
+
 DROP TABLE IF EXISTS sessions;
 CREATE TABLE sessions (
                           "id" serial PRIMARY KEY,
@@ -30,7 +40,6 @@ CREATE TABLE sessions (
                           "film_id" integer NOT NULL,
                           "started_at" time NOT NULL,
                           "ended_at" time NOT NULL,
-                          "price" numeric NOT NULL,
                           FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
                           FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
 );
@@ -40,11 +49,12 @@ DROP TABLE IF EXISTS tickets;
 CREATE TABLE tickets (
                          "id" serial PRIMARY KEY,
                          "session_id" integer NOT NULL,
+                         "place_id" integer NOT NULL,
                          "client_id" integer NOT NULL,
-                         "place" smallint NOT NULL,
                          "buyed_at" timestamp NOT NULL,
+                         "price" numeric NOT NULL,
                          FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
                          FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-                         UNIQUE ("session_id", "place")
+                         FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE,
+                         UNIQUE ("session_id", "place_id")
 );
-
