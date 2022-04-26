@@ -34,4 +34,12 @@ class App
             Response::failure($e->getMessage());
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public static function getConfig()
+    {
+        return include('config.php');
+    }
 }

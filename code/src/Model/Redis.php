@@ -3,6 +3,7 @@
 namespace KonstantinDmitrienko\App\Model;
 
 use JsonException;
+use KonstantinDmitrienko\App\App;
 use KonstantinDmitrienko\App\Interfaces\StorageInterface;
 use Predis\Client;
 
@@ -21,11 +22,13 @@ class Redis implements StorageInterface
      */
     public function __construct()
     {
+        $config = App::getConfig();
+
         $this->redis = new Client([
             'scheme'   => 'tcp',
-            'host'     => 'redis',
-            'port'     => $_ENV['REDIS_PORT'],
-            'password' => $_ENV['REDIS_PASSWORD']
+            'host'     => $config['redis']['host'],
+            'port'     => $config['redis']['port'],
+            'password' => $config['redis']['pass']
         ]);
     }
 
