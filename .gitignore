@@ -1,0 +1,4 @@
+.idea/
+/code/vendor/
+.env
+tmp/
