@@ -4,6 +4,7 @@
 namespace Decole\Hw13\Controllers;
 
 
+use Decole\Hw13\Core\Dtos\ServerErrorCode;
 use Klein\Response;
 
 class AbstractController
@@ -14,9 +15,9 @@ class AbstractController
         $response->body(json_encode($body, JSON_THROW_ON_ERROR));
     }
 
-    protected function error(Response $response, array $body): void
+    protected function error(Response $response, array $body, int $code = ServerErrorCode::BAD_REQUEST): void
     {
-        $response->code(400);
+        $response->code($code);
         $response->body(json_encode($body, JSON_THROW_ON_ERROR));
         $this->headers($response);
     }

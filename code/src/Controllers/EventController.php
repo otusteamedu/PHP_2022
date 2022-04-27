@@ -4,6 +4,7 @@
 namespace Decole\Hw13\Controllers;
 
 
+use Decole\Hw13\Core\Dtos\ServerErrorCode;
 use Decole\Hw13\Core\Services\AddEventService;
 use Decole\Hw13\Core\Services\FindEventService;
 use Decole\Hw13\Core\Services\FlushEventService;
@@ -42,7 +43,7 @@ class EventController extends AbstractController
         $validator = new EventsAddValidator($events);
 
         if (!$validator->validate()) {
-            $this->error($response, $validator->getErrors());
+            $this->error($response, $validator->getErrors(), ServerErrorCode::UNPROCESSABLE_ENTITY);
 
             return;
         }
