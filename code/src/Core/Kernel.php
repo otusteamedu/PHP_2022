@@ -5,28 +5,11 @@ declare(strict_types=1);
 namespace Decole\Hw15\Core;
 
 
-use Dotenv\Dotenv;
-use Klein\Klein;
 use PDO;
 use PDOException;
 
 final class Kernel
 {
-    private Klein $router;
-
-    private array $rotes = [];
-
-    public function __construct()
-    {
-        $this->routes();
-        $this->loadEnv();
-    }
-
-    public function run(): void
-    {
-        $this->router->dispatch();
-    }
-
     public static function getConfigParam(string $param): ?string
     {
         return $_ENV[$param];
@@ -58,29 +41,5 @@ final class Kernel
         } catch (PDOException $e) {
             die($e->getMessage());
         }
-    }
-
-    private function routes(): void
-    {
-        $this->router = new Klein();
-
-        $api = require(__DIR__ . '/../Routes/api.php');
-
-        foreach ($api as $route) {
-            $this->router->respond(...$route);
-        }
-    }
-
-    private function loadEnv(): void
-    {
-        $env = Dotenv::createImmutable(__DIR__ . '/../../');
-        $env->load();
-        $env->required([
-            'DB_USERNAME',
-            'DB_PASSWORD',
-            'DB_DATABASE',
-            'DB_CONNECTION',
-            'DB_HOST',
-        ]);
     }
 }

@@ -1,13 +1,16 @@
 <?php
 declare(strict_types=1);
 
-use Decole\Hw15\Core\Kernel;
+use Klein\Klein;
 
 require __DIR__ . '/src/bootstrap/bootstrap.php';
 
-try {
-    $app = new Kernel();
-    $app->run();
-} catch (Exception $e) {
-    echo $e->getMessage(). PHP_EOL;
+$router = new Klein();
+
+$api = require(__DIR__ . '/src/Routes/api.php');
+
+foreach ($api as $route) {
+    $router->respond(...$route);
 }
+
+$router->dispatch();

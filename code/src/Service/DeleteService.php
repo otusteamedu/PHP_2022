@@ -8,6 +8,7 @@ namespace Decole\Hw15\Service;
 use Decole\Hw15\Core\DataMapper\User;
 use Decole\Hw15\Core\DataMapper\UserMapper;
 use Decole\Hw15\Core\Kernel;
+use Klein\Response;
 
 class DeleteService
 {
@@ -18,7 +19,7 @@ class DeleteService
 
             return (new UserMapper($pdo))->delete($user);
         } catch (\Throwable $exception) {
-            echo ($exception->getMessage());
+            (new Response())->json(['system error' => $exception->getMessage()]);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Decole\Hw15\Service;
 
 use Decole\Hw15\Core\DataMapper\UserMapper;
 use Decole\Hw15\Core\Kernel;
+use Klein\Response;
 
 class InstallService
 {
@@ -28,7 +29,7 @@ class InstallService
 
             return array_merge($userData, ['id' => $userId]);
         } catch (\Throwable $exception) {
-            echo ($exception->getMessage());
+            (new Response())->json(['system error' => $exception->getMessage()]);
         }
     }
 }

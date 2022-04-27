@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Decole\Hw15\Controllers;
 
 
+use Decole\Hw15\Core\Dtos\ServerErrorCode;
 use Decole\Hw15\Service\DeleteService;
 use Decole\Hw15\Service\FindService;
 use Decole\Hw15\Service\InstallService;
@@ -33,7 +34,7 @@ class AppController extends AbstractController
                 'data' => $service->execute()
             ]);
         } catch (\Throwable $exception) {
-            $this->error($response, [$exception->getTrace()]);
+            $this->error($response, [$exception->getTrace()], ServerErrorCode::UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -53,7 +54,7 @@ class AppController extends AbstractController
                 'data' => $service->execute((int)$id),
             ]);
         } catch (\Throwable $exception) {
-            $this->error($response, [$exception->getTrace()]);
+            $this->error($response, [$exception->getTrace()], ServerErrorCode::UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -75,7 +76,7 @@ class AppController extends AbstractController
                 'deleted' => $service->execute($user)
             ]);
         } catch (\Throwable $exception) {
-            $this->error($response, [$exception->getTrace()]);
+            $this->error($response, [$exception->getTrace()], ServerErrorCode::UNPROCESSABLE_ENTITY);
         }
     }
 }
