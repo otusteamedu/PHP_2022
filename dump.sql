@@ -31,11 +31,12 @@ Create type place_type as enum ('regular', 'vip', 'premium');
 
 CREATE TABLE places (
                         "id" serial PRIMARY KEY,
+                        "column" Smallint NOT NULL,
                         "position" Smallint NOT NULL,
                         "hall_id" integer NOT NULL,
                         "type" place_type not null,
                         FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
-                        UNIQUE ("position", "hall_id")
+                        UNIQUE ("column", "position", "hall_id")
 
 );
 
