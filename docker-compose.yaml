@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data
+      - ./nginx/hosts/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data
+    networks:
+      - app-network
+
+#  memcached:
+#    image: memcached
+#    container_name: memcached
+#    ports:
+#      - "11211:11211"
+#    networks:
+#      - app-network
+#
+#  redis:
+#    image: redis
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - app-network
+
+networks:
+  app-network:
+    driver: bridge
