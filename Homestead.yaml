@@ -1,0 +1,34 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: hw-homestead
+
+folders:
+    - map: C:\Users\ivanb\Desktop\Otus\1.01\src
+      to: /home/vagrant/code
+
+sites:
+    - map: hw.test
+      to: /home/vagrant/code
+
+databases:
+    - hwdb
+
+features:
+    - mysql: true
+    - mariadb: true
+    - postgresql: false
+    - ohmyzsh: true
+    - webdriver: false
+
+
+ports:
+   - send: 3306 
+     to: 3306
+   - send: 80
+     to: 80
+   - send: 443 
+     to: 44
+ 
