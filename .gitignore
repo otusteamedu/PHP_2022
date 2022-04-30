@@ -1,0 +1,6 @@
+.idea
+.vscode
+.docker/mariadb/data
+.docker/redis/data
+.docker/sockets
+.env

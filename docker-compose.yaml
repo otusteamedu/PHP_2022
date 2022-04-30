@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+  php:
+    container_name: hw-php
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+    volumes:          
+    - ./src:/var/www/html
+    - .docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    - .docker/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    - .docker/sockets:/var/run/php
+    networks:
+      - hw-networks
+
+  nginx:
+    container_name: hw-nginx
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - php
+    volumes:
+    - .docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    - .docker/sockets:/var/run/php
+    - ./src:/var/www/html        
+    networks:
+      - hw-networks  
+
+  mariadb:
+    container_name: hw-mariadb
+    build:
+      context: .
+      dockerfile: .docker/mariadb/Dockerfile
+    ports:
+      - "3307:3306"
+    environment:
+      MARIADB_DATABASE: hw1
+      MARIADB_USER: ${DB_USERNAME:-hw1}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-hw1}
+      MARIADB_ROOT_PASSWORD: 'secret'
+      MARIADB_ROOT_HOST: "%"
+    volumes:
+      - .docker/mariadb/data:/var/lib/mysql     
+    networks:
+      - hw-networks
+
+  memcached:
+    image: memcached
+    container_name: hw-memcached
+    networks:
+      - hw-networks
+
+  redis:
+    image: redis
+    container_name: hw-redis
+    volumes:
+      - .docker/redis/data:/data
+    networks:
+      - hw-networks   
+
+networks:
+  hw-networks:    
+    driver: bridge 
