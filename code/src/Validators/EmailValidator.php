@@ -12,7 +12,7 @@ class EmailValidator
      * Тексты ошибок при валидации файлов
      */
     private const ERROR_FORMAT = 'неверный формат email-адреса';
-    private const ERROR_DOMEN = 'почтовый домен не существует';
+    private const ERROR_DOMAIN = 'почтовый домен не существует';
 
     /**
      * @var array Исходный массив email-адресов, который нужно проверить
@@ -65,7 +65,7 @@ class EmailValidator
             if (!$this->isEmailFormat($email)) {
                 $this->results[$email] = ['valid' => false, 'description' => self::ERROR_FORMAT];
             } elseif (!$this->isExistDomain($email)) {
-                $this->results[$email] = ['valid' => false, 'description' => self::ERROR_DOMEN];
+                $this->results[$email] = ['valid' => false, 'description' => self::ERROR_DOMAIN];
             } else {
                 $this->results[$email] = ['valid' => true];
             }
