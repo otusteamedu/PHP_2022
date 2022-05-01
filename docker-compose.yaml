@@ -1,0 +1,91 @@
+version: "3.0"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: homework-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker-compose/php/Dockerfile
+    image: homework12/app
+    container_name: homework-app
+    restart: always
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - nginx
+    networks:
+      - app-network
+
+  workspace:
+    build:
+      context: .
+      dockerfile: ./docker-compose/php/ConsoleDockerfile
+    image: homework12/workspace
+    container_name: homework-workspace
+    volumes:
+      - ./:/var/www
+    networks:
+      - app-network
+
+  redis:
+    image: redis:6.0
+    container_name: homework-redis
+    restart: always
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:11.2-alpine
+    container_name: homework-db
+    restart: always
+    volumes:
+      - ./.dev/postgres:/var/lib/postgresql/data
+    ports:
+      - "54322:5432"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app-network
+
+  elasticsearch:
+    container_name: es-container
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    volumes:
+      - ./.dev/elastic:/var/lib/postgresql/data
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - app-network
+    ports:
+      - "9200:9200"
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:7.11.0
+#    volumes:
+#      - ./.dev/kibana/kibana.yml:/usr/share/kibana/kibana.yml
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
