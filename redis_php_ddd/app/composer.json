@@ -1,0 +1,18 @@
+{
+    "name": "app/ddd",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\Ddd\\": "src/"
+        }
+    },
+    "require": {
+        "php-di/php-di": "^6.3",
+        "slim/slim": "^4.10",
+        "slim/psr7": "dev-master",
+        "pavelgaponenko/pg-otus-composer-package": "^1.0",
+        "worksolutions/php-collections": "^1.1",
+        "predis/predis": "^1.1",
+        "symfony/dotenv": "^6.0"
+    }
+}
