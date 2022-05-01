@@ -3,78 +3,13 @@ version: '3'
 
 # в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
-  # Контейнер с Nginx
-  nginx:
-    # имя будущего образа
-    image: nginx
-    build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
-    # имя контейнера после запуска
-    container_name: webserver
-    # проброс портов
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-       - ./public:/data/application.local
-    networks:
-      - app-network
-
-  # Контейнер с PHP-FPM
-  app:
-    image: php:7.4
-    build:
-      context: ./docker/php_fpm
-      dockerfile: Dockerfile
-    container_name: app
-    volumes:
-       - ./public:/data/application.local
-    # мы можем создать для контейнеров внутреннюю сеть
-    networks:
-      - app-network
-
-  # Контейнер с MySQL, строим на базе стандартного образа
-  db:
-    image: mysql:5.7.22
-    # Если нет секции build, то система будет искать образ в репозиториях
-    container_name: db
-    ports:
-      - "3306:3306"
-    # описываем, какую БД мы создаём
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - ./docker/dbdata/mysql:/var/lib/mysql
-    networks:
-      - app-network
-
-  # Контейнер с Redis
-  redis:
-    image: redis:latest
-    container_name: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./docker/dbdata/redis:/data
-    networks:
-      - app-network
-
-  # Контейнер с Memcached
-  memcached:
-    image: memcached:latest
-    container_name: memcached
-    ports:
-      - "11211:11211"
-    networks:
-      - app-network
+  # Контейнер с PHP-FPM для консоли
 
   workspace:
     image: php:7.4
     container_name: console
     volumes:
-      - ./public:/data/application.local
+      - ./code:/var/www/application.local
     networks:
       - app-network
 
