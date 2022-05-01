@@ -24,8 +24,16 @@ class EmailValidator
      */
     private array $cacheDomains = [];
 
+    /**
+     * @var array Массив результатов валидации
+     */
     private array $results = [];
 
+    /**
+     * Constructor
+     *
+     * @param array|null $arEmails
+     */
     public function __construct(?array $arEmails = null)
     {
         $this->sourceEmails = $arEmails ?? [];
