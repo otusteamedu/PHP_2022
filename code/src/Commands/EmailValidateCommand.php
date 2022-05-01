@@ -72,7 +72,7 @@ class EmailValidateCommand extends Command
                     $content .= " ({$data['description']})";
                 }
             }
-            $output->writeln( $content .PHP_EOL);
+            $output->writeln( $content . PHP_EOL);
         }
 
     }
