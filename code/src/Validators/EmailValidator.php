@@ -75,10 +75,10 @@ class EmailValidator
     /**
      * Проверка формата email-адреса
      *
-     * @param $email
+     * @param string $email
      * @return bool
      */
-    private function isEmailFormat($email): bool
+    private function isEmailFormat(string $email): bool
     {
         return !empty(filter_var($email, FILTER_VALIDATE_EMAIL));
     }
@@ -86,10 +86,10 @@ class EmailValidator
     /**
      * Проверка на существование MX записи для домена email-адреса
      *
-     * @param $email
+     * @param string $email
      * @return bool
      */
-    private function isExistDomain($email): bool
+    private function isExistDomain(string $email): bool
     {
         $arData = explode('@', $email);
         if (array_key_exists($arData[1], $this->cacheDomains)) {

@@ -61,7 +61,7 @@ class EmailValidateCommand extends Command
      * @param OutputInterface $output
      * @return void
      */
-    protected function viewArray(array $arEmails, OutputInterface $output)
+    protected function viewArray(array $arEmails, OutputInterface $output): void
     {
         foreach ($arEmails as $email => $data) {
             if ($data['valid']) {
