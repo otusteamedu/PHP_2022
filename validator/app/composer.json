@@ -1,0 +1,16 @@
+{
+    "name": "otus/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Otus\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Павел",
+            "email": "p.gaponenko@worksolutions.ru"
+        }
+    ],
+    "require": {}
+}
