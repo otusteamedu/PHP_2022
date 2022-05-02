@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Ekaterina\Hw5\Validators\FileValidator;
 use Ekaterina\Hw5\Validators\EmailValidator;
+use Ekaterina\Hw5\Helpers\ViewHelper;
 use Exception;
 
 class EmailValidateCommand extends Command
@@ -44,7 +45,7 @@ class EmailValidateCommand extends Command
                 $fileContent = file($fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                 $emailValidator = new EmailValidator($fileContent ?: []);
                 $output->writeln([PHP_EOL . 'Результат проверки email-адресов', '====================================']);
-                $this->viewArray($emailValidator->getResults(), $output);
+                $output->writeln(ViewHelper::prepareOutputResultToCommand($emailValidator->getResults()));
             }
             return Command::SUCCESS;
         } catch (Exception $e) {
@@ -52,28 +53,5 @@ class EmailValidateCommand extends Command
         }
 
         return Command::FAILURE;
-    }
-
-    /**
-     * Вывод массива результатов проверки
-     *
-     * @param array           $arEmails
-     * @param OutputInterface $output
-     * @return void
-     */
-    protected function viewArray(array $arEmails, OutputInterface $output): void
-    {
-        foreach ($arEmails as $email => $data) {
-            if ($data['valid']) {
-                $content = "<info>$email - success</info>";
-            } else {
-                $content = "<error>$email - error</error>";
-                if (!empty($data['description'])) {
-                    $content .= " ({$data['description']})";
-                }
-            }
-            $output->writeln( $content . PHP_EOL);
-        }
-
     }
 }
