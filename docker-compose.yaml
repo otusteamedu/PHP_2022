@@ -1,0 +1,19 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  # Контейнер с PHP-FPM для консоли
+
+  workspace:
+    image: php:7.4
+    container_name: console
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
