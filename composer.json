@@ -1,0 +1,20 @@
+{
+    "name": "mselyatin/project6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mselyatin\\Project6\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Михаил Селятин",
+            "email": "mselyatin@enazamusic.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "symfony/routing": "^5.4",
+        "symfony/http-foundation": "^5.4"
+    }
+}
