@@ -2,7 +2,7 @@
 
 namespace App\Ddd;
 
-use App\Ddd\Infrastructure\Http\EventController;
+use App\Ddd\Infrastructure\Http\Route\Router;
 use Exception;
 use Slim\Factory\AppFactory;
 use Slim\Psr7\Response;
@@ -17,10 +17,7 @@ class App
             $this->configure();
 
             $app = AppFactory::create();
-            $app->map(['POST'], '/event/add', EventController::class . ':add');
-            $app->map(['POST'], '/event/delete', EventController::class . ':delete');
-            $app->map(['POST'], '/event/get', EventController::class . ':get');
-
+            Router::init($app);
             $app->run();
         } catch (Exception $e) {
             $this->createErrorResponse($e->getMessage(), $e->getCode());
