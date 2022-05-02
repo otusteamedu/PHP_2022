@@ -4,11 +4,8 @@ namespace App\Ddd\Infrastructure\Repository;
 
 use App\Ddd\Application\Repository;
 use App\Ddd\Domain\Event;
-use Pavelgaponenko\PgOtusComposerPackage\Service\JsonDecoder;
 use Predis\Client;
 use WS\Utils\Collections\CollectionFactory;
-use WS\Utils\Collections\MapEntry;
-use WS\Utils\Collections\MapFactory;
 
 class EventRedisRepository implements Repository
 {
@@ -16,16 +13,14 @@ class EventRedisRepository implements Repository
     private const EVENTS_KEY = 'events';
 
     private Client $client;
-    private JsonDecoder $decoder;
 
-    public function __construct(JsonDecoder $decoder)
+    public function __construct()
     {
         $this->client = new Client([
             'scheme' => 'tcp',
             'host' => 'redis',
             'port' => 6379,
         ]);
-        $this->decoder = $decoder;
     }
 
     /**
@@ -44,16 +39,15 @@ class EventRedisRepository implements Repository
         return (bool)$this->client->exists($model->getId());
     }
 
-    public function get($request): Event
+    /**
+     * @return Event[]
+     */
+    public function getAll(): array
     {
-        $events = $this->client->smembers(self::EVENTS_KEY);
+        $eventsIds = $this->client->smembers(self::EVENTS_KEY);
 
-        return CollectionFactory::from($events)
+        return CollectionFactory::from($eventsIds)
             ->stream()
-            ->filter(function (string $eventId) use ($request) {
-                $conditions = $this->decoder->toArray($this->client->hget($eventId, Event::CONDITIONS_FIELD));
-                return $this->isMatches($conditions, $request);
-            })
             ->map(function (string $eventId) {
                 return Event::create()
                     ->setId($eventId)
@@ -61,22 +55,7 @@ class EventRedisRepository implements Repository
                     ->setPriority($this->client->hget($eventId, Event::PRIORITY_FIELD))
                     ->setConditions($this->client->hget($eventId, Event::CONDITIONS_FIELD));
             })
-            ->sortByDesc(function (Event $event) {
-                return $event->getPriority();
-            })
-            ->findFirst();
-    }
-
-    private function isMatches(array $conditions, array $request): bool
-    {
-        return count($conditions) === MapFactory::assoc($request)
-            ->stream()
-            ->filter(function (MapEntry $entry) use ($conditions) {
-                return array_key_exists($entry->getKey() , $conditions)
-                    && $entry->getValue() === $conditions[$entry->getKey()];
-            })
-            ->getCollection()
-            ->size();
+            ->toArray();
     }
 
     public function delete(): void
