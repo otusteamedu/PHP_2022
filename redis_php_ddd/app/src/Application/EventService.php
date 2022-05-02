@@ -13,11 +13,9 @@ class EventService
         $this->repository = $repositoryFactory->create();
     }
 
-    public function addEvent(Event $event): string
+    public function addEvent(Event $event): bool
     {
-        return $this->repository->add($event)
-            ? 'Событие добавлено'
-            : 'Событие не добавлено';
+        return $this->repository->add($event);
     }
 
     public function deleteEvents(): void

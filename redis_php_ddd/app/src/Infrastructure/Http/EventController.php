@@ -13,6 +13,8 @@ class EventController
 {
     private const EVENTS_DELETE_MESSAGE = 'События удалены';
     private const EVENT_NOT_FOUND_MESSAGE = 'Событие не найдено';
+    private const EVENT_ADDED_MESSAGE = 'Событие добавлено';
+    private const EVENT_NOT_ADDED_MESSAGE = 'Событие не добавлено';
 
     private JsonDecoder $decoder;
     private EventService $eventService;
@@ -32,9 +34,9 @@ class EventController
             ->setPriority((int)$data['priority'])
             ->setConditions(($this->decoder->toJson((array)$data['conditions'])));
 
-        $result = $this->eventService->addEvent($event);
+        $message = $this->eventService->addEvent($event) ? self::EVENT_ADDED_MESSAGE : self::EVENT_NOT_ADDED_MESSAGE;
 
-        return $this->createJsonResponse($response, $result);
+        return $this->createJsonResponse($response, $message);
     }
 
     public function delete(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
