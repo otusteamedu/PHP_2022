@@ -1,24 +1,12 @@
-version: '3'
+version: "3"
 
 services:
-  socket-server:
+  app:
     build:
       context: .
       dockerfile: php/Dockerfile
     image: balance/php
     container_name: socket-server
-    working_dir: /data/mysite.local
-    volumes:
-      - ./code:/data/mysite.local
-    networks:
-      - app-network
-
-  socket-client:
-    build:
-      context: .
-      dockerfile: php/Dockerfile
-    image: balance/php
-    container_name: socket-client
     working_dir: /data/mysite.local
     volumes:
       - ./code:/data/mysite.local
