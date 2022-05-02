@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Otus\SocketApp\Entity;
+namespace Otus\SocketApp\Application\Config;
 
 use Dotenv\Dotenv;
 
@@ -16,7 +16,7 @@ class Config
 
     public function __construct()
     {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../config/', self::CONFIG_FILE);
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../../config/', self::CONFIG_FILE);
         $this->config = $dotenv->load();
     }
 

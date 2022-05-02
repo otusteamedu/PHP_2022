@@ -1,20 +1,24 @@
 <?php
+declare(strict_types=1);
 
-namespace Otus\SocketApp\Entity;
 
-use Exception;
+namespace Otus\SocketApp\Application\Service;
 
-class Socket
+
+use RuntimeException;
+use Socket;
+
+final class SocketService
 {
     private string $socketFile;
 
     /**
-     * @var false|resource|\Socket
+     * @var false|resource|Socket
      */
     private $socket;
 
     /**
-     * @var false|resource|\Socket
+     * @var false|resource|Socket
      */
     private $connection;
 
@@ -23,17 +27,22 @@ class Socket
         $this->socketFile = $file;
     }
 
-    /**
-     * @param $unlink
-     * @return false|resource|\Socket
-     */
     public function create(bool $unlink = false)
     {
         if ($unlink) {
-            @unlink($this->socketFile);
+            unlink($this->socketFile);
         }
 
         return $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+    }
+
+    public function closeSocket(bool $unlink = false): void
+    {
+        if ($unlink) {
+            unlink($this->socketFile);
+        }
+
+        socket_close($this->connection);
     }
 
     public function connect(): bool
@@ -41,36 +50,45 @@ class Socket
         return socket_connect($this->socket, $this->socketFile);
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function bind(): void
     {
         if (socket_bind($this->socket, $this->socketFile) === false) {
-            throw new Exception('Не удалось задать адресс сокету');
+            if (is_file($this->socketFile)) {
+                unlink($this->socketFile);
+            }
+
+            throw new RuntimeException('Не удалось задать адресс сокету');
         }
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function accept(): void
     {
         $this->connection = socket_accept($this->socket);
 
         if (!$this->connection) {
-            echo "Не удалось подключиться к сокету" . PHP_EOL;
-            die();
+            throw new RuntimeException('Не удалось подключиться к сокету');
         }
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function listen(): void
     {
         $result = socket_listen($this->socket);
 
         if (!$result) {
-            throw new Exception('Не удалось подключиться к сокету');
+            throw new RuntimeException('Не удалось подключиться к сокету');
         }
     }
 
-    /**
-     * @return false|string
-     */
-    public function read()
+    public function read(): mixed
     {
         return socket_read($this->connection, 1024);
     }
@@ -82,14 +100,5 @@ class Socket
     public function send(string $message): void
     {
         socket_write($this->socket, $message);
-    }
-
-    public function closeSocket(bool $unlink = false): void
-    {
-        if ($unlink) {
-            @unlink($this->socketFile);
-        }
-
-        socket_close($this->connection);
     }
 }

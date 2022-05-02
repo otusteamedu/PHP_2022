@@ -22,7 +22,7 @@ down:
 app-install:
 	$(compose) run workspace composer install
 
-cliest:
+client:
 	$(compose) run socket-client bash
 
 server:
