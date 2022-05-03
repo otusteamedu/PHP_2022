@@ -68,8 +68,7 @@ class ProcessingBracket
 
         if ($amountValid) {
             $i = 1; // номер скобки в строке
-            $amountOB = 0; //кол-во открывющихся скобок
-            $amountCB = 0; //кол-во закрывающихся скобок
+            $counter = 0;
             $arBrackets = str_split($this->brackets);
 
             foreach ($arBrackets as $bracket) {
@@ -78,25 +77,16 @@ class ProcessingBracket
                     return false;
                 }
 
-                if ($bracket === $openingBracket) {
-                    $amountOB++;
-                    $i++;
-                    continue;
-                }
+                $counter = $bracket === $openingBracket ? ++$counter : --$counter;
 
-                if ($bracket === $closingBracket) {
-                    $amountCB++;
-                }
-
-                if ($amountOB === $amountCB) {
-                    $amountOB = 0;
-                    $amountCB = 0;
+                if ($counter < 0) {
+                    return false;
                 }
 
                 $i++;
             }
 
-            return !($amountOB !== 0 || $amountCB !== 0);
+            return $counter === 0;
         }
 
         return false;
