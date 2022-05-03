@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mselyatin\Project6\src\classes;
 
 use Mselyatin\Project6\src\interfaces\ApplicationInterface;
-use Mselyatin\Project6\src\interfaces\ResponseInterface;
 use Mselyatin\Project6\src\interfaces\RouteManagerInterface;
 
 /**
@@ -24,28 +23,22 @@ class Application implements ApplicationInterface
     /** @var RouteManagerInterface  */
     private RouteManagerInterface $routeManager;
 
-    private function __construct(
-        array $config,
-        RouteManagerInterface $routeManager
-    ) {
+    /** @var string  */
+    private string $defaultRouteManager = RouteManager::class;
+
+    private function __construct(array $config)
+    {
         $this->config = $config;
-        $this->routeManager = $routeManager;
     }
 
     /**
      * @param array $config
-     * @param RouteManagerInterface $routeManager
      * @return ApplicationInterface
      */
-    public static function create(
-        array $config,
-        RouteManagerInterface $routeManager
-    ): ApplicationInterface {
+    public static function create(array $config): ApplicationInterface
+    {
         if (null === static::$app) {
-            static::$app = new static(
-                $config,
-                $routeManager
-            );
+            static::$app = new static($config);
         }
 
         return static::$app;
@@ -68,6 +61,19 @@ class Application implements ApplicationInterface
      */
     private function loadRoute(): void
     {
+        $classRouteManager = $this->config['routes']['class'] ?? null;
+        $rules = $this->config['routes']['rules'] ?? [];
+
+        if (!$classRouteManager) {
+            $this->config['routes']['class'] = $classRouteManager = $this->defaultRouteManager;
+        }
+
+        try {
+            $this->routeManager = new $classRouteManager($rules);
+        } catch (\Throwable $e) {
+            $this->routeManager = new $this->defaultRouteManager($rules);
+        }
+
         $this->routeManager->init();
         $this->routeManager->mapping();
     }

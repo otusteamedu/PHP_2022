@@ -14,17 +14,11 @@ class EmailValidationService
     private array $emails;
 
     /**
-     * @param array|string $arg
+     * @param array $emails
      */
-    public function __construct($arg)
+    public function __construct(array $emails)
     {
-        if (is_string($arg)) {
-            $this->addEmail($arg);
-        }
-
-        if (is_array($arg)) {
-            $this->emails = array_merge($this->emails, $arg);
-        }
+        $this->emails = $emails;
     }
 
     /**

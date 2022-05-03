@@ -6,6 +6,7 @@ namespace Mselyatin\Project6\src\controllers;
 
 use Mselyatin\Project6\src\classes\Controller;
 use Mselyatin\Project6\src\classes\JSONResponse;
+use Mselyatin\Project6\src\interfaces\ResponseInterface;
 use Mselyatin\Project6\src\services\EmailValidationService;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,9 +18,8 @@ class ValidatorController extends Controller
 {
     /**
      * @return void
-     * @throws \JsonException
      */
-    public function emailValidation(): void
+    public function emailValidation(): ResponseInterface
     {
         $request = new Request(
             $_GET,
@@ -34,7 +34,8 @@ class ValidatorController extends Controller
         $email = $request->get('email');
 
         if ($email) {
-            $emailValidationService = new EmailValidationService($email);
+            $emails[] = $email;
+            $emailValidationService = new EmailValidationService($emails);
             $result = $emailValidationService->validation();
 
             $response->addItem('status', 'success');
@@ -44,6 +45,6 @@ class ValidatorController extends Controller
             $response->addItem('message', "Parameter email is empty");
         }
 
-        echo $response->buildResponse();
+        return $response;
     }
 }

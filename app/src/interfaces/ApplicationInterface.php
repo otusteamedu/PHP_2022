@@ -11,8 +11,7 @@ namespace Mselyatin\Project6\src\interfaces;
 interface ApplicationInterface
 {
     public static function create(
-        array $config,
-        RouteManagerInterface $routeManager
+        array $config
     ): ApplicationInterface;
 
     public function run();

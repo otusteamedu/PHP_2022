@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mselyatin\Project6\src\classes;
 
+use Mselyatin\Project6\src\interfaces\ResponseInterface;
 use Mselyatin\Project6\src\interfaces\RouteManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -81,7 +82,14 @@ class RouteManager implements RouteManagerInterface
 
         if (class_exists($class) && method_exists($class, $method)) {
             $instance = new $class();
-            $instance->$method();
+            /** @var ResponseInterface $response */
+            $response = $instance->$method();
+
+            if (!$response instanceof ResponseInterface) {
+                throw new \RuntimeException('Method must return ResponseInterface client');
+            }
+
+            echo $response->buildResponse();
             return;
         }
 
