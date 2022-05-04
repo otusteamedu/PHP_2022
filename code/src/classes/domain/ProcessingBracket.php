@@ -54,34 +54,27 @@ class ProcessingBracket
         $openingBracket = "(";
         $closingBracket = ")";
 
-        $amountOpeningBrackets = substr_count($this->brackets, $openingBracket);
-        $amountClosingBrackets = substr_count($this->brackets, $closingBracket);
+        $i = 1; // номер скобки в строке
+        $counter = 0;
+        $bracketLength = strlen($this->brackets ?? '');
 
-        $amountValid = $amountOpeningBrackets === $amountClosingBrackets;
+        for($j = 0; $j < $bracketLength; $j++) {
 
-        if ($amountValid) {
-            $i = 1; // номер скобки в строке
-            $counter = 0;
-            $arBrackets = str_split($this->brackets);
+            $bracket = $this->brackets[$j];
 
-            foreach ($arBrackets as $bracket) {
-
-                if (($i === 1) && $bracket === $closingBracket) {
-                    return false;
-                }
-
-                $counter = $bracket === $openingBracket ? ++$counter : --$counter;
-
-                if ($counter < 0) {
-                    return false;
-                }
-
-                $i++;
+            if (($i === 1) && $bracket === $closingBracket) {
+                return false;
             }
 
-            return $counter === 0;
+            $counter = $bracket === $openingBracket ? ++$counter : --$counter;
+
+            if ($counter < 0) {
+                return false;
+            }
+
+            $i++;
         }
 
-        return false;
+        return $counter === 0;
     }
 }
