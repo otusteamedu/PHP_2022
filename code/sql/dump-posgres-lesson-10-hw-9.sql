@@ -138,9 +138,13 @@ ALTER SEQUENCE lesson.films_id_seq OWNED BY lesson.films.id;
 
 CREATE TABLE lesson.films_values (
     id integer NOT NULL,
-    name character varying(100),
+    val_text character varying,
     film_id integer,
-    attr integer
+    attr integer,
+    val_number numeric(2,0),
+    val_date date,
+    val_bool boolean,
+    val_uuid uuid
 );
 
 
@@ -218,6 +222,7 @@ COPY lesson.films_attributes (id, name, type_id) FROM stdin;
 5	Дата начала продажи билетов	2
 8	Стоимость фильма	3
 3	Дата запуска рекламы в US	1
+9	Подтверждение	4
 \.
 
 
@@ -228,7 +233,8 @@ COPY lesson.films_attributes (id, name, type_id) FROM stdin;
 COPY lesson.films_attributes_type (id, name) FROM stdin;
 1	Дата
 2	Текст
-3	Сумма
+4	Bool
+3	UUID
 \.
 
 
@@ -236,9 +242,12 @@ COPY lesson.films_attributes_type (id, name) FROM stdin;
 -- Data for Name: films_values; Type: TABLE DATA; Schema: lesson; Owner: root
 --
 
-COPY lesson.films_values (id, name, film_id, attr) FROM stdin;
-1	Нет критики по фильму все ок!	1	1
-2	«Оскар» в 14 номинациях	1	2
+COPY lesson.films_values (id, val_text, film_id, attr, val_number, val_date, val_bool, val_uuid) FROM stdin;
+1	Нет критики по фильму все ок!	1	1	\N	\N	\N	\N
+2	«Оскар» в 14 номинациях	1	2	\N	\N	\N	\N
+3	\N	1	8	\N	2022-05-04	\N	\N
+4	\N	1	9	\N	\N	t	\N
+5	\N	1	4	\N	\N	\N	e897baa6-cbc3-11ec-9d64-0242ac120002
 \.
 
 
@@ -246,14 +255,14 @@ COPY lesson.films_values (id, name, film_id, attr) FROM stdin;
 -- Name: attributes_id_seq; Type: SEQUENCE SET; Schema: lesson; Owner: root
 --
 
-SELECT pg_catalog.setval('lesson.attributes_id_seq', 8, true);
+SELECT pg_catalog.setval('lesson.attributes_id_seq', 9, true);
 
 
 --
 -- Name: attributes_type_id_seq; Type: SEQUENCE SET; Schema: lesson; Owner: root
 --
 
-SELECT pg_catalog.setval('lesson.attributes_type_id_seq', 3, true);
+SELECT pg_catalog.setval('lesson.attributes_type_id_seq', 4, true);
 
 
 --
@@ -267,7 +276,7 @@ SELECT pg_catalog.setval('lesson.films_id_seq', 1, true);
 -- Name: values_id_seq; Type: SEQUENCE SET; Schema: lesson; Owner: root
 --
 
-SELECT pg_catalog.setval('lesson.values_id_seq', 2, true);
+SELECT pg_catalog.setval('lesson.values_id_seq', 5, true);
 
 
 --
