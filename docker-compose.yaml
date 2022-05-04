@@ -54,7 +54,6 @@ services:
       - "5432:5432"
       # You should definitely change the password in production
     volumes:
-      - ./initdb:/docker-entrypoint-initdb.d
       - ./dbdata:/var/lib/postgresql/data
       - ./code/sql:/sql
     networks:
