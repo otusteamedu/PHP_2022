@@ -1,0 +1,197 @@
+Тест при 100000
+
+CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
+    RETURNS INT AS
+$$
+BEGIN
+    RETURN floor(random()* (high-low + 1) + low);
+END;
+$$ language 'plpgsql' STRICT;
+
+insert into cinema.hall_places (
+    film_id, hall_id, place_id, row, cost_id
+)
+select
+    random_between(1, 4),
+    random_between(1, 2),
+    random_between(1, 18),
+    random_between(1, 20),
+    random_between(1, 4)
+from generate_series(1, 100000) s(i)
+
+Очистить таблицу
+TRUNCATE cinema.hall_places RESTART IDENTITY CASCADE;
+
+
+EXPLAIN ANALYZE SELECT * FROM cinema.hall_places WHERE film_id = 2
+
+Было:
+
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Seq Scan on hall_places  (cost=0.00..1887.00 rows=24897 width=22) (actual time=0.008..7.307 rows=24973 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Filter: (film_id = 2)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Rows Removed by Filter: 75027');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.044 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 7.960 ms');
+
+
+----------------------------------
+Добавление индекса:
+
+create index hall_places_film_id_index on cinema.hall_places (film_id);
+
+Стало:
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Bitmap Heap Scan on hall_places  (cost=281.24..1229.46 rows=24897 width=22) (actual time=0.806..3.493 rows=24973 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Recheck Cond: (film_id = 2)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Heap Blocks: exact=637');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Bitmap Index Scan on hall_places_film_id_hall_id_index  (cost=0.00..275.02 rows=24897 width=0) (actual time=0.727..0.728 rows=24973 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Index Cond: (film_id = 2)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.087 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 4.087 ms');
+
+========================================
+SELECT nspname || '.' || relname  as name,
+       pg_size_pretty(pg_total_relation_size(C.oid)) as totalsize,
+       pg_size_pretty(pg_relation_size(C.oid)) as relsize
+FROM pg_class C
+         LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema', 'lesson', 'public')
+ORDER BY pg_total_relation_size(C.oid) DESC
+LIMIT 15;
+
+Было:
+Размер: 10МB
+INSERT INTO "MY_TABLE"(name, totalsize, relsize) VALUES ('cinema.hall_places', '10 MB', '5096 kB');
+
+========================================
+EXPLAIN ANALYZE SELECT * FROM cinema.hall_places WHERE place_id=1 AND hall_id = 5
+
+Было:
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Seq Scan on hall_places  (cost=0.00..2137.00 rows=1 width=22) (actual time=7.818..7.819 rows=0 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Filter: ((place_id = 1) AND (hall_id = 5))');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Rows Removed by Filter: 100000');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.146 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 7.836 ms');
+
+========================================
+create index hall_places_film_id_hall_id_index on cinema.hall_places (film_id, hall_id);
+
+Стало:
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Index Scan using hall_places_film_id_hall_id_index on hall_places  (cost=0.29..1102.17 rows=1 width=22) (actual time=0.210..0.211 rows=0 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Index Cond: (hall_id = 5)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Filter: (place_id = 1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.189 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 0.228 ms');
+
+========================================
+SELECT nspname || '.' || relname  as name,
+       pg_size_pretty(pg_total_relation_size(C.oid)) as totalsize,
+       pg_size_pretty(pg_relation_size(C.oid)) as relsize
+FROM pg_class C
+         LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema', 'lesson', 'public')
+ORDER BY pg_total_relation_size(C.oid) DESC
+LIMIT 15;
+
+========================================
+Стало:
+INSERT INTO "MY_TABLE"(name, totalsize, relsize) VALUES ('cinema.hall_places', '11 MB', '5096 kB');
+
+
+Тест при: 1 000 000
+========================================
+
+TRUNCATE cinema.hall_places RESTART IDENTITY CASCADE;
+
+insert into cinema.hall_places (
+    film_id, hall_id, place_id, row, cost_id
+)
+select
+    random_between(1, 4),
+    random_between(1, 2),
+    random_between(1, 18),
+    random_between(1, 20),
+    random_between(1, 4)
+from generate_series(1, 1000000) s(i)
+========================================
+
+
+EXPLAIN ANALYZE SELECT * FROM cinema.hall_places WHERE film_id = 2
+
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Bitmap Heap Scan on hall_places  (cost=2713.78..12189.19 rows=248433 width=22) (actual time=8.380..31.125 rows=249503 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Recheck Cond: (film_id = 2)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Heap Blocks: exact=6370');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Bitmap Index Scan on hall_places_film_id_hall_id_index  (cost=0.00..2651.67 rows=248433 width=0) (actual time=7.820..7.820 rows=249503 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Index Cond: (film_id = 2)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.097 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 35.786 ms');
+
+DROP INDEX cinema.hall_places_film_id_index;
+
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Bitmap Heap Scan on hall_places  (cost=2713.78..12189.19 rows=248433 width=22) (actual time=6.396..30.748 rows=249503 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Recheck Cond: (film_id = 2)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Heap Blocks: exact=6370');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Bitmap Index Scan on hall_places_film_id_hall_id_index  (cost=0.00..2651.67 rows=248433 width=0) (actual time=5.835..5.835 rows=249503 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Index Cond: (film_id = 2)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.055 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 35.670 ms');
+
+После удаления индекса результат практически не поменялся.
+========================================
+
+EXPLAIN ANALYZE SELECT * FROM cinema.hall_places WHERE place_id=1 AND hall_id = 5
+
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Index Scan using hall_places_film_id_hall_id_index on hall_places  (cost=0.42..10672.44 rows=1 width=22) (actual time=1.163..1.164 rows=0 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Index Cond: (hall_id = 5)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Filter: (place_id = 1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.098 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 1.185 ms');
+
+DROP INDEX cinema.hall_places_film_id_hall_id_index;
+
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Gather  (cost=1000.00..13620.10 rows=1 width=22) (actual time=59.000..61.242 rows=0 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Workers Planned: 2');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  Workers Launched: 2');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Parallel Seq Scan on hall_places  (cost=0.00..12620.00 rows=1 width=22) (actual time=29.780..29.781 rows=0 loops=3)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Filter: ((place_id = 1) AND (hall_id = 5))');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Rows Removed by Filter: 333333');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.132 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 61.266 ms');
+
+При удалении комбинированного индекса сразу видна просадка за времени выполнения.
+
+
+========================================
+
+Тест запроса с 2-х таблиц:
+
+Без индекса:
+
+EXPLAIN ANALYZE SELECT * FROM cinema.hall_places hp
+                         JOIN cinema.film f ON hp.film_id=f.id
+                         WHERE place_id=1 AND hall_id = 5
+
+
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Nested Loop  (cost=1000.15..13628.29 rows=1 width=100) (actual time=62.740..65.452 rows=0 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Gather  (cost=1000.00..13620.10 rows=1 width=22) (actual time=62.740..65.450 rows=0 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Workers Planned: 2');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Workers Launched: 2');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        ->  Parallel Seq Scan on hall_places hp  (cost=0.00..12620.00 rows=1 width=22) (actual time=30.708..30.708 rows=0 loops=3)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('              Filter: ((place_id = 1) AND (hall_id = 5))');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('              Rows Removed by Filter: 333333');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Index Scan using film_id_uindex on film f  (cost=0.15..8.17 rows=1 width=78) (never executed)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Index Cond: (id = hp.film_id)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.141 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 65.473 ms');
+
+
+
+create index hall_places_film_id_hall_id_index on cinema.hall_places (film_id, hall_id);
+
+С индексом:                         
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Nested Loop  (cost=0.42..5397.98 rows=1 width=100) (actual time=0.030..0.031 rows=0 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Seq Scan on film f  (cost=0.00..17.70 rows=770 width=78) (actual time=0.003..0.004 rows=4 loops=1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('  ->  Index Scan using hall_places_film_id_hall_id_index on hall_places hp  (cost=0.42..6.98 rows=1 width=22) (actual time=0.006..0.006 rows=0 loops=4)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Index Cond: ((film_id = f.id) AND (hall_id = 5))');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Filter: (place_id = 1)');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.178 ms');
+INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 0.045 ms');
