@@ -54,25 +54,21 @@ class ProcessingBracket
         $openingBracket = "(";
         $closingBracket = ")";
 
-        $i = 1; // номер скобки в строке
         $counter = 0;
         $bracketLength = strlen($this->brackets ?? '');
 
         for($j = 0; $j < $bracketLength; $j++) {
-
             $bracket = $this->brackets[$j];
 
-            if (($i === 1) && $bracket === $closingBracket) {
-                return false;
+            if ($bracket === $openingBracket) {
+                $counter++;
+            } else {
+                $counter--;
             }
-
-            $counter = $bracket === $openingBracket ? ++$counter : --$counter;
 
             if ($counter < 0) {
                 return false;
             }
-
-            $i++;
         }
 
         return $counter === 0;
