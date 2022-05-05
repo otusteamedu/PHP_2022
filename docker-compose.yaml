@@ -6,44 +6,41 @@ services:
   #контейнер с Nginx
   nginx:
     build:
-      context: ./nginx
+      context: "./nginx/${APP_ENV}"
       dockerfile: Dockerfile
-    image: otus/nginx
-    container_name: webserver
+    image: "${ENAME}/nginx"
+    container_name: "webserver_${ENAME}"
     depends_on:
       - php
     # проброс портов
     ports:
       - "80:80"
     volumes:
-       - ./code:/data/otus.local
+      - ./code:/code
     networks:
       - internal
-
 
   #Контейнер с PHP-FPM, назовём его app
   php:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
-      context: ./fpm
+      context: "./fpm/${APP_ENV}"
       dockerfile: Dockerfile
-    image: otus/php # имя будущего образа
-    container_name: php # имя контейнера после запуска
+    image: "${ENAME}/php" # имя будущего образа
+    container_name: "php_${ENAME}" # имя контейнера после запуска
     depends_on:
       - db
-      - memcached
-      - redis
     volumes:
-       - ./code:/data/otus.local
-       - ./fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./code:/code
+      - "./fpm/${APP_ENV}/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini"
+      - "./fpm/${APP_ENV}/php.ini:/usr/local/etc/php/conf.d/php.ini"
     environment:
-      XDEBUG_CONFIG: "remote_host=192.168.220.1 remote_enable=1"
-      PHP_IDE_CONFIG: "serverName=otus.local"
+      XDEBUG_CONFIG: "remote_host=${REMOTE_HOST} remote_enable=1 "
+      PHP_IDE_CONFIG: "serverName=${SERVER_NAME}"
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - internal
 
-  # контейнер с MySQL
   db:
     image: postgres:13.3
     container_name: "db_${ENAME}"
@@ -64,20 +61,30 @@ services:
 
   workspace:
     build:
-      context: ./console
+      context: "./console/${APP_ENV}"
       dockerfile: Dockerfile
-    container_name: console
-    image: otus/php-cli
+    container_name: "console_${ENAME}"
+    image: "${ENAME}/php-cli"
     volumes:
-      - ./code:/data/otus.local
-      - ./console/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./code:/code
+      - "./console/${APP_ENV}/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini"
+      - "./console/${APP_ENV}/php.ini:/usr/local/etc/php/conf.d/php.ini"
     depends_on:
       - db
-      - memcached
-      - redis
     environment:
-      XDEBUG_CONFIG: "remote_host=192.168.220.1 remote_enable=1"
-      PHP_IDE_CONFIG: "serverName=otus.local"
+      XDEBUG_CONFIG: "remote_host=${REMOTE_HOST} remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=${SERVER_NAME}"
+    networks:
+      - internal
+
+  nodejs:
+    build:
+      context: ./nodejs
+      dockerfile: Dockerfile
+    container_name: "nodejs_${ENAME}"
+    image: "${ENAME}/nodejs"
+    volumes:
+      - ./code:/code
     networks:
       - internal
 
@@ -98,6 +105,29 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - redis:/data
+    networks:
+      - internal
+
+  elasticsearch:
+    container_name: es
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    ports:
+      -   ${ES_PORT}:9200
+    networks:
+      - internal
+
+  kibana:
+    container_name: kb
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://es:${ES_PORT}"
+    depends_on:
+      - elasticsearch
+    ports:
+      - "${KIBANA_PORT}:5601"
     networks:
       - internal
 
