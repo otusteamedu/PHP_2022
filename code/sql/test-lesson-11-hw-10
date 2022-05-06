@@ -195,3 +195,13 @@ INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Index Cond: ((film_id = f.
 INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('        Filter: (place_id = 1)');
 INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Planning Time: 0.178 ms');
 INSERT INTO "MY_TABLE"("QUERY PLAN") VALUES ('Execution Time: 0.045 ms');
+
+
+При проставлении индекса обращаем внимание на значение: Execution Time
+Хотя есть и другие значения, но на мой взгляд это основное значение.
+
+Без индекса
+Execution Time: 65.473 ms
+
+С индексом
+Execution Time: 0.045 ms
