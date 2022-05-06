@@ -141,7 +141,7 @@ CREATE TABLE lesson.films_values (
     val_text character varying,
     film_id integer,
     attr integer,
-    val_number numeric(2,0),
+    val_float double precision,
     val_date date,
     val_bool boolean,
     val_uuid uuid
@@ -235,6 +235,7 @@ COPY lesson.films_attributes_type (id, name) FROM stdin;
 2	Текст
 4	Bool
 3	UUID
+5	Float
 \.
 
 
@@ -242,12 +243,13 @@ COPY lesson.films_attributes_type (id, name) FROM stdin;
 -- Data for Name: films_values; Type: TABLE DATA; Schema: lesson; Owner: root
 --
 
-COPY lesson.films_values (id, val_text, film_id, attr, val_number, val_date, val_bool, val_uuid) FROM stdin;
+COPY lesson.films_values (id, val_text, film_id, attr, val_float, val_date, val_bool, val_uuid) FROM stdin;
 1	Нет критики по фильму все ок!	1	1	\N	\N	\N	\N
 2	«Оскар» в 14 номинациях	1	2	\N	\N	\N	\N
 3	\N	1	8	\N	2022-05-04	\N	\N
 4	\N	1	9	\N	\N	t	\N
 5	\N	1	4	\N	\N	\N	e897baa6-cbc3-11ec-9d64-0242ac120002
+6	\N	1	5	10.1	\N	\N	\N
 \.
 
 
@@ -262,7 +264,7 @@ SELECT pg_catalog.setval('lesson.attributes_id_seq', 9, true);
 -- Name: attributes_type_id_seq; Type: SEQUENCE SET; Schema: lesson; Owner: root
 --
 
-SELECT pg_catalog.setval('lesson.attributes_type_id_seq', 4, true);
+SELECT pg_catalog.setval('lesson.attributes_type_id_seq', 5, true);
 
 
 --
@@ -276,7 +278,7 @@ SELECT pg_catalog.setval('lesson.films_id_seq', 1, true);
 -- Name: values_id_seq; Type: SEQUENCE SET; Schema: lesson; Owner: root
 --
 
-SELECT pg_catalog.setval('lesson.values_id_seq', 5, true);
+SELECT pg_catalog.setval('lesson.values_id_seq', 6, true);
 
 
 --
