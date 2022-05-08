@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Проверяем, установлен ли bc
-if ! command -v bc &> /dev/null
-then
-    echo "error: bc not installed"
-    exit 1
-fi
-
 # Проверяем количество аргументов
 if [ "$#" -ne 2 ]; then
     echo "error: only 2 arguments is allowed!"
@@ -22,7 +15,6 @@ if ! [[ ${var} =~ $re ]] ; then
 fi
 done
 
-#sum=$( expr $1 + $2 )
-#let sum=$1+$2
-sum=$(bc<<<"$1+$2")
+# Считаем без bc, чисто с помощью awk
+sum=`echo "$1 $2" | awk '{print $1 + $2}'` 
 echo "Summ: $sum"
