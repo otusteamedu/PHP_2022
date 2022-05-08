@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:latest
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: test
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: wp
+    volumes:
+    - ./init.sql:/data/application/init.sql
+    restart: always
