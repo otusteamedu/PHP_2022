@@ -1,68 +1,55 @@
 DROP TABLE IF EXISTS films;
-
 CREATE TABLE films (
                        "id" serial PRIMARY KEY,
-                       "title" varchar(255) NOT NULL,
-                       "description" TEXT NOT NULL,
-                       "poster" varchar(255) NOT NULL,
-                       "premier_date" DATE NULL
+                       "title" varchar(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS clients;
-CREATE TABLE clients (
+DROP TABLE IF EXISTS attribute_types;
+CREATE TABLE attribute_types (
                          "id" serial PRIMARY KEY,
+                         "name" varchar(60) NOT NULL
+);
+
+
+DROP TABLE IF EXISTS attributes;
+CREATE TABLE attributes (
+                         "id" serial PRIMARY KEY,
+                         "attribute_type_id" integer NOT NULL,
                          "name" varchar(60) NOT NULL,
-                         "phone"  varchar(20) NOT NULL UNIQUE,
-                         "email"  varchar(60) NOT NULL UNIQUE
+                         FOREIGN KEY (attribute_type_id) REFERENCES attribute_types(id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS halls;
-CREATE TABLE halls (
+CREATE INDEX attributes_type_id_index ON attributes (attribute_type_id);
+
+DROP TABLE IF EXISTS attribute_values;
+CREATE TABLE attribute_values (
                        "id" serial PRIMARY KEY,
-                       "number" Smallint NOT NULL,
-                       "places_count" smallint not null
+                       "attribute_id" integer NOT NULL,
+                       "value_date" date null,
+                       "value_num" numeric null,
+                       "value_text" text null,
+                       "film_id" integer null,
+                       FOREIGN KEY (attribute_id) REFERENCES attributes(id) ON DELETE CASCADE,
+                       FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
 );
 
+CREATE INDEX attribute_values_attr_id_index ON attribute_values (attribute_id);
 
-DROP TABLE IF EXISTS places;
-DROP TYPE IF EXISTS place_type;
-
-Create type place_type as enum ('regular', 'vip', 'premium');
-
-CREATE TABLE places (
-                        "id" serial PRIMARY KEY,
-                        "column" Smallint NOT NULL,
-                        "position" Smallint NOT NULL,
-                        "hall_id" integer NOT NULL,
-                        "type" place_type not null,
-                        FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
-                        UNIQUE ("column", "position", "hall_id")
-
-);
+INSERT INTO films (title)
+VALUES ('Титаник');
 
 
-DROP TABLE IF EXISTS sessions;
-CREATE TABLE sessions (
-                          "id" serial PRIMARY KEY,
-                          "hall_id" integer NOT NULL,
-                          "film_id" integer NOT NULL,
-                          "started_at" time NOT NULL,
-                          "ended_at" time NOT NULL,
-                          FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
-                          FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
-);
+INSERT INTO attribute_types (name) VALUES
+                                          ('Текстовое поле'),
+                                          ('Дата');
 
+INSERT INTO attributes (attribute_type_id, name) VALUES
+                                       (1, 'Описание'),
+                                       (2, 'Задание');
 
-DROP TABLE IF EXISTS tickets;
-CREATE TABLE tickets (
-                         "id" serial PRIMARY KEY,
-                         "session_id" integer NOT NULL,
-                         "place_id" integer NOT NULL,
-                         "client_id" integer NOT NULL,
-                         "buyed_at" timestamp NOT NULL,
-                         "price" numeric NOT NULL,
-                         FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
-                         FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-                         FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE,
-                         UNIQUE ("session_id", "place_id")
-);
+INSERT INTO attribute_values (attribute_id, value_text, value_date, film_id) VALUES
+                                                     (1, 'Описание фильма титаник', null, 1),
+                                                     (2, null, '2022-05-10', 1),
+                                                     (2, null, '2022-05-09', 1),
+                                                     (2, null, '2022-05-29', 1),
+                                                     (2, null, '2022-05-28', 1);
