@@ -1,7 +1,7 @@
 
 -- Вывод фильма, типа аттрибута, аттрибута и значения
 Select films.title, attr_types.name, attr.name,
-       coalesce(attr_val.value_date::text, attr_val.value_num::text, attr_val.value_text) as attr_val
+       coalesce(attr_val.value_date::text, attr_val.value_float::text, attr_val.value_integer::text, attr_val.value_boolean::text, attr_val.value_text) as attr_val
 from films
          join attribute_values as attr_val On (attr_val.film_id = films.id)
          join attributes as attr On (attr_val.attribute_id = attr.id)
