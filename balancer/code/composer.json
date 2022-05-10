@@ -1,0 +1,17 @@
+{
+    "name": "igor/hw4",
+    "autoload": {
+        "psr-4": {
+            "Igor\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Igor Shkatov",
+            "email": "shkatov.develop@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0"
+    }
+}
