@@ -1,0 +1,51 @@
+GET application.local/index/test
+
+###
+POST application.local/event/add
+Content-Type: application/json
+
+{
+  "name": "event1",
+  "priority": 1000,
+  "conditions": {
+    "param1": 1
+  }
+}
+
+###
+POST application.local/event/add
+Content-Type: application/json
+
+{
+  "name": "event2",
+  "priority": 2000,
+  "conditions": {
+	"param1": 2,
+	"param2": 2
+  }
+}
+
+###
+POST application.local/event/add
+Content-Type: application/json
+
+{
+  "name": "event3",
+  "priority": 3000,
+  "conditions": {
+	"param1": 1,
+	"param2": 2
+  }
+}
+
+###
+POST application.local/event/delete
+
+###
+POST application.local/event/get
+Content-Type: application/json
+
+{
+  "param1": 1,
+  "param2": 2
+}
