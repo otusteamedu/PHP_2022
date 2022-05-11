@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YoutubeStatistics index{% endblock %}
+
+{% block body %}
+    <h1>YoutubeStatistics index</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Url</th>
+                <th>Like</th>
+                <th>Dislike</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for youtube_statistic in youtube_statistics %}
+            <tr>
+                <td>{{ youtube_statistic.id }}</td>
+                <td>{{ youtube_statistic.url }}</td>
+                <td>{{ youtube_statistic.like }}</td>
+                <td>{{ youtube_statistic.dislike }}</td>
+                <td>{{ youtube_statistic.created ? youtube_statistic.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ youtube_statistic.updated ? youtube_statistic.updated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_youtube_statistics_show', {'id': youtube_statistic.id}) }}">show</a>
+                    <a href="{{ path('app_youtube_statistics_edit', {'id': youtube_statistic.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_youtube_statistics_new') }}">Create new</a>
+{% endblock %}

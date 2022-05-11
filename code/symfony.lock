@@ -1,4 +1,7 @@
 {
+    "aalaap/faker-youtube": {
+        "version": "2.0.3"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -16,6 +19,9 @@
     },
     "doctrine/common": {
         "version": "3.3.0"
+    },
+    "doctrine/data-fixtures": {
+        "version": "1.5.3"
     },
     "doctrine/dbal": {
         "version": "3.3.6"
@@ -35,6 +41,18 @@
             "config/packages/doctrine.yaml",
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "1f5514cfa15b947298df4d771e694e578d4c204d"
+        },
+        "files": [
+            "src/DataFixtures/AppFixtures.php"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
@@ -69,7 +87,7 @@
         "version": "2.12.2"
     },
     "doctrine/persistence": {
-        "version": "3.0.1"
+        "version": "3.0.2"
     },
     "doctrine/sql-formatter": {
         "version": "1.1.2"
@@ -82,6 +100,9 @@
     },
     "elasticsearch/elasticsearch": {
         "version": "v8.2.0"
+    },
+    "fakerphp/faker": {
+        "version": "v1.19.0"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.12"
@@ -104,11 +125,26 @@
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
+    "nyholm/psr7": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "0cd4d2d0e7f646fda75f9944f747a56e6ed13d4c"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
+    },
     "php-http/discovery": {
         "version": "1.14.1"
     },
     "php-http/httplug": {
         "version": "2.3.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
     },
     "php-http/promise": {
         "version": "1.1.0"

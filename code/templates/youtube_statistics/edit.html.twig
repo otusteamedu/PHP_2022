@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit YoutubeStatistics{% endblock %}
+
+{% block body %}
+    <h1>Edit YoutubeStatistics</h1>
+
+    {{ include('youtube_statistics/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_youtube_statistics_index') }}">back to list</a>
+
+    {{ include('youtube_statistics/_delete_form.html.twig') }}
+{% endblock %}
