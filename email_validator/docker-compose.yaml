@@ -28,6 +28,7 @@ services:
     container_name: fpm-email-validator # имя контейнера после запуска
     volumes:
       - ./code:/data/email-verification.local
+      - ./fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     networks:
       - app-network
 
