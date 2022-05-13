@@ -23,7 +23,7 @@ class YoutubeStatisticsController extends AbstractController
      */
     #[Route('/get-data', name: 'app_youtube_statistics_get_data', methods: ['GET'])]
     public function getData(): JsonResponse
-    {   dump($_ENV); exit;
+    {
         return ElasticSearch::search();
     }
 
