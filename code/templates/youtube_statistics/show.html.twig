@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YoutubeStatistics{% endblock %}
+
+{% block body %}
+    <h1>YoutubeStatistics</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ youtube_statistic.id }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ youtube_statistic.url }}</td>
+            </tr>
+            <tr>
+                <th>Like</th>
+                <td>{{ youtube_statistic.like }}</td>
+            </tr>
+            <tr>
+                <th>Dislike</th>
+                <td>{{ youtube_statistic.dislike }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ youtube_statistic.created ? youtube_statistic.created|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated</th>
+                <td>{{ youtube_statistic.updated ? youtube_statistic.updated|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_youtube_statistics_index') }}">back to list</a>
+
+    <a href="{{ path('app_youtube_statistics_edit', {'id': youtube_statistic.id}) }}">edit</a>
+
+    {{ include('youtube_statistics/_delete_form.html.twig') }}
+{% endblock %}
