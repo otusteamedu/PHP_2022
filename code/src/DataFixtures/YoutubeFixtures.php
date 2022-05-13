@@ -7,8 +7,15 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\YoutubeStatistics;
 
+/**
+ * YoutubeFixtures
+ */
 class YoutubeFixtures extends Fixture implements FixtureGroupInterface
 {
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         /**
@@ -37,6 +44,9 @@ class YoutubeFixtures extends Fixture implements FixtureGroupInterface
 
     }
 
+    /**
+     * @return string[]
+     */
     public static function getGroups(): array
     {
         return ['youtube'];

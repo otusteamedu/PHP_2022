@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\HasSearch;
 use App\Repository\YoutubeStatisticsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- *
+ * YoutubeStatistics
  */
 #[ORM\Entity(repositoryClass: YoutubeStatisticsRepository::class)]
 
 class YoutubeStatistics
 {
+    use HasSearch;
+
     /**
      * @var
      */
@@ -150,5 +154,38 @@ class YoutubeStatistics
         $this->updated = $updated;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return "youtube_statistics";
+    }
+
+
+    /**
+     * @param array $ignores
+     * @return array
+     */
+    #[ArrayShape(['id' => "int|null", 'url' => "null|string", 'like' => "mixed", 'dislike' => "int|null"])]
+    public function convertToArray(array $ignores = []): array
+    {
+        $user = [
+            'id' => $this->getId(),
+            'url' => $this->getUrl(),
+            'like' => $this->getLike(),
+            'dislike' => $this->getDislike(),
+        ];
+
+        // Remove key/value if its in the ignores list.
+        for ($i = 0, $iMax = count($ignores); $i < $iMax; $i++) {
+            if (array_key_exists($ignores[$i], $user)) {
+                unset($user[$ignores[$i]]);
+            }
+        }
+
+        return $user;
     }
 }
