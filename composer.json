@@ -1,0 +1,19 @@
+{
+  "name": "olelishna/php_2022",
+  "description": "hw4",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Olga Svistunova",
+      "email": "olelishna@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Olelishna\\hw4\\": "src/"
+    }
+  }
+}
