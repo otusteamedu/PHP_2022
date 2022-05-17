@@ -1,0 +1,45 @@
+WARNING 2022-05-16 14:46:27,080 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 14:46:52,589 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 14:50:54,448 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 14:51:20,317 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 14:51:46,422 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 14:54:54,530 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 14:54:55,937 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 14:55:14,889 django.request Bad Request: /api/instance/
+WARNING 2022-05-16 15:11:43,159 django.request Bad Request: /api/instance/33b31176-4e5b-4f7e-93f3-65429c4c8182/redisgraph/check-module-loaded/
+ERROR 2022-05-16 15:11:45,711 redisinsight Unknown command error from redis instance:
+Traceback (most recent call last):
+  File "./redisinsight/utils/__init__.py", line 199, in _wrapped_view
+  File "./redisinsight/core/views/decorators.py", line 21, in wrapped_view
+  File "./redisinsight/redisai/views.py", line 40, in _wrapped_view
+  File "./redisinsight/redisai/views.py", line 85, in models_view
+  File "./redisinsight/redisai/services.py", line 180, in list_models
+  File "./redisinsight/redisai/services.py", line 156, in _list_models
+  File "/usr/local/lib/python3.6/site-packages/redis/client.py", line 901, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.6/site-packages/redis/client.py", line 915, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.6/site-packages/redis/connection.py", line 756, in read_response
+    raise response
+redis.exceptions.ResponseError: unknown command `AI._MODELSCAN`, with args beginning with: 
+ERROR 2022-05-16 15:11:45,720 redisinsight Unknown command error from redis instance:
+Traceback (most recent call last):
+  File "./redisinsight/utils/__init__.py", line 199, in _wrapped_view
+  File "./redisinsight/core/views/decorators.py", line 21, in wrapped_view
+  File "./redisinsight/redisai/views.py", line 40, in _wrapped_view
+  File "./redisinsight/redisai/views.py", line 224, in scripts_view
+  File "./redisinsight/redisai/services.py", line 205, in list_scripts
+  File "./redisinsight/redisai/services.py", line 184, in _list_scripts
+  File "/usr/local/lib/python3.6/site-packages/redis/client.py", line 901, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.6/site-packages/redis/client.py", line 915, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.6/site-packages/redis/connection.py", line 756, in read_response
+    raise response
+redis.exceptions.ResponseError: unknown command `AI._SCRIPTSCAN`, with args beginning with: 
+ERROR 2022-05-16 15:11:45,722 django.request Unknown Status Code: /api/instance/33b31176-4e5b-4f7e-93f3-65429c4c8182/redisai/models/
+ERROR 2022-05-16 15:11:45,727 django.request Unknown Status Code: /api/instance/33b31176-4e5b-4f7e-93f3-65429c4c8182/redisai/scripts/
+WARNING 2022-05-16 15:11:48,036 django.request Bad Request: /api/instance/33b31176-4e5b-4f7e-93f3-65429c4c8182/redistimeseries/module-info/
+WARNING 2022-05-16 15:11:48,943 django.request Bad Request: /api/instance/33b31176-4e5b-4f7e-93f3-65429c4c8182/check-redisearch-module-loaded/
+WARNING 2022-05-16 17:08:18,026 django.request Not Found: /api/instance/33b31176-4e5b-4f7e-93f3-65429c4c8182/value-details/
+WARNING 2022-05-16 17:08:18,045 django.request Not Found: /api/instance/33b31176-4e5b-4f7e-93f3-65429c4c8182/key-metadata/
