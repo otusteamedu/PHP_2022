@@ -1,0 +1,19 @@
+{
+  "name": "olelishna/php_2022",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Olga Svistunova",
+      "email": "olelishna@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "olelishna/diceroller": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Olelishna\\HW4\\": "src/"
+    }
+  }
+}
