@@ -1,0 +1,61 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "60b641cd31c14d0690ec016f786d9ac6",
+    "packages": [
+        {
+            "name": "olelishna/diceroller",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/olelishna/diceroller.git",
+                "reference": "4fee699fbad6a5bfa28936253030a84375ca7346"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/olelishna/diceroller/zipball/4fee699fbad6a5bfa28936253030a84375ca7346",
+                "reference": "4fee699fbad6a5bfa28936253030a84375ca7346",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Olelishna\\Diceroller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Olga Svistunova",
+                    "email": "olelishna@gmail.com"
+                }
+            ],
+            "description": "Dice Roller",
+            "support": {
+                "issues": "https://github.com/olelishna/diceroller/issues",
+                "source": "https://github.com/olelishna/diceroller/tree/v2.0.0"
+            },
+            "time": "2022-05-17T16:45:50+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
