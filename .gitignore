@@ -2,3 +2,5 @@
 .idea
 dbdata
 code/vendor
+redis/*
+redisinsight/*

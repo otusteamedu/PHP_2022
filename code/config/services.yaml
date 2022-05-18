@@ -33,4 +33,3 @@ services:
         autowire: true
         # не требуется, но поможет в нашем примере
         public: true
-
