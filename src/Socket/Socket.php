@@ -84,7 +84,6 @@ class Socket
             $this->socket = $this->create();
         }
 
-        var_dump($this->path); die();
         if (!socket_connect($this->socket, $this->path)) {
             throw new SocketException('Cannot connect to a socket.');
         }
