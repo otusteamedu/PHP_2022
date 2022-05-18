@@ -3,17 +3,22 @@ CREATE TAbLE IF NOT EXISTS film (
     name text NOT NULL,
     duration time NOT NULL
 );
+CREATE INDEX ON film(id)
 
 CREATE TABLE IF NOT EXISTS film_attribute_type (
     id SERIAL PRIMARY KEY NOT NULL,
     type varchar NOT NULL UNIQUE
 );
+CREATE INDEX ON film_attribute_type(id)
 
 CREATE TABLE IF NOT EXISTS film_attribute (
     id SERIAL NOT NULL PRIMARY KEY,
     film_attribute_type_id int REFERENCES film_attribute_type,
     name VARCHAR
 );
+
+CREATE INDEX ON film_attribute(id)
+
 
 CREATE TABLE IF NOT EXISTS film_attribute_value (
     id SERIAL PRIMARY KEY ,
@@ -26,3 +31,4 @@ CREATE TABLE IF NOT EXISTS film_attribute_value (
     val_boolean BOOLEAN,
     val_date DATE
 );
+CREATE INDEX ON film_attribute_value(id)
