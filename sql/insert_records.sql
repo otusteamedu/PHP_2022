@@ -1,0 +1,44 @@
+INSERT INTO film (id, name, duration) VALUES (1, 'Флешбек', '01:54:00');
+INSERT INTO film (id, name, duration) VALUES (2, 'Грешное тело', '01:24:00');
+INSERT INTO film (id, name, duration) VALUES (3, 'Волк с Уолл-стрит', '03:05:00');
+
+INSERT INTO film_attribute_type (id, type) VALUES (1, 'int');
+INSERT INTO film_attribute_type (id, type) VALUES (2, 'numeric');
+INSERT INTO film_attribute_type (id, type) VALUES (3, 'varchar');
+INSERT INTO film_attribute_type (id, type) VALUES (4, 'text');
+INSERT INTO film_attribute_type (id, type) VALUES (5, 'boolean');
+INSERT INTO film_attribute_type (id, type) VALUES (6, 'date');
+
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (1, 4, 'review');
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (2, 3, 'award');
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (3, 6, 'important_date');
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (4, 6, 'official_date');
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (5, 3, 'country');
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (6, 1, 'release_year');
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (7, 2, 'fee');
+INSERT INTO film_attribute (id, film_attribute_type_id, name) VALUES (8, 5, 'released_in_russia');
+
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (7, 1, 7, null, 12345.12, null, null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (8, 1, 8, null, null, null, null, true, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (2, 1, 2, null, null, 'Награда', null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (1, 1, 1, null, null, null, 'Очень хороший фильм', null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (3, 1, 3, null, null, null, null, null, '2022-05-11');
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (6, 1, 6, 2022, null, null, null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (5, 1, 5, null, null, 'США', null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (4, 1, 4, null, null, null, null, null, '2022-05-05');
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (9, 2, 1, null, null, null, 'Хороший фильм', null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (10, 2, 2, null, null, 'Наградили', null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (11, 2, 3, null, null, null, null, null, '2022-05-14');
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (12, 2, 4, null, null, null, null, null, '2022-05-06');
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (13, 2, 5, null, null, 'США', null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (14, 2, 6, 2022, null, null, null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (15, 2, 7, null, 737, null, null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (16, 2, 8, null, null, null, null, false, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (17, 3, 1, null, null, null, 'Отличный фильм', null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (18, 3, 2, null, null, 'Куча наград', null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (19, 3, 3, null, null, null, null, null, '2019-05-16');
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (20, 3, 4, null, null, null, null, null, '2022-10-12');
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (21, 3, 5, null, null, 'США', null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (22, 3, 6, 2013, null, null, null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (23, 3, 7, null, 12312312341.222, null, null, null, null);
+INSERT INTO film_attribute_value (id, film_id, film_attribute_id, val_int, val_numeric, val_varchar, val_text, val_boolean, val_date) VALUES (24, 3, 8, null, null, null, null, true, null);
