@@ -1,0 +1,22 @@
+{
+    "name": "kirillov/chat",
+    "description": "Chat on sockets",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kiril Kirilov",
+            "email": "kirill.kirillov@itglobal.com"
+        }
+    ],
+    "require": {
+        "php-di/php-di": "^6.4",
+        "ext-sockets": "*",
+        "psr/log": "^3.0"
+    }
+}
