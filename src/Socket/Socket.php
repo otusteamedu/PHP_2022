@@ -29,6 +29,8 @@ class Socket
 
         $this->path = $config[ConfigKey::PATH];
         $this->bytes = $config[ConfigKey::MAX_BYTES];
+
+        $this->create();
     }
 
     /**

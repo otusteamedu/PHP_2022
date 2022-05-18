@@ -24,7 +24,6 @@ class Server extends Socket
             }
 
             if (trim($message) === self::EXIT_COMMAND) {
-                $this->write($closeMessage);
                 $this->close();
                 break;
             }
