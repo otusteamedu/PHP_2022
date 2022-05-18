@@ -7,7 +7,6 @@ namespace Otus\SocketApp\Application\Service;
 
 use http\Exception\RuntimeException;
 use Otus\SocketApp\Application\Config\Config;
-use Otus\SocketApp\Domain\Interface\MessageDtoInterface;
 
 final class SocketClientService
 {
@@ -19,7 +18,7 @@ final class SocketClientService
         $this->service = new SocketService($config->getParam('SOCKET_FILE'));
     }
 
-    public function send(MessageDtoInterface $dto): void
+    public function send(string $user, string $message): void
     {
         $this->service->create();
 
@@ -27,6 +26,6 @@ final class SocketClientService
             throw new RuntimeException('Не удалось подключиться к сокету');
         }
 
-        $this->service->send("{$dto->getUser()}: {$dto->getMessage()}");
+        $this->service->send("{$user}: {$message}");
     }
 }

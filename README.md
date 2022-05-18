@@ -63,8 +63,3 @@ in container execute this:
 in container execute this:
 
 `php client.php`
-
-
-
-dto - убрать и домен
-м

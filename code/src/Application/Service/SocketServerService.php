@@ -12,12 +12,12 @@ final class SocketServerService
 {
     private SocketService $service;
 
-    private LogService $log;
+    private DisplayService $display;
 
     public function __construct()
     {
         $config = new Config();
-        $this->log = new LogService();
+        $this->display = new DisplayService();
         $this->service = new SocketService($config->getParam('SOCKET_FILE'));
     }
 
@@ -34,11 +34,11 @@ final class SocketServerService
 
         $this->service->listen();
 
-        $this->log->display('Ожидание сообщений (Для выхода нажмите CTRL+C)...');
+        $this->display->info('Ожидание сообщений (Для выхода нажмите CTRL+C)...');
 
         while (true) {
             $this->service->accept();
-            $this->log->display($this->service->read());
+            $this->display->info($this->service->read());
         }
     }
 }

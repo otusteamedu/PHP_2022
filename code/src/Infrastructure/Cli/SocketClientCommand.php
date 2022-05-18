@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Otus\SocketApp\Infrastructure\Cli;
 
 
-use Otus\SocketApp\Application\Service\LogService;
+use Otus\SocketApp\Application\Service\DisplayService;
 use Otus\SocketApp\Application\Service\SocketClientService;
 use Otus\SocketApp\Domain\Dto\MessageDto;
 use RuntimeException;
@@ -14,11 +14,11 @@ class SocketClientCommand
 {
     private SocketClientService $service;
 
-    private LogService $log;
+    private DisplayService $display;
 
     public function __construct()
     {
-        $this->log = new LogService();
+        $this->display = new DisplayService();
         $this->service = new SocketClientService();
     }
 
@@ -35,7 +35,7 @@ class SocketClientCommand
         }
 
         while (true) {
-            $this->log->display('Напишите сообщение или q для выхода:');
+            $this->display->info('Напишите сообщение или q для выхода:');
 
             $message = trim(fgets(STDIN));
             if ($message === 'q') {
@@ -43,10 +43,9 @@ class SocketClientCommand
             }
 
             if ($message !== '') {
-                $dto = new MessageDto($user, $message);
-                $this->service->send($dto);
+                $this->service->send($user, $message);
             } else {
-                $this->log->display('Не передавайте пустое сообщение');
+                $this->display->info('Не передавайте пустое сообщение');
             }
         }
     }
