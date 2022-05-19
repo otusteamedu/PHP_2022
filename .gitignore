@@ -2,3 +2,4 @@
 .idea
 dbdata
 code/vendor
+code/public/database.ini

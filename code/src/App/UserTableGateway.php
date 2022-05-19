@@ -112,9 +112,12 @@ class UserTableGateway
 
     private PDOStatement $deleteStatement;
 
-    public function __construct(PDO $pdo)
+
+
+    public function __construct(PDO $pdo, array $keys)
     {
         $this->pdo = $pdo;
+        $params = $this->getParseParam($keys);
 
         $this->selectAll = $pdo->prepare(
             'SELECT * FROM public.user'
@@ -126,7 +129,7 @@ class UserTableGateway
             'INSERT INTO public.user (first_name, last_name, email) VALUES (?, ?, ?)'
         );
         $this->updateStatement = $pdo->prepare(
-            'UPDATE public.user SET first_name = ?, last_name = ?, email = ? WHERE id = ?'
+            "UPDATE public.user SET {$params} WHERE id = ?"
         );
         $this->deleteStatement = $pdo->prepare(
             'DELETE FROM public.user WHERE id = ?'
@@ -162,23 +165,30 @@ class UserTableGateway
         return (int)$this->pdo->lastInsertId();
     }
 
-    public function update(
-        int $id,
-        string $firstName,
-        string $lastName,
-        string $email,
-    ): bool
+    public function update(array $params): bool
     {
-        return $this->updateStatement->execute([
-            $firstName,
-            $lastName,
-            $email,
-            $id,
-        ]);
+        return $this->updateStatement->execute(array_values($params));
     }
 
     public function delete(int $id): bool
     {
         return $this->deleteStatement->execute([$id]);
+    }
+
+    /**
+     * @param array $keys
+     * @return string
+     */
+    public function getParseParam(array $keys): string
+    {
+        $keys = array_keys($keys);
+        array_pop($keys);
+        $array_param = [];
+
+        foreach ($keys as $k) {
+            $array_param[] = "$k = ?";
+        }
+
+        return implode(', ', $array_param);
     }
 }
