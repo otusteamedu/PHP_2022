@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\EventListener\LogEvent;
-use App\Service\Data\Logic;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -15,13 +13,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class RedisService
 {
     private ?\Symfony\Component\HttpFoundation\Request $request;
-    private LogEvent $logger;
+    private Logic $logic;
 
-    public function __construct(LogEvent $logger, RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, Logic $logic)
     {
+        $this->logic = $logic;
         $this->request = $requestStack->getCurrentRequest();
-
-        $this->logger = $logger;
     }
 
     /**
@@ -35,7 +32,6 @@ class RedisService
             throw new RuntimeException('Отсутстуют обязательные параметры');
         }
 
-        $logic = new Logic($this->logger);
-        $logic->execute();
+        $this->logic->execute();
     }
 }

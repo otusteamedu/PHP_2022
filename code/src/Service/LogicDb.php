@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Data;
+namespace App\Service;
 
 use App\Entity\JsonEvent;
+use App\EventListener\LogEvent;
+use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\Container;
 
 /**
  * LogicDb
@@ -19,15 +20,15 @@ class LogicDb implements ILogic
      * @var array
      */
     public array $array;
-    private $logger;
+    private LogEvent $logEvent;
 
     /**
      * __construct
      */
-    public function __construct($logger)
+    public function __construct(LogEvent $logEvent, EntityManagerInterface $doctrine)
     {
-        $this->logger = $logger;
-        $this->array = $this->getDoctrine()->getRepository(JsonEvent::class)->findAll();
+        $this->logEvent = $logEvent;
+        $this->array = $doctrine->getRepository(JsonEvent::class)->findAll();
     }
 
     /**
@@ -44,13 +45,5 @@ class LogicDb implements ILogic
             $json = $r->getValue();
             $this->extracted($json);
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDoctrine(): mixed
-    {
-        return Container::getInstance()->get('doctrine');
     }
 }

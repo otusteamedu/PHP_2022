@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Data;
+namespace App\Service;
 
 use App\EventListener\LogEvent;
 use App\Service\MessageGenerator;
@@ -18,15 +18,11 @@ trait LogicTrait
     {
         $settings = json_decode($json, null, 512, JSON_THROW_ON_ERROR);
         $conditions = $settings->conditions;
+        $dispatcher = new EventDispatcher();
 
         if (empty($conditions) === false && empty($conditions->id) === false && empty($conditions->title) === false) {
-            $this->getDispatcher()->addListener(LogEvent::NAME, [$this->logger, 'onLogAction'], $settings->priority);
-            $this->getDispatcher()->dispatch($this->logger, LogEvent::NAME);
+            $dispatcher->addListener(LogEvent::NAME, [$this->logEvent, 'onLogAction'], $settings->priority);
+            $dispatcher->dispatch($this->logEvent, LogEvent::NAME);
         }
-    }
-
-    public function getDispatcher(): EventDispatcher
-    {
-        return new EventDispatcher();
     }
 }

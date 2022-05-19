@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Data;
+namespace App\Service;
 
+use App\EventListener\LogEvent;
 use App\Repository\RedisRepository;
 use RuntimeException;
 
@@ -22,14 +23,14 @@ class LogicRedis implements ILogic
     /**
      * @var
      */
-    private $logger;
+    private LogEvent $logEvent;
 
     /**
      * __construct
      */
-    public function __construct($logger)
+    public function __construct(LogEvent $logEvent)
     {
-        $this->logger = $logger;
+        $this->logEvent = $logEvent;
         $this->object = new RedisRepository();
     }
 

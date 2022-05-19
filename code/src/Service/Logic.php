@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Data;
+namespace App\Service;
 
 class Logic
 {
     public ILogic $object;
 
-    public function __construct($logger)
+    public function __construct(LogicRedis $logicRedis, LogicDb $logicDb)
     {
-        if ($_ENV['ENABLE_REDIS']) {
-            $this->object = new LogicRedis($logger);
+        if (($_ENV['ENABLE_REDIS'])) {
+            $this->object = $logicRedis;
         }  else {
-            $this->object = new LogicDb($logger);
+            $this->object = $logicDb;
         }
     }
 
