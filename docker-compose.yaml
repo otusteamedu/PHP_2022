@@ -108,29 +108,6 @@ services:
     networks:
       - internal
 
-  elasticsearch:
-    container_name: es
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
-    environment:
-      - xpack.security.enabled=false
-      - "discovery.type=single-node"
-    ports:
-      -   ${ES_PORT}:9200
-    networks:
-      - internal
-
-  kibana:
-    container_name: kb
-    image: docker.elastic.co/kibana/kibana:7.11.0
-    environment:
-      - "ELASTICSEARCH_HOSTS=http://es:${ES_PORT}"
-    depends_on:
-      - elasticsearch
-    ports:
-      - "${KIBANA_PORT}:5601"
-    networks:
-      - internal
-
 volumes:
   redis:
     driver: local

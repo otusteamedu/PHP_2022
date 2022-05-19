@@ -1,0 +1,19 @@
+{
+    "name": "database/code",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksey Shevchenko",
+            "email": "masteritua@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*",
+        "symfony/dependency-injection": "^6.0",
+        "pdo-factory/pdo-factory": "^1.0"
+    }
+}
