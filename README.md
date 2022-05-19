@@ -1,3 +1,13 @@
-# PHP_2022
+**ADD EVENTS**
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+http://otus.local/json/event/add
+
+**Get CRUD list**
+
+http://otus.local/json/event
+
+Where data updating to work subscriber which to save, update, delete redis.
+
+**Example add CRUD data to table**
+
+{ "priority": 1000, "conditions":  { "id": 1, "title" : "Test" }, "event": "LogEvent" }
