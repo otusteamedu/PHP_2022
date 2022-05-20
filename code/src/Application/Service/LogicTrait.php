@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Service;
+namespace App\Application\Service;
 
-use App\EventListener\LogEvent;
-use App\Service\MessageGenerator;
+use App\Application\EventListener\LogEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-
 
 trait LogicTrait
 {

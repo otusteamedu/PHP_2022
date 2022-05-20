@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Application\Repository;
 
 use Predis\ClientInterface;
 use Redis;

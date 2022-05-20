@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Application\Service;
 
-use App\Entity\JsonEvent;
-use App\EventListener\LogEvent;
+use App\Application\Contract\LogEventInterface;
+use App\Domain\Contract\ILogic;
+use App\Application\EventListener\LogEvent;
+use App\Domain\Entity\JsonEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 
@@ -25,7 +27,7 @@ class LogicDb implements ILogic
     /**
      * __construct
      */
-    public function __construct(LogEvent $logEvent, EntityManagerInterface $doctrine)
+    public function __construct(LogEventInterface $logEvent, EntityManagerInterface $doctrine)
     {
         $this->logEvent = $logEvent;
         $this->array = $doctrine->getRepository(JsonEvent::class)->findAll();

@@ -20,7 +20,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\EventListener\JsonSubscriber:
+    App\Application\EventListener\JsonSubscriber:
         tags:
             -   name: 'doctrine.event_subscriber'
 

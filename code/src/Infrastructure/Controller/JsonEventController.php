@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
-use App\Entity\JsonEvent;
-use App\Form\JsonEventType;
-use App\Service\RedisService;
+use App\Application\Form\JsonEventType;
+use App\Application\Service\RedisService;
+use App\Domain\Entity\JsonEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
