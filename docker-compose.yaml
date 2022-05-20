@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+
+  balancer:
+    build:
+      context: ./nginx/balancer
+      dockerfile: Dockerfile
+    image: myapp/balancer
+    container_name: balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/balancer/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    deploy:
+      mode: replicated
+      replicas: 3
+    image: myapp/nginx
+    expose:
+      - "8080"
+    volumes:
+      - ./code:/data/application.local
+      - ./nginx/webserver/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    deploy:
+      mode: replicated
+      replicas: 3
+    image: myapp/php
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+      - ./mysql/backups:/var/lib/backups
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
