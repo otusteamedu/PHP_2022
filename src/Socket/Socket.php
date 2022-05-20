@@ -30,14 +30,14 @@ class Socket
         $this->path = $config[ConfigKey::PATH];
         $this->bytes = $config[ConfigKey::MAX_BYTES];
 
-        $this->create();
+        $this->socket = $this->create();
     }
 
     /**
      * @return bool|\Socket
      * @throws SocketException
      */
-    protected function create(): bool|\Socket
+    public function create(): bool|\Socket
     {
         if (file_exists($this->path)) {
             unlink($this->path);
@@ -54,7 +54,7 @@ class Socket
      * @return void
      * @throws
      */
-    protected function bind(): void
+    public function bind(): void
     {
         if (!$this->socket) {
             $this->socket = $this->create();
@@ -69,7 +69,7 @@ class Socket
      * @return void
      * @throws
      */
-    protected function listen(): void
+    public function listen(): void
     {
         if (!socket_listen($this->socket, 5)) {
             throw new SocketException('Cannot listen a socket.');
@@ -95,7 +95,7 @@ class Socket
      * @return \Socket
      * @throws SocketException
      */
-    protected function accept(): \Socket
+    public function accept(): \Socket
     {
         if ($socket = socket_accept($this->socket)) {
             return $socket;
@@ -109,7 +109,7 @@ class Socket
      * @return void
      * @throws SocketException
      */
-    protected function write($message): void
+    public function write($message): void
     {
         if (!socket_write($this->socket, $message, strlen($message))) {
             throw new SocketException('Cannot write to a socket.');
@@ -119,7 +119,7 @@ class Socket
     /**
      * @return false|string
      */
-    protected function read($socket = null): bool|string
+    public function read($socket = null): bool|string
     {
         $socket = $socket ?: $this->socket;
 
@@ -130,7 +130,7 @@ class Socket
      * @return array
      * @throws
      */
-    #[ArrayShape(['message' => "string", 'bytes' => "int"])] protected function receive(): array
+    #[ArrayShape(['message' => "string", 'bytes' => "int"])] public function receive(): array
     {
         $buffer = '';
 
@@ -144,7 +144,7 @@ class Socket
         throw new SocketException('Cannot read a message.');
     }
 
-    protected function close(): void
+    public function close(): void
     {
         if (!$this->socket) {
             throw new SocketException('No socket for closing.');

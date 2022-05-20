@@ -4,6 +4,7 @@ use Socket\Client;
 use Socket\Server;
 use ValueObject\Argument;
 use Exception\InvalidArgumentException;
+use ValueObject\ConfigKey;
 
 class App
 {
@@ -30,10 +31,10 @@ class App
 
         switch ($type) {
             case Argument::SERVER:
-                $socket = new Server($this->config[\ValueObject\ConfigKey::SOCKET]);
+                $socket = new Server($this->config[ConfigKey::SOCKET]);
                 break;
             case Argument::CLIENT:
-                $socket = new Client($this->config[\ValueObject\ConfigKey::SOCKET]);
+                $socket = new Client($this->config[ConfigKey::SOCKET]);
                 break;
         }
 

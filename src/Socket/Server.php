@@ -2,33 +2,52 @@
 
 namespace Socket;
 
-class Server extends Socket
+class Server
 {
-    private $commonSocket;
+    private ?Socket $commonSocket;
+    private $phpSocket;
 
-    public function connect(): void
-    {
-        $this->bind();
-        $this->listen();
+    /**
+     * @throws
+     */
+    public function __construct(
+        array $config
+    ) {
+        $this->commonSocket = new Socket($config);
     }
 
-    public function run()
+    public function run(): void
     {
-        $this->commonSocket = $this->accept();
+        $this->phpSocket = $this->commonSocket->accept();
 
         while (true) {
-            $message = $this->read($this->commonSocket);
+            $message = $this->commonSocket->read($this->phpSocket);
 
             if (!$message) {
                 continue;
             }
 
-            if (trim($message) === self::EXIT_COMMAND) {
+            if (trim($message) === Socket::EXIT_COMMAND) {
                 $this->close();
                 break;
             }
 
-            $this->write('New message received: ' . $message);
+            $this->commonSocket->write('New message received: ' . $message);
         }
+    }
+
+    public function connect(): void
+    {
+        if (!$this->commonSocket) {
+            $this->commonSocket->create();
+        }
+
+        $this->commonSocket->bind();
+        $this->commonSocket->listen();
+    }
+
+    public function close()
+    {
+        $this->commonSocket->close($this->phpSocket);
     }
 }
