@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form;
+namespace App\Application\Form;
 
-use App\Entity\JsonEvent;
+use App\Domain\Entity\JsonEvent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

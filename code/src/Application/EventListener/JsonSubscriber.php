@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Application\EventListener;
 
 
-use App\Entity\JsonEvent;
-use App\Repository\RedisRepository;
+use App\Application\Repository\RedisRepository;
+use App\Domain\Entity\JsonEvent;
+use App\EventListener\YoutubeStatistics;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
