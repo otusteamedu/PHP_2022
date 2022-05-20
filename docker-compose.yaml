@@ -1,77 +1,27 @@
 version: '3'
 
 services:
-  nginx:
+  app-server:
     build:
-      context: ./docker/nginx
-    image: myapp/nginx
-    container_name: webserver
-    ports:
-      - "80:80"
+      context: ./Docker/fpm
+      dockerfile: Dockerfile
+    image: chat/php-server
+    container_name: app-server
     volumes:
-      - ./public:/data/mysite.local
+       - .:/chat-app
+       - ./sock:/sock
     networks:
       - app-network
 
-  app:
+  app-client:
     build:
-      context: ./docker/fpm
-    image: myapp/php
-    container_name: app1
+      context: ./Docker/fpm
+      dockerfile: Dockerfile
+    image: chat/php-client
+    container_name: app-client
     volumes:
-      - ./public:/data/mysite.local
-    networks:
-      - app-network
-
-  db:
-    container_name: mysql
-    build:
-      context: ./docker/mysql
-      args:
-        - TZ=${TZ}
-        - TEMP_DIR=${TEMP_DIR}
-        - DB_PORT=${DB_PORT}
-        - DB_CHARSET=${DB_CHARSET}
-        - DB_COLLASION=${DB_COLLASION}
-        - DB_NAME=${DB_NAME}
-    restart: always
-    command: --init-file /usr/local/etc/mysql/init.sql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
-    volumes:
-      - ./dbdata:/var/lib/mysql
-      - ./public:/data/mysite.local
-    networks:
-      - app-network
-
-  memcached:
-    container_name: memcached
-    image: memcached:latest
-    restart: unless-stopped
-    depends_on:
-      - db
-      - app
-    networks:
-      - app-network
-
-  workspace:
-    image: php:7.4
-    container_name: console
-    volumes:
-      - ./public:/data/mysite.local
-    networks:
-      - app-network
-
-  redis:
-    image: redis:4.0
-    container_name: redis
-    restart: unless-stopped
-    depends_on:
-      - db
-      - app
+       - .:/chat-app
+       - ./sock:/sock
     networks:
       - app-network
 

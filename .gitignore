@@ -1,6 +1,4 @@
-/.vagrant/
-/.idea
-/vendor/
-/.env
-/Vagrantfile
-/dbdata/
+.idea
+vendor
+sock/socket.sock
+.env

@@ -1,5 +1,15 @@
 {
-    "require": {
-        "laravel/homestead": "*"
-    }
+    "name": "qween/php_2022",
+    "autoload": {
+        "psr-4": {
+            "Qween\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Julia Koroleva",
+            "email": "youlka2@gmail.com"
+        }
+    ],
+    "require": {}
 }
