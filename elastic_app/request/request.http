@@ -1,0 +1,42 @@
+### Создать канал
+POST http://application.local/channel/create
+Content-Type: application/json
+
+{
+  "id": "channel3",
+  "name": "name_channel3",
+  "description": "description3",
+  "subscribers": 1000
+}
+
+### Получить канал
+GET http://application.local/channel/get?index=channel&id=channel1
+
+### Удалить канал
+GET http://application.local/channel/delete?index=channel&id=channel1
+
+### Создать видео
+POST http://application.local/video/create
+Content-Type: application/json
+
+{
+  "id": "video4",
+  "name": "name_video3",
+  "description": "description3",
+  "time": "03:00",
+  "likeCount": 10000,
+  "dislikeCount": 90,
+  "channelId": "channel3"
+}
+
+### Получить видео
+GET http://application.local/video/get?index=video&id=video3
+
+### Удалить видео
+GET http://application.local/video/delete?index=video&id=video1
+
+### Получить сумму лайков и дизлайков по всем видео канала
+GET http://application.local/info/getChannelLikes?channelId=channel3
+
+### Получить топ N каналов
+GET http://application.local/info/getTopChannels?limit=3

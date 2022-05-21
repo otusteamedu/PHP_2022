@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+	"id": {
+	  "type": "string"
+	},
+	"name": {
+	  "type": "string"
+	},
+	"description": {
+	  "type": "string"
+	},
+	"time": {
+	  "type": "string"
+	},
+	"likeCount": {
+	  "type": "integer"
+	},
+	"dislikeCount": {
+	  "type": "integer"
+	},
+	"channelId": {
+	  "type": "string"
+	}
+  },
+  "required": [
+	"id",
+	"name",
+	"description",
+	"time",
+	"likeCount",
+	"dislikeCount",
+	"channelId"
+  ]
+}
