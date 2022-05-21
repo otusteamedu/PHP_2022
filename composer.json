@@ -1,0 +1,12 @@
+{
+  "name": "rsh/composerhw",
+  "type": "project",
+  "require": {
+    "romanshumakov/hwcomposer": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rsh\\Composerhw\\": "src/"
+    }
+  }
+}
