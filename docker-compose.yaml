@@ -17,7 +17,7 @@ services:
 
   nginx:
     build:
-      context: ./nginx
+      context: ./nginx/webserver
       dockerfile: Dockerfile
     deploy:
       mode: replicated
