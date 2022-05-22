@@ -25,3 +25,7 @@ services:
     App\Service\Youtube\YoutubeConfig:
         arguments:
             $apiKey: '%env(resolve:YOUTUBE_API_KEY)%'
+    youtube.channel.repository:
+#        class: 'App\Repository\DBYoutubeChannelRepository'
+         class: 'App\Repository\ESYoutubeChannelRepository'
+    App\Service\Youtube\Channel\YoutubeChannelRepositoryInterface: '@youtube.channel.repository'
