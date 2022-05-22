@@ -1,0 +1,19 @@
+{
+    "name": "anty/balancer-app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mapaxa\\BalancerApp\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+        "devanych/view-renderer": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "mapaxa",
+            "email": "alexeybespalov86@gmail.com"
+        }
+    ]
+}

@@ -1,0 +1,4 @@
+/vendor/
+/nginx_balancer/dbdata/
+/nginx_balancer/code/composer.lock
+/nginx_balancer/.env
