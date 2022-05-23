@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    # можем через environment прокинуть все из .env,
+    # но пока это не нужно
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data2:/var/lib/postgresql/data/
+
+volumes:
+  pg-data2:
