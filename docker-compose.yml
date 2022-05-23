@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  chat-server:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile
+    container_name: chat-server
+    command: tail -f runtime/docker_logs/docker_logs.log > /proc/1/fd/1
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./sock:/sock
+    networks:
+      - my-network
+
+  chat-client:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile
+    container_name: chat-client
+    command: tail -f runtime/docker_logs/docker_logs.log > /proc/1/fd/1
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./sock:/sock
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
