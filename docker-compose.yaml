@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+    ports:
+      - ${DOCKER_NGINX_PORT}:80
+      - ${DOCKER_NGINX_SSL_PORT}:443
+    volumes:
+      - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+      - ./${DOCKER_DIR}/data/nginx/logs:/var/log/nginx
+    networks:
+      - app-network
+  php-fpm:
+    container_name: bf-php-fpm
+    build:
+      context: docker/php-fpm
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+    networks:
+      - app-network
+  redis:
+    build:
+      context: docker/redis
+    volumes:
+      - ./${DOCKER_DIR}/data/redis:/data
+    networks:
+      - app-network
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.3
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    networks:
+      - app-network
+    ports:
+      - ${DOCKER_ES_PORT}:9200
+    deploy:
+      resources:
+        limits:
+          memory: 3000M
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.1.3
+    volumes:
+      - ./docker/data/kibana:/usr/share/kibana/data
+    #      - ./docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      - elasticsearch
+    ports:
+      - ${DOCKER_KIBANA_PORT}:5601
+    networks:
+      - app-network
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+  postgres:
+    image: postgres:14.2
+    ports:
+      - ${DOCKER_PG_PORT}:5432
+    volumes:
+      - ./docker/data/postgres/:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_USER: ${DOCKER_PG_USER}
+      POSTGRES_PASSWORD: ${DOCKER_PG_PASSWORD}
+    networks:
+      - app-network
+  workspace:
+    container_name: bf-workspace
+    build:
+      context: docker/workspace
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_APPDIR}:${DOCKER_WORKDIR}
+    command: sh -c "composer install"
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
