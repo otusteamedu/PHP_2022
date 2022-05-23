@@ -1,0 +1,23 @@
+FROM php:8.0-cli
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    && docker-php-ext-install mbstring zip \
+    && docker-php-ext-install sockets
+
+COPY ./php/php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Set working directory
+WORKDIR /data/mysite.local
