@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace PShilyaev;
+namespace Shilyaev\Strings;
 
 class Request
 {
     public function getString() : string
     {
-        if (isset($_POST['string']) && strlen(trim($_POST['string']))>0)
-            return trim($_POST['string']);
+        if (isset($_POST['string']))
+            return $_POST['string'];
         else
-            throw new \Exception('Bad Request');
+            throw new \Exception('Empty request.');
     }
 
 }

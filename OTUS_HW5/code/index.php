@@ -1,8 +1,10 @@
 <?php
-require 'src/autoload.php';
-$request = new \PShilyaev\Request();
-$app = new \PShilyaev\App($request);
-$response = $app->Run($request);
-http_response_code($response->getStatus());
-echo $response->getMessage();
+
+declare(strict_types=1);
+
+require 'vendor/autoload.php';
+
+$app=new \Shilyaev\Strings\App();
+echo $app->run();
+
 

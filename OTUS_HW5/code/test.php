@@ -1,4 +1,4 @@
-<?
+<?php
 define("MEMCACHED_ADDR", $_ENV["MEMCACHE1"]);
 define("MEMCACHED_ADDR2", $_ENV["MEMCACHE2"]);
 ?>
@@ -30,18 +30,18 @@ define("MEMCACHED_ADDR2", $_ENV["MEMCACHE2"]);
 
 <h2>Проверка Memcached - сервер А</h2>
 
-<?
+<?php
 try {
 	$m = new Memcached();
 	$m->addServer(MEMCACHED_ADDR, 11211);
 } catch (Throwable $t) {
 	?>
-	<p style="color:red;">Кэш не работает! (<?=$t->getMessage()?>)</b>
-	<?
+	<p style="color:red;">Кэш не работает! (<?=$t->getMessage()?>)</p>
+<?php
 } catch (Exception $e) {
 	?>
-	<p style="color:red;">Кэш не работает! (<?=$e->getMessage()?>)</b>
-	<?
+	<p style="color:red;">Кэш не работает! (<?=$e->getMessage()?>)</p>
+        <?php
 }
 
 if ($m) {
@@ -50,61 +50,61 @@ if ($m) {
 	$m->set($key, $test_data);
 	?>
 	<p>Уcтанавливаем значение: <?=$test_data?></p>
-	<?
+<?php
 	
 	$cached_data=$m->get($key);
 	?>
 	<p>Читаем значение: <?=$cached_data?></p>
-	
-	<?if ($cached_data==$test_data) {?>
-	<p style="color:green;">Кэш работает!</b>
-	<?} else {?>
-		<p style="color:red;">Кэш не работает!</b>
-	<?}?>
 
-<?}?>
+<?php if ($cached_data==$test_data) {?>
+	<p style="color:green;">Кэш работает!</p>
+<?php } else {?>
+		<p style="color:red;">Кэш не работает!</p>
+            <?php }?>
+
+            <?php }?>
 
 <h2>Проверка Memcached - сервер Б</h2>
 
-<?
+<?php
 try {
 	$m2 = new Memcached();
 	$m2->addServer(MEMCACHED_ADDR2, 11211);
 } catch (Throwable $t) {
 	?>
-	<p style="color:red;">Кэш не работает! (<?=$t->getMessage()?>)</b>
-	<?
+	<p style="color:red;">Кэш не работает! (<?=$t->getMessage()?>)</p>
+<?php
 } catch (Exception $e) {
 	?>
-	<p style="color:red;">Кэш не работает! (<?=$e->getMessage()?>)</b>
-	<?
+	<p style="color:red;">Кэш не работает! (<?=$e->getMessage()?>)</p>
+        <?php
 }
 
 if ($m2) {
 ?>
-<?
+        <?php
 	
 	$cached_data=$m2->get($key);
 	?>
 	<p>Читаем значение с мастера: <?=$cached_data?></p>
-<?
+<?php
 	$key = 'key_1';
 	$test_data = time()."-B";
 	$m2->set($key, $test_data);
 	?>
 	<p>Уcтанавливаем значение на slave: <?=$test_data?></p>
-	<?
+<?php
 	
 	$cached_data=$m2->get($key);
 	?>
 	<p>Читаем значение со slave: <?=$cached_data?></p>
-	
-	<?if ($cached_data==$test_data) {?>
-	<p style="color:green;">Кэш работает!</b>
-	<?} else {?>
-		<p style="color:red;">Кэш не работает!</b>
-	<?}?>
 
-<?}?>
+<?php if ($cached_data==$test_data) {?>
+	<p style="color:green;">Кэш работает!</p>
+        <?php } else {?>
+		<p style="color:red;">Кэш не работает!</p>
+            <?php }?>
+
+            <?php }?>
 
 </html>

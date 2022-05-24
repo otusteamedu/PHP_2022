@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace PShilyaev;
+namespace Shilyaev\Strings;
 
 class Response
 {
-    protected $status = '200';
+    protected $status = 200;
     protected $message = 'OK';
 
     /**
      * @return string
      */
-    public function getStatus(): string
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -27,9 +27,10 @@ class Response
     /**
      * @param string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(int $status): void
     {
         $this->status = $status;
+        http_response_code($status);
     }
 
     /**
