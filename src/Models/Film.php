@@ -31,10 +31,12 @@ class Film
             'SELECT * FROM film WHERE film_id = ?'
         );
         $this->insertStatement = $pdo->prepare(
-            'INSERT INTO film (film_name, description, country, premier_date, genre_id, producer, scenario, world_charges) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+            'INSERT INTO film (film_name, description, country_id, premier_date, genre_id, producer_id, scenario_id, world_charges) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
         );
         $this->updateStatement = $pdo->prepare(
-            'UPDATE film SET film_name = ?, description = ?, country = ?, premier_date = ?, genre_id = ?, producer = ?, scenario = ?, world_charges = ? WHERE film_id = ?'
+            'UPDATE film SET film_name = :film_name, description = :description, country_id = :country_id,
+                premier_date = :premier_date, genre_id = :genre_id, producer = :producer, scenario = :scenario_id,
+                world_charges = :world_charges WHERE film_id = :film_id'
         );
         $this->deleteStatement = $pdo->prepare(
             'DELETE FROM film WHERE film_id = ?'
@@ -279,20 +281,13 @@ class Film
     }
 
     /**
+     * @param array $data
+     *
      * @return bool
      */
-    public function update(): bool
+    public function update(array $data): bool
     {
-        return $this->updateStatement->execute([
-            $this->film_name,
-            $this->description,
-            $this->country_id,
-            $this->premier_date,
-            $this->genre_id,
-            $this->producer_id,
-            $this->scenario_id,
-            $this->world_charges
-        ]);
+        return $this->updateStatement->execute($data);
     }
 
     /**
