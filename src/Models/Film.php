@@ -24,7 +24,7 @@ class Film
     private PDOStatement $deleteStatement;
     private array        $all;
 
-    public function __construct(PDO $pdo)
+    public function __construct(PDO $pdo, array $attrs)
     {
         $this->pdo = $pdo;
         $this->selectStatement = $pdo->prepare(
@@ -34,15 +34,23 @@ class Film
             'INSERT INTO film (film_name, description, country_id, premier_date, genre_id, producer_id, scenario_id, world_charges) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
         );
         $this->updateStatement = $pdo->prepare(
-            'UPDATE film SET film_name = :film_name, description = :description, country_id = :country_id,
-                premier_date = :premier_date, genre_id = :genre_id, producer = :producer, scenario = :scenario_id,
-                world_charges = :world_charges WHERE film_id = :film_id'
+            "UPDATE film SET {$this->getAttrs($attrs)} WHERE film_id = :film_id"
         );
         $this->deleteStatement = $pdo->prepare(
             'DELETE FROM film WHERE film_id = ?'
         );
 
         $this->all = $pdo->query("SELECT * FROM film")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param array $attrs
+     *
+     * @return string
+     */
+    protected function getAttrs(array $attrs): string
+    {
+        return implode(', ', array_map(function ($attr) {return "$attr = ?";}, $attrs));
     }
 
     /**
