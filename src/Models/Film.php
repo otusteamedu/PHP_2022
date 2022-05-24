@@ -24,7 +24,7 @@ class Film
     private PDOStatement $deleteStatement;
     private array        $all;
 
-    public function __construct(PDO $pdo, array $attrs)
+    public function __construct(PDO $pdo, array $attrs = [])
     {
         $this->pdo = $pdo;
         $this->selectStatement = $pdo->prepare(
