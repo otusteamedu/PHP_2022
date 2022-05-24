@@ -41,9 +41,9 @@ services:
     image: mysql:8.0.29
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 'test'
-      MYSQL_USER: 'test'
-      MYSQL_PASS: 'pass'
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASS: ${DB_PASSWORD}
     volumes:
       - ./dbData:/var/lib/mysql
     networks:
