@@ -31,25 +31,20 @@ CREATE TABLE IF NOT EXISTS hall_session(
     hall_id int REFERENCES hall
 );
 
+CREATE TABLE IF NOT EXISTS place (
+    id SERIAL NOT NULL PRIMARY KEY,
+    row smallint NOT NULL,
+    place smallint NOT NULL,
+    hall_id int REFERENCES hall
+);
+CREATE UNIQUE INDEX ON place(row, place, hall_id);
+
 CREATE TABLE IF NOT EXISTS ticket (
     id SERIAL PRIMARY KEY NOT NULL,
     session_id int REFERENCES session,
     customer_id int REFERENCES customer,
     ticket_type_id int REFERENCES ticket_type,
-    place_id smallint NOT NULL,
-    row_id smallint NOT NULL
+    place_id int REFERENCES place
 );
 
-CREATE TABLE IF NOT EXISTS place (
-    id SERIAL NOT NULL PRIMARY KEY,
-    number smallint NOT NULL CHECK
-        (number > 0 AND number < 30)
-);
-
-CREATE TABLE IF NOT EXISTS row (
-    id SERIAL NOT NULL PRIMARY KEY,
-    number smallint NOT NULL CHECK
-        (number > 0 AND number < 15)
-);
-
-CREATE UNIQUE INDEX ON ticket(session_id, place_id, row_id);
+CREATE UNIQUE INDEX ON ticket(session_id, place_id);
