@@ -16,13 +16,15 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app_default')]
     public function index(): Response
     {
-        $coffee = DrinkStrategy::makeCoffee(new ClientRequest());
-        $burger = FastFoodStrategy::makeBurger(new RecipeRequest());
+
+        $drinkStrategy = new DrinkStrategy();
+        $fastFoodStrategy = new FastFoodStrategy();
+        $coffee = $drinkStrategy->makeCoffee(new ClientRequest());
+        $burger = $fastFoodStrategy->makeBurger(new RecipeRequest());
         $context = new ContextStrategy();
         $context->addToOrder($burger);
         $context->addToOrder($coffee);
         $context->execute();
-
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',
         ]);

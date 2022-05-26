@@ -10,10 +10,10 @@ interface DrinkFactoryInterface extends ProductFactoryInterface
     /**
      * @return mixed
      */
-    public static function createCoffee();
+    public function createCoffee(): mixed;
 
     /**
      * @return mixed
      */
-    public static function createTea();
+    public function createTea(): mixed;
 }

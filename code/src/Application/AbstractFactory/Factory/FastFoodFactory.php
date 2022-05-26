@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\AbstractFactory\Factory;
 
 use App\Application\AbstractFactory\Contract\ProductFactoryInterface;
+use App\Application\AbstractFactory\Contract\ProductInterface;
 use App\Application\Product\FastFood\BurgerProduct;
 use App\Application\Product\FastFood\HotdogProduct;
 use App\Application\Product\FastFood\SandwichProduct;
@@ -17,7 +18,7 @@ class FastFoodFactory implements ProductFactoryInterface
     /**
      * @return BurgerProduct
      */
-    public static function createBurger(): BurgerProduct
+    public function createBurger(): ProductInterface
     {
           return new BurgerProduct();
     }
@@ -25,7 +26,7 @@ class FastFoodFactory implements ProductFactoryInterface
     /**
      * @return HotdogProduct
      */
-    public static function createHotDog(): HotdogProduct
+    public function createHotDog(): ProductInterface
     {
         return new HotdogProduct();
     }
@@ -33,7 +34,7 @@ class FastFoodFactory implements ProductFactoryInterface
     /**
      * @return SandwichProduct
      */
-    public static function createSandwich(): SandwichProduct
+    public function createSandwich(): ProductInterface
     {
         return new SandwichProduct();
     }

@@ -12,40 +12,45 @@ use App\Infractructure\Request\RequestInterface;
 /**
  *  FastFoodStrategy
  */
-class FastFoodStrategy implements StrategyInterface
+class FastFoodStrategy extends AbstractStrategy implements StrategyInterface
 {
-    use StrategyTrait;
+    private FastFoodFactory $factory;
 
-    /**
-     * @param RequestInterface $requestIngredients
-     * @return ProductInterface
-     */
-    public static function makeBurger(RequestInterface $requestIngredients): ProductInterface
+    public function __construct()
     {
-        $object = FastFoodFactory::createBurger();
-
-        return self::extracted($requestIngredients, $object);
+        $this->factory = new FastFoodFactory();
     }
 
     /**
      * @param RequestInterface $requestIngredients
      * @return ProductInterface
      */
-    public static function makeHotDog(RequestInterface $requestIngredients): ProductInterface
+    public function makeBurger(RequestInterface $requestIngredients): ProductInterface
     {
-        $object = FastFoodFactory::createHotDog();
+        $object =  $this->factory->createBurger();
 
-        return self::extracted($requestIngredients, $object);
+        return $this->extracted($requestIngredients, $object);
     }
 
     /**
      * @param RequestInterface $requestIngredients
      * @return ProductInterface
      */
-    public static function makeSandwich(RequestInterface $requestIngredients): ProductInterface
+    public function makeHotDog(RequestInterface $requestIngredients): ProductInterface
     {
-        $object = FastFoodFactory::createSandwich();
+        $object =  $this->factory->createHotDog();
 
-        return self::extracted($requestIngredients, $object);
+        return $this->extracted($requestIngredients, $object);
+    }
+
+    /**
+     * @param RequestInterface $requestIngredients
+     * @return ProductInterface
+     */
+    public function makeSandwich(RequestInterface $requestIngredients): ProductInterface
+    {
+        $object = $this->factory->createSandwich();
+
+        return $this->extracted($requestIngredients, $object);
     }
 }

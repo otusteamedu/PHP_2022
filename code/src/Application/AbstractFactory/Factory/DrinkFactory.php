@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\AbstractFactory\Factory;
 
+use App\Application\AbstractFactory\Contract\ProductInterface;
 use App\Application\Product\Drink\CoffeeProduct;
 use App\Application\Product\Drink\TeaProduct;
 
@@ -15,7 +16,7 @@ class DrinkFactory
     /**
      * @return CoffeeProduct
      */
-    public static function createCoffee(): CoffeeProduct
+    public function createCoffee(): ProductInterface
     {
           return new CoffeeProduct();
     }
@@ -23,7 +24,7 @@ class DrinkFactory
     /**
      * @return TeaProduct
      */
-    public static function createTea(): TeaProduct
+    public function createTea(): ProductInterface
     {
         return new TeaProduct();
     }

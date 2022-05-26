@@ -12,29 +12,34 @@ use App\Infractructure\Request\RequestInterface;
 /**
  * DrinkStrategy
  */
-class DrinkStrategy implements StrategyInterface
+class DrinkStrategy extends AbstractStrategy implements StrategyInterface
 {
-    use StrategyTrait;
+    private DrinkFactory $factory;
 
-    /**
-     * @param RequestInterface $requestIngredients
-     * @return ProductInterface
-     */
-    public static function makeCoffee(RequestInterface $requestIngredients): ProductInterface
+    public function __construct()
     {
-        $object = DrinkFactory::createCoffee();
-
-        return self::extracted($requestIngredients, $object);
+        $this->factory = new DrinkFactory();
     }
 
     /**
      * @param RequestInterface $requestIngredients
      * @return ProductInterface
      */
-    public static function makeTea(RequestInterface $requestIngredients): ProductInterface
+    public function makeCoffee(RequestInterface $requestIngredients): ProductInterface
     {
-        $object = DrinkFactory::createTea();
+        $object = $this->factory->createCoffee();
 
-        return self::extracted($requestIngredients, $object);
+        return $this->extracted($requestIngredients, $object);
+    }
+
+    /**
+     * @param RequestInterface $requestIngredients
+     * @return ProductInterface
+     */
+    public function makeTea(RequestInterface $requestIngredients): ProductInterface
+    {
+        $object = $this->factory->createTea();
+
+        return $this->extracted($requestIngredients, $object);
     }
 }
