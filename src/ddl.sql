@@ -54,3 +54,14 @@ create table ticket
     foreign key (seat_id) references seat (id),
     foreign key (ticket_status_id) references ticket_status (id)
 );
+
+/**
+  После код ревью добавил в таблицу с фильмами
+  столбец base_price - базовая цена, а также
+  столбец price_coefficient - коеффицент умножения
+  в зависимости от сеанса.
+  Так как это миграция, добавляем пустое дефолтное значение
+  */
+
+alter table film add column base_price decimal(6,2) not null default 0.0;
+alter table film_session add column coefficient decimal(2,1) not null default 0.0;
