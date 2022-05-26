@@ -2,6 +2,7 @@
 
 namespace Nka\OtusSocketChat\Services;
 
+use Nka\OtusSocketChat\Helpers\CliHelper;
 use Nka\OtusSocketChat\Socket;
 
 /**
@@ -31,8 +32,10 @@ class SocketServerService
             if ($bytes = $this->socket->receive($client, $buf)) {
                 $resultMessage = 'Server received: ' . $bytes . ' bytes' . PHP_EOL;
 
-                echo $resultMessage;
-                echo 'Client message: ' . $buf . PHP_EOL;
+                CliHelper::batchOutput([
+                    $resultMessage,
+                    'Client message: ' . $buf . PHP_EOL
+                ]);
 
                 $this->socket->write($resultMessage, $client);
             }

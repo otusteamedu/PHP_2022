@@ -2,6 +2,7 @@
 
 namespace Nka\OtusSocketChat\Services;
 
+use Nka\OtusSocketChat\Helpers\CliHelper;
 use RuntimeException;
 use Nka\OtusSocketChat\Socket;
 

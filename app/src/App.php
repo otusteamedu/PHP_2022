@@ -14,21 +14,18 @@ use function DI\get;
 
 class App
 {
-    private string $command;
-
-
     public function __construct(
-        public CommandResolver $resolver
+        public CommandResolver $commandResolver
     )
     {
-        $this->setCommand($_SERVER['argv'][1]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function run()
     {
-        return $this->resolver->resolve(
-            $this->command
-        );
+        return $this->commandResolver->validate()->resolve();
     }
 
     /**
@@ -40,14 +37,6 @@ class App
         $builder = new ContainerBuilder();
         $builder->addDefinitions(self::setDefinitions());
         return $builder->build()->get(self::class);
-    }
-
-    /**
-     * @param string $command
-     */
-    public function setCommand(string $command): void
-    {
-        $this->command = $command;
     }
 
     /**

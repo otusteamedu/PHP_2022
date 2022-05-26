@@ -2,6 +2,7 @@
 
 namespace Nka\OtusSocketChat\Commands;
 
+use Nka\OtusSocketChat\Helpers\CliHelper;
 use Nka\OtusSocketChat\Services\SocketClientService;
 
 class ClientCommand extends AbstractInvokeCommand
@@ -11,30 +12,31 @@ class ClientCommand extends AbstractInvokeCommand
     )
     {}
 
-
     protected function run()
     {
         while (true) {
-            echo PHP_EOL . 'Input something:' . PHP_EOL;
-            $line = fgets(STDIN);
+            CliHelper::output('Input something:');
+
+            $line = CliHelper::input();
             $res = $this->service->write($line);
 
-            echo PHP_EOL . 'Server result: ' . PHP_EOL;
-            echo $res . PHP_EOL;
+            CliHelper::batchOutput([
+                'Server result: ', $res
+            ]);
 
             if ($this->finish()) {
                 break;
             }
         }
-        echo 'Good bye!' . PHP_EOL;
+        CliHelper::output('Good bye!');
     }
 
     private function finish(): bool
     {
         $decision = '';
         while ($decision !== 'y') {
-            echo 'Continue? Y/n' . PHP_EOL;
-            $decision = strtolower(trim(fgets(STDIN)));
+            CliHelper::output('Continue? Y/n');
+            $decision = strtolower(CliHelper::input());
             if ($decision === 'n') {
                 return true;
             }
