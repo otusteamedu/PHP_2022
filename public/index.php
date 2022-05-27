@@ -6,4 +6,6 @@ use App\App;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-echo App::run();
+$application = new App();
+
+echo $application->run();

@@ -4,25 +4,16 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Service\InstanceChecker;
-use Olelishna\EmailVerifier\Verifier;
+use App\Service\{InstanceChecker, PostProcessor};
 
 class App
 {
-    public static function run(): string
+    public function run(): string
     {
         InstanceChecker::addHeader();
 
-        $arrayOfEmails = [
-            'test@example.com',
-            'olelishna@gmail.com',
-            'olga@hello.com',
-            'olga@hello,com',
-            'olga@gmai.com',
-        ];
+        $postProcessor = new PostProcessor();
 
-        $resultArray = Verifier::check($arrayOfEmails);
-
-        return json_encode($resultArray);
+        return $postProcessor->process()->send();
     }
 }

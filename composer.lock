@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce688238912381b39d9c64c7ad63840f",
+    "content-hash": "dbfa827fc885333a7610cf0500387292",
     "packages": [
         {
             "name": "olelishna/emailverifier",
-            "version": "v1.0.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/olelishna/emailverifier.git",
-                "reference": "1ac316393a8f4e627ae9edab0155835711312bec"
+                "reference": "8246f081f454c2019078db3c456ba4c29ef7e95a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/olelishna/emailverifier/zipball/1ac316393a8f4e627ae9edab0155835711312bec",
-                "reference": "1ac316393a8f4e627ae9edab0155835711312bec",
+                "url": "https://api.github.com/repos/olelishna/emailverifier/zipball/8246f081f454c2019078db3c456ba4c29ef7e95a",
+                "reference": "8246f081f454c2019078db3c456ba4c29ef7e95a",
                 "shasum": ""
             },
             "require": {
@@ -42,9 +42,9 @@
             "description": "Email Verifier",
             "support": {
                 "issues": "https://github.com/olelishna/emailverifier/issues",
-                "source": "https://github.com/olelishna/emailverifier/tree/v1.0.0"
+                "source": "https://github.com/olelishna/emailverifier/tree/v2.0.0"
             },
-            "time": "2022-05-24T15:00:19+00:00"
+            "time": "2022-05-27T17:35:30+00:00"
         }
     ],
     "packages-dev": [],
@@ -57,5 +57,5 @@
         "php": ">=8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
