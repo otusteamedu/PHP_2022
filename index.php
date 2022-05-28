@@ -3,5 +3,10 @@
 use Roman\Hw5\App;
 
 require_once 'vendor/autoload.php';
-$app=new App();
-$app->run();
+
+try{
+    $app=new App();
+    $app->run();
+}catch(\Exception $e){
+    echo 'Error';
+}
