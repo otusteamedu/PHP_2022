@@ -4,7 +4,7 @@ namespace Nka\OtusSocketChat\Commands;
 
 abstract class AbstractInvokeCommand
 {
-    public function __invoke()
+    public function __invoke(): void
     {
         $this->run();
     }

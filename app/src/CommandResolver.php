@@ -3,6 +3,7 @@
 namespace Nka\OtusSocketChat;
 
 use DI\Container;
+use Nka\OtusSocketChat\Commands\AbstractInvokeCommand;
 use Nka\OtusSocketChat\Commands\ClientCommand;
 use Nka\OtusSocketChat\Commands\ServerCommand;
 
@@ -20,7 +21,7 @@ class CommandResolver
         $this->setCommand($_SERVER['argv'][1]);
     }
 
-    public function validate()
+    public function validate(): static
     {
         if (!array_key_exists($this->getCommand(), self::$routes)) {
             throw new \Exception('Unknown command.');
@@ -28,23 +29,26 @@ class CommandResolver
         return $this;
     }
 
-    public function resolve()
+    public function resolve(): void
     {
         $commandClass = self::$routes[$this->getCommand()];
         if (!class_exists($commandClass)) {
             throw new \Exception('Unknown command class.');
         }
 
+        /**
+         * @var AbstractInvokeCommand $command
+         */
         $command = $this->container->get($commandClass);
-        return ($command)();
+        ($command)();
     }
 
-    private function setCommand($command)
+    private function setCommand($command): void
     {
         $this->command = $command;
     }
 
-    private function getCommand()
+    private function getCommand(): string
     {
         return $this->command;
     }
