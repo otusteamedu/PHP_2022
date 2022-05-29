@@ -1,0 +1,5 @@
+*.log
+*/database/*
+/database/*
+/conf/*
+.env
