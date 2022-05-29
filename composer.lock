@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a23899f44c6f6113bbec6fb2c9dbfe29",
+    "packages": [
+        {
+            "name": "igorzavaleev/otus-exercise",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IgorZavaleev/OtusTestPackage.git",
+                "reference": "def714b1f5f69ececfe32b8cf401cdfc529a4a43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IgorZavaleev/OtusTestPackage/zipball/def714b1f5f69ececfe32b8cf401cdfc529a4a43",
+                "reference": "def714b1f5f69ececfe32b8cf401cdfc529a4a43",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IgorZavaleev\\OtusExercise\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Igor Zavaleev",
+                    "email": "zavaleev_i@utkonos.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/IgorZavaleev/OtusTestPackage/issues",
+                "source": "https://github.com/IgorZavaleev/OtusTestPackage/tree/1.1"
+            },
+            "time": "2022-05-29T14:44:55+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
