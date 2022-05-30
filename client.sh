@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose run server-app php app.php client
+docker-compose run client-app php app.php client

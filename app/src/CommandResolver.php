@@ -29,11 +29,16 @@ class CommandResolver
         return $this;
     }
 
+    /**
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \RuntimeException
+     */
     public function resolve(): void
     {
         $commandClass = self::$routes[$this->getCommand()];
-        if (!class_exists($commandClass)) {
-            throw new \Exception('Unknown command class.');
+        if (!class_exists($commandClass) || !$this->container->has($commandClass)) {
+            throw new \RuntimeException('Unknown command class.');
         }
 
         /**
