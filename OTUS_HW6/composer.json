@@ -1,0 +1,16 @@
+{
+    "name": "shilyaev/mailchecker",
+    "description": "Simple tool for email validation",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Shilyaev\\Mailchecker\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pavel Shilyaev"
+        }
+    ],
+    "require": {}
+}
