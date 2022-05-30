@@ -4,6 +4,7 @@ namespace Nka\OtusSocketChat;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use JetBrains\PhpStorm\ArrayShape;
 use Nka\OtusSocketChat\Commands\ClientCommand;
 use Nka\OtusSocketChat\Commands\ServerCommand;
 use Nka\OtusSocketChat\Services\SocketClientService;
@@ -23,9 +24,9 @@ class App
     /**
      * @throws \Exception
      */
-    public function run()
+    public function run(): void
     {
-        return $this->commandResolver->validate()->resolve();
+        $this->commandResolver->validate()->resolve();
     }
 
     /**
