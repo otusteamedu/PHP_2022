@@ -8,17 +8,17 @@ namespace App\Application\AbstractFactory\Contract;
 interface FastFoodFactoryInterface extends ProductFactoryInterface
 {
     /**
-     * @return mixed
+     * @return ProductInterface
      */
-    public function createBurger(): static;
+    public function createBurger(): ProductInterface;
 
     /**
-     * @return mixed
+     * @return ProductInterface
      */
-    public function createHotDog(): static;
+    public function createHotDog(): ProductInterface;
 
     /**
-     * @return mixed
+     * @return ProductInterface
      */
-    public function createSandwich(): static;
+    public function createSandwich(): ProductInterface;
 }

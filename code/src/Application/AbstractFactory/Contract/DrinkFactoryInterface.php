@@ -8,12 +8,12 @@ namespace App\Application\AbstractFactory\Contract;
 interface DrinkFactoryInterface extends ProductFactoryInterface
 {
     /**
-     * @return mixed
+     * @return ProductInterface
      */
-    public function createCoffee(): static;
+    public function createCoffee(): ProductInterface;
 
     /**
-     * @return mixed
+     * @return ProductInterface
      */
-    public function createTea(): static;
+    public function createTea(): ProductInterface;
 }

@@ -11,5 +11,5 @@ interface ProductInterface
      * @param ProductInterface $ingredient
      * @return $this
      */
-    public function add(ProductInterface $ingredient): static;
+    public function add(ProductInterface $ingredient): ProductInterface;
 }
