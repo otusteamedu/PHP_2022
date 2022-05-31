@@ -10,15 +10,15 @@ interface FastFoodFactoryInterface extends ProductFactoryInterface
     /**
      * @return mixed
      */
-    public function createBurger(): mixed;
+    public function createBurger(): static;
 
     /**
      * @return mixed
      */
-    public function createHotDog(): mixed;
+    public function createHotDog(): static;
 
     /**
      * @return mixed
      */
-    public function createSandwich(): mixed;
+    public function createSandwich(): static;
 }
