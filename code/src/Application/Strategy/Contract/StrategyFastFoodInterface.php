@@ -10,17 +10,17 @@ use App\Application\AbstractFactory\Contract\ProductInterface;
 interface StrategyFastFoodInterface extends StrategyInterface
 {
     /**
-     * @return mixed
+     * @return ProductInterface
      */
     public function makeBurger(): ProductInterface;
 
     /**
-     * @return mixed
+     * @return ProductInterface
      */
     public function makeHotDog(): ProductInterface;
 
     /**
-     * @return mixed
+     * @return ProductInterface
      */
     public function makeSandwich(): ProductInterface;
 }

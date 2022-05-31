@@ -10,7 +10,7 @@ use App\Application\AbstractFactory\Contract\ProductInterface;
 interface StrategyDrinkInterface extends StrategyInterface
 {
     /**
-     * @return mixed
+     * @return ProductInterface
      */
     public function makeCoffee(): ProductInterface;
 

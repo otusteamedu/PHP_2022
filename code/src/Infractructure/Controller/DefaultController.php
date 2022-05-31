@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
         $context->addToOrder($burger);
         $context->addToOrder($coffee);
         $context->execute();
-        exit;
+
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',
         ]);
