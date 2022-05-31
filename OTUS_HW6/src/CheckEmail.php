@@ -7,6 +7,9 @@ namespace Shilyaev\Mailchecker;
 class CheckEmail
 {
     protected array $domains;
+    //http://tools.ietf.org/html/rfc2821#section-4.5.3.1
+    //4.5.3.1. Size limits and minimums
+    protected const MAX_EMEAIL_LENGHT = 320;
 
     public function check(string $email) : bool
     {
@@ -29,9 +32,7 @@ class CheckEmail
             $email = $arr[1];
         }
 
-        //http://tools.ietf.org/html/rfc2821#section-4.5.3.1
-        //4.5.3.1. Size limits and minimums
-        if(mb_strlen($email) > 320)
+        if(mb_strlen($email) > self::MAX_EMEAIL_LENGHT)
         {
             return false;
         }
@@ -59,7 +60,6 @@ class CheckEmail
         if (isset($this->domains[$domain]))
             return $this->domains[$domain];
 
-        $isMxOK = false;
         try{
             $isMxOK=checkdnsrr($domain, "MX");
         }

@@ -7,20 +7,19 @@ namespace Shilyaev\Mailchecker;
 class App
 {
     protected $file;
+    protected array $emails;
 
     public function __construct()
     {
     }
 
-    public function run()
+    public function loadFromFile(?string $fileName) : void
     {
-        global $argv;
-        if (isset($argv[1]))
+        if ($fileName!==NULL && strlen($fileName)>0)
         {
-            $filename = $argv[1];
-            if (file_exists($filename))
+            if (file_exists($fileName))
             {
-                if (!$this->file = fopen($filename, 'r'))
+                if (!$this->file = fopen($fileName, 'r'))
                 {
                     throw new \Exception('Не могу открыть входной файл.');
                 }
@@ -33,20 +32,42 @@ class App
             throw new \Exception('Не указан входной файл.');
         }
 
-        $ValidEmails = "";
-        $Checker = new CheckEmail();
         while (($line = fgets($this->file, 4096)) !== false) {
-            if ($Checker->check($line))
-            {
-                $ValidEmails.=$line;
-            }
+            $this->emails[]=$line;
         }
 
         fclose($this->file);
+    }
 
-        if (strlen($ValidEmails)<=0)
+    public function loadFromString(?string $string) : void
+    {
+        $stringArray = [];
+        if ($strin!==NULL && strlen($string)>0)
+        {
+            $stringArray = explode(PHP_EOL, $string);
+            foreach ($stringArray as $line)
+               $this->emails[]=trim($line);
+        }
+        else {
+            throw new \Exception('Не переданы данные для анализа.');
+        }
+    }
+
+    public function run(bool $isCliMode = true) : string
+    {
+        $ValidEmails = [];
+        $checker = new CheckEmail();
+
+        foreach($this->emails as $email)
+            if ($checker->check($email))
+                $ValidEmails[]=$email;
+
+        if (empty($ValidEmails))
             throw new \Exception('Не найдено валидных адресов.');
 
-        return $ValidEmails;
+        if ($isCliMode)
+            return implode(PHP_EOL,$ValidEmails);
+        else
+            return json_encode($ValidEmails);
     }
 }
