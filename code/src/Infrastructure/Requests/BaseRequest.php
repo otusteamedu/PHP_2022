@@ -2,29 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Requests;
+namespace App\Infrastructure\Requests;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-
+use App\Infrastructure\Response\ResponseFailed;
 
 abstract class BaseRequest
 {
     public function validate() : void
     {
         $errors = $this->validator->validate($this);
-
-        $messages = ['message' => 'validation_failed', 'errors' => []];
+        $messages = [];
 
         foreach ($errors as $message) {
-            $messages['errors'][] = [
+            $messages[] = [
                 'property' => $message->getPropertyPath(),
                 'value' => $message->getInvalidValue(),
                 'message' => $message->getMessage(),
             ];
         }
 
-        if (count($messages['errors']) > 0) {
-            $response = new JsonResponse($messages);
+        if (count($messages) > 0) {
+            $response = new ResponseFailed($messages);
             $response->send(); exit;
         }
     }

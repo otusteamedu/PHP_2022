@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Requests;
+namespace App\Infrastructure\Requests;
 
+use App\Domain\Validator as AssertValidator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator as AssertValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class OrderRequest extends BaseRequest
@@ -156,7 +156,7 @@ class OrderRequest extends BaseRequest
     }
 
     /**
-     * @param int $orderNumber
+     * @param string $orderNumber
      * @return OrderRequest
      */
     public function setOrderNumber(string $orderNumber): OrderRequest
@@ -170,11 +170,11 @@ class OrderRequest extends BaseRequest
      */
     public function getSum(): float
     {
-        return $this->sum;
+        return (float) $this->sum;
     }
 
     /**
-     * @param float $sum
+     * @param string $sum
      * @return OrderRequest
      */
     public function setSum(string $sum): OrderRequest
