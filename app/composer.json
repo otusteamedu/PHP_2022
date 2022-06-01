@@ -1,0 +1,20 @@
+{
+    "name": "nka/otus-socket-chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nka\\OtusSocketChat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikita Kinash",
+            "email": "nka2018nn@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "8.*",
+        "php-di/php-di": "^6.3",
+        "ext-sockets": "*"
+    }
+}
