@@ -100,11 +100,12 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^7.1",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.0.*",
         "symfony/css-selector": "6.0.*",
         "symfony/debug-bundle": "6.0.*",
-        "symfony/phpunit-bridge": "^6.1",
+        "symfony/phpunit-bridge": "*",
         "symfony/stopwatch": "6.0.*",
         "symfony/web-profiler-bundle": "6.0.*"
     }
