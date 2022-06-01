@@ -63,5 +63,5 @@ create table ticket
   Так как это миграция, добавляем пустое дефолтное значение
   */
 
-alter table film add column base_price decimal(6,2) not null default 0.0;
+alter table film add column base_price decimal(6,2) default 0.0;
 alter table film_session add column coefficient decimal(2,1) not null default 0.0;
