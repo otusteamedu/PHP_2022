@@ -17,7 +17,7 @@
     "require": {
         "klein/klein": "dev-master",
         "vlucas/phpdotenv": "5.4.x-dev",
-        "predis/predis": "v1.1.x-dev",
-        "ramsey/uuid": "4.x-dev"
+        "webmozart/assert": "1.10.x-dev",
+        "php-di/php-di": "dev-master"
     }
 }

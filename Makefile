@@ -19,12 +19,6 @@ down:
 app-install:
 	$(compose) run workspace composer install
 
-cliest:
-	$(compose) run socket-client bash
-
-server:
-	$(compose) run socket-server bash
-
 console:
 	$(compose) run workspace bash
 

@@ -4,9 +4,8 @@ services:
   nginx:
     image: nginx:alpine
     container_name: homework-nginx
-    restart: unless-stopped
     ports:
-      - "80:80"
+      - "8088:80"
     volumes:
       - ./code:/var/www
       - ./docker/nginx:/etc/nginx/conf.d/
@@ -21,7 +20,6 @@ services:
       dockerfile: docker/php/Dockerfile
     image: homework/18/fpm
     container_name: homework-app
-    restart: unless-stopped
     volumes:
       - ./code:/var/www
       - .env:/var/www/.env
@@ -34,24 +32,8 @@ services:
       dockerfile: docker/php/ConsoleDockerfile
     image: homework/18/workspace
     container_name: homework-workspace
-    restart: unless-stopped
     volumes:
       - ./code:/var/www
-    networks:
-      - app-network
-
-  database:
-    image: postgres:11.2-alpine
-    container_name: homework-postgres
-    volumes:
-      - ./.dev/postgres:/var/lib/postgresql/data
-      - ./docker/postgres/dump:/docker-entrypoint-initdb.d
-    environment:
-      - POSTGRES_DB=${DB_DATABASE}
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    ports:
-      - "54322:5432"
     networks:
       - app-network
 

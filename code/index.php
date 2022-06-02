@@ -7,9 +7,9 @@ require __DIR__ . '/src/bootstrap/bootstrap.php';
 
 $router = new Klein();
 
-$api = require(__DIR__ . '/src/Routes/web.php');
+$web = require(__DIR__ . '/src/Routes/web.php');
 
-foreach ($api as $route) {
+foreach ($web as $route) {
     $router->respond(...$route);
 }
 
