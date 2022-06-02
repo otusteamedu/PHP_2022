@@ -21,4 +21,14 @@ class DefaultControllerTest extends WebTestCase
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
     }
+
+    public function testException(): void
+    {
+        try {
+            $client = static::createClient();
+            $client->request('GET', '/');
+        } catch (\TypeError $e) {
+            $this->assertEquals(0, $e->getCode());
+        }
+    }
 }

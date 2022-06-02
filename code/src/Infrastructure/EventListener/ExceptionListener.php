@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\EventListener;
 
-use App\Infrastructure\Response\ResponseFailed;
+use App\Infrastructure\Response\ResponseException;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ExceptionListener
@@ -19,7 +19,7 @@ class ExceptionListener
             $exception->getCode()
         );
 
-        $responseFailed = new ResponseFailed(['exception' => $message]);
+        $responseFailed = new ResponseException(['exception' => $message]);
         $responseFailed->send();
     }
 }
