@@ -4,7 +4,12 @@
 namespace Decole\Hw18\Domain\Entity\Product;
 
 
-class Burger implements ProductInterface
-{
+use Decole\Hw18\Domain\Entity\BaseProduct;
 
+class Burger extends AbstractProduct
+{
+    public function getType(): string
+    {
+        return BaseProduct::BURGER;
+    }
 }

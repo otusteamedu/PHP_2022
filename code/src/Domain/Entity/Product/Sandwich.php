@@ -4,7 +4,12 @@
 namespace Decole\Hw18\Domain\Entity\Product;
 
 
-class Sandwich implements ProductInterface
-{
+use Decole\Hw18\Domain\Entity\BaseProduct;
 
+class Sandwich extends AbstractProduct
+{
+    public function getType(): string
+    {
+        return BaseProduct::SANDWICH;
+    }
 }

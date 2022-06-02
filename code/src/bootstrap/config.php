@@ -4,9 +4,12 @@ use Decole\Hw18\Domain\Repository\BaseProductRepository;
 use Decole\Hw18\Domain\Repository\InnerProductRepository;
 use Decole\Hw18\Domain\Repository\RecipeRepository;
 use Decole\Hw18\Domain\Service\BaseProductFactory\BaseProductAbstractFactory;
+use Decole\Hw18\Domain\Service\BaseProductFactory\BaseProductPrepareFactoryInterface;
 use Decole\Hw18\Domain\Service\BaseProductListService;
 use Decole\Hw18\Domain\Service\CompileService;
 use Decole\Hw18\Domain\Service\InnerProductService;
+use Decole\Hw18\Domain\Service\Prototype\InnerProductPrototype;
+use Decole\Hw18\Domain\Service\Prototype\InnerProductPrototypeInterface;
 use Decole\Hw18\Domain\Service\RecipeService;
 use function DI\create;
 
@@ -34,7 +37,9 @@ return [
 
     CompileService::class => static function () {
         $baseProductFactory = new BaseProductAbstractFactory();
+        $prototype = new Decole\Hw18\Domain\Service\Prototype\InnerProductPrototype();
+        return new CompileService($baseProductFactory, $prototype);
+    },
 
-        return new CompileService($baseProductFactory);
-    }
+    InnerProductPrototypeInterface::class => create(InnerProductPrototype::class)
 ];

@@ -31,4 +31,17 @@ class RecipeRepository
             ]),
         ];
     }
+
+    public function getByName(string $name): ?Recipe
+    {
+        $all = $this->getAll();
+
+        foreach ($all as $recipe) {
+            if ($recipe->name === $name) {
+                return $recipe;
+            }
+        }
+
+        return null;
+    }
 }

@@ -37,11 +37,10 @@ class AppController extends AbstractController
     {
         try {
             $serviceCompiler = $container->get(CompileService::class);
-            [$resultDish, $cost] = $serviceCompiler->collect($request->params());
+            $resultDish = $serviceCompiler->prepare($request->params());
 
-            $service->render('views/index.phtml', [
-                'resultDish' => $resultDish,
-                'cost' => $cost,
+            $service->render('views/compiled.phtml', [
+                'dish' => $resultDish,
             ]);
         } catch (\Throwable $exception) {
             $this->error($response, [$exception->getMessage()]);
