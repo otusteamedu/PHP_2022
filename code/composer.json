@@ -1,0 +1,23 @@
+{
+    "name": "decole/hw18",
+    "description": "home work 15",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Decole\\Hw18\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "decole",
+            "email": "decole@rambler.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "klein/klein": "dev-master",
+        "vlucas/phpdotenv": "5.4.x-dev",
+        "webmozart/assert": "1.10.x-dev",
+        "php-di/php-di": "dev-master"
+    }
+}

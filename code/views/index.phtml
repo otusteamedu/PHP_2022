@@ -1,0 +1,77 @@
+<!doctype html>
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Burger muger shop</title>
+</head>
+
+<body>
+
+<form action="/create" method="post">
+    <div>
+        <label for="baseProduct">Выберите основу для жраки:</label>
+        <select name="baseProduct" id="baseProduct">
+            <?php
+                foreach ($this->baseProducts as $product) {
+                    echo "<option value='{$product->type}'>{$product->name}</option>";
+                }
+            ?>
+        </select>
+    </div>
+    <div>
+        <fieldset>
+            <legend>Выберите рецепт:</legend>
+            <?php
+            /** @var \Decole\Hw18\Domain\Entity\Recipe $recipe */
+            foreach ($this->recipes as $recipe) {
+            ?>
+            <div>
+                <input type="radio" id="recipe_<?php echo $recipe->name; ?>" name="recipe" value="<?php echo 'recipe::' . $recipe->name; ?>">
+                <label for="recipe_<?php echo $recipe->name; ?>"><?php echo $recipe->name; ?>
+                    <span>( Состоит из:</span>
+                    <?php /** @var \Decole\Hw18\Domain\Entity\InnerProduct $ingredient */
+                    foreach ($recipe->ingredients as $key => $ingredient) { ?>
+                        <span>
+                        <?php echo $ingredient->name; ?>
+                        <?php echo $ingredient->amount; ?>
+                        <?php echo $ingredient->amountType; ?><?php if ($key !== array_key_last($recipe->ingredients)) {echo ', ';} ?>
+                        </span>
+                    <?php } ?>
+                    )
+                </label>
+            </div>
+            <?php
+            }
+            ?>
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>Выберите чем дополнительно наполнить:</legend>
+            <?php
+            /** @var \Decole\Hw18\Domain\Entity\InnerProduct $product */
+            foreach ($this->innerProducts as $product) {
+            ?>
+                <div>
+                    <input type="checkbox"
+                           id="inner_<?php echo $product->name; ?>"
+                           name="inner_product[]"
+                           value="<?php echo $product->name; ?>::<?php echo $product->type; ?>::<?php echo $product->amountType; ?>::<?php echo $product->amount; ?>"
+                    >
+                    <label for="inner_<?php echo $product->name; ?>">
+                        <?php echo $product->name; ?> - <?php echo $product->amount; ?> <?php echo $product->amountType; ?>
+                    </label>
+                </div>
+            <?php
+            }
+            ?>
+        </fieldset>
+    </div>
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
