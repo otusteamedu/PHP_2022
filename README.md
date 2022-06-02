@@ -2,6 +2,20 @@
 
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
 
+# Для проверяющего
+
+Прошу сильно не ругаться, выполнил так как понял задание и паттерны.
+
+Все применение патернов реализовано в **Domain\Service\CompileService.php**
+
+БД не прикручивал, реализовал на захардкоженных массивах сущностей
+
+
+
+
+
+## ТЗ домашнего задания от проверяющего:
+
 Разрабатываем часть интернет-ресторана. Продаёт он фаст-фуд.
 
 1. Абстрактная фабрика будет отвечать за генерацию базового продукта-прототипа: бургер, сэндвич или хот-дог
@@ -10,3 +24,11 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 4. Стратегия будет отвечать за то, что нужно приготовить.
 5. Все сущности должны по максимуму генерироваться через DI.
 
+
+
+
+## FOR HELP
+
+see https://refactoring.guru 
+
+see https://github.com/RefactoringGuru/design-patterns-php
