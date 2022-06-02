@@ -15,3 +15,7 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+###> phpunit/phpunit ###
+.phpunit.result.cache
+build
+###< phpunit/phpunit ###
