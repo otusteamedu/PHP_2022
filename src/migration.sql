@@ -65,3 +65,26 @@ insert into film_attribute (id, name, attribute_type, parent_attribute_id)
            (15, 'Дата запуска рекламы на тв', 7, 12);
 
 
+with string (type) as (
+    select id from film_attribute_type
+              where name = 'string'
+)
+delete from film_attribute_value
+    where attribute_id in (
+        select id from film_attribute, string
+                  where attribute_type = string.type
+        );
+
+delete
+from film_attribute
+where attribute_type in (
+    select id from film_attribute_type
+    where name = 'string'
+);
+
+delete
+from film_attribute_type
+where name = 'string';
+
+alter table film_attribute_value
+drop column v_string;
