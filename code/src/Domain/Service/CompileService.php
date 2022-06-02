@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Decole\Hw18\Domain\Service;
@@ -11,7 +12,6 @@ use Decole\Hw18\Domain\Service\BaseProductFactory\BaseProductAbstractFactory;
 use Decole\Hw18\Domain\Service\Decorator\InnerProductDecorator;
 use Decole\Hw18\Domain\Service\Decorator\RecipeDecorator;
 use Decole\Hw18\Domain\Service\Prototype\InnerProductPrototype;
-use Decole\Hw18\Domain\Service\Prototype\InnerProductPrototypeInterface;
 use Decole\Hw18\Domain\Service\Strategy\BurgerCookStrategy;
 use Decole\Hw18\Domain\Service\Strategy\Context;
 use Decole\Hw18\Domain\Service\Strategy\HotdogCookStrategy;
@@ -20,10 +20,8 @@ use Decole\Hw18\Domain\Service\Strategy\Strategy;
 
 class CompileService
 {
-    public function __construct(
-        private BaseProductAbstractFactory $baseProductAbstractFactory,
-        private InnerProductPrototypeInterface $innerProductPrototype,
-    ) {
+    public function __construct(private BaseProductAbstractFactory $baseProductAbstractFactory)
+    {
     }
 
     public function prepare(array $params): Dish

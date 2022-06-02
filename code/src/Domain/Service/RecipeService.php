@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
+
 
 namespace Decole\Hw18\Domain\Service;
+
 
 use Decole\Hw18\Domain\Repository\RecipeRepository;
 

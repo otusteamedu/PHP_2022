@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
+
 
 namespace Decole\Hw18\Domain\Entity\Product;
+
 
 use Decole\Hw18\Domain\Service\Iterator\InnerProductValidateIterator;
 use Decole\Hw18\Domain\Service\Prototype\InnerProductPrototypeInterface;
