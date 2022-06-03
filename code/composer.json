@@ -27,6 +27,7 @@
         "symfony/intl": "6.0.*",
         "symfony/mailer": "6.0.*",
         "symfony/maker-bundle": "^1.43",
+        "symfony/messenger": "6.0.*",
         "symfony/mime": "6.0.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "6.0.*",
