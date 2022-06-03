@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Chat;
 
+use App\Service\Logger\LoggerInterface;
 use RuntimeException;
 
 class Server extends AbstractSocketWorker
@@ -11,13 +12,13 @@ class Server extends AbstractSocketWorker
     protected $data;
     protected $from;
 
-    public function __construct(?string $sockFile = null)
+    public function __construct(?string $sockFile, LoggerInterface $logger)
     {
         if ($sockFile === null) {
             throw new RuntimeException('Empty socket filename provided.');
         }
 
-        parent::__construct($sockFile);
+        parent::__construct($sockFile, $logger);
     }
 
     public function run(): void
@@ -38,7 +39,7 @@ class Server extends AbstractSocketWorker
             throw new RuntimeException('Unable to set blocking mode for socket.');
         }
 
-        echo "Ready to receive...\n";
+        $this->logger->log("Ready to receive...\n");
 
         $bytes_received = socket_recvfrom($this->socket, $this->data, 65536, 0, $this->from);
 
@@ -46,7 +47,7 @@ class Server extends AbstractSocketWorker
             throw new RuntimeException('An error occurred while receiving from the socket.');
         }
 
-        echo "Received '$this->data' from '$this->from'\n";
+        $this->logger->log("Received '$this->data' from '$this->from'\n");
 
         $this->data = "Received {$bytes_received} bytes";
     }
@@ -68,6 +69,6 @@ class Server extends AbstractSocketWorker
             throw new RuntimeException($bytes_sent.' bytes have been sent instead of the '.$len.' bytes expected.');
         }
 
-        echo "Request processed\n\n";
+        $this->logger->log("Request processed\n\n");
     }
 }

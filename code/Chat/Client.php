@@ -4,29 +4,30 @@ declare(strict_types=1);
 
 namespace App\Chat;
 
+use App\Service\Logger\LoggerInterface;
 use RuntimeException;
 
 class Client extends AbstractSocketWorker
 {
-    public function __construct(?string $sockFile = null, public ?string $serverSockFile = null)
+    public function __construct(?string $sockFile, public ?string $serverSockFile, LoggerInterface $logger)
     {
         if ($sockFile === null || $serverSockFile === null) {
             throw new RuntimeException('Empty socket filename provided.');
         }
 
-        parent::__construct($sockFile);
+        parent::__construct($sockFile, $logger);
     }
 
     public function run(): void
     {
         while (true) {
 
-            echo "Message: ";
+            $this->logger->log("Message: ");
 
             $msg = trim(fgets(STDIN));
 
             if ($msg === ':q') {
-                echo "Goodbye!\n\n";
+                $this->logger->log("Goodbye!\n\n");
 
                 return;
             }
@@ -67,6 +68,6 @@ class Client extends AbstractSocketWorker
             throw new RuntimeException('An error occurred while receiving from the socket.');
         }
 
-        echo "Received '$data' from '$from'\n\n";
+        $this->logger->log("Received '$data' from '$from'\n\n");
     }
 }

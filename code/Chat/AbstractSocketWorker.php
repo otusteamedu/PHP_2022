@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Chat;
 
+use App\Service\Logger\LoggerInterface;
 use RuntimeException;
 
 abstract class AbstractSocketWorker
 {
     public $socket;
 
-    public function __construct(public ?string $sockFile = null)
+    public function __construct(public string $sockFile, protected LoggerInterface $logger)
     {
         if (!extension_loaded('sockets')) {
             throw new RuntimeException('The sockets extension is not loaded.');
@@ -45,6 +46,6 @@ abstract class AbstractSocketWorker
     {
         socket_close($this->socket);
         unlink($this->sockFile);
-        echo static::class." closed\n\n";
+        $this->logger->log(static::class." closed\n\n");
     }
 }

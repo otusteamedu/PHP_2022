@@ -10,7 +10,7 @@ use App\App;
 require_once 'vendor/autoload.php';
 
 try {
-    $application = new App();
+    $application = new App($argv);
     $application->run();
 } catch (Exception $e) {
     echo $e->getMessage()."\n"."Trace: ".$e->getTraceAsString()."\n";
