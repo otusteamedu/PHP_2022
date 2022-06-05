@@ -1,0 +1,13 @@
+{
+    "name": "nsavelev/hw3",
+    "type": "project",
+    "authors": [
+        {
+            "name": "NSavelev",
+            "email": "nikita.savelev1999@mail.ru"
+        }
+    ],
+    "require": {
+        "dalanes/simple-calculator": "^1.0"
+    }
+}
