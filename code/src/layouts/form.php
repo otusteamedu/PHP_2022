@@ -14,6 +14,6 @@
 <script>
     $('form').submit(function (e) {
         e.preventDefault();
-        window.location = window.location.origin + '?email=' + $(e.target).find('input.email').val();
+        window.location = window.location.origin + '/email/?email=' + $(e.target).find('input.email').val();
     })
 </script>

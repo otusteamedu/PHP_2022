@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Roman\Hw5;
 
@@ -10,10 +10,10 @@ class View
 
     public function __construct($view)
     {
-        $this->view=$view;
+        $this->view = $view;
     }
 
-    public function show(array $data): string
+    public function show(array $data=array()): string
     {
         extract($data);
         ob_start();
