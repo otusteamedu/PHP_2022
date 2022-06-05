@@ -8,5 +8,6 @@ try{
     $app=new App();
     $app->run();
 }catch(\Exception $e){
-    echo 'Error';
+    echo $e->getMessage();
+    return;
 }

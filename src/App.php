@@ -1,15 +1,21 @@
 <?php
-
+declare(strict_types=1);
 namespace Roman\Hw5;
 
 class App
 {
+    private ?Router $router=null;
+
+    public function __construct(){
+        $this->router=new Router();
+    }
 
     public function run(): void
     {
-        $view=new View('layouts/form.php');
-        $email=new Email();
-        echo $view->show($email->check_email());
+        var_dump($this->router);
+        if(!is_null($this->router)){
+            $this->router->run();
+        }
     }
 
 }
