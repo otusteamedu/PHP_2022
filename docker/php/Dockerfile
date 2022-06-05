@@ -16,7 +16,6 @@ RUN apt-get update -q -y \
     libmcrypt-dev \
     unzip \
     git \
-    supervisor \
     nginx \
     procps \
     sudo \
