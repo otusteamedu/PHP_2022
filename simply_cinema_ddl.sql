@@ -1,8 +1,6 @@
 CREATE TABLE `halls` (
                          `id` INT NOT NULL AUTO_INCREMENT,
                          `name` VARCHAR(255) NOT NULL UNIQUE,
-                         `rows` INT NOT NULL,
-                         `seats` INT NOT NULL,
                          PRIMARY KEY (`id`)
 );
 
@@ -10,9 +8,9 @@ CREATE TABLE `sessions` (
                             `id` INT NOT NULL AUTO_INCREMENT,
                             `movie_id` INT NOT NULL,
                             `hall_id` INT NOT NULL,
-                            `markup` DECIMAL NOT NULL,
                             `start_at` TIMESTAMP NOT NULL,
                             `end_at` TIMESTAMP NOT NULL,
+                            `markup` DECIMAL NOT NULL,
                             PRIMARY KEY (`id`)
 );
 
@@ -26,9 +24,8 @@ CREATE TABLE `movies` (
 
 CREATE TABLE `tickets` (
                            `id` INT NOT NULL AUTO_INCREMENT,
-                           `row` INT NOT NULL,
-                           `seat` INT NOT NULL,
                            `price` DECIMAL NOT NULL,
+                           `seat_id` integer NOT NULL,
                            PRIMARY KEY (`id`)
 );
 
@@ -37,10 +34,30 @@ CREATE TABLE `session_ticket` (
                                   `ticket_id` INT NOT NULL
 );
 
+CREATE TABLE `rows` (
+                        `id` INT NOT NULL AUTO_INCREMENT,
+                        `hall_id` INT NOT NULL,
+                        `number` INT NOT NULL,
+                        PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `seats` (
+                         `id` INT NOT NULL AUTO_INCREMENT,
+                         `number` INT NOT NULL,
+                         `row_id` INT NOT NULL,
+                         PRIMARY KEY (`id`)
+);
+
 ALTER TABLE `sessions` ADD CONSTRAINT `sessions_fk0` FOREIGN KEY (`movie_id`) REFERENCES `movies`(`id`);
 
 ALTER TABLE `sessions` ADD CONSTRAINT `sessions_fk1` FOREIGN KEY (`hall_id`) REFERENCES `halls`(`id`);
 
+ALTER TABLE `tickets` ADD CONSTRAINT `tickets_fk0` FOREIGN KEY (`seat_id`) REFERENCES `seats`(`id`);
+
 ALTER TABLE `session_ticket` ADD CONSTRAINT `session_ticket_fk0` FOREIGN KEY (`session_id`) REFERENCES `sessions`(`id`);
 
 ALTER TABLE `session_ticket` ADD CONSTRAINT `session_ticket_fk1` FOREIGN KEY (`ticket_id`) REFERENCES `tickets`(`id`);
+
+ALTER TABLE `rows` ADD CONSTRAINT `rows_fk0` FOREIGN KEY (`hall_id`) REFERENCES `halls`(`id`);
+
+ALTER TABLE `seats` ADD CONSTRAINT `seats_fk0` FOREIGN KEY (`row_id`) REFERENCES `rows`(`id`);
