@@ -18,6 +18,7 @@ CREATE TABLE `sessions` (
                             `id` INT NOT NULL AUTO_INCREMENT,
                             `movie_id` INT NOT NULL,
                             `hall_id` INT NOT NULL,
+                            `markup` DECIMAL NOT NULL,
                             `start_at` TIMESTAMP NOT NULL,
                             `end_at` TIMESTAMP NOT NULL,
                             PRIMARY KEY (`id`)
@@ -27,6 +28,7 @@ CREATE TABLE `movies` (
                           `id` INT NOT NULL AUTO_INCREMENT,
                           `name` VARCHAR(255) NOT NULL,
                           `duration` TIME NOT NULL,
+                          `rental_price` DECIMAL NOT NULL,
                           PRIMARY KEY (`id`)
 );
 
