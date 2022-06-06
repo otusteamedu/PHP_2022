@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: hw1/php-fpm
+    volumes:
+       - ./www:/data/hw1.local
+    networks:
+      - hw1-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw1/nginx
+    ports:
+      - "80:80"
+    volumes:
+       - ./www:/data/hw1.local
+    networks:
+      - hw1-network
+  
+  memcached:
+    image: 'bitnami/memcached:latest'
+    ports:
+      - '11211:11211'
+    networks:
+      - hw1-network
+  
+  redis:
+    image: "redis:alpine"
+    command: redis-server --requirepass qqwweerrttyy
+    ports:
+     - "6379:6379"
+    volumes:
+      - ./redis-data:/var/lib/redis
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+     - REDIS_REPLICATION_MODE=master
+    networks:
+      node_net:
+        ipv4_address: 172.28.1.4
+
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - /etc/mysql:/etc/mysql
+      - ./mysql:/var/lib/mysql
+      - ./mysql-files:/var/lib/mysql-files
+      - ./data:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: qqwweerrttyy
+      MYSQL_DATABASE: mydb
+
+#Docker Networks
+networks:
+  hw1-network:
+    driver: bridge
+  node_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
