@@ -1,3 +1,14 @@
 # PHP_2022
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Запуск приложения очереди:
+
+http://otus.local/?message=get-report
+
+Запуск воркера:
+
+php bin/console messenger:consume async
+
+
+Запуск проверки статуса:
+
+php bin/console app:get-status-message message --id=<ID_QUEQUE> 
