@@ -12,12 +12,17 @@ class ReportDataRequest extends BaseRequest
 {
     /**
      * @var string
-     * @Assert\NotBlank
      * @Assert\Regex(
-     *     pattern = "/^[a-zA-Z -]+$/i",
+     *     pattern = "/^[a-zA-Z -].$/i",
      * )
      */
-    private string $message;
+    private readonly string $name;
+
+    /**
+     * @var string
+     * @Assert\Url(protocols = {"http"})
+     */
+    private readonly string $url;
 
     protected ValidatorInterface $validator;
 
@@ -25,16 +30,33 @@ class ReportDataRequest extends BaseRequest
     {
         $request = $requestStack->getCurrentRequest();
 
-        $this->message = $request->get('message');
+        $this->name = $request->get('name') ?? '';
+        $this->url = $request->get('url') ??  '' ;
 
         $this->validator = $validator;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMessage(): string
+    public function getName(): ?string
     {
-        return $this->message;
+        return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'url' => $this->getUrl()
+        ];
     }
 }

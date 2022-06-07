@@ -28,23 +28,34 @@ class ReportDataService
     protected EntityManagerInterface $em;
     private ReportDataRequest $reportDataRequest;
     private MessageBusInterface $messageBus;
-    private string $generateIdQueque;
 
     public function __construct(EntityManagerInterface $entityManager, ReportDataRequest $reportDataRequest, MessageBusInterface $messageBus)
     {
         $this->em = $entityManager;
         $this->reportDataRequest = $reportDataRequest;
         $this->messageBus = $messageBus;
-        $this->generateIdQueque = $this->generateIdQueque();
+        $this->reportDataRequest->validate();
     }
 
-    public function index(): JsonResponse
+    public function create($id = null): JsonResponse
     {
-        $this->reportDataRequest->validate();
+        $idQueque = $this->generateIdQueque();
+        $this->messageBus->dispatch(new ReportMessage("create", $this->reportDataRequest->toArray(), $idQueque));
+        return (new ResponseSuccess())->send($idQueque);
+    }
 
-        $this->messageBus->dispatch(new ReportMessage($this->reportDataRequest->getMessage(), $this->generateIdQueque));
+    public function update(string $id): JsonResponse
+    {
+        $this->messageBus->dispatch(new ReportMessage('update', $this->reportDataRequest->toArray(), $id));
 
-        return (new ResponseSuccess())->send();
+        return (new ResponseSuccess())->send($id);
+    }
+
+    public function delete(string $id): JsonResponse
+    {
+        $this->messageBus->dispatch(new ReportMessage('delete', $this->reportDataRequest->toArray(), $id));
+
+        return (new ResponseSuccess())->send($id);
     }
 
     private function generateIdQueque(): string

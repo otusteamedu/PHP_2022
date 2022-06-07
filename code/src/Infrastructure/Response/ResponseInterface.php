@@ -4,5 +4,5 @@ namespace App\Infrastructure\Response;
 
 interface ResponseInterface
 {
-    public function send();
+    public function send(string $id);
 }

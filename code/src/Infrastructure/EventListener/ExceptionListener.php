@@ -19,7 +19,8 @@ class ExceptionListener
             $exception->getCode()
         );
 
+        $id = $_REQUEST['id'] ?? "0";
         $responseFailed = new ResponseException(['exception' => $message]);
-        $responseFailed->send();
+        $responseFailed->send($id);
     }
 }
