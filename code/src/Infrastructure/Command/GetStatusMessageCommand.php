@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Command;
 
 
-use App\Application\Service\ReportDataService;
+use App\Application\Service\ReportDataCommandService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,12 +20,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class GetStatusMessageCommand extends Command
 {
     private MessageBusInterface $messageBus;
-    private ReportDataService $reportDataService;
+    private ReportDataCommandService $reportDataCommandService;
 
-    public function __construct(MessageBusInterface $messageBus, ReportDataService $reportDataService)
+    public function __construct(MessageBusInterface $messageBus, ReportDataCommandService $reportDataCommandService)
     {
         $this->messageBus = $messageBus;
-        $this->reportDataService = $reportDataService;
+        $this->reportDataCommandService = $reportDataCommandService;
 
         parent::__construct();
     }
@@ -34,27 +34,27 @@ class GetStatusMessageCommand extends Command
     {
         $this
             ->addArgument('message', InputArgument::OPTIONAL, 'Message data')
-            ->addOption('id', null, InputOption::VALUE_NONE, 'Option description')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Message Option description')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $messageArg = $input->getArgument('message');
-        $idQueque = $input->getOption('id');
+        $message = $input->getArgument('message');
+        $id = $input->getOption('id');
 
-        if (empty($messageArg)) {
-            $io->note(sprintf('You passed an argument: %s', $messageArg)); exit;
+        if (empty($message)) {
+            $io->note(sprintf('You passed an argument: %s', $message)); exit;
         }
 
-        if (empty($idQueque)) {
-            $io->note(sprintf('You passed an option: %s', $idQueque)); exit;
+        if (empty($id)) {
+            $io->note(sprintf('You passed an option: %s', $id)); exit;
         }
 
-        $report = $this->reportDataService->getStatus($idQueque);
+        $report = $this->reportDataCommandService->getStatus($id);
 
-        $io->success("Статус" . $report->getStatus()->getName());
+        $io->success("Статус: " . $report->getStatus()->getName());
 
         return Command::SUCCESS;
     }

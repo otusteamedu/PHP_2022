@@ -12,7 +12,6 @@ use App\Infrastructure\Response\ResponseSuccess;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 /**
  * ReportDataService
@@ -46,29 +45,6 @@ class ReportDataService
         $this->messageBus->dispatch(new ReportMessage($this->reportDataRequest->getMessage(), $this->generateIdQueque));
 
         return (new ResponseSuccess())->send();
-    }
-
-    public function create(): void
-    {
-        $status =  $this->em->getRepository(Status::class)->find(static::STATUS_START);
-        $report = new Report();
-        $report->setStatus($status);
-        $report->setName($this->reportDataRequest->getMessage());
-        $report->setIdQueque($this->generateIdQueque);
-        $this->em->persist($report);
-        $this->em->flush();
-    }
-
-    public function update(string $idQueque, int $status): bool
-    {
-       $this->em->getRepository(Report::class)->setStatus($idQueque, $status);
-
-       return true;
-    }
-
-    public function getStatus(string $idQueque): Report
-    {
-        return $this->em->getRepository(Report::class)->findOneBy(['idQueque' => $idQueque]);
     }
 
     private function generateIdQueque(): string

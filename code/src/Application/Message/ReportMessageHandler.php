@@ -6,35 +6,31 @@ namespace App\Application\Message;
 
 use App\Application\Service\ReportDataService;
 use App\Domain\Message\ReportMessage;
+use App\Infrastructure\Repository\ReportRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 #[AsMessageHandler(priority: 10)]
-class ReportMessageHandler
+class ReportMessageHandler implements MessageHandlerInterface
 {
-    private ReportDataService $reportDataService;
+    private ReportRepository $reportRepository;
 
-    public function __construct(ReportDataService $reportDataService)
+    public function __construct(ReportRepository $reportRepository)
     {
-        $this->reportDataService = $reportDataService;
+        $this->reportRepository = $reportRepository;
     }
 
     public function __invoke(ReportMessage $message): void
     {
         $getIdQueque = $message->getIdQueque();
-
-        $this->reportDataService->create();
+        $this->reportRepository->create($getIdQueque, $message->getContent());
 
         try {
             sleep(10);
 
-            $this->reportDataService->update($getIdQueque, ReportDataService::STATUS_SUCCESS);
+            $this->reportRepository->setStatus($getIdQueque,ReportDataService::STATUS_SUCCESS);
         } catch (\Throwable $e) {
-            $this->reportDataService->update($getIdQueque, ReportDataService::STATUS_FAILED);
+            $this->reportRepository->setStatus($getIdQueque,ReportDataService::STATUS_FAILED);
         }
-    }
-
-    public static function getHandledMessages(): iterable
-    {
-        yield ReportMessage::class;
     }
 }
