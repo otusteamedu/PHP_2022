@@ -1,0 +1,16 @@
+{
+    "name": "shilyaev/chat",
+    "description": "Simple UNIX socket chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Shilyaev\\Chat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pavel Shilyaev"
+        }
+    ],
+    "require": {}
+}
