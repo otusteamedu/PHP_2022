@@ -10,6 +10,9 @@ git pull
 docker-compose up -d --build --force-recreate -V
 
 #4. Выполняем миграции
-docker-compose exec php_otus php bin/console doctrine:migrations:migrate
+docker exec php_otus php bin/console doctrine:migrations:migrate
+
+#5. Очистка кеша
+docker exec php_otus php bin/console --env=prod cache:clear
 
 #Изменения внесены!
