@@ -1,14 +1,24 @@
 # PHP_2022
 
-Запуск приложения очереди:
+**Create**
+http://otus.local/v1/report/create?name=test&url=http://test.ua
 
-http://otus.local/?message=get-report
+Params:
+{"name": "test", "url": "http://test.ua"}
 
-Запуск воркера:
+**Update**
+http://otus.local/v1/report/update/<id>
 
-php bin/console messenger:consume async
+Params:
+{"name": "test", "url": "http://test.ua"}
 
+**Delete**
+http://otus.local/v1/report/delete/<id>
 
-Запуск проверки статуса:
+**Проверка статуса:**
 
-php bin/console app:get-status-message message --id=<ID_QUEQUE> 
+php bin/console app:get-status-message message --id=<x-id> 
+
+**Примечание:**
+
+x-id возвращается в ответе запроса

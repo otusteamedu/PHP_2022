@@ -28,23 +28,46 @@ class ReportDataService
     protected EntityManagerInterface $em;
     private ReportDataRequest $reportDataRequest;
     private MessageBusInterface $messageBus;
-    private string $generateIdQueque;
 
     public function __construct(EntityManagerInterface $entityManager, ReportDataRequest $reportDataRequest, MessageBusInterface $messageBus)
     {
         $this->em = $entityManager;
         $this->reportDataRequest = $reportDataRequest;
         $this->messageBus = $messageBus;
-        $this->generateIdQueque = $this->generateIdQueque();
+        $this->reportDataRequest->validate();
     }
 
-    public function index(): JsonResponse
+    public function create($id = null): JsonResponse
     {
-        $this->reportDataRequest->validate();
+        if (false) {
+            return (new ResponseFailed())->send($idQueque);
+        }
 
-        $this->messageBus->dispatch(new ReportMessage($this->reportDataRequest->getMessage(), $this->generateIdQueque));
+        $idQueque = $this->generateIdQueque();
+        $this->messageBus->dispatch(new ReportMessage("create", $this->reportDataRequest, $idQueque));
+        return (new ResponseSuccess())->send($idQueque);
+    }
 
-        return (new ResponseSuccess())->send();
+    public function update(string $id): JsonResponse
+    {
+        if (false) {
+            return (new ResponseFailed())->send($id);
+        }
+
+        $this->messageBus->dispatch(new ReportMessage('update', $this->reportDataRequest, $id));
+
+        return (new ResponseSuccess())->send($id);
+    }
+
+    public function delete(string $id): JsonResponse
+    {
+        if (false) {
+            return (new ResponseFailed())->send($id);
+        }
+
+        $this->messageBus->dispatch(new ReportMessage('delete', $this->reportDataRequest, $id));
+
+        return (new ResponseSuccess())->send($id);
     }
 
     private function generateIdQueque(): string

@@ -14,9 +14,10 @@ abstract class ResponseAbstract implements ResponseInterface
     /**
      * @return JsonResponse
      */
-    public function send(): JsonResponse
+    public function send(string $id): JsonResponse
     {
         $response = new JsonResponse($this->messages, static::STATUS_CODE);
+        $response->headers->set("x-id", $id);
         return $response->send();
     }
 }

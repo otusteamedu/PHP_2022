@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Domain\Message;
 
-use App\Application\DAO\ReportDao;
+use App\Infrastructure\Requests\ReportDataRequest;
 
 class ReportMessage
 {
-    private string $content;
+    private string $type;
+    private string $name;
+    private string $url;
     private string $idQueque;
-    private ReportDao $reportDao;
 
-    public function __construct(string $content, string $idQueque)
+    public function __construct(string $type, ReportDataRequest $content, string $id)
     {
-        $this->content = $content;
-        $this->idQueque = $idQueque;
-    }
-
-    public function getContent(): string
-    {
-        return $this->content;
+        $this->type = $type;
+        $this->name = $content->getName() ?? "";
+        $this->url = $content->getUrl() ?? "";
+        $this->idQueque = $id;
     }
 
     /**
@@ -29,5 +27,29 @@ class ReportMessage
     public function getIdQueque(): string
     {
         return $this->idQueque;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 }
