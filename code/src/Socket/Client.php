@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace masteritua\Socket;
+namespace App;
+
+use Exception;
 
 class Client
 {
@@ -28,7 +30,7 @@ class Client
             echo "Insert username or 'q' for entry:  ";
             $this->user = trim(fgets(STDIN));
             if ($this->user === 'q') {
-                throw new \RunException('Exit executed');
+                throw new \RuntimeException('Exit executed');
             }
         }
 
@@ -37,19 +39,19 @@ class Client
 
             $message = trim(fgets(STDIN));
             if ($message === 'q') {
-                throw new \RunException('Exit executed');
+                throw new \RuntimeException('Exit executed');
             }
 
             if ($message) {
                 $this->socket->create();
 
                 if ($this->socket->connect() === false) {
-                    throw new \RunException('Failed connection to socket');
+                    throw new \RuntimeException('Failed connection to socket');
                 } else {
                     $this->socket->send("$this->user:	$message");
                 }
             } else {
-                throw new \RunException('Empty message');
+                throw new \RuntimeException('Empty message');
             }
         }
     }

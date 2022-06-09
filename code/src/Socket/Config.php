@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace masteritua\Socket;
+namespace App;
 
 use Dotenv\Dotenv;
 

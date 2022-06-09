@@ -17,6 +17,7 @@ services:
       - "80:80"
     volumes:
        - ./code:/data/otus.local
+       - ./logs/nginx:/var/log/nginx
     networks:
       - internal
 

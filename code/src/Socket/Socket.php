@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace masteritua\Socket;
+namespace App;
+
+use http\Exception\RuntimeException;
 
 class Socket
 {
@@ -24,13 +26,13 @@ class Socket
     }
 
     /**
-     * @param $unlink
+     * @param bool $unlink
      * @return false|resource|\Socket
      */
     public function create(bool $unlink = false)
     {
         if ($unlink) {
-            @unlink($this->socketFile);
+            unlink($this->socketFile);
         }
 
         return $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
@@ -44,7 +46,7 @@ class Socket
     public function bind(): void
     {
         if (socket_bind($this->socket, $this->socketFile) === false) {
-            throw new \RunException('No address socket');
+            throw new \RuntimeException('No address socket');
         }
     }
 
@@ -53,8 +55,7 @@ class Socket
         $this->connection = socket_accept($this->socket);
 
         if (!$this->connection) {
-            echo "Failed connect to socket" . PHP_EOL;
-            die();
+            echo "Failed connect to socket" . PHP_EOL; exit;
         }
     }
 
@@ -63,7 +64,7 @@ class Socket
         $result = socket_listen($this->socket);
 
         if (!$result) {
-            throw new \RunException('Failed connect to socket');
+            throw new RuntimeException('Failed connect to socket');
         }
     }
 
@@ -87,7 +88,7 @@ class Socket
     public function closeSocket(bool $unlink = false): void
     {
         if ($unlink) {
-            @unlink($this->socketFile);
+            unlink($this->socketFile);
         }
 
         socket_close($this->connection);
