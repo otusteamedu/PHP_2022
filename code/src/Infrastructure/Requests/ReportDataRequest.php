@@ -51,12 +51,4 @@ class ReportDataRequest extends BaseRequest
     {
         return $this->url;
     }
-
-    public function toArray(): array
-    {
-        return [
-            'name' => $this->getName(),
-            'url' => $this->getUrl()
-        ];
-    }
 }

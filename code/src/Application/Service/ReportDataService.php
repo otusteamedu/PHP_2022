@@ -39,21 +39,33 @@ class ReportDataService
 
     public function create($id = null): JsonResponse
     {
+        if (false) {
+            return (new ResponseFailed())->send($idQueque);
+        }
+
         $idQueque = $this->generateIdQueque();
-        $this->messageBus->dispatch(new ReportMessage("create", $this->reportDataRequest->toArray(), $idQueque));
+        $this->messageBus->dispatch(new ReportMessage("create", $this->reportDataRequest, $idQueque));
         return (new ResponseSuccess())->send($idQueque);
     }
 
     public function update(string $id): JsonResponse
     {
-        $this->messageBus->dispatch(new ReportMessage('update', $this->reportDataRequest->toArray(), $id));
+        if (false) {
+            return (new ResponseFailed())->send($id);
+        }
+
+        $this->messageBus->dispatch(new ReportMessage('update', $this->reportDataRequest, $id));
 
         return (new ResponseSuccess())->send($id);
     }
 
     public function delete(string $id): JsonResponse
     {
-        $this->messageBus->dispatch(new ReportMessage('delete', $this->reportDataRequest->toArray(), $id));
+        if (false) {
+            return (new ResponseFailed())->send($id);
+        }
+
+        $this->messageBus->dispatch(new ReportMessage('delete', $this->reportDataRequest, $id));
 
         return (new ResponseSuccess())->send($id);
     }

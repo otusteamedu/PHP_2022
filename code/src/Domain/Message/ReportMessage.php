@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Message;
 
+use App\Infrastructure\Requests\ReportDataRequest;
+
 class ReportMessage
 {
     private string $type;
@@ -11,11 +13,11 @@ class ReportMessage
     private string $url;
     private string $idQueque;
 
-    public function __construct(string $type, array $content, string $id)
+    public function __construct(string $type, ReportDataRequest $content, string $id)
     {
         $this->type = $type;
-        $this->name = $content['name'] ?? "";
-        $this->url = $content['url'] ?? "";
+        $this->name = $content->getName() ?? "";
+        $this->url = $content->getUrl() ?? "";
         $this->idQueque = $id;
     }
 
