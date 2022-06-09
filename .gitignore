@@ -2,3 +2,10 @@
 .idea
 dbdata
 code/vendor
+code/node_modules/
+code/public/
+code/storage/
+code/var/
+
+
+
