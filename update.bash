@@ -6,13 +6,10 @@ cd project
 #2. Скачиваем изменения
 git pull
 
-#3. Ложим докер
-docker-compose down
+#3. Перезапускаем docker-compose
+docker-compose up -d --build --force-recreate -V
 
-#4. Запускаем докер
-docker-compose up -d
-
-#6. Выполняем миграции
+#4. Выполняем миграции
 docker-compose exec php_otus php bin/console doctrine:migrations:migrate
 
 #Изменения внесены!
