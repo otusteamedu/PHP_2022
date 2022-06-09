@@ -1,0 +1,20 @@
+{
+    "name": "masteritua/socket",
+    "description": "Work with sockets",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/Socket"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksey Shevchenko"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.4",
+        "ext-sockets": "*"
+    }
+}

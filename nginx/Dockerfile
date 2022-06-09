@@ -6,9 +6,9 @@ RUN apt-get install -y nginx
 
 COPY ./hosts/otus.local.conf /etc/nginx/sites-enabled/otus.local.conf
 
-WORKDIR /data  
+WORKDIR /data/otus.local
 
-VOLUME /data  
+VOLUME /data/otus.local
 
 EXPOSE 80
 

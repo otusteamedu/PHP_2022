@@ -17,6 +17,7 @@ services:
       - "80:80"
     volumes:
        - ./code:/data/otus.local
+       - ./logs/nginx:/var/log/nginx
     networks:
       - internal
 
@@ -67,6 +68,44 @@ services:
     volumes:
       - ./code:/data/otus.local
       - ./console/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    depends_on:
+      - db
+      - memcached
+      - redis
+    environment:
+      XDEBUG_CONFIG: "remote_host=192.168.220.1 remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=otus.local"
+    networks:
+      - internal
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    image: client/php-cli
+    volumes:
+      - ./code:/data/otus.local
+      - ./client/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    depends_on:
+      - db
+      - memcached
+      - redis
+    environment:
+      XDEBUG_CONFIG: "remote_host=192.168.220.1 remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=otus.local"
+    networks:
+      - internal
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server
+    image: server/php-cli
+    volumes:
+      - ./server:/data/otus.local
+      - ./server/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     depends_on:
       - db
       - memcached
