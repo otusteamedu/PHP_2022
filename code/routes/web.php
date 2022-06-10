@@ -16,14 +16,11 @@
 $router->get('/', function () use ($router) { return $router->app->version(); });
 
 // отчеты
-$router->group(['prefix' => 'report'], function () use ($router) {
-    // todo POST запрос на начало работы отчета - отправка в очередь кролика задачи, в БД сохраняем данные, в кролик id из БД - uuid!
-    //      отдаем id задачи
+$router->group(['prefix' => 'v1/report'], function () use ($router) {
     $router->post('', 'ReportCreateController@store');
 
-    // todo отдаем статус задачи и ее состояние из БД
+// для следующего ДЗ
 //    $router->get('status/{id}', 'ReportStatusController@status');
 
-    // todo выводим данные отчета
 //    $router->get('{id}', 'ReportShowController@show');
 });
