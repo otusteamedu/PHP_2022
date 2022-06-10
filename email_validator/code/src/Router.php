@@ -3,7 +3,9 @@
 declare(strict_types=1);
 namespace Mapaxa\EmailVerificationApp;
 
+use Mapaxa\EmailVerificationApp\Dto\Track;
 use Mapaxa\EmailVerificationApp\Exception\RoutesFileException;
+use Mapaxa\EmailVerificationApp\Service\Renderer\Renderer;
 
 class Router
 {
@@ -20,7 +22,7 @@ class Router
     }
 
 
-    public function run(): void
+    private function getTrack()
     {
         $uri = $this->getUri();
 
@@ -30,23 +32,31 @@ class Router
                 $controllerName = array_shift($segments).'Controller';
 
                 $controllerName = ucfirst($controllerName);
-                $actionName = ucfirst(array_shift($segments));
+                $actionName = array_shift($segments);
 
-                $controllerObjectFullPath = self::CONTROLLERS.$controllerName;
+                return new Track($controllerName , $actionName);
 
-                $controllerObject = new $controllerObjectFullPath;
-
-                $result = $controllerObject->$actionName();
                 if ($result != null) {
-                    break;
+                    return $result;
                 }
             }
 
         }
         if (!isset($controllerObject)) {
-            header("Location: /page_not_found");
+            return new Track('PageNotFoundController' , 'index');
         }
 
+    }
+
+
+    public function run():void
+    {
+        $track = $this->getTrack();
+        $controllerObjectFullPath = self::CONTROLLERS.$track->controller;
+
+        $controllerObject = new $controllerObjectFullPath();
+        $action = $track->action;
+        $result = $controllerObject->$action();
     }
 
     private function getUri(): string

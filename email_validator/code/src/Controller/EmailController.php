@@ -3,12 +3,13 @@ declare(strict_types=1);
 namespace Mapaxa\EmailVerificationApp\Controller;
 
 use Mapaxa\EmailVerificationApp\Service\Email\EmailValidator;
+use Mapaxa\EmailVerificationApp\Service\Renderer\Renderer;
 
 class EmailController
 {
+
     public function index(): void
     {
-
         if (filter_has_var(INPUT_POST, 'email')) {
 
             $stringWithEmails = filter_input(INPUT_POST, 'email');
@@ -18,6 +19,6 @@ class EmailController
             $validEmails = $emailValidator->getValidEmails();
         }
 
-        require_once ('src/View/email/index.php');
+        (new Renderer())->render('src/View/email/index.php', ['validEmails' =>$validEmails]);
     }
 }

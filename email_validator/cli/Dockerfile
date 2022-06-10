@@ -1,8 +1,31 @@
-FROM php:7.4
+FROM php:7.4-fpm
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    libmemcached-dev \
+    &&  pecl install memcached \
+    &&  docker-php-ext-enable memcached \
+    &&  docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
+    &&  pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+#COPY ./php/php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY ./code/composer.json /app/composer.json
+# Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN composer --version && php -v
+# Set working directory
 WORKDIR /app
-COPY ./code/composer.json /app/composer.json
-CMD composer install
+
+CMD ["php-fpm"]

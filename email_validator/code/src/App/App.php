@@ -17,8 +17,8 @@ class App
         try {
             $this->router = new Router();
         } catch (RoutesFileException $e) {
-            echo $e->getMessage();
             Response::setResponseCode(HttpStatusHandbook::BAD_REQUEST);
+            echo $e->getMessage();
             return;
         }
     }
