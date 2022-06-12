@@ -5,7 +5,7 @@ namespace App\Services\QueueServices;
 
 
 use App\Services\Dtos\ReportDto;
-use App\Services\QueueInterfaces\PublisherQueueInterface;
+use App\Services\Interfaces\PublisherQueueInterface;
 use JsonException;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -28,7 +28,7 @@ final class RabbitPublisherQueueService extends AbstractRabbitService implements
     private function createMassage(ReportDto $dto): AMQPMessage
     {
         $data = [
-            'reportId' => $dto->getReportId(),
+            'reportId' => $dto->getReport()->id,
             'params' => $dto->getParams(),
         ];
         $preparedMessage = json_encode($data, JSON_THROW_ON_ERROR);

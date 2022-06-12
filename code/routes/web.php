@@ -18,9 +18,6 @@ $router->get('/', function () use ($router) { return $router->app->version(); })
 // отчеты
 $router->group(['prefix' => 'v1/report'], function () use ($router) {
     $router->post('', 'ReportCreateController@store');
-
-// для следующего ДЗ
-//    $router->get('status/{id}', 'ReportStatusController@status');
-
-//    $router->get('{id}', 'ReportShowController@show');
+    $router->get('/{id}', 'ReportViewController@view');
+    $router->get('/{id}/status', 'ReportStatusQueueController@status');
 });

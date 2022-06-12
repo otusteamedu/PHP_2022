@@ -1,17 +1,22 @@
 <?php
 
+
 namespace App\Services\Dtos;
+
+
+use stdClass;
 
 class ReportDto
 {
-    public function __construct(private int $reportId, private array $params)
+    public function __construct(private stdClass $report, private array $params)
     {
     }
 
-    public function getReportId(): int
+    public function getReport(): stdClass
     {
-        return $this->reportId;
+        return $this->report;
     }
+
     public function getParams(): array
     {
         return $this->params;

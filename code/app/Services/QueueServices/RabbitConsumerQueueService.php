@@ -5,11 +5,14 @@ namespace App\Services\QueueServices;
 
 
 use App\Mail\ReportCreatedEmail;
-use App\Services\QueueInterfaces\ConsumerQueueInterface;
+use App\Services\Interfaces\ConsumerQueueInterface;
+use App\Services\Interfaces\ReportExecuteHandlerInterface;
+use App\Services\QueueService;
 use ErrorException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use PhpAmqpLib\Message\AMQPMessage;
+use Throwable;
 
 final class RabbitConsumerQueueService extends AbstractRabbitService implements ConsumerQueueInterface
 {
@@ -18,7 +21,7 @@ final class RabbitConsumerQueueService extends AbstractRabbitService implements 
     /**
      * @throws ErrorException
      */
-    public function handle(): void
+    public function handle(ReportExecuteHandlerInterface $handler): void
     {
         $this->channel->queue_bind(self::QUEUE, self::EXCHANGE);
 
@@ -29,16 +32,31 @@ final class RabbitConsumerQueueService extends AbstractRabbitService implements 
             false,
             false,
             false,
-            function (AMQPMessage $message) {
-                dump($message->body);
-
+            function (AMQPMessage $message) use ($handler) {
                 Log::info($message->body);
 
-                $json = json_decode($message->body, true);
+                $json = json_decode($message->body, true, 512, JSON_THROW_ON_ERROR);
 
-                Mail::to([env('MAIL_FROM_ADDRESS')])->send(new ReportCreatedEmail($json['reportId']));
+                $id = (int)$json['reportId'];
 
-                $message->ack();
+                try {
+                    $handler->setInQueue($id, QueueService::STATUS_PROCESS);
+
+                    sleep(10);
+
+                    $handler->process($id);
+
+                    Mail::to([env('MAIL_FROM_ADDRESS')])->send(new ReportCreatedEmail($id));
+
+                    $handler->setInQueue($id, QueueService::STATUS_DONE);
+
+                    $message->ack();
+                } catch (Throwable $exception) {
+                    Log::warning($exception->getMessage());
+                    $handler->setInQueue($id, QueueService::STATUS_ERROR);
+                } finally {
+                    Log::info('End work with report');
+                }
             }
         );
 

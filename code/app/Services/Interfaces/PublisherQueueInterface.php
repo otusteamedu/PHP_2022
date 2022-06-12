@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\QueueInterfaces;
+namespace App\Services\Interfaces;
 
 
 use App\Services\Dtos\ReportDto;
