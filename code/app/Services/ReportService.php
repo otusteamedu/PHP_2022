@@ -1,17 +1,19 @@
 <?php
 
+
 namespace App\Services;
+
 
 use App\Services\Dtos\ReportCreateDto;
 use App\Services\Dtos\ReportDto;
 use Illuminate\Support\Facades\DB;
-use JsonException;
 
-class ReportService
+final class ReportService
 {
-    /**
-     * @throws JsonException
-     */
+    public function __construct(private QueueService $service)
+    {
+    }
+
     public function create(ReportCreateDto $dto): ReportDto
     {
         DB::transaction(function () use ($dto) {
@@ -28,10 +30,10 @@ class ReportService
         }, 5);
 
         $report = DB::table('reports')->orderBy('id', 'desc')->first();
+
         $reportDto = new ReportDto($report->id, $dto->getParams());
 
-        $service = new RabbitPublisherService();
-        $service->handle($reportDto);
+        $this->service->publish($reportDto);
 
         return $reportDto;
     }

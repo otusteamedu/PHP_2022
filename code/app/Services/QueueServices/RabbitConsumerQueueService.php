@@ -1,16 +1,17 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\QueueServices;
 
 
 use App\Mail\ReportCreatedEmail;
+use App\Services\QueueInterfaces\ConsumerQueueInterface;
 use ErrorException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use PhpAmqpLib\Message\AMQPMessage;
 
-final class RabbitConsumerService extends AbstractRabbitService
+final class RabbitConsumerQueueService extends AbstractRabbitService implements ConsumerQueueInterface
 {
     private const CONSUMER_TAG = 'consumer';
 

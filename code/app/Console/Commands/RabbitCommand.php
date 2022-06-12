@@ -4,7 +4,7 @@
 namespace App\Console\Commands;
 
 
-use App\Services\RabbitConsumerService;
+use App\Services\RabbitConsumerQueueService;
 use ErrorException;
 use Illuminate\Console\Command;
 
@@ -21,7 +21,7 @@ class RabbitCommand extends Command
     {
         $this->info('start listening rabbitMq queue.');
 
-        $service = new RabbitConsumerService();
+        $service = new RabbitConsumerQueueService();
 
         $service->handle();
     }

@@ -1,14 +1,15 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\QueueServices;
 
 
 use App\Services\Dtos\ReportDto;
+use App\Services\QueueInterfaces\PublisherQueueInterface;
 use JsonException;
 use PhpAmqpLib\Message\AMQPMessage;
 
-final class RabbitPublisherService extends AbstractRabbitService
+final class RabbitPublisherQueueService extends AbstractRabbitService implements PublisherQueueInterface
 {
     /**
      * @throws JsonException
