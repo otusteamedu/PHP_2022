@@ -6,8 +6,10 @@
     "type": "project",
     "require": {
         "php": "^8.0",
+        "illuminate/mail": "^9.17",
         "laravel/lumen-framework": "^9.0",
-        "php-amqplib/php-amqplib": "^2.8"
+        "php-amqplib/php-amqplib": "^3.2",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

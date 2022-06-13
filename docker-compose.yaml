@@ -37,7 +37,7 @@ services:
       - app-network
 
   rabbitmq:
-    image: rabbitmq
+    image: bitnami/rabbitmq:latest
     hostname: docker-rabbitmq
     volumes:
       - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
@@ -45,6 +45,9 @@ services:
     environment:
       - "RABBITMQ_DEFAULT_USER=rabbit"
       - "RABBITMQ_DEFAULT_PASS=rabbit"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - app-network
 
