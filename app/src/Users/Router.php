@@ -2,7 +2,6 @@
 
 namespace Katya\App\Users;
 
-use Katya\App\Controllers\ErrorController;
 
 class Router
 {
@@ -22,7 +21,6 @@ class Router
                 return;
             }
         }
-        $obj = new ErrorController();
-        $obj->error404();
+        echo 'что-то пошло не так';
     }
 }

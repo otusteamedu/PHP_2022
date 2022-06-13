@@ -6,25 +6,16 @@ use \Katya\App\Users\Controller;
 
 class UserController extends Controller
 {
-    private function getString()
-    {
-        $post = $_POST;
-        $string = $post['string'];
-        if (!empty($string)) return $string;
-        else {
-            $data='Тут пусто';
-            echo $this->getTemplate('mistake.php', $data);
-        }
-    }
-    public function isClosedBracket(string $bracket, array $stack)
+
+    public function isClosedBracket($bracket):bool
     {
         $closeBrackets=[')','}',']','>'];
         if (in_array($bracket, $closeBrackets)){
             return true;
         } else return false;
     }
-    public function isValid(){
-        $string = $this->getString();
+    public function isValid($string):bool
+    {
         $len =strlen($string);
         $stack=[];
         $bracket = ["]" => "[", "}" => "{", ")" => "(", ">"=>"<"];
@@ -38,12 +29,21 @@ class UserController extends Controller
         return empty($stack);
     }
 
-    public function getAnswer(){
-        if ($this->isValid()) {
-            $data='Все ок';
-        }else {
-            $data='последовательность скобок нарушена';
+    public function getAnswer():string
+    {
+        $string = $_POST['string'];
+        if (!empty($string)){
+            if ($this->isValid($string)) {
+                http_response_code(200);
+                $answer = "ваша последовательность великолепна!";
+            }else {
+                http_response_code(400);
+                $answer = "не пусто, но последовательность скобок нарушена(";
+            }
+        }else{
+            http_response_code(400);
+            $answer= "тут пусто(";
         }
-        echo $this->getTemplate('mistake.php', $data);
+        echo $answer;
     }
 }
