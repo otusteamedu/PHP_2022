@@ -1,0 +1,16 @@
+{
+    "name": "katya/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Katya\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "KateBlkv",
+            "email": "trapam@yandex.ru"
+        }
+    ],
+    "require": {}
+}
