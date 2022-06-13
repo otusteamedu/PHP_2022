@@ -1,0 +1,10 @@
+{
+    "name": "roman/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Roman\\Hw4\\": "src/"
+        }
+    },
+    "require": {}
+}
