@@ -1,17 +1,3 @@
-# PHP_2022
-
-## PostgreSQL для разработчика. HW10
-
-
-### Movie attributes view
-![](images/movie_attributes_view.png)
-
-### Tasks view
-![](images/tasks_view.png)
-
-### Cinema Schema
-
-```sql
 CREATE TABLE public.halls
 (
     "id"   serial       NOT NULL,
@@ -161,4 +147,7 @@ ALTER TABLE
         CONSTRAINT attribute_value_fk1 FOREIGN KEY (movie_id) REFERENCES public.movies ("id");
 
 
-```
+
+
+
+
