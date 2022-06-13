@@ -19,7 +19,7 @@ class Router
         $matches=explode('/', $this->uri);
         $controllerName = 'Roman\Hw5\Controllers\\' . $matches[1] . 'controller';
         if(!class_exists($controllerName)) {
-            $controllerName = 'Roman\Hw5\Controllers\NotFoundController';
+            $controllerName = 'Roman\Hw5\Controllers\Controller';
         }
         $controller = new $controllerName;
         $controller->run();

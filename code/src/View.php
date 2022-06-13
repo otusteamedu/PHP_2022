@@ -8,7 +8,7 @@ class View
 {
     private string $view;
 
-    public function __construct($view)
+    public function __construct($view='layouts/404.php')
     {
         $this->view = $view;
     }

@@ -6,15 +6,13 @@ namespace Roman\Hw5\Controllers;
 use Roman\Hw5\Email;
 use Roman\Hw5\View;
 
-class EmailController
+class EmailController extends Controller
 {
-    private string $layout = 'layouts/form.php';
 
-    public function run(): void
-    {
-        $view = new View($this->layout);
+    public function __construct(){
+        $this->layout='layouts/form.php';
         $email = new Email();
-        echo $view->show($email->check_email());
+        $this->data=$email->check_email();
     }
 
 }
