@@ -7,6 +7,7 @@ namespace Shilyaev\Chat;
 class Server
 {
     protected $socket;
+    protected $msgsock;
     protected string $socket_name;
     protected int $max_message_length;
 
@@ -23,7 +24,6 @@ class Server
             throw new \Exception('Ошибка создания сокета для чата');
         }
 
-
     }
 
     public function init(array $settings): void
@@ -32,7 +32,7 @@ class Server
         $this->max_message_length=isset($settings['max_message_length']) ? (int)$settings['max_message_length'] : 1024;
     }
 
-    public function run(): void
+    protected function createSocket()
     {
         if (!socket_bind($this->socket, $this->socket_name))
             throw new \Exception("Не могу подсоединиться к $this->socket_name");
@@ -40,25 +40,38 @@ class Server
             throw new \Exception("Ошибка установления прослушивания сокета: " . socket_strerror(socket_last_error($this->sock)));
 
 
-        if (($msgsock = socket_accept($this->socket)) === false) {
+        if (($this->msgsock = socket_accept($this->socket)) === false) {
             throw new \Exception("socket_accept() failed: reason: " . socket_strerror(socket_last_error($msgsock)));
         }
+    }
 
+    protected function closeSocket() : void
+    {
+        socket_shutdown($this->socket, 2);
+        socket_close($this->socket);
+    }
+
+    protected function startChat() : void
+    {
         $isNotExit = true;
         do {
-            if (false === ($buf = socket_read($msgsock, $this->max_message_length, PHP_NORMAL_READ))) {
+            if (false === ($buf = socket_read($this->msgsock, $this->max_message_length, PHP_NORMAL_READ))) {
                 throw new \Exception("socket_read() failed: " . socket_strerror(socket_last_error($msgsock)));
             }
             if ($buf != "quit\r") {
                 $talkback = "Received " . strlen($buf) . " bytes\r";
-                socket_write($msgsock, $talkback, strlen($talkback));
+                socket_write($this->msgsock, $talkback, strlen($talkback));
             }
             else
                 $isNotExit = false;
 
         } while ($isNotExit);
+    }
 
-        socket_shutdown($this->socket, 2);
-        socket_close($this->socket);
+    public function run(): void
+    {
+        $this->createSocket();
+        $this->startChat();
+        $this->closeSocket();
     }
 }
