@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+    ports:
+      - ${DOCKER_NGINX_PORT}:80
+      - ${DOCKER_NGINX_SSL_PORT}:443
+    volumes:
+      - ./${DOCKER_BACKEND_WORKDIR}:${DOCKER_WORKDIR}
+      - ./${DOCKER_DIR}/data/nginx/logs:/var/log/nginx
+    networks:
+      - app-network
+  php-fpm:
+    build:
+      context: docker/php-fpm
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_BACKEND_WORKDIR}:${DOCKER_WORKDIR}
+    networks:
+      - app-network
+  redis:
+    build:
+      context: docker/redis
+    ports:
+      - ${DOCKER_REDIS_PORT}:6379
+    volumes:
+      - ./${DOCKER_DIR}/data/redis:/data
+    networks:
+      - app-network
+  frontend:
+    image: node:16.15-alpine3.15
+    working_dir: ${DOCKER_WORKDIR}
+    volumes:
+      - ./${DOCKER_FRONTEND_WORKDIR}:${DOCKER_WORKDIR}
+    command: sh -c "npm install"
+  backend:
+    container_name: workspace
+    build:
+      context: docker/workspace
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_BACKEND_WORKDIR}:${DOCKER_WORKDIR}
+    command: sh -c "composer install"
+networks:
+  app-network:
+    driver: bridge
