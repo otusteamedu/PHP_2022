@@ -108,16 +108,15 @@ CREATE TABLE IF NOT EXISTS customer (
     email varchar(100) NOT NULL UNIQUE
 );
 
--- Перечисление, в котором содержится список вариантов покупки: веб-сайт, касса в кинотеатре, терминал в кинотеатре
-DO $$
-    BEGIN
-        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'enum_place_purchase') THEN
-            CREATE TYPE enum_place_purchase AS ENUM ('website', 'ticket window', 'terminal');
-        END IF;
-    END
-$$;
+-- Таблица "Способ покупки":
+-- id - уникальный ID
+-- name - название
+CREATE TABLE IF NOT EXISTS purchase_method (
+    id smallserial PRIMARY KEY NOT NULL,
+    name varchar(100) NOT NULL
+);
 
--- Перечисление, в котором содержится список статусов заказа: не оплаче, оплачен, отменен (для аналитики заказов в будущем)
+-- Перечисление, в котором содержится список статусов заказа: не оплачен, оплачен, отменен (для аналитики заказов в будущем)
 DO $$
     BEGIN
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'enum_status_order') THEN
@@ -129,16 +128,17 @@ $$;
 -- Таблица "Заказы":
 -- id - уникальный ID
 -- customer_id - ID покупателя (может быть пустым, если был удален покупатель, но удалять билет нельзя, особенно оплаченный из-за статистики или приобретение было офлайн)
+-- purchase_method_id - место покупки (может быть пустым, если был удален способ покупки, а билеты и заказы удалять не можем)
 -- date_create - дата заказа
--- place_purchase - место приобретения
 -- status - статус заказа
 CREATE TABLE IF NOT EXISTS orders (
     id serial PRIMARY KEY NOT NULL,
     customer_id integer DEFAULT NULL,
+    purchase_method_id smallint,
     date_create timestamp NOT NULL,
-    place_purchase enum_place_purchase NOT NULL DEFAULT 'website',
     status enum_status_order NOT NULL DEFAULT 'not paid',
-    FOREIGN KEY (customer_id) REFERENCES customer (id) ON DELETE SET NULL
+    FOREIGN KEY (customer_id) REFERENCES customer (id) ON DELETE SET NULL,
+    FOREIGN KEY (purchase_method_id) REFERENCES purchase_method (id) ON DELETE SET NULL
 );
 
 -- Таблица "Билеты":

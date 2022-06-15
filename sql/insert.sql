@@ -142,13 +142,15 @@ INSERT INTO customer(surname, name, phone, email) VALUES ('Арбузова', '�
 INSERT INTO customer(surname, name, phone, email) VALUES ('Сидоров', 'Аркадий', '+7 (900) 444-44-44', '444@email.com');
 INSERT INTO customer(surname, name, phone, email) VALUES ('Пронченко', 'Зинаида', '+7 (900) 555-55-55', '555@email.com');
 
-INSERT INTO orders(customer_id, date_create, place_purchase, status) VALUES (1, timestamp '2022-06-09 09:01:00', 'website', 'paid');
-INSERT INTO orders(date_create, place_purchase, status) VALUES (timestamp '2022-06-09 09:03:15', 'ticket window', 'paid');
-INSERT INTO orders(customer_id, date_create, status) VALUES (2, timestamp '2022-06-09 10:01:00', 'paid');
-INSERT INTO orders(customer_id, date_create, status) VALUES (3, timestamp '2022-06-09 03:01:00', 'canceled');
-INSERT INTO orders(customer_id, date_create, status) VALUES (4, timestamp '2022-06-09 05:25:00', 'not paid');
-INSERT INTO orders(customer_id, date_create, status) VALUES (4, timestamp '2022-06-09 18:25:00', 'paid');
-INSERT INTO orders(customer_id, date_create, place_purchase, status) VALUES (5, timestamp '2022-06-09 18:25:00', 'terminal', 'paid');
+INSERT INTO purchase_method(name) VALUES ('веб-сайт'), ('касса в кинотеатре'), ('терминал в кинотеатре');
+
+INSERT INTO orders(customer_id, date_create, purchase_method_id, status) VALUES (1, timestamp '2022-06-09 09:01:00', 1, 'paid');
+INSERT INTO orders(date_create, purchase_method_id, status) VALUES (timestamp '2022-06-09 09:03:15', 2, 'paid');
+INSERT INTO orders(customer_id, date_create, purchase_method_id, status) VALUES (2, timestamp '2022-06-09 10:01:00', 1, 'paid');
+INSERT INTO orders(customer_id, date_create, purchase_method_id, status) VALUES (3, timestamp '2022-06-09 03:01:00', 2, 'canceled');
+INSERT INTO orders(customer_id, date_create, purchase_method_id, status) VALUES (4, timestamp '2022-06-09 05:25:00', 2, 'not paid');
+INSERT INTO orders(customer_id, date_create, purchase_method_id, status) VALUES (4, timestamp '2022-06-09 18:25:00', 2, 'paid');
+INSERT INTO orders(customer_id, date_create, purchase_method_id, status) VALUES (5, timestamp '2022-06-09 18:25:00', 3, 'paid');
 
 INSERT INTO tickets(order_id, session_id, place_id, price, active) VALUES (1, 1, 1, 270, true);
 INSERT INTO tickets(order_id, session_id, place_id, price, active) VALUES (1, 1, 2, 270, true);
