@@ -1,0 +1,7 @@
+.env
+vendor
+
+.idea
+*.iml
+/out/
+/import/
