@@ -8,5 +8,5 @@ interface ReportExecuteHandlerInterface
 {
     public function process(int $id): void;
 
-    public function setInQueue(int $id, string $status): void;
+    public function setStatusQueue(int $id, string $status): void;
 }

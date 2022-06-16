@@ -40,7 +40,7 @@ final class RabbitConsumerQueueService extends AbstractRabbitService implements 
                 $id = (int)$json['reportId'];
 
                 try {
-                    $handler->setInQueue($id, QueueService::STATUS_PROCESS);
+                    $handler->setStatusQueue($id, QueueService::STATUS_PROCESS);
 
                     sleep(10);
 
@@ -48,12 +48,12 @@ final class RabbitConsumerQueueService extends AbstractRabbitService implements 
 
                     Mail::to([env('MAIL_FROM_ADDRESS')])->send(new ReportCreatedEmail($id));
 
-                    $handler->setInQueue($id, QueueService::STATUS_DONE);
+                    $handler->setStatusQueue($id, QueueService::STATUS_DONE);
 
                     $message->ack();
                 } catch (Throwable $exception) {
                     Log::warning($exception->getMessage());
-                    $handler->setInQueue($id, QueueService::STATUS_ERROR);
+                    $handler->setStatusQueue($id, QueueService::STATUS_ERROR);
                 } finally {
                     Log::info('End work with report');
                 }

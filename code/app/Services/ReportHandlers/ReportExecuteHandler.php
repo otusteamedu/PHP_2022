@@ -6,6 +6,7 @@ namespace App\Services\ReportHandlers;
 
 use App\Services\Interfaces\ReportExecuteHandlerInterface;
 use App\Services\ReportService;
+use JsonException;
 
 class ReportExecuteHandler implements ReportExecuteHandlerInterface
 {
@@ -14,14 +15,14 @@ class ReportExecuteHandler implements ReportExecuteHandlerInterface
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function process(int $id): void
     {
         $this->service->process($id);
     }
 
-    public function setInQueue(int $id, string $status): void
+    public function setStatusQueue(int $id, string $status): void
     {
         $this->service->setInQueue($id, $status);
     }

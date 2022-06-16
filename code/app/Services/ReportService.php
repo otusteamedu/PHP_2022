@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Services\Dtos\ReportCreateDto;
 use App\Services\Dtos\ReportDto;
 use Illuminate\Support\Facades\DB;
+use JsonException;
 use Mockery\Exception;
 use stdClass;
 
@@ -40,7 +41,7 @@ final class ReportService
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function process(int $id): void
     {
