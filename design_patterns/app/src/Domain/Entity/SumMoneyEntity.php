@@ -2,7 +2,9 @@
 
 namespace Patterns\App\Domain\Entity;
 
-class SumMoneyEntity implements Entity
+use Patterns\App\Application\Service\CloneInterface;
+
+class SumMoneyEntity implements Entity, CloneInterface
 {
     public function __construct(
         private int $id,
@@ -47,5 +49,10 @@ class SumMoneyEntity implements Entity
            'five_hundred_banknote_count' => $this->five_hundred_banknote_count,
            'thousand_banknote_count' => $this->thousand_banknote_count,
        ];
+    }
+
+    public function clone(): CloneInterface
+    {
+        return clone $this;
     }
 }
