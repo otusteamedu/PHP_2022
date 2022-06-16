@@ -5,3 +5,5 @@ CREATE TABLE money (
     five_hundred_banknote_count FLOAT,
     thousand_banknote_count FLOAT
 );
+
+INSERT INTO money (fifty_banknote_count, hundred_banknote_count, five_hundred_banknote_count, thousand_banknote_count) VALUES (0, 0, 0, 0);
