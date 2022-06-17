@@ -2,6 +2,7 @@
 
 namespace Patterns\App\Application\Service;
 
+use Patterns\App\Application\Enum\NominalEnum;
 use Patterns\App\Application\QueryBuilderInterface;
 use Patterns\App\Application\Repository;
 use Patterns\App\Domain\Entity\SumMoneyEntity;
@@ -9,11 +10,6 @@ use WS\Utils\Collections\CollectionFactory;
 
 class AtmService
 {
-    private const NOMINAL_50 = '50';
-    private const NOMINAL_100 = '100';
-    private const NOMINAL_500 = '500';
-    private const NOMINAL_1000 = '1000';
-
     public function __construct(
         private QueryBuilderInterface $queryBuilder,
         private Repository $repository,
@@ -25,10 +21,10 @@ class AtmService
         /** @var SumMoneyEntity $savedMoney */
         $savedMoney = $this->repository->findById(1);
 
-        $fiftyBanknoteCount = $this->getBanknoteCount(self::NOMINAL_50, $money);
-        $hundredBanknoteCount = $this->getBanknoteCount(self::NOMINAL_100, $money);
-        $fiveHundredBanknoteCount = $this->getBanknoteCount(self::NOMINAL_500, $money);
-        $thousandBanknoteCount = $this->getBanknoteCount(self::NOMINAL_1000, $money);
+        $fiftyBanknoteCount = $this->getBanknoteCount(NominalEnum::NOMINAL_50, $money);
+        $hundredBanknoteCount = $this->getBanknoteCount(NominalEnum::NOMINAL_100, $money);
+        $fiveHundredBanknoteCount = $this->getBanknoteCount(NominalEnum::NOMINAL_500, $money);
+        $thousandBanknoteCount = $this->getBanknoteCount(NominalEnum::NOMINAL_1000, $money);
 
         $sumMoney = new SumMoneyEntity(
             id: 1,
