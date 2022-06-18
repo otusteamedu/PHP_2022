@@ -1,0 +1,18 @@
+{
+    "name": "patterns/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Patterns\\App\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+        "php-di/php-di": "^6.3",
+        "worksolutions/php-collections": "^1.1",
+        "symfony/dotenv": "^6.0",
+        "slim/slim": "^4.10",
+        "slim/psr7": "^1.5",
+        "pavelgaponenko/pg-otus-composer-package": "^1.0"
+    }
+}

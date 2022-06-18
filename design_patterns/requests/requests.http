@@ -1,0 +1,17 @@
+###
+POST application.local/atm/put
+
+{
+    "money": [
+        100, 100, 1000, 500
+    ]
+}
+
+###
+POST application.local/atm/give
+
+{
+    "pin":"1111",
+    "sum":"400",
+    "type":"small"
+}
