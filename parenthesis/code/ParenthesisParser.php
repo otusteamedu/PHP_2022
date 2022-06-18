@@ -7,10 +7,11 @@ declare(strict_types=1);
 
 class ParenthesisParser
 {
-    private $expression;
-    private $pointer;
+    private string $expression;
 
-    public function checkExpression(string $expression)
+    private int $pointer;
+
+    public function checkExpression(string $expression): void
     {
         $this->expression = $expression;
         $this->pointer = 0;
@@ -21,7 +22,7 @@ class ParenthesisParser
         }
     }
 
-    private function expression()
+    private function expression(): void
     {
         $this->simpleExpression();
 
@@ -31,35 +32,34 @@ class ParenthesisParser
 
     }
 
-    private function simpleExpression()
+    private function simpleExpression(): void
     {
         if ($this->isPrimitive()) {
             return;
         }
 
         if (!($c = $this->getSymbol())) {
-            $this->error("simpleExpression: Unexpected end of string");
+            $this->error("Unexpected end of string");
         }
 
         if ($c != '(') {
-            $this->error("simpleExpression: '(' expected");
+            $this->error("'(' expected", 1);
         }
 
         $this->expression();
 
         if (!($c = $this->getSymbol())) {
-            $this->error("simpleExpression: Unexpected end of string");
+            $this->error("Unexpected end of string");
         }
 
         if ($c != ')') {
-            $this->error("'simpleExpression: )' expected");
+            $this->error("')' expected", 1);
         }
-
     }
 
     // true -- если завершенный примитив
-    // false -- если это сразу НЕ примитив
-    private function isPrimitive()
+    // false -- если это НЕ примитив
+    private function isPrimitive(): bool
     {
         $position = $this->pointer;
 
@@ -73,26 +73,26 @@ class ParenthesisParser
         return true;
     }
 
-    private function primitive()
+    private function primitive(): void
     {
         if (!($c = $this->getSymbol())) {
-            $this->error("primitive: Unexpected end of string");
+            $this->error("Unexpected end of string");
         }
 
         if ($c != '(') {
-            $this->error("primitive: Symbol '(' expected");
+            $this->error("'(' expected", 1);
         }
 
         if (!($c = $this->getSymbol())) {
-            $this->error("primitive: Unexpected end of string");
+            $this->error("Unexpected end of string");
         }
 
         if ($c != ')') {
-            $this->error("primitive: Symbol ')' expected");
+            $this->error("')' expected", 1);
         }
     }
 
-    private function getSymbol()
+    private function getSymbol(): string | false
     {
         if ($this->isEOF()) {
             return false;
@@ -101,7 +101,7 @@ class ParenthesisParser
         return $this->expression[$this->pointer++];
     }
 
-    private function checkSymbol()
+    private function checkSymbol(): string | false
     {
         if ($this->isEOF()) {
             return false;
@@ -110,37 +110,42 @@ class ParenthesisParser
         return $this->expression[$this->pointer];
     }
 
-    private function isEOF()
+    private function isEOF(): bool
     {
         return $this->pointer == strlen($this->expression);
     }
 
-    private function error($msg)
+    private function error(string $msg, int $previous = 0): void
     {
-        $trace = $this->trace();
-        $position = $this->pointer + 1;
+        $position = $this->pointer;
+
+        if (!$previous) {
+            $position++;
+        }
+
+        $trace = $this->trace($position);
 
         throw new Exception(
             "Error at position {$position}. {$msg}\n{$trace}"
         );
     }
 
-    private function rollback($position)
+    private function rollback(int $position): void
     {
         $this->pointer = $position;
     }
 
-    private function trace()
+    private function trace(int $position): string
     {
         $result = $this->expression . "\n";
 
-        for ($i = 0; $i < $this->pointer; $i++) {
+        for ($i = 0; $i < $position-1; $i++) {
             $result .= '.';
         }
 
         $result .= '|';
 
-        for ($i = $this->pointer+1; $i < strlen($this->expression); $i++) {
+        for ($i = $position; $i < strlen($this->expression); $i++) {
             $result .= '.';
         }
 
