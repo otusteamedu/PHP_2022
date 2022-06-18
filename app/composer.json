@@ -7,7 +7,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Philip\\App\\": "src/"
+            "Otus\\Core\\": "core/",
+            "Otus\\App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Otus\\Tests\\": "tests/"
         }
     },
     "autoload-dev": {
