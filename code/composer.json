@@ -1,0 +1,14 @@
+{
+    "name": "nsavelev/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nsavelev\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "NSavelev"
+        }
+    ]
+}
