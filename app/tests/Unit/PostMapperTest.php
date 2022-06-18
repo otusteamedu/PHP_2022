@@ -96,4 +96,17 @@ class PostMapperTest extends AppTestCase
         }
         $this->assertEquals($postComments->count(), count($comments));
     }
+
+    public function test_identity_post_objects()
+    {
+        $postMapper = PostMapperFactory::make();
+        $preObj = Fake::post();
+        $postMapper->insert($preObj);
+        $currentObj = $postMapper->findById($preObj->getId());
+        $this->assertTrue($preObj === $currentObj);
+
+        $postMapper->deleteById($currentObj->getId());
+        $currentObj = $postMapper->findById($preObj->getId());
+        $this->assertFalse($currentObj instanceof Post);
+    }
 }

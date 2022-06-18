@@ -56,4 +56,14 @@ class CommentMapperTest extends AppTestCase
 
         $this->assertEquals($row['message'], $title);
     }
+
+    public function test_identity_comment_objects()
+    {
+        $commentMapper = CommentMapperFactory::make();
+        $preObj = Fake::comment();
+        $commentMapper->insert($preObj);
+        $currentObj = $commentMapper->findById($preObj->getId());
+
+        $this->assertTrue($preObj ===  $currentObj);
+    }
 }
