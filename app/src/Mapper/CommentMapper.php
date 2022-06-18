@@ -5,6 +5,7 @@ namespace Otus\App\Mapper;
 use Otus\App\Model\Comment;
 use Otus\Core\Collection\Collection;
 use Otus\Core\Collection\CollectionInterface;
+use Otus\Core\Collection\DeferCollection;
 use Otus\Core\Database\Mapper\BaseMapper;
 
 class CommentMapper
@@ -32,6 +33,16 @@ class CommentMapper
         $query = "SELECT * FROM comments where post_id=?";
         $comments = $this->mapper->fetchAll($query, [$id]);
         $collection = new Collection($comments);
+        $collection->handleItem(fn($item) => $this->createCommentFromArray($item));
+        return $collection;
+    }
+
+    public function deferFindByPostId(int $id): CollectionInterface
+    {
+        $collection = new DeferCollection(function () use ($id) {
+            $query = "SELECT * FROM comments where post_id=?";
+            return $this->mapper->fetchAll($query, [$id]);
+        });
         $collection->handleItem(fn($item) => $this->createCommentFromArray($item));
         return $collection;
     }

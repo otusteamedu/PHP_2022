@@ -66,7 +66,7 @@ class PostMapper
         isset($raw['id']) && $post->setId($raw['id']);
         isset($raw['title']) && $post->setTitle($raw['title']);
         $commentMapper = CommentMapperFactory::make();
-        $comments = $commentMapper->findByPostId($post->getId());
+        $comments = $commentMapper->deferFindByPostId($post->getId());
         $post->setComments($comments);
         return $post;
     }
