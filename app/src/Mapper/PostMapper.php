@@ -8,7 +8,7 @@ use Otus\Core\Database\Mapper\BaseMapper;
 use Otus\App\Factory\CommentMapperFactory;
 use Otus\Core\Collection\CollectionInterface;
 
-class PostMapper
+class PostMapper implements PostMapperInterface
 {
     public string $table;
 

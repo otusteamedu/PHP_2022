@@ -8,7 +8,7 @@ use Otus\Core\Collection\CollectionInterface;
 use Otus\Core\Collection\DeferCollection;
 use Otus\Core\Database\Mapper\BaseMapper;
 
-class CommentMapper
+class CommentMapper implements CommentMapperInterface
 {
     public readonly string $table;
 
@@ -79,6 +79,7 @@ class CommentMapper
         $comment = new Comment();
         isset($raw['id']) && $comment->setId($raw['id']);
         isset($raw['message']) && $comment->setMessage($raw['message']);
+        isset($raw['post_id']) && $comment->setPostId($raw['post_id']);
 
         return $comment;
     }
