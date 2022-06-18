@@ -1,0 +1,17 @@
+{
+    "name": "igor/php_2022",
+    "autoload": {
+        "psr-4": {
+            "Igor\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Igor Zavaleev",
+            "email": "zavaleev_i@utkonos.ru"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
