@@ -40,6 +40,6 @@ class App
     private function configure(): void
     {
         $dotenv = new Dotenv();
-        $dotenv->load($_SERVER['DOCUMENT_ROOT'].'/.env');
+        $dotenv->load($_SERVER['PWD'].'/.env');
     }
 }
