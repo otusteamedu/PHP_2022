@@ -1,0 +1,32 @@
+{
+    "name": "philip/app",
+    "config": {
+        "platform": {
+            "php": "8.1"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\Core\\": "core/",
+            "Otus\\App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Otus\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "philip",
+            "email": "belousovfilip@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/dotenv": "^6.1"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.1",
+        "phpunit/phpunit": "^9.5"
+    }
+}
