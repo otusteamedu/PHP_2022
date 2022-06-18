@@ -3,6 +3,7 @@
 namespace Patterns\App\Infrastructure\Database;
 
 use Closure;
+use Exception;
 use Patterns\App\Application\QueryBuilderInterface;
 use Patterns\App\Domain\Entity\Entity;
 use PDOStatement;
@@ -77,9 +78,19 @@ class QueryBuilder implements QueryBuilderInterface
             });
         $fields = $this->deleteLastChars($fields);
 
-        $prepare = $this->pdo->prepare(sprintf(self::UPDATE_PATTERN, $this->table, $fields, $entity->getId()));
+        try {
+            $this->pdo->beginTransaction();
 
-        return $prepare->execute($this->getEntityValues($entity));
+            $prepare = $this->pdo->prepare(sprintf(self::UPDATE_PATTERN, $this->table, $fields, $entity->getId()));
+            $result = $prepare->execute($this->getEntityValues($entity));
+
+            $this->pdo->commit();
+
+            return $result;
+        } catch (Exception) {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function delete(Entity $entity): void
