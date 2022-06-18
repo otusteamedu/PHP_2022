@@ -51,6 +51,9 @@ class PostMapper
             $domain->getTitle(),
         ], $query);
         $id = $this->mapper->getLastInsertId();
+        $commentMapper = CommentMapperFactory::make();
+        $comments = $commentMapper->deferFindByPostId($id);
+        $domain->setComments($comments);
         $domain->setId($id);
     }
 
@@ -66,7 +69,7 @@ class PostMapper
         isset($raw['id']) && $post->setId($raw['id']);
         isset($raw['title']) && $post->setTitle($raw['title']);
         $commentMapper = CommentMapperFactory::make();
-        $comments = $commentMapper->findByPostId($post->getId());
+        $comments = $commentMapper->deferFindByPostId($post->getId());
         $post->setComments($comments);
         return $post;
     }
