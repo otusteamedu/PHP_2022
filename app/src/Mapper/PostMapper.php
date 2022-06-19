@@ -51,6 +51,9 @@ class PostMapper implements PostMapperInterface
             $domain->getTitle(),
         ], $query);
         $id = $this->mapper->getLastInsertId();
+        $commentMapper = CommentMapperFactory::make();
+        $comments = $commentMapper->deferFindByPostId($id);
+        $domain->setComments($comments);
         $domain->setId($id);
     }
 
