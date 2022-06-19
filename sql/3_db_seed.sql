@@ -40,7 +40,8 @@ select gs.id,
        random_string((1 + random() * 29)::integer),
        random_integer(60, 360),
        random_integer(250, 1000)
-from generate_series(1, 10000) as gs(id);
+-- from generate_series(1, 10000) as gs(id);
+from generate_series(10001, 10000000) as gs(id);
 
 insert into movie_attribute_type (id, name)
 values (1, 'string'),
@@ -66,10 +67,12 @@ values (1, 'Official Review', 1),
 
 insert into movie_attribute_value (id, movie_id, movie_attribute_id, value_datetime)
 select gs.id,
-       random_integer(1, 10000),
+--        random_integer(1, 10000),
+       random_integer(10001, 10000000),
        random_integer(6, 13),
        random_timestamp()
-from generate_series(1, 10000) as gs(id);
+-- from generate_series(1, 10000) as gs(id);
+from generate_series(10001, 10000000) as gs(id);
 
 insert into session
 select gs.id,
@@ -90,7 +93,8 @@ select gs.id,
        random_timestamp(),
        random_integer(500, 1000)::numeric,
        random_string((1 + random() * 29)::integer)
-from generate_series(1, 200) as gs(id);
+-- from generate_series(1, 200) as gs(id);
+from generate_series(201, 10000000) as gs(id);
 
 insert into ticket_status
 select gs.id,

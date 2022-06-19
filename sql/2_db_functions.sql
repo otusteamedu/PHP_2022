@@ -26,6 +26,10 @@ $$ language plpgsql;
 create or replace function random_timestamp() returns timestamp as
 $$
 begin
+    if random() < 0.5 then
+        return now() - random() * 30 * 24 * interval '1 hour';
+    end if;
+
     return now() + random() * 30 * 24 * interval '1 hour';
 end;
 $$ language plpgsql;
