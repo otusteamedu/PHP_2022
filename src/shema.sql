@@ -96,8 +96,6 @@ CREATE TABLE
     movie_id      integer NOT NULL,
     attribute_id  integer NOT NULL,
     value_integer integer NULL,
-    value_numeric numeric(2, 0) NULL,
-    value_varchar character varying(100) NULL,
     value_text    text NULL,
     value_boolean boolean NULL,
     value_date    date NULL
@@ -127,14 +125,14 @@ ALTER TABLE public.seats
     ADD CONSTRAINT seats_fk0 FOREIGN KEY ("row_id") REFERENCES public.rows ("id");
 
 ALTER TABLE public.attribute_type
-    ADD CONSTRAINT attribute_type_pkey PRIMARY KEY (id)
+    ADD CONSTRAINT attribute_type_pkey PRIMARY KEY (id);
 
 
 ALTER TABLE public.attributes
-    ADD CONSTRAINT attributes_pkey PRIMARY KEY (id)
+    ADD CONSTRAINT attributes_pkey PRIMARY KEY (id);
 
 ALTER TABLE public.attributes
-    ADD CONSTRAINT attributes_fk0 FOREIGN KEY (attribute_type_id) REFERENCES public.attribute_type (id)
+    ADD CONSTRAINT attributes_fk0 FOREIGN KEY (attribute_type_id) REFERENCES public.attribute_type (id);
 
 ALTER TABLE
     public.attribute_value
