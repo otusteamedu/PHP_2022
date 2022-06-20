@@ -1,0 +1,2 @@
+<p>Это не та страница, которую ты ищешь</p>
+<iframe src="https://giphy.com/embed/4560Nv2656Gv0Lvp9F" width="480" height="204" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/cinemagraph-4560Nv2656Gv0Lvp9F">via GIPHY</a></p>
