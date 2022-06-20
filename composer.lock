@@ -1,0 +1,84 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "28631ab512cdf0a9adce5027a98b4158",
+    "packages": [
+        {
+            "name": "hassankhan/config",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hassankhan/config.git",
+                "reference": "82421bb17d21cb0c10b98b89ea54aa4027adfc3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hassankhan/config/zipball/82421bb17d21cb0c10b98b89ea54aa4027adfc3f",
+                "reference": "82421bb17d21cb0c10b98b89ea54aa4027adfc3f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8.36 || ~5.7 || ~6.5 || ~7.5 || ~8.5",
+                "scrutinizer/ocular": "~1.1",
+                "squizlabs/php_codesniffer": "~2.2",
+                "symfony/yaml": "~3.4",
+                "yoast/phpunit-polyfills": "^1.0"
+            },
+            "suggest": {
+                "symfony/yaml": "~3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Noodlehaus\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hassan Khan",
+                    "homepage": "http://hassankhan.me/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Lightweight configuration file loader that supports PHP, INI, XML, JSON, and YAML files",
+            "homepage": "http://hassankhan.me/config/",
+            "keywords": [
+                "config",
+                "configuration",
+                "ini",
+                "json",
+                "microphp",
+                "unframework",
+                "xml",
+                "yaml",
+                "yml"
+            ],
+            "support": {
+                "issues": "https://github.com/hassankhan/config/issues",
+                "source": "https://github.com/hassankhan/config/tree/3.0.1"
+            },
+            "time": "2022-03-26T19:37:50+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "ext-sockets": "*"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

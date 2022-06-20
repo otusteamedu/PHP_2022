@@ -4,3 +4,5 @@ php-fpm.sock
 logs
 run
 
+
+/vendor/
