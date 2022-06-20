@@ -4,6 +4,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Presenters\ErrorPresenter;
+use App\Presenters\Report\ReportCreatePresenter;
 use App\Services\Dtos\ReportCreateDto;
 use App\Services\ReportService;
 use Illuminate\Http\JsonResponse;
@@ -21,13 +23,9 @@ final class ReportCreateController extends Controller
         try {
             $report = $this->service->create($this->getDto($request->post()));
 
-            return response()->json([
-                'status' => $report->getReport()->status,
-                'reportId' => $report->getReport()->id,
-                'params' => $report->getParams(),
-            ]);
+            return (new ReportCreatePresenter($report))->present();
         } catch (Throwable $exception) {
-            return response()->json($exception->getMessage());
+            return (new ErrorPresenter($exception))->present();
         }
     }
 
