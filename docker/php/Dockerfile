@@ -1,0 +1,17 @@
+FROM php:8.0-fpm
+
+RUN apt-get update && apt-get install -y git \
+    zip \
+    unzip
+
+RUN apt-get update && apt-get install -y libz-dev libmemcached-dev && \
+    pecl install memcached  \
+    && docker-php-ext-enable memcached \
+    && pecl install redis-5.3.7 \
+    && docker-php-ext-enable redis \
+    && apt-get clean all \
+    && rm -rvf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
+WORKDIR /var/www

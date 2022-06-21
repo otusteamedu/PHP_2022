@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "3f00d154-f106-4fd7-b482-fa178e347513",
+		"name": "HW13",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://application.local",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"priority\": 1000,\n        \"conditions\": {\n            \"param1\": 1\n        },\n        \"event\": {\n            \"type\": \"event1\"\n        }\n    },\n    {\n        \"priority\": 2000,\n        \"conditions\": {\n            \"param1\": 2,\n            \"param2\": 2\n        },\n        \"event\": {\n             \"type\": \"event2\"\n        }\n    },\n    {\n        \"priority\": 3000,\n        \"conditions\": {\n            \"param1\": 1,\n            \"param2\": 2\n        },\n        \"event\": { \n            \"type\": \"event3\"\n        }\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://application.local/event/add",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					],
+					"path": [
+						"event",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find events by condition",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"params\": {\n        \"param1\": 1,\n        \"param2\": 2\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://application.local/events/find",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					],
+					"path": [
+						"events",
+						"find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clear all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://application.local/events/flush",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					],
+					"path": [
+						"events",
+						"flush"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

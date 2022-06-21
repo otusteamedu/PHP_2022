@@ -1,0 +1,23 @@
+{
+    "name": "decole/hw13",
+    "description": "home work 13",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Decole\\Hw13\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "decole",
+            "email": "decole@rambler.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "klein/klein": "dev-master",
+        "vlucas/phpdotenv": "5.4.x-dev",
+        "predis/predis": "v1.1.x-dev",
+        "ramsey/uuid": "4.x-dev"
+    }
+}
