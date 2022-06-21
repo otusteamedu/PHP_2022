@@ -2,6 +2,7 @@
 
 namespace Otus\Core\Database\Mapper;
 
+use Otus\Core\Database\Exception\DBSQLNotFoundException;
 use PDO;
 use Otus\Core\Database\DBConnection;
 
@@ -35,14 +36,18 @@ class BaseMapper
         string $query,
         array  $params = [],
         array  $options = [],
-    ): ?array
+    ): array
     {
         $options = $this->mergeOptions($options);
         $stmt = $this->getPdo()->prepare($query, $options['prepare']);
         $stmt->execute($params);
         $row = $stmt->fetch(...$options['fetch']);
         $stmt->closeCursor();
-        return is_array($row) ? $row : null;
+        if (empty($row)) {
+            $strParams = implode(', ', $params);
+            throw new DBSQLNotFoundException("Result does not exist for SQL: $query, params: $strParams");
+        }
+        return $row;
     }
 
     public function executeQuery(

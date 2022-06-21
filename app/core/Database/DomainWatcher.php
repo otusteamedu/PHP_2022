@@ -2,6 +2,8 @@
 
 namespace Otus\Core\Database;
 
+use Otus\Core\Database\Exception\DomainWatchException;
+
 class DomainWatcher
 {
     private array $all = [];
@@ -26,14 +28,14 @@ class DomainWatcher
         }
     }
 
-    public static function getByClassAndId(string $classname, $id): ?DomainObject
+    public static function getByClassAndId(string $classname, $id): DomainObject
     {
         $inst = self::instance();
         $key = $inst->makeKey($classname, $id);
         if (isset($inst->all[$key])) {
             return $inst->all[$key];
         }
-        return null;
+        throw new DomainWatchException("Key by class: $classname and id: $id does not exists");
     }
 
     private function globalKey(DomainObject $obj): string

@@ -28,11 +28,11 @@ class PostMapper implements PostMapperInterface
         return $collection;
     }
 
-    public function findById(int $id): ?Post
+    public function findById(int $id): Post
     {
         $query = "SELECT * FROM {$this->table} WHERE id=? ORDER BY id DESC LIMIT 1";
         $rawData = $this->mapper->fetch($query, [$id]);
-        return is_array($rawData) ? $this->createPostFromArray($rawData) : null;
+        return $this->createPostFromArray($rawData);
     }
 
     public function update(Post $post): void

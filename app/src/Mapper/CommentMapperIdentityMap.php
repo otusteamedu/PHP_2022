@@ -5,10 +5,12 @@ namespace Otus\App\Mapper;
 use Otus\App\Model\Comment;
 use Otus\Core\Collection\CollectionInterface;
 use Otus\Core\Database\DomainWatcher;
+use Otus\Core\Database\Exception\DomainWatchException;
 
 class CommentMapperIdentityMap implements CommentMapperInterface
 {
     public string $table;
+
     public function __construct(
         private readonly CommentMapperInterface $mapper
     )
@@ -30,10 +32,13 @@ class CommentMapperIdentityMap implements CommentMapperInterface
         return $this->mapper->deferFindByPostId($id);
     }
 
-    public function findById(int $id): ?Comment
+    public function findById(int $id): Comment
     {
-        $comment = DomainWatcher::getByClassAndId(Comment::class, $id);
-        return $comment instanceof Comment ? $comment : $this->mapper->findById($id);
+        try {
+            return DomainWatcher::getByClassAndId(Comment::class, $id);
+        } catch (DomainWatchException) {
+            return $this->mapper->findById($id);
+        }
     }
 
     public function update(Comment $comment): void

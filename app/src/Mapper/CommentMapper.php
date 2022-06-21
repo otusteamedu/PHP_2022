@@ -47,11 +47,11 @@ class CommentMapper implements CommentMapperInterface
         return $collection;
     }
 
-    public function findById(int $id): ?Comment
+    public function findById(int $id): Comment
     {
         $query = "SELECT * FROM {$this->table} WHERE id=? ORDER BY id DESC LIMIT 1";
         $rawData = $this->mapper->fetch($query, [$id]);
-        return is_array($rawData) ? $this->createCommentFromArray($rawData) : null;
+        return $this->createCommentFromArray($rawData);
     }
 
     public function update(Comment $comment): void

@@ -5,6 +5,7 @@ namespace Otus\App\Mapper;
 use Otus\App\Model\Post;
 use Otus\Core\Collection\CollectionInterface;
 use Otus\Core\Database\DomainWatcher;
+use Otus\Core\Database\Exception\DomainWatchException;
 
 class PostMapperIdentityMap implements PostMapperInterface
 {
@@ -23,9 +24,11 @@ class PostMapperIdentityMap implements PostMapperInterface
 
     public function findById(int $id): ?Post
     {
-        $post = DomainWatcher::getByClassAndId(Post::class, $id);
-
-        return $post instanceof Post ? $post : $this->mapper->findById($id);
+        try {
+            return DomainWatcher::getByClassAndId(Post::class, $id);
+        } catch (DomainWatchException) {
+            return $this->mapper->findById($id);
+        }
     }
 
     public function update(Post $post): void

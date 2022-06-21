@@ -5,6 +5,7 @@ namespace Otus\Tests\Unit;
 use Otus\App\Factory\CommentMapperFactory;
 use Otus\App\Model\Comment;
 use Otus\App\Model\Post;
+use Otus\Core\Database\Exception\DBSQLNotFoundException;
 use Otus\Tests\AppTestCase;
 use Otus\Tests\Helpers\Fake;
 use Otus\App\Factory\PostMapperFactory;
@@ -106,7 +107,13 @@ class PostMapperTest extends AppTestCase
         $this->assertTrue($preObj === $currentObj);
 
         $postMapper->deleteById($currentObj->getId());
-        $currentObj = $postMapper->findById($preObj->getId());
-        $this->assertFalse($currentObj instanceof Post);
+        try {
+            $postMapper->findById($preObj->getId());
+            $this->fail();
+        } catch (DBSQLNotFoundException) {
+            $this->assertTrue(true);
+        } catch (\Throwable) {
+            $this->fail();
+        }
     }
 }
