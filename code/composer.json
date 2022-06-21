@@ -6,5 +6,7 @@
             "Roman\\Hw4\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "php": ">=7.4"
+    }
 }

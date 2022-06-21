@@ -7,5 +7,6 @@ try{
     $app=new App;
     $app->run();
 }catch (\Exception $error){
-
+    echo $error->getMessage();
+    return;
 }
