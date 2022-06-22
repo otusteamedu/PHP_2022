@@ -4,10 +4,10 @@ CREATE OR REPLACE VIEW view_films_data as
         fat.name as "Тип атрибута",
         fa.name as "Атрибут",
         CASE
-            WHEN fav.value_char IS NOT NULL THEN fav.value_char::text
+            WHEN fav.value_char IS NOT NULL THEN fav.value_char
             WHEN fav.value_text IS NOT NULL THEN fav.value_text
-            WHEN fav.value_money IS NOT NULL THEN fav.value_money::text
-            WHEN fav.value_numeric IS NOT NULL THEN fav.value_numeric::text
+            WHEN fav.value_int IS NOT NULL THEN fav.value_int::text
+            WHEN fav.value_float IS NOT NULL THEN fav.value_float::text
             WHEN fav.value_date IS NOT NULL THEN fav.value_date::text
             WHEN fav.value_boolean IS NOT NULL THEN fav.value_boolean::text
         END "Значение"

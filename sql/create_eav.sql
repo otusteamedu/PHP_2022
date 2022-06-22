@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS film_attribute (
 -- attribute_id - id атрибута
 -- value_char - значение типа varchar
 -- value_text - значение типа text
--- value_money - значение типа money
--- value_numeric - значение типа numeric
+-- value_int - значение типа money
+-- value_float - значение типа numeric
 -- value_date - значение типа date
 -- value_boolean - значение типа boolean
 CREATE TABLE IF NOT EXISTS film_attribute_value (
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS film_attribute_value (
     attribute_id smallint NOT NULL,
     value_char varchar(255) DEFAULT NULL,
     value_text text DEFAULT NULL,
-    value_money money DEFAULT NULL,
-    value_numeric numeric DEFAULT NULL,
+    value_int int DEFAULT NULL,
+    value_float float DEFAULT NULL,
     value_date date  DEFAULT NULL,
     value_boolean boolean  DEFAULT NULL,
     FOREIGN KEY (film_id) REFERENCES film_entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
