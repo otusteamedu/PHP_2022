@@ -15,6 +15,7 @@ services:
     hostname: php_chat_client
     volumes:
       - ./src:/www/application.local/src
+      - ./public:/www/application.local/public
       - ./vendor:/www/application.local/vendor
       - ./config:/etc/chat
       - ./tmp:/tmp
@@ -31,6 +32,7 @@ services:
     hostname: php_chat_server
     volumes:
        - ./src:/www/application.local/src
+       - ./public:/www/application.local/public
        - ./vendor:/www/application.local/vendor
        - ./config:/etc/chat
        - ./tmp:/tmp

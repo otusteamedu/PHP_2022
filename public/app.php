@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Igor\Php2022\App;
 
-require_once('vendor/autoload.php');
+require dirname(__DIR__).'/vendor/autoload.php';
 
 try
 {
