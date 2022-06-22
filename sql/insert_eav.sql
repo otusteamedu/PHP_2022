@@ -6,7 +6,7 @@ INSERT INTO film_entity(name, year) VALUES
     ('Форрест Гамп', 1994);
 
 INSERT INTO film_attribute_type(name) VALUES
-    ('Строка'),
+    ('Короткая строка'),
     ('Рецензия'),
     ('Деньги'),
     ('Рейтинг'),
