@@ -28,12 +28,12 @@ class Check
 
     /**
      * @return string
+     * @throws \Exception
      */
     public function run():string
     {
         if (!$this->check()) {
-            header("HTTP/1.0 400 Bad Request");
-            return 'Некорректно';
+            throw new \Exception('Некорректно');
         } else {
             header("HTTP/1.0 200 OK");
             return 'Корректно';

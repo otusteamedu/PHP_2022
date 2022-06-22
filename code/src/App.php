@@ -8,9 +8,9 @@ class App
     /**
      * @return void
      */
-    public function run():void
+    public function run():string
     {
         $check = new Check;
-        echo $check->run();
+        return $check->run();
     }
 }
