@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Closure;
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -12,10 +13,12 @@ class Channel
     private Connector $connector;
     private AMQPStreamConnection $AMQPStreamConnection;
     private AMQPChannel $AMQPChannel;
+    private TelegramSender $telegramSender;
 
-    public function __construct(Connector $connector)
+    public function __construct(Connector $connector, TelegramSender $telegramSender)
     {
        $this->connector = $connector;
+       $this->telegramSender = $telegramSender;
     }
 
     public function connect(): Channel
@@ -55,9 +58,7 @@ class Channel
             no_ack: true,
             exclusive: false,
             nowait: false,
-            callback: function (AMQPMessage $msg) {
-                echo "$msg->body\n";
-            }
+            callback: $this->getCallback()
         );
 
         return $this;
@@ -77,5 +78,13 @@ class Channel
     {
         $this->AMQPChannel->close();
         $this->AMQPStreamConnection->close();
+    }
+
+    public function getCallback(): Closure
+    {
+        return function (AMQPMessage $msg) {
+            $this->telegramSender->send($msg->body);
+            echo "$msg->body\n";
+        };
     }
 }
