@@ -14,7 +14,7 @@ class ReportController extends Controller
     ) {
     }
 
-    public function generate(Request $request, Response $response, Publisher $publisher): Response
+    public function generate(Request $request, Response $response, Publisher $publisher)
     {
         $dateFrom = $request->input('dateFrom');
         $dateTo = $request->input('dateTo');
@@ -27,12 +27,9 @@ class ReportController extends Controller
 
         $publisher->write($message, 'reports');
 
-        $response->setContent([
-            'result' => true,
-            'message' => 'The request has been sent for processing',
-        ]);
-
-        $response->setStatusCode(200);
+        $response
+            ->setContent(['message' => 'The request has been sent for processing'])
+            ->setStatusCode(200);
 
         return $response;
     }
