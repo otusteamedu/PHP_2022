@@ -80,7 +80,7 @@ class Channel
         $this->AMQPStreamConnection->close();
     }
 
-    public function getCallback(): Closure
+    private function getCallback(): Closure
     {
         return function (AMQPMessage $msg) {
             $this->telegramSender->send($msg->body);
