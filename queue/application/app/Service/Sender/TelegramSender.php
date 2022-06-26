@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Sender;
 
-class TelegramSender
+class TelegramSender implements Sender
 {
 
     public function send(string $message): void

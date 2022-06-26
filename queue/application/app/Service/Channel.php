@@ -2,23 +2,24 @@
 
 namespace App\Service;
 
+use App\Service\Sender\Enum\MessagesSendersEnum;
+use App\Service\Sender\Sender;
 use Closure;
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use WS\Utils\Collections\CollectionFactory;
 
 class Channel
 {
     private Connector $connector;
     private AMQPStreamConnection $AMQPStreamConnection;
     private AMQPChannel $AMQPChannel;
-    private TelegramSender $telegramSender;
 
-    public function __construct(Connector $connector, TelegramSender $telegramSender)
+    public function __construct(Connector $connector)
     {
        $this->connector = $connector;
-       $this->telegramSender = $telegramSender;
     }
 
     public function connect(): Channel
@@ -82,9 +83,14 @@ class Channel
 
     private function getCallback(): Closure
     {
-        return function (AMQPMessage $msg) {
-            $this->telegramSender->send($msg->body);
-            echo "$msg->body\n";
+        return static function (AMQPMessage $msg) {
+            CollectionFactory::from(MessagesSendersEnum::MESSAGES_SENDERS)
+                ->stream()
+                ->each(function (string $senderClass) use ($msg) {
+                    /** @var Sender $sender */
+                    $sender = app()->get($senderClass);
+                    $sender->send($msg->body);
+                });
         };
     }
 }
