@@ -4,10 +4,15 @@ namespace App\Services\Dtos;
 
 class ReportCreateDto
 {
-    public mixed $params;
-
-    public function __construct(mixed $params)
+    public function __construct(private mixed $params)
     {
-        $this->params = $params;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParams(): mixed
+    {
+        return $this->params;
     }
 }
