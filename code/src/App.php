@@ -12,13 +12,13 @@ class App{
     /**
      * @var string|mixed
      */
-    public string $argv='';
+    public string $controller='';
 
     /**
      *
      */
     public function __construct(){
-        $this->argv=strtolower($_SERVER['argv'][1]);
+        $this->controller=strtolower($_SERVER['argv'][1]);
     }
 
     /**
@@ -27,11 +27,11 @@ class App{
      */
     public function run(): void
     {
-        if($this->argv==='server'){
+        if($this->controller==='server'){
             $socket = new Socket(true);
             $server = new Server($socket);
             $server->start_listen();
-        }elseif($this->argv==='client'){
+        }elseif($this->controller==='client'){
             $socket = new Socket();
             $client = new Client($socket);
             $client->send();
