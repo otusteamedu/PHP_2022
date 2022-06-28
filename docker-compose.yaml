@@ -1,25 +1,56 @@
 version: '3'
 
 services:
-  nginx:
+  nginx-balancer:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
+      dockerfile: nginx-balancer/Dockerfile
+    image: myapp/nginx-balancer
+    container_name: nginx-balancer
     ports:
       - "80:80"
+    networks:
+      - app-network
+
+  nginx-worker-1:
+    build:
+      context: ./nginx
+      dockerfile: nginx-worker/Dockerfile
+    image: myapp/nginx-worker
+    container_name: nginx-worker-1
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx-worker-2:
+    build:
+      context: ./nginx
+      dockerfile: nginx-worker/Dockerfile
+    image: myapp/nginx-worker
+    container_name: nginx-worker-2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  php-fpm-1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php-fpm-1
     volumes:
        - ./code:/data/mysite.local
     networks:
       - app-network
 
-  app:
+  php-fpm-2:
     build:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/php
-    container_name: app
+    container_name: php-fpm-2
     volumes:
        - ./code:/data/mysite.local
     networks:
