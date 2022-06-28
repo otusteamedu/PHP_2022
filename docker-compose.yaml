@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: fpm
+    container_name: app1
+    volumes:
+      - ./code:/data/app
+      - ./code/sock:/sock
+    networks:
+      - app-network
+
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: fpm
+    container_name: app2
+    volumes:
+      - ./code:/data/app
+      - ./code/sock:/sock
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

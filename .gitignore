@@ -1,0 +1,5 @@
+/code/vendor/
+/code/composer.phar
+/code/composer-setup.php
+dbdata
+/code/sock/socket.sock

@@ -1,0 +1,12 @@
+{
+    "name": "roman/shum",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Roman\\Shum\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    }
+}
