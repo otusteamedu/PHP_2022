@@ -18,9 +18,16 @@ class App
     public static string $config_file = APP_PATH.'/config.ini';
     protected array $options = [];
 
-    public function __construct(private readonly array $input)
+    private array $input;
+
+    public function __construct()
     {
-        if (empty($input)) {
+        $this->input = getopt(
+            "",
+            ["title::", "sku::", "category::", "in_stock", "price_from::", "price_to::", "limit::", "offset::"]
+        );
+
+        if (empty($this->input)) {
             throw new RuntimeException('Empty or wrong script parameters.');
         }
 
