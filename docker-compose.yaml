@@ -56,6 +56,12 @@ services:
     networks:
       - app-network
 
+  memcache:
+    image: memcached:1.6.15
+    container_name: myapp-memcached
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

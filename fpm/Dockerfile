@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
-     && pecl install memcached && \
-        docker-php-ext-enable memcached \
+     && pecl install memcache && \
+        docker-php-ext-enable memcache \
         && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
         && php composer-setup.php \
         && php -r "unlink('composer-setup.php');" \
