@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $action
  * @property string $data
- * @property int $requestId
+ * @property int $request_id
  *
  * @package App\Models
  */
