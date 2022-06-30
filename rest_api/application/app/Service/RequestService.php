@@ -35,4 +35,12 @@ class RequestService
 
         return (int)$request->id;
     }
+
+    public function getStatus(int $requestId): int
+    {
+        /** @var Request $request */
+        $request = Request::find($requestId);
+
+        return (int)$request?->status;
+    }
 }
