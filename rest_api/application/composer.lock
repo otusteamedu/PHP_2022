@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "646073c358984833dfa9a8ff690af567",
+    "content-hash": "5a2db457ee37de8c2e50db180740ff96",
     "packages": [
         {
             "name": "brick/math",
@@ -4925,6 +4925,61 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "worksolutions/php-collections",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/worksolutions/php-collections.git",
+                "reference": "fdc961e4dd28f9cbecbe37b81bd350c9bc486bc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/worksolutions/php-collections/zipball/fdc961e4dd28f9cbecbe37b81bd350c9bc486bc2",
+                "reference": "fdc961e4dd28f9cbecbe37b81bd350c9bc486bc2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.3 || ~8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "suggest": {
+                "phpbench/phpbench": "Uses only for benchmark purposes"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WS\\Utils\\Collections\\": "src/WS/Utils/Collections"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxim Sokolovsky",
+                    "email": "sokolovsky@worksolutions.ru"
+                },
+                {
+                    "name": "Anton Lytkin",
+                    "email": "a.lytkin@worksolutions.ru"
+                },
+                {
+                    "name": "Igor Pomiluyko",
+                    "email": "pomiluyko@worksolutions.ru"
+                }
+            ],
+            "description": "Collections library for php language",
+            "support": {
+                "issues": "https://github.com/worksolutions/php-collections/issues",
+                "source": "https://github.com/worksolutions/php-collections/tree/v1.1.6"
+            },
+            "time": "2022-03-05T12:33:06+00:00"
         }
     ],
     "packages-dev": [
