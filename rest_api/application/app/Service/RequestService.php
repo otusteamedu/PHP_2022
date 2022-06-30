@@ -4,13 +4,14 @@ namespace App\Service;
 
 use App\Enum\StatusEnum;
 use App\Models\Request;
-use App\RabbitMQ\Publisher;
 use Exception;
+use Pavelgaponenko\PgOtusComposerPackage\Service\JsonDecoder;
 
 class RequestService
 {
     public function __construct(
-        private Publisher $publisher,
+        private UserPublisher $publisher,
+        private JsonDecoder $jsonDecoder,
     ) {
     }
 
@@ -26,7 +27,11 @@ class RequestService
 
         $request->save();
 
-        //$this->publisher->write((string)$request->id, 'tasks');
+        $message = $this->jsonDecoder->toJson([
+           'requestId' => (string)$request->id
+        ]);
+
+        $this->publisher->write($message, 'tasks');
 
         return (int)$request->id;
     }

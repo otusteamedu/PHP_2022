@@ -2,8 +2,6 @@
 
 namespace App\RabbitMQ;
 
-use App\Service\Sender\Enum\MessagesSendersEnum;
-use App\Service\Sender\Sender;
 use Closure;
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -50,7 +48,7 @@ class Channel
         return $this;
     }
 
-    public function consume(string $queue): Channel
+    public function consume(string $queue, Closure $callback): Channel
     {
         $this->AMQPChannel->basic_consume(
             queue: $queue,
@@ -59,7 +57,7 @@ class Channel
             no_ack: true,
             exclusive: false,
             nowait: false,
-            callback: $this->getCallback()
+            callback: $callback
         );
 
         return $this;
@@ -79,18 +77,5 @@ class Channel
     {
         $this->AMQPChannel->close();
         $this->AMQPStreamConnection->close();
-    }
-
-    private function getCallback(): Closure
-    {
-        return static function (AMQPMessage $msg) {
-            CollectionFactory::from(MessagesSendersEnum::MESSAGES_SENDERS)
-                ->stream()
-                ->each(function (string $senderClass) use ($msg) {
-                    /** @var Sender $sender */
-                    $sender = app()->get($senderClass);
-                    $sender->send($msg->body);
-                });
-        };
     }
 }

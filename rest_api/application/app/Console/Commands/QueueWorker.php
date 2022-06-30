@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\RabbitMQ\Consumer;
+use App\Service\UserConsumer;
 use Illuminate\Console\Command;
 
 class QueueWorker extends Command
@@ -31,7 +31,7 @@ class QueueWorker extends Command
         parent::__construct();
     }
 
-    public function handle(Consumer $consumer)
+    public function handle(UserConsumer $consumer)
     {
         $consumer->read('tasks');
     }

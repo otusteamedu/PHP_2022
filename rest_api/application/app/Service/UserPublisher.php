@@ -1,10 +1,12 @@
 <?php
 
-namespace App\RabbitMQ;
+namespace App\Service;
 
+use App\RabbitMQ\Channel;
+use App\RabbitMQ\Message;
 use Exception;
 
-class Publisher
+class UserPublisher
 {
     public function __construct(
         private Channel $channel
