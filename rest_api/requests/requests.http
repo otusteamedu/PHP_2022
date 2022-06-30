@@ -1,0 +1,18 @@
+###
+POST http://application.local/api/v1/addUser
+Content-Type: application/json
+
+{
+  "name": "Pavel",
+  "surname": "Gaponenko",
+  "email": "test@gmail.com"
+}
+
+###
+GET http://application.local/api/v1/getUser?id=4
+
+###
+GET http://application.local/api/v1/getUsers
+
+###
+GET http://application.local/api/v1/getResult?requestId=17
