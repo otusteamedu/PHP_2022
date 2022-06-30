@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    env_file:
+      - .env
+    volumes:
+      - ./app.php:/data/application.local/app.php
+      - ./code:/data/application.local/code
+      - ./vendor:/data/application.local/vendor
+    stdin_open: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app-network
+
+  elasticsearch:
+    container_name: es-container
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    volumes:
+      - ./volumes/elastic:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+    ports:
+      - "9200:9200"
+
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
+    networks:
+      - app-network
+    volumes:
+      - ./volumes/kibana:/usr/share/kibana/data
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+
+networks:
+  app-network:
+    driver: bridge
