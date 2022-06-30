@@ -18,9 +18,12 @@ class UserService
         return (int)$user->id;
     }
 
-    public function getUser(int $id): User
+    public function getUser(int $id): ?User
     {
-        return User::find($id);
+        /** @var User $user */
+        $user = User::find($id);
+
+        return $user ?? null;
     }
 
     /**
