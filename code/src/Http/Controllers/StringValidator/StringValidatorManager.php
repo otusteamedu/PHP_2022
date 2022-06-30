@@ -16,18 +16,17 @@ class StringValidatorManager
 
         $countOfClosedBrackets = 0;
 
-        foreach ($charsOfString as $key => $char) {
-            if ($key === 0 && $char === ')') {
-                $countOfClosedBrackets = 1;
-                break;
-            }
-
+        foreach ($charsOfString as $char) {
             if ($char === '(') {
                 ++ $countOfClosedBrackets;
             }
 
-            if ($char === ')' && $countOfClosedBrackets >= 0) {
+            if ($char === ')') {
                 -- $countOfClosedBrackets;
+            }
+
+            if ($countOfClosedBrackets < 0) {
+                break;
             }
         }
 
