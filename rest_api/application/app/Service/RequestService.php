@@ -18,7 +18,7 @@ class RequestService
     /**
      * @throws Exception
      */
-    public function addRequest(string $action, string $data): int
+    public function addRequest(string $action, string $data = ''): int
     {
         $request = new Request();
         $request->action = $action;

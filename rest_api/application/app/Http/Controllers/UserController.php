@@ -54,7 +54,7 @@ class UserController extends Controller
 
     public function getUsers(Request $request, Response $response): Response
     {
-        $requestId = $this->requestService->addRequest(UserActionEnum::GET_USERS_ACTION, '');
+        $requestId = $this->requestService->addRequest(UserActionEnum::GET_USERS_ACTION);
 
         $response
             ->setContent(['requestId' => $requestId])
