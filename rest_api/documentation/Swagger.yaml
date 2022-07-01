@@ -1,0 +1,83 @@
+---
+openapi: 3.0.0
+info:
+  title: REST API
+  description: This is a user service REST API
+  version: 1.0.0
+servers:
+  - url: http://application.local
+tags:
+  - name: User
+    description: Методы работы с пользователем
+
+paths:
+
+  /api/v1/user:
+    post:
+      tags:
+        - User
+      summary: Добавление пользователя
+      description: Добавление пользователя
+      requestBody:
+        description: addUser
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUserRequest'
+      responses:
+        "200":
+          description: UserResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+
+  /api/v1/user/{id}:
+    get:
+      tags:
+        - User
+      summary: Получение пользователя
+      description: Получение пользователя по ID
+      responses:
+        "200":
+          description: UserResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+
+  /api/v1/users:
+    get:
+      tags:
+        - User
+      summary: Получение пользователей
+      description: Получение всех пользователей в БД
+      responses:
+        "200":
+          description: UserResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+
+components:
+  schemas:
+    AddUserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Pavel"
+        surname:
+          type: string
+          example: "Gaponenko"
+        email:
+          type: string
+          example: "test@gmail.com"
+
+    UserResponse:
+      type: object
+      properties:
+        requestId:
+          type: integer
+          example: 67354

@@ -15,12 +15,10 @@ class ResultController extends Controller
     ) {
     }
 
-    public function getResult(Request $request, Response $response): Response
+    public function getResult(Request $request, Response $response, $requestId = null): Response
     {
-        $requestId = (int)$request->input('requestId');
-
-        $status = $this->requestService->getStatus($requestId);
-        $data = $this->resultService->getResult($requestId);
+        $status = $this->requestService->getStatus((int)$requestId);
+        $data = $this->resultService->getResult((int)$requestId);
 
         $response
             ->setContent([

@@ -1,5 +1,5 @@
 ###
-POST http://application.local/api/v1/addUser
+POST http://application.local/api/v1/user
 Content-Type: application/json
 
 {
@@ -9,10 +9,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://application.local/api/v1/getUser?id=4
+GET http://application.local/api/v1/getUser/4
 
 ###
 GET http://application.local/api/v1/getUsers
 
 ###
-GET http://application.local/api/v1/getResult?requestId=17
+GET http://application.local/api/v1/result/22

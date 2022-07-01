@@ -37,11 +37,9 @@ class UserController extends Controller
         return $response;
     }
 
-    public function getUser(Request $request, Response $response): Response
+    public function getUser(Request $request, Response $response, $id = null): Response
     {
-        $data = $this->jsonDecoder->toJson([
-            'id' => $request->input('id')
-        ]);
+        $data = $this->jsonDecoder->toJson([ 'id' => (int)$id]);
 
         $requestId = $this->requestService->addRequest(UserActionEnum::GET_USER_ACTION, $data);
 
