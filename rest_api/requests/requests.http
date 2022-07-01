@@ -9,10 +9,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://application.local/api/v1/getUser/4
+GET http://application.local/api/v1/user/4
 
 ###
-GET http://application.local/api/v1/getUsers
+GET http://application.local/api/v1/users
 
 ###
 GET http://application.local/api/v1/result/22
