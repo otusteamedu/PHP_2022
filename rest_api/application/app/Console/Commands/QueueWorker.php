@@ -31,7 +31,7 @@ class QueueWorker extends Command
         parent::__construct();
     }
 
-    public function handle(UserConsumer $consumer)
+    public function handle(UserConsumer $consumer): void
     {
         $consumer->read('tasks');
     }
