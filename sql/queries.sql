@@ -36,6 +36,9 @@ JIT:
 Execution Time: 3596.643 ms
  */
 
+После добавления индекса, он не был использован, как нам показывает EXPLAIN, а значит смысла в неём нет
+
+
 -- Фильмы с длительностью от 01:40:00 до 02:00:00
 explain analyze
 select duration
@@ -61,6 +64,7 @@ CREATE INDEX on film (duration);
 Planning Time: 0.221 ms
 Execution Time: 0.081 ms
  */
+ После добавления индекса, скорость выполнения запроса увеличилась
 
 -- все сеансы с 1 по 10 марта
 explain analyze
@@ -91,6 +95,8 @@ create index on session (time);
 Planning Time: 0.336 ms
 Execution Time: 23.734 ms
  */
+После добавления индекса, скорость выполнения увеличилась почти в 3 раза
+
 
 -- самый дорогой фильм
 explain analyze
@@ -141,7 +147,7 @@ JIT:
 Execution Time: 6412.045 ms
  */
 
-Добавление индекса на name в таблице film не изменило ситуацию.INSERT INTO
+Добавление индекса на name в таблице film не изменило ситуацию.
 
 -- самый длинный фильм, на который куплено больше всего билетов
 explain analyze
@@ -180,6 +186,8 @@ LIMIT 1;
 Planning Time: 0.510 ms
 Execution Time: 18.351 ms
  */
+
+Индексы, добавленные ранее, ускорили выполнение данного запроса
 
 -- Самый частый клиент и фильм на котором он был
 explain analyze
@@ -226,3 +234,5 @@ JIT:
   Timing: Generation 6.138 ms, Inlining 114.954 ms, Optimization 261.351 ms, Emission 181.650 ms, Total 564.094 ms
 Execution Time: 24596.375 ms
  */
+
+ Добавление индексов не влияют на ускорение выполнения
