@@ -42,7 +42,14 @@ CREATE TABLE IF NOT EXISTS ticket (
       id_film integer REFERENCES session,
       id_seat integer REFERENCES seat,
       id_hall integer REFERENCES hall,
-      id_session integer REFERENCES hall
+      id_session integer REFERENCES hall,
+      ticket_price decimal NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS session_seat (
+      id serial PRIMARY KEY NOT NULL,
+      id_hall integer REFERENCES hall,
+      id_seat integer REFERENCES seat
 );
 
 
