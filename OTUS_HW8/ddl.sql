@@ -16,6 +16,20 @@ CREATE SEQUENCE public.halls_id_seq
 	MINVALUE 1
 	MAXVALUE 9223372036854775807
 	START 1;
+-- DROP SEQUENCE public.price_description_id_seq;
+
+CREATE SEQUENCE public.price_description_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1;
+-- DROP SEQUENCE public.prices_id_seq;
+
+CREATE SEQUENCE public.prices_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1;
 -- DROP SEQUENCE public.seanses_id_seq;
 
 CREATE SEQUENCE public.seanses_id_seq
@@ -76,6 +90,21 @@ CREATE TABLE public.price_description (
 );
 
 
+-- public.prices definition
+
+-- Drop table
+
+-- DROP TABLE public.prices;
+
+CREATE TABLE public.prices (
+	id serial4 NOT NULL,
+	value numeric NOT NULL,
+	description_id int4 NOT NULL,
+	CONSTRAINT prices_pk PRIMARY KEY (id),
+	CONSTRAINT prices_fk FOREIGN KEY (id) REFERENCES public.price_description(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+
 -- public.seanses definition
 
 -- Drop table
@@ -108,21 +137,6 @@ CREATE TABLE public.seats (
 	vip bool NOT NULL DEFAULT false,
 	CONSTRAINT seats_pk PRIMARY KEY (id),
 	CONSTRAINT seats_fk FOREIGN KEY (hall_id) REFERENCES public.halls(id)
-);
-
-
--- public.prices definition
-
--- Drop table
-
--- DROP TABLE public.prices;
-
-CREATE TABLE public.prices (
-	id serial4 NOT NULL,
-	value numeric NOT NULL,
-	description_id int4 NOT NULL,
-	CONSTRAINT prices_pk PRIMARY KEY (id),
-	CONSTRAINT prices_fk FOREIGN KEY (id) REFERENCES public.price_description(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 
