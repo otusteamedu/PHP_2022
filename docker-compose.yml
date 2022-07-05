@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
+    container_name: homework10-elastic-php
+    command: tail -f /dev/null
+    working_dir: /var/www/
+    networks:
+      elastic-network:
+
+  elasticsearch:
+    container_name: es-container
+    image: elasticsearch:8.3.1
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    volumes:
+      - ./elastic:/usr/share/elasticsearch/data
+    networks:
+      - elastic-network
+    ports:
+      - "9200:9200"
+
+networks:
+  elastic-network:
+    driver: bridge

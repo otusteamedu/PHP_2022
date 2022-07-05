@@ -1,0 +1,22 @@
+{
+    "name": "k.kirillov/hw10",
+    "description": "Trying to work with elastic search",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kirill Kirillov",
+            "email": "kirill.kirillov@itglobal.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "elasticsearch/elasticsearch": "dev-master",
+        "php-di/php-di": "dev-master"
+    }
+}
