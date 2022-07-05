@@ -123,6 +123,13 @@ begin
 end;
 $$ language plpgsql;
 
+create or replace function random_price(low integer, high integer) returns integer as
+$$
+BEGIN
+    return round((random() * (high - low + 1) + low)::numeric, 2);
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION random_datetime(start_date timestamp, end_date timestamp) RETURNS TIMESTAMP AS
 $$
 BEGIN
@@ -145,7 +152,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION random_price_multiplier() RETURNS FLOAT AS
 $$
 BEGIN
-    return round((random() * 1 + 1)::numeric, 3);
+    return round((random() * 1 + 1)::numeric, 2);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -178,6 +185,6 @@ select gs.id,
        random_int(1, 1000000),
        random_int(1, 150000),
        random_int(1, 46),
-       random_int(150, 1000)
+       random_price(150, 1000)
 from generate_series(1, 10000000) as gs(id)
 ON CONFLICT DO NOTHING;

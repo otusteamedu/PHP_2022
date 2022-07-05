@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS ticket
     session_id     int REFERENCES session,
     customer_id    int REFERENCES customer,
     place_id       int REFERENCES place,
-    full_price money NOT NULL
+    full_price numeric(6,2) NOT NULL
 );
 
 CREATE UNIQUE INDEX ON ticket (session_id, place_id);
