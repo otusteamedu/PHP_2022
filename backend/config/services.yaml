@@ -22,3 +22,14 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+#    App\Service\CookingFood\Request\HttpRequest:
+#        autowire: true
+    App\Service\CookingFood\Cooking\CookingInterface: '@App\Service\CookingFood\Cooking\CookingProductProxy'
+    App\Service\CookingFood\Request\AbstractRequest: '@App\Service\CookingFood\Request\HttpRequest'
+    App\Service\CookingFood\Request\HttpRequest:
+        arguments:
+            $request: '@request_stack'
+    App\Service\CookingFood\CookingService:
+    App\Service\CookingFood\Cooking\CookingProductProxy:
+        arguments:
+            $cooking: '@App\Service\CookingFood\Cooking\CookingProduct'
