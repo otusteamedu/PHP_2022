@@ -44,9 +44,9 @@ class CookingService
             $this->getProduct(),
             $this->getRecipe(),
         );
-        $this->startCookingEvent->notify();
-        $this->cooking->cooking($product);
-        $this->endCookingEvent->notify();
+        $this->startCookingEvent();
+        $this->cooking($product);
+        $this->endCookingEvent();
         return $product;
     }
 
@@ -67,6 +67,21 @@ class CookingService
     {
         $productRecipeId = $this->request->getRecipeId();
         return $this->recipeRepository->getById($productRecipeId);
+    }
+
+    protected function startCookingEvent(): void
+    {
+        $this->startCookingEvent->notify();
+    }
+
+    protected function endCookingEvent(): void
+    {
+        $this->endCookingEvent->notify();
+    }
+
+    protected function cooking(ProductInterface $product): void
+    {
+        $this->cooking->cooking($product);
     }
 
     private function getProduct(): ProductInterface
