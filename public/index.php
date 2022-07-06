@@ -12,7 +12,7 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 
 try {
     $application = new App();
-    $application->run();
+    echo $application->run();
 } catch (Exception $e) {
     echo $e->getMessage()."\n"."Trace: ".$e->getTraceAsString()."\n";
 }

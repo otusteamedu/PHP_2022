@@ -10,7 +10,7 @@ use App\Service\Event\EventManager;
 
 class PostProcessor
 {
-    public function __construct(private EventManager $em)
+    public function __construct(private readonly EventManager $em)
     {
     }
 
@@ -22,11 +22,12 @@ class PostProcessor
 
                 case 'add':
 
-                    if (isset($_POST['name'], $_POST['priority'], $_POST['conditions'])) {
+                    if (isset($_POST['name'], $_POST['priority'], $_POST['conditions'])
+                        && is_array($_POST['conditions'])) {
 
                         $event = new Event();
                         $event->setEventName($_POST['name']);
-                        $event->setPriority($_POST['priority']);
+                        $event->setPriority((int)$_POST['priority']);
 
                         foreach ($_POST['conditions'] as $paramKey => $paramValue) {
                             $event->addCondition($paramKey, $paramValue);
@@ -34,7 +35,7 @@ class PostProcessor
 
                         $this->em->save($event);
 
-                        return new Response('Event has been saved!');
+                        return new Response("Event `$event` has been saved.");
                     }
 
                     break;
@@ -45,7 +46,11 @@ class PostProcessor
 
                         $event = $this->em->findByParams($_POST['params']);
 
-                        return new Response(json_encode($event));
+                        if ($event === false) {
+                            return new Response('Nothing was found.');
+                        }
+
+                        return new Response("Found: `$event`");
                     }
 
                     break;
@@ -54,7 +59,7 @@ class PostProcessor
 
                     $this->em->clear();
 
-                    return new Response('Storage has been cleaned!');
+                    return new Response('Storage has been cleaned.');
             }
         }
 

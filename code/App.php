@@ -7,6 +7,7 @@ namespace App;
 use App\Service\ConfigReader;
 use App\Service\Event\EventManager;
 use App\Service\PostProcessor;
+use App\Service\Storage\RedisStorage;
 
 class App
 {
@@ -21,7 +22,12 @@ class App
 
     public function run(): string
     {
-        $em = new EventManager();
+        $storage = new RedisStorage([
+            'host' => $this->options['redis']['host'],
+        ]);
+
+        $em = new EventManager($storage);
+
         $processor = new PostProcessor($em);
 
         return $processor->process()->send();

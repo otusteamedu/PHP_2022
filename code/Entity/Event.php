@@ -14,6 +14,11 @@ class Event
 
     private Map $conditions;
 
+    public function __construct()
+    {
+        $this->conditions = new Map([]);
+    }
+
     public function getEventName(): string
     {
         return $this->eventName;
@@ -51,5 +56,10 @@ class Event
         $this->conditions->remove($paramName);
 
         return $this->conditions;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getEventName();
     }
 }
