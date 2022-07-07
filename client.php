@@ -8,10 +8,7 @@ use Qween\Php2022\App\Logger;
 require __DIR__ . '/vendor/autoload.php';
 
 try {
-    $config = new Config();
-    $logger = new Logger();
-    $socket = new \Qween\Php2022\App\Socket($config->getParam('SOCKET_FILE'));
-    $app = new Client($logger, $socket);
+    $app = new Client(new Logger(), new \Qween\Php2022\App\Socket((new Config())->getParam('SOCKET_FILE')));
     $app->execute();
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
