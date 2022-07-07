@@ -1,0 +1,4 @@
+.idea
+vendor
+sock/socket.sock
+.env
