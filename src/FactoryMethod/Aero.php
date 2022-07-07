@@ -5,18 +5,18 @@ namespace Patterns\FactoryMethod;
 class Aero implements TransportInterface
 {
 
-    public function load(): void
+    public function load(): string
     {
-        echo 'Загрузка самолета' . PHP_EOL;
+        return 'Загрузка самолета' . PHP_EOL;
     }
 
-    public function deliver(string $cargo): void
+    public function deliver(string $cargo): string
     {
-        echo "Доставка {$cargo} самолетом" . PHP_EOL;
+        return "Доставка {$cargo} самолетом" . PHP_EOL;
     }
 
-    public function unload(): void
+    public function unload(): string
     {
-        echo 'Разгрузка самолета' . PHP_EOL;
+        return 'Разгрузка самолета' . PHP_EOL;
     }
 }

@@ -13,8 +13,8 @@ class Subscriber implements ObserverInterface
     }
 
 
-    public function handleEvent(array $vacancies): void
+    public function handleEvent(array $vacancies): string
     {
-        echo "Здравствуйте, {$this->name}! На сайте появились новые вакансии" . implode(', ', $vacancies) . PHP_EOL . PHP_EOL;
+        return "Здравствуйте, {$this->name}! На сайте появились новые вакансии" . implode(', ', $vacancies) . PHP_EOL . PHP_EOL;
     }
 }

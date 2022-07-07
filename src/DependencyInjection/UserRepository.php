@@ -12,8 +12,8 @@ class UserRepository
         $this->db = $db;
     }
 
-    public function getUsers()
+    public function getUsers(): string
     {
-        echo $this->db->connect() . PHP_EOL . 'Получение пользователей....';
+        return $this->db->connect() . PHP_EOL . 'Получение пользователей....';
     }
 }

@@ -5,8 +5,8 @@ namespace Patterns\DependencyInjection;
 class Database implements DatabaseInterface
 {
 
-    public function connect()
+    public function connect(): string
     {
-        echo 'Успешное соединение с Базой Данных' . PHP_EOL;
+        return 'Успешное соединение с Базой Данных' . PHP_EOL;
     }
 }

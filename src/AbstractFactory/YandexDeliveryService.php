@@ -11,10 +11,10 @@ class YandexDeliveryService implements DeliveryServiceInterface
     /**
      * @param PackageInterface $package
      *
-     * @return void
+     * @return string
      */
-    public function sendPackage(PackageInterface $package): void
+    public function sendPackage(PackageInterface $package): string
     {
-        echo 'Отправляем посылку через Yandex' . PHP_EOL;
+        return 'Отправляем посылку через Yandex' . PHP_EOL;
     }
 }

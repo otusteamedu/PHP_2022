@@ -8,10 +8,10 @@ class YandexPackage implements PackageInterface
 {
 
     /**
-     * @return void
+     * @return string
      */
-    public function getConsist(): void
+    public function getConsist(): string
     {
-        echo 'Проверяем содержимое посылки Yandex' . PHP_EOL;
+        return 'Проверяем содержимое посылки Yandex' . PHP_EOL;
     }
 }

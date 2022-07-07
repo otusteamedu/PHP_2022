@@ -8,10 +8,10 @@ class RussianPostPackage implements PackageInterface
 {
 
     /**
-     * @return void
+     * @return string
      */
-    public function getConsist()
+    public function getConsist(): string
     {
-        echo 'Проверяем содержимое посылки Почты России' . PHP_EOL;
+        return 'Проверяем содержимое посылки Почты России' . PHP_EOL;
     }
 }

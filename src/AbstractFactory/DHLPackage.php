@@ -8,10 +8,10 @@ class DHLPackage implements PackageInterface
 {
 
     /**
-     * @return void
+     * @return string
      */
-    public function getConsist(): void
+    public function getConsist(): string
     {
-        echo 'Проверяем содержимое посылки DHL' . PHP_EOL;
+        return 'Проверяем содержимое посылки DHL' . PHP_EOL;
     }
 }

@@ -4,9 +4,9 @@ namespace Patterns\FactoryMethod;
 
 interface TransportInterface
 {
-    public function load(): void;
+    public function load(): string;
 
-    public function deliver(string $cargo): void;
+    public function deliver(string $cargo): string;
 
-    public function unload(): void;
+    public function unload(): string;
 }

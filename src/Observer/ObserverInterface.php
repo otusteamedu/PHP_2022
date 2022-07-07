@@ -4,5 +4,5 @@ namespace Patterns\Observer;
 
 interface ObserverInterface
 {
-    public function handleEvent(array $vacancies): void;
+    public function handleEvent(array $vacancies): string;
 }

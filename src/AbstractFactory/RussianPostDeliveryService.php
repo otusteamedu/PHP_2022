@@ -11,10 +11,10 @@ class RussianPostDeliveryService implements DeliveryServiceInterface
     /**
      * @param PackageInterface $package
      *
-     * @return void
+     * @return string
      */
-    public function sendPackage(PackageInterface $package)
+    public function sendPackage(PackageInterface $package): string
     {
-        echo 'Отправляем посылку через Почту России' . PHP_EOL;
+        return 'Отправляем посылку через Почту России' . PHP_EOL;
     }
 }

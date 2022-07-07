@@ -11,10 +11,10 @@ class DHLDeliveryService implements DeliveryServiceInterface
     /**
      * @param PackageInterface $package
      *
-     * @return void
+     * @return string
      */
-    public function sendPackage(PackageInterface $package): void
+    public function sendPackage(PackageInterface $package): string
     {
-        echo 'Отправляем посылку через DHL' . PHP_EOL;
+        return 'Отправляем посылку через DHL' . PHP_EOL;
     }
 }
