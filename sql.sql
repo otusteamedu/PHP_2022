@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS attributes_values(
     attribute_id integer REFERENCES attributes,
     film_id integer REFERENCES film,
     value_text text DEFAULT NULL,
-    value_varchar varchar(255) DEFAULT NULL,
     value_integer integer DEFAULT NULL,
     value_bool boolean DEFAULT NULL,
     value_float float DEFAULT NULL,
@@ -95,12 +94,12 @@ INSERT INTO attributes_values(attribute_id, film_id, value_date) VALUES
      (8,2,date '2003-01-05' + INTERVAL '20 day'),
      (8,3,date '2002-02-10' + INTERVAL '20 day');
 
-INSERT INTO attributes_values(attribute_id, film_id, value_varchar, value_date) VALUES
+INSERT INTO attributes_values(attribute_id, film_id, value_text, value_date) VALUES
     (9,1,'Задача 1', current_date),
     (9,2,'Задача 2', current_date),
     (9,3,'Задача 3', current_date);
 
-INSERT INTO attributes_values(attribute_id, film_id, value_varchar, value_date) VALUES
+INSERT INTO attributes_values(attribute_id, film_id, value_text, value_date) VALUES
     (10,1,'Задача 4', current_date + INTERVAL '20 day'),
     (10,2,'Задача 5', current_date + INTERVAL '20 day'),
     (10,3,'Задача 6', current_date + INTERVAL '20 day');
@@ -108,7 +107,7 @@ INSERT INTO attributes_values(attribute_id, film_id, value_varchar, value_date) 
 
 CREATE OR REPLACE VIEW view_marketing as
 SELECT film.name as film_name,
-       av.value_varchar as value,
+       av.value_text as value,
            a.name as task
 FROM film
     JOIN attributes_values av on film.id = av.film_id
@@ -142,7 +141,6 @@ SELECT film.name as film_name,
        t.name as at_type,
        CASE
            WHEN av.value_text IS NOT NULL THEN av.value_text
-           WHEN av.value_varchar IS NOT NULL THEN av.value_varchar
            WHEN av.value_date IS NOT NULL THEN av.value_date::text
            WHEN av.value_bool IS NOT NULL THEN av.value_bool::text
            WHEN av.value_float IS NOT NULL THEN av.value_float::text
