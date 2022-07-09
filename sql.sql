@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS attributes_values(
     value_integer integer DEFAULT NULL,
     value_bool boolean DEFAULT NULL,
     value_float float DEFAULT NULL,
-    value_date date DEFAULT NULL
+    value_date timestamp DEFAULT NULL
     );
 
 
