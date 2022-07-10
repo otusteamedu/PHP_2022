@@ -9,6 +9,8 @@ class Response
     public const HTTP_OK = 200;
     public const HTTP_BAD_REQUEST = 400;
 
+    public const HTTP_PROTOCOL_VERSION = '1.0';
+
     public array $headers;
 
     protected string $content;
@@ -29,7 +31,7 @@ class Response
         $this->headers = $headers;
         $this->setContent($content);
         $this->setStatusCode($status);
-        $this->setProtocolVersion('1.0');
+        $this->setProtocolVersion(self::HTTP_PROTOCOL_VERSION);
     }
 
     public function setContent(?string $content): void
