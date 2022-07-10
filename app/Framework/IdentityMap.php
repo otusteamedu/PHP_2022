@@ -20,14 +20,6 @@ class IdentityMap
         return null;
     }
 
-
-    public function has(HasIdInterface $object): bool
-    {
-        $this->items[get_class($object)] ??= [];
-
-        return array_key_exists($this->getId($object), $this->items[get_class($object)]);
-    }
-
     public function hasId(string $class, int $id): bool
     {
         $this->items[$class] ??= [];
