@@ -17,24 +17,13 @@ class PostProcessor
     public function process(): Response
     {
         if (isset($_POST['op'])) {
-
             switch ($_POST['op']) {
 
                 case 'add':
 
-                    if (isset($_POST['name'], $_POST['priority'], $_POST['conditions'])
-                        && is_array($_POST['conditions'])) {
+                    $event = $this->addEvent();
 
-                        $event = new Event();
-                        $event->setEventName($_POST['name']);
-                        $event->setPriority((int)$_POST['priority']);
-
-                        foreach ($_POST['conditions'] as $paramKey => $paramValue) {
-                            $event->addCondition($paramKey, $paramValue);
-                        }
-
-                        $this->em->save($event);
-
+                    if ($event !== false) {
                         return new Response("Event `$event` has been saved.");
                     }
 
@@ -42,18 +31,13 @@ class PostProcessor
 
                 case 'find':
 
-                    if (isset($_POST['params']) && is_array($_POST['params'])) {
+                    $event = $this->findEvent();
 
-                        $event = $this->em->findByParams($_POST['params']);
-
-                        if ($event === false) {
-                            return new Response('Nothing was found.');
-                        }
-
-                        return new Response("Found: `$event`");
+                    if ($event === false) {
+                        return new Response('Nothing was found.');
                     }
 
-                    break;
+                    return new Response("Found: `$event`");
 
                 case 'clear':
 
@@ -64,5 +48,35 @@ class PostProcessor
         }
 
         return new Response('Bad Request', Response::HTTP_BAD_REQUEST, ['content-type' => 'text/html']);
+    }
+
+    private function addEvent(): false|Event
+    {
+        if (isset($_POST['name'], $_POST['priority'], $_POST['conditions'])
+            && is_array($_POST['conditions'])) {
+
+            $event = new Event();
+            $event->setEventName($_POST['name']);
+            $event->setPriority((int)$_POST['priority']);
+
+            foreach ($_POST['conditions'] as $paramKey => $paramValue) {
+                $event->addCondition($paramKey, $paramValue);
+            }
+
+            $this->em->save($event);
+
+            return $event;
+        }
+
+        return false;
+    }
+
+    private function findEvent(): false|Event
+    {
+        if (isset($_POST['params']) && is_array($_POST['params'])) {
+            return $this->em->findByParams($_POST['params']);
+        }
+
+        return false;
     }
 }

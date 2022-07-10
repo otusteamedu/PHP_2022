@@ -34,6 +34,7 @@ class RedisStorage implements StorageInterface
     public function find(array $params): false|Event
     {
         $json_conditions = $this->packConditionsToJson($params);
+        $this->redis->del(self::$requested_params);
         $this->redis->sAdd(self::$requested_params, ...$json_conditions);
 
         $allEventNames = $this->redis->zRevRange(self::$events, 0, -1, true);
