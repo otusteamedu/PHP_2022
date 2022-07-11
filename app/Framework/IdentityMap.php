@@ -9,7 +9,7 @@ class IdentityMap
     private array $items = [];
 
 
-    public function getById(string $class, int $id)
+    public function getById(string $class, int $id): ?HasIdInterface
     {
         $this->items[$class] ??= [];
 
@@ -17,8 +17,9 @@ class IdentityMap
             return $this->items[$class][$id];
         }
 
-        return null;
+        throw new \OutOfBoundsException('Item not found');
     }
+
 
     public function hasId(string $class, int $id): bool
     {

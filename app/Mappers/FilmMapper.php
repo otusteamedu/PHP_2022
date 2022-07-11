@@ -46,8 +46,8 @@ class FilmMapper
 
     public function findById(int $id): Film
     {
-        if ($film = $this->identityMap->getById(Film::class, $id)) {
-            return $film;
+        if ($this->identityMap->hasId(Film::class, $id)) {
+            return $this->identityMap->getById(Film::class, $id);
         }
 
         $this->selectStatement->setFetchMode(PDO::FETCH_ASSOC);
@@ -59,7 +59,7 @@ class FilmMapper
             $result['id'],
             $result['title'],
             $result['description'],
-            \DateTime::createFromFormat('Y-m-d H:i:s', $result['premier_date'] . ' 00:00:00'),
+            \DateTime::createFromFormat('Y-m-d', $result['premier_date']),
             $result['poster'],
         );
 
@@ -84,7 +84,7 @@ class FilmMapper
                 $queryResult['id'],
                 $queryResult['title'],
                 $queryResult['description'],
-                \DateTime::createFromFormat('Y-m-d H:i:s', $queryResult['premier_date'] . ' 00:00:00'),
+                \DateTime::createFromFormat('Y-m-d', $queryResult['premier_date']),
                 $queryResult['poster'],
             );
 
@@ -114,7 +114,7 @@ class FilmMapper
             (int)$this->pdo->lastInsertId(),
             $rawFilmData['title'],
             $rawFilmData['description'],
-            \DateTime::createFromFormat('Y-m-d H:i:s', $rawFilmData['premier_date'] . ' 00:00:00'),
+            \DateTime::createFromFormat('Y-m-d', $rawFilmData['premier_date']),
             $rawFilmData['poster'],
         );
 
