@@ -1,0 +1,19 @@
+{
+    "name": "mselyatin/project15",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mselyatin\\Project15\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Михаил Селятин",
+            "email": "mselyatin@enazamusic.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*"
+    }
+}
