@@ -1,6 +1,6 @@
 <?php
 
-namespace Mselyatin\Project15\src\datamapper\interfaces;
+namespace Mselyatin\Project15\src\common\interfaces;
 
 /**
  * Interface IdentityInterface

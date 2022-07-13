@@ -2,7 +2,7 @@
 
 namespace Mselyatin\Project15\src\datamapper\identity;
 
-use Mselyatin\Project15\src\datamapper\interfaces\IdentityInterface;
+use Mselyatin\Project15\src\common\interfaces\IdentityInterface;
 
 /**
  * Class Car

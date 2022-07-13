@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
      && pecl install memcached && \
         docker-php-ext-enable memcached
 
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /var/www

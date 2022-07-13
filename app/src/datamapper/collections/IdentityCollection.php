@@ -2,7 +2,7 @@
 
 namespace Mselyatin\Project15\src\datamapper\collections;
 
-use Mselyatin\Project15\src\datamapper\interfaces\IdentityInterface;
+use Mselyatin\Project15\src\common\interfaces\IdentityInterface;
 
 /**
  * Class CarCollection

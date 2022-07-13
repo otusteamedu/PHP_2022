@@ -7,7 +7,8 @@ use Mselyatin\Project15\src\common\storages\DbStorage;
 use Mselyatin\Project15\src\datamapper\abstracts\DataMapperAbstract;
 use Mselyatin\Project15\src\datamapper\collections\IdentityCollection;
 use Mselyatin\Project15\src\datamapper\identity\Car;
-use Mselyatin\Project15\src\datamapper\interfaces\IdentityInterface;
+use Mselyatin\Project15\src\common\interfaces\IdentityInterface;
+use DomainException;
 use PDO;
 
 /**
@@ -24,12 +25,26 @@ class CarMapper extends DataMapperAbstract
      */
     public function findById(int $id): IdentityInterface
     {
-        $stm = $this->storage->pdo->prepare("SELECT * FROM car WHERE id = ?");
-        $stm->bindValue(1, $id);
-        $stm->execute();
+        $identity = $this->identityMap->get($id);
 
-        $row = $stm->fetch(PDO::FETCH_ASSOC);
-        return Car::createFromState($row);
+        if (!$identity) {
+            $stm = $this->storage->pdo->prepare("SELECT * FROM car WHERE id = ?");
+            $stm->bindValue(1, $id);
+            $stm->execute();
+
+            $row = $stm->fetch(PDO::FETCH_ASSOC);
+
+            if (!$row) {
+                throw new DomainException(
+                    "Модель с id $id не найден"
+                );
+            }
+
+            $identity = Car::createFromState($row);
+            $this->identityMap->add($identity, $id);
+        }
+
+        return $identity;
     }
 
     /**

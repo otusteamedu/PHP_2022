@@ -2,6 +2,8 @@
 
 namespace Mselyatin\Project15\src\datamapper\interfaces;
 
+use Mselyatin\Project15\src\common\interfaces\IdentityInterface;
+
 /**
  * Interface DataMapperInterface
  * @package Mselyatin\Project6\src\datamapper\interfaces
