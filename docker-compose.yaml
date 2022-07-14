@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    env_file:
+      - .env
+    volumes:
+      - ./app.php:/data/application.local/app.php
+      - ./code:/data/application.local/code
+      - ./vendor:/data/application.local/vendor
+    stdin_open: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - ./dbdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
