@@ -11,7 +11,7 @@ use Mselyatin\Project15\src\common\interfaces\IdentityInterface;
 interface DataMapperInterface
 {
     public function findById(int $id);
-    public function all();
+    public function all(int $limit, ?int $offset = null);
 
     public function save(IdentityInterface $identity): bool;
     public function insert(IdentityInterface $identity): int;

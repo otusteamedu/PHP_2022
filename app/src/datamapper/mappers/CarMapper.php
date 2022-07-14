@@ -22,6 +22,7 @@ class CarMapper extends DataMapperAbstract
     /**
      * @param int $id
      * @return IdentityInterface
+     * @throws \Assert\AssertionFailedException
      */
     public function findById(int $id): IdentityInterface
     {
@@ -48,13 +49,23 @@ class CarMapper extends DataMapperAbstract
     }
 
     /**
+     * @param int $limit
+     * @param int|null $offset
      * @return IdentityCollection
+     * @throws \Assert\AssertionFailedException
      */
-    public function all(): IdentityCollection
-    {
+    public function all(
+        int $limit = 100,
+        ?int $offset = null
+    ): IdentityCollection  {
         $collection = IdentityCollection::create();
 
-        $stm = $this->storage->pdo->query("SELECT * FROM car");
+        $stm = $this->storage->pdo->prepare("SELECT * FROM car LIMIT :limit OFFSET :offset");
+
+        $stm->bindValue(':limit', $limit);
+        $stm->bindValue(':offset', $offset);
+        $stm->execute();
+
         $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($rows as $row) {

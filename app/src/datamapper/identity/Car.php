@@ -3,6 +3,10 @@
 namespace Mselyatin\Project15\src\datamapper\identity;
 
 use Mselyatin\Project15\src\common\interfaces\IdentityInterface;
+use Mselyatin\Project15\src\common\valueObjects\CarBrand;
+use Mselyatin\Project15\src\common\valueObjects\CarName;
+use Mselyatin\Project15\src\common\valueObjects\ColorHex;
+use Mselyatin\Project15\src\common\valueObjects\PriceFloat;
 
 /**
  * Class Car
@@ -36,21 +40,21 @@ class Car implements IdentityInterface
 
     /**
      * Car constructor.
-     * @param string $name
-     * @param string $brand
-     * @param string $color
-     * @param float $price
+     * @param CarName $name
+     * @param CarBrand $brand
+     * @param ColorHex $color
+     * @param PriceFloat $price
      */
     public function __construct(
-      string $name,
-      string $brand,
-      string $color,
-      float $price
+        CarName $name,
+        CarBrand $brand,
+        ColorHex $color,
+        PriceFloat $price
     ) {
-        $this->name = $name;
-        $this->brand = $brand;
-        $this->color = $color;
-        $this->price = $price;
+        $this->name = $name->getValue();
+        $this->brand = $brand->getValue();
+        $this->color = $color->getValue();
+        $this->price = $price->getValue();
     }
 
     /**
@@ -88,14 +92,15 @@ class Car implements IdentityInterface
     /**
      * @param array $fields
      * @return static
+     * @throws \Assert\AssertionFailedException
      */
     public static function createFromState(array $fields): self
     {
         return new self(
-            (string)$fields['name'],
-            (string)$fields['brand'],
-            (string)$fields['color'],
-            (float)$fields['price']
+            CarName::create($fields['name']),
+            CarBrand::create($fields['brand']),
+            ColorHex::create($fields['color']),
+            PriceFloat::create($fields['price'])
         );
     }
 }
