@@ -1,0 +1,54 @@
+version: "3.4"
+services:
+  php-fpm:
+    build: ./docker/php
+    container_name: symfony
+    environment:
+      - "PSQL_PORT=5432"
+      - "PSQL_HOST=postgres"
+      - "PHP_IDE_CONFIG=serverName=Docker"
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+    networks:
+      - homework-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/config:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx
+    depends_on:
+      - php-fpm
+    ports:
+      - "85:80"
+    networks:
+      - homework-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - homework-network
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./cache:/data/otus.local
+    networks:
+      - homework-network
+
+networks:
+  homework-network:
+    driver: bridge

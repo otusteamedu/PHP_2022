@@ -1,0 +1,7 @@
+#controllers:
+#    resource: ../src/Controller/
+#    type: attribute
+
+api:
+    resource: '../src/Infrastructure/Http/'
+    type: annotation
