@@ -18,7 +18,9 @@ class GetEventController extends AbstractController
 
     public function __invoke(GetEventDTOInterface $dto): JsonResponse
     {
-        $response = $this->getEventUseCase->getEvent($dto);
+        $event = $this->getEventUseCase->getEvent($dto);
+
+        $response = $event?->toArray();
 
         return $this->json($response);
     }

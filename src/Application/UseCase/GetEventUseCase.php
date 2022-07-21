@@ -4,6 +4,7 @@ namespace App\Application\UseCase;
 
 use App\Domain\Contract\EventRepositoryInterface;
 use App\Domain\Contract\GetEventDTOInterface;
+use App\Domain\Model\Event;
 
 class GetEventUseCase
 {
@@ -12,7 +13,7 @@ class GetEventUseCase
     ) {}
 
 
-    public function getEvent(GetEventDTOInterface $dto): ?array
+    public function getEvent(GetEventDTOInterface $dto): ?Event
     {
         $event = $this->repository->findByParams($dto);
 
