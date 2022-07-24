@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx-worker
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php-fpm
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  memcache:
+    image: memcached:1.6.15
+    container_name: memcached
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
