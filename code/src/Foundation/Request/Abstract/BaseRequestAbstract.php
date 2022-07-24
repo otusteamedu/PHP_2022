@@ -34,7 +34,7 @@ abstract class BaseRequestAbstract
             $propertyName = $property->getName();
 
             if (!property_exists($requestData, $propertyName)) {
-                throw new PropertyHasNotExistException("Request has not '$propertyName' property");
+                throw new PropertyHasNotExistException("Request has not '$propertyName' parameter");
             }
 
             $property->setValue($this, $requestData->$propertyName);
