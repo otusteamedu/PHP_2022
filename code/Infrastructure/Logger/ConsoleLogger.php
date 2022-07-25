@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Logger;
+namespace App\Infrastructure\Logger;
+
+use App\Application\Logger\LoggerInterface;
 
 class ConsoleLogger implements LoggerInterface
 {

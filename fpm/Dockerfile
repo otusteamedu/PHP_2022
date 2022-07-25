@@ -10,11 +10,17 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable memcached \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN pecl install ds redis memcached xdebug \
+   && docker-php-ext-enable ds redis memcached xdebug \
+   && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY ./error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
 
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && rm composer-setup.php
+   && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+   && rm composer-setup.php
 
 ENV APP_ROOT=/data/application.local
 

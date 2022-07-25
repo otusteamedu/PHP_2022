@@ -7,12 +7,16 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/php
+    env_file:
+      - .env
     volumes:
       - ./app.php:/data/application.local/app.php
       - ./code:/data/application.local/code
       - ./vendor:/data/application.local/vendor
       - ./socket:/data/application.local/socket
     command: "php app.php server"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     stdin_open: true
     networks:
       - app-network
@@ -22,6 +26,8 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/php
+    env_file:
+      - .env
     volumes:
       - ./app.php:/data/application.local/app.php
       - ./code:/data/application.local/code
@@ -29,6 +35,8 @@ services:
       - ./socket:/data/application.local/socket
     depends_on:
       - app_server
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     stdin_open: true
     networks:
       - app-network

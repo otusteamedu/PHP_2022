@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Chat;
+namespace App\Application\Chat;
 
-use App\Service\Logger\LoggerInterface;
+use App\Application\Logger\LoggerInterface;
 use RuntimeException;
 
 abstract class AbstractSocketWorker
