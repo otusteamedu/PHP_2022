@@ -40,7 +40,7 @@ class CheckEmailsController
 
             return $exception->getMessage();
         } catch (\Exception $exception) {
-            http_response_code(520);
+            http_response_code(500);
 
             return $exception->getMessage();
         }
