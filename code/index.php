@@ -9,7 +9,5 @@ $app = new App();
 try {
     echo $app->handle();
 } catch (\Exception $exception) {
-    http_response_code(520);
-
     echo $exception->getMessage();
 }
