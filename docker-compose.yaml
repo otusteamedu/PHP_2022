@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+
+  app_server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    env_file:
+      - .env
+    volumes:
+      - ./app.php:/data/application.local/app.php
+      - ./code:/data/application.local/code
+      - ./vendor:/data/application.local/vendor
+      - ./socket:/data/application.local/socket
+    command: "php app.php server"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    networks:
+      - app-network
+
+  app_client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    env_file:
+      - .env
+    volumes:
+      - ./app.php:/data/application.local/app.php
+      - ./code:/data/application.local/code
+      - ./vendor:/data/application.local/vendor
+      - ./socket:/data/application.local/socket
+    depends_on:
+      - app_server
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
