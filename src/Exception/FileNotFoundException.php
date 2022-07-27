@@ -4,7 +4,7 @@ namespace Exception;
 
 use Exception;
 
-class InvalidArgumentException extends Exception
+class FileNotFoundException extends Exception
 {
 
 }

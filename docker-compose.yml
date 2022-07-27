@@ -8,12 +8,14 @@ services:
     container_name: homework10-elastic-php
     command: tail -f /dev/null
     working_dir: /var/www/
+    volumes:
+      - ./:/var/www/
     networks:
       elastic-network:
 
   elasticsearch:
     container_name: es-container
-    image: elasticsearch:8.3.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.1
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"

@@ -15,6 +15,4 @@ COPY . .
 COPY ./dockerfiles/custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
 COPY --from=vendor_installer /app/vendor /var/www/vendor
 
-RUN chmod 777 vendor -R
-
 #ENTRYPOINT ["php", "app.php"]
