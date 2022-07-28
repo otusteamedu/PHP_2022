@@ -1,0 +1,23 @@
+{
+  "name": "k.kirillov/hw11",
+  "description": "Redis edu",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Kirill Kirillov",
+      "email": "kirill.kirillov@itglobal.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php-di/php-di": "dev-master",
+    "psr/log": "3.x-dev",
+    "ext-redis": "*"
+  }
+}
