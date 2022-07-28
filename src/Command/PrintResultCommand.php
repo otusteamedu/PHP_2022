@@ -2,14 +2,16 @@
 
 namespace Command;
 
-use Elastic\Elasticsearch\Response\Elasticsearch;
-
 class PrintResultCommand
 {
-    public function execute(Elasticsearch $result)
+    /**
+     * @param array $result
+     * @return void
+     */
+    public function execute(array $result): void
     {
         $answer = "Title  SKU  Category  Stock\n";
-        foreach ($result['hits']['hits'] as $hit) {
+        foreach ($result as $hit) {
             $answer .= $hit['_source']['title']
                 . ' ' . $hit['_source']['sku']
                 . ' ' . $hit['_source']['category']

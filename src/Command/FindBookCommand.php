@@ -5,6 +5,8 @@ namespace Command;
 use Dto\ElasticConfigDto;
 use Dto\InputParametersDto;
 use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 
 class FindBookCommand
 {
@@ -12,6 +14,14 @@ class FindBookCommand
         private PrintResultCommand $printResultCommand
     ) { }
 
+    /**
+     * @param InputParametersDto $parametersDto
+     * @param Client $client
+     * @param ElasticConfigDto $config
+     * @return void
+     * @throws ClientResponseException
+     * @throws ServerResponseException
+     */
     public function execute(InputParametersDto $parametersDto, Client $client, ElasticConfigDto $config): void
     {
         $queries = $this->buildQuery($parametersDto);
@@ -27,7 +37,7 @@ class FindBookCommand
             ]
         );
 
-        $this->printResultCommand->execute($search);
+        $this->printResultCommand->execute($search['hits']['hits']);
     }
 
     /**

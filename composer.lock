@@ -66,12 +66,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:elastic/elasticsearch-php.git",
-                "reference": "33b3a56100d61d75b5e652bb188a0301ea7c63eb"
+                "reference": "bfd04a2a230eddef0c1c38b429338dcc93a68ba2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/33b3a56100d61d75b5e652bb188a0301ea7c63eb",
-                "reference": "33b3a56100d61d75b5e652bb188a0301ea7c63eb",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/bfd04a2a230eddef0c1c38b429338dcc93a68ba2",
+                "reference": "bfd04a2a230eddef0c1c38b429338dcc93a68ba2",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2022-07-05T15:01:27+00:00"
+            "time": "2022-07-21T15:20:37+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -559,12 +559,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-DI/PHP-DI.git",
-                "reference": "e0137dc1cd7aae476f3d14b815f11d6cd080b762"
+                "reference": "9a1d0e8fc4c36ae6f5734dd214ce843b099cd432"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/e0137dc1cd7aae476f3d14b815f11d6cd080b762",
-                "reference": "e0137dc1cd7aae476f3d14b815f11d6cd080b762",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/9a1d0e8fc4c36ae6f5734dd214ce843b099cd432",
+                "reference": "9a1d0e8fc4c36ae6f5734dd214ce843b099cd432",
                 "shasum": ""
             },
             "require": {
@@ -579,7 +579,7 @@
             },
             "require-dev": {
                 "doctrine/annotations": "~1.10",
-                "friendsofphp/php-cs-fixer": "^2.4",
+                "friendsofphp/php-cs-fixer": "^3",
                 "mnapoli/phpunit-easymock": "^1.2",
                 "ocramius/proxy-manager": "^2.11.2",
                 "phpstan/phpstan": "^0.12",
@@ -628,7 +628,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-20T17:24:20+00:00"
+            "time": "2022-07-18T09:30:16+00:00"
         },
         {
             "name": "php-di/phpdoc-reader",
@@ -674,16 +674,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.14.2",
+            "version": "1.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "c8d48852fbc052454af42f6de27635ddd916b959"
+                "reference": "31d8ee46d0215108df16a8527c7438e96a4d7735"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/c8d48852fbc052454af42f6de27635ddd916b959",
-                "reference": "c8d48852fbc052454af42f6de27635ddd916b959",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/31d8ee46d0215108df16a8527c7438e96a4d7735",
+                "reference": "31d8ee46d0215108df16a8527c7438e96a4d7735",
                 "shasum": ""
             },
             "require": {
@@ -735,9 +735,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.14.2"
+                "source": "https://github.com/php-http/discovery/tree/1.14.3"
             },
-            "time": "2022-05-25T07:26:05+00:00"
+            "time": "2022-07-11T14:04:40+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -967,12 +967,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "36fa03d50ff82abcae81860bdaf4ed9a1510c7cd"
+                "reference": "5a4f141ac2e5bc35e615134f127e1833158d2944"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/36fa03d50ff82abcae81860bdaf4ed9a1510c7cd",
-                "reference": "36fa03d50ff82abcae81860bdaf4ed9a1510c7cd",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/5a4f141ac2e5bc35e615134f127e1833158d2944",
+                "reference": "5a4f141ac2e5bc35e615134f127e1833158d2944",
                 "shasum": ""
             },
             "require": {
@@ -1015,7 +1015,7 @@
             "support": {
                 "source": "https://github.com/php-fig/http-factory/tree/master"
             },
-            "time": "2020-09-17T16:52:55+00:00"
+            "time": "2022-07-14T07:21:53+00:00"
         },
         {
             "name": "psr/http-message",

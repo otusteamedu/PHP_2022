@@ -7,7 +7,7 @@ services:
       dockerfile: ./dockerfiles/Dockerfile
     container_name: homework10-elastic-php
     command: tail -f /dev/null
-    working_dir: /var/www/
+    working_dir: /var/www/Application
     volumes:
       - ./:/var/www/
     networks:
