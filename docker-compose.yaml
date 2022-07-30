@@ -28,6 +28,37 @@ services:
     networks:
       - homework-network
 
+  postgres:
+    image: postgres:11.2-alpine
+    container_name: postgres
+    volumes:
+      - ./../dbdata:/var/lib/postgresql/data/
+#      - postgres:/var/lib/postgresql/data
+    ports:
+      - "54333:5432"
+    environment:
+      - "POSTGRES_DB=homework"
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=root"
+    networks:
+      - homework-network
+
+  rabbitmq:
+    image: rabbitmq
+    container_name: hw-rabbitmq
+    volumes:
+      - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - hw-rabbitmq:/var/lib/rabbitmq
+    environment:
+      - "RABBITMQ_DEFAULT_USER=rabbit"
+      - "RABBITMQ_DEFAULT_PASS=rabbit"
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    networks:
+      - homework-network
+
+
   memcached:
     image: memcached:latest
     container_name: memcached
@@ -48,6 +79,27 @@ services:
       - ./cache:/data/otus.local
     networks:
       - homework-network
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+
+###> doctrine/doctrine-bundle ###
+  db-data:
+###< doctrine/doctrine-bundle ###
+  hw-rabbitmq:
 
 networks:
   homework-network:

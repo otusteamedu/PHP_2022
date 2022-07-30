@@ -1,0 +1,28 @@
+old_sound_rabbit_mq:
+    connections:
+        default:
+            url: '%env(RABBITMQ_URL)%'
+            vhost: '/'
+            lazy: true
+            connection_timeout: 3
+            read_write_timeout: 3
+
+            # requires php-amqplib v2.4.1+ and PHP5.4+
+            keepalive: false
+
+            # requires php-amqplib v2.4.1+
+            heartbeat: 0
+
+            #requires php_sockets.dll
+            use_socket: true # default false
+    producers:
+#        # use 'old_sound_rabbit_mq.task_producer' service to send data.
+        statement:
+            connection:       default
+            exchange_options: { name: 'old_sound_rabbit_mq.statement.published', type: direct }
+    consumers:
+        statement:
+            connection:       default
+            exchange_options: { name: 'old_sound_rabbit_mq.statement.published', type: direct }
+            queue_options:    { name: 'old_sound_rabbit_mq.consumer.statement.published'}
+            callback:         App\Infrastructure\Rabbit\Consumer\StatementConsumer

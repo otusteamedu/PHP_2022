@@ -3,5 +3,6 @@
 #    type: attribute
 
 api:
-    resource: '../src/Infrastructure/Http/'
+    resource: '../src/Infrastructure/Http/Api/'
     type: annotation
+    prefix: /api
