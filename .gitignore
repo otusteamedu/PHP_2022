@@ -1,0 +1,16 @@
+/*
+!/**/
+
+/database
+
+.*
+!**.gitignore
+!**.gitkeep
+
+!docker-compose.yml
+!Makefile
+
+!/**/README.md
+!/**/.gitignore
+!/**/*.dist
+!/**/.gitkeep

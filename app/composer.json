@@ -1,0 +1,36 @@
+{
+    "name": "atlance/otus-php-2022",
+    "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anton Stepanov",
+            "email": "lanposts@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-bcmath": "*",
+        "ext-ctype": "*",
+        "ext-hash": "*",
+        "ext-iconv": "*",
+        "ext-mbstring": "*",
+        "ext-memcached": "^3.2",
+        "ext-zip": "^1.19",
+        "predis/predis": "^2.0",
+        "symfony/dotenv": "^6.1"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Atlance\\OtusPhp2022\\": "src/"
+        }
+    }
+}
