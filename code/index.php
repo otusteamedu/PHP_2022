@@ -9,5 +9,5 @@ $app = new App();
 try {
     echo $app->handle($argc, $argv);
 } catch (\Exception $exception) {
-    echo $exception->getMessage();
+    echo $exception->getMessage() . "\n";
 }

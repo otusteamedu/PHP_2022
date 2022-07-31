@@ -9,6 +9,7 @@ services:
     container_name: php-fpm-server
     volumes:
        - ./code:/data/mysite.local
+       - ./code/files/sockets:/tmp/files/sockets
     networks:
       - app-network
 
@@ -20,6 +21,7 @@ services:
     container_name: php-fpm-client
     volumes:
       - ./code:/data/mysite.local
+      - ./code/files/sockets:/tmp/files/sockets
     networks:
       - app-network
 
