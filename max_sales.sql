@@ -1,3 +1,9 @@
-SELECT max(count(t.id_film)*f.price) AS "Max_sales", 
-	f.title AS "Title" FROM ticket AS t INNER JOIN films AS f 
-	ON(t.id_film=f.film_id) GROUP BY f.title ORDER BY DESC LIMIT 1;
+SELECT film.name, sum(ticket.price) as total_profit
+FROM film,
+     ticket,
+     film_session
+WHERE ticket.film_session_id = film_session.session_id
+  AND film_session.film_id = film.film_id
+  AND ticket.is_used = 1
+GROUP BY film.name
+ORDER BY total_profit DESC LIMIT 1
