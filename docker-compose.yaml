@@ -43,40 +43,16 @@ services:
     networks:
       - homework-network
 
-  rabbitmq:
-    image: rabbitmq
-    container_name: hw-rabbitmq
+  elastic_search:
+    image: elasticsearch:8.3.3
+    container_name: elastic_search
     volumes:
-      - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
-      - hw-rabbitmq:/var/lib/rabbitmq
+      - ./data/elastic-search-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
     environment:
-      - "RABBITMQ_DEFAULT_USER=rabbit"
-      - "RABBITMQ_DEFAULT_PASS=rabbit"
-    ports:
-      - "5673:5672"
-      - "15673:15672"
-    networks:
-      - homework-network
-
-
-  memcached:
-    image: memcached:latest
-    container_name: memcached
-    ports:
-      - "11211:11211"
-    networks:
-      - homework-network
-
-  redis:
-    image: redis:6.2-alpine
-    restart: always
-    container_name: redis
-    ports:
-      - "6379:6379"
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    volumes:
-      - ./cache:/data/otus.local
+      - discovery.type=single-node
+      - xpack.security.enabled=false
     networks:
       - homework-network
 

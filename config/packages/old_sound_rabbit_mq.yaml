@@ -17,12 +17,6 @@ old_sound_rabbit_mq:
             use_socket: true # default false
     producers:
 #        # use 'old_sound_rabbit_mq.task_producer' service to send data.
-        statement:
-            connection:       default
-            exchange_options: { name: 'old_sound_rabbit_mq.statement.published', type: direct }
+
     consumers:
-        statement:
-            connection:       default
-            exchange_options: { name: 'old_sound_rabbit_mq.statement.published', type: direct }
-            queue_options:    { name: 'old_sound_rabbit_mq.consumer.statement.published'}
-            callback:         App\Infrastructure\Rabbit\Consumer\StatementConsumer
+

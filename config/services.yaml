@@ -20,13 +20,11 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Domain/Entity/'
             - '../src/Kernel.php'
+            - '../src/Infrastructure/Youtube/ChannelProxy.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-#    App\Domain\Contract\CacheStorage: '@App\Infrastructure\Storage\RedisStorage'
 
-#    _instanceof:
-#        App\Domain\DoctrineType\AbstractEnumType:
-#            tags: [ 'app.doctrine_enum_type' ]
-
-    OldSound\RabbitMqBundle\RabbitMq\ProducerInterface: '@old_sound_rabbit_mq.statement_producer'
+    App\Infrastructure\Repository\ElasticChannelRepository:
+        arguments:
+            $service: '@App\Infrastructure\Repository\YouTubeChannelRepository'
