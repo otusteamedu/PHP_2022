@@ -17,11 +17,14 @@ RUN apt-get update && apt-get install -y \
      && pecl install memcached && \
         docker-php-ext-enable memcached
 
-# Устанавливаем Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"\
+    php composer-setup.php\
+    php -r "unlink('composer-setup.php');"
+
+COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /data
 
 VOLUME /data
 
-CMD ["php-fpm"]
+CMD ["php-fpm", "composer-setup"]
