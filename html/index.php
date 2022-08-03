@@ -11,12 +11,12 @@ echo '<hr>';
 try
 {
     $redis = new Redis();
-    $redis->connect('db', 1504);
-    echo $redis->ping();
+    $redis->connect('redis_srv', 6379);
+    echo  $redis->ping() ? 'Redis IS WORK' : 'Redis Not WORK';
 }
-catch(\Throwable $e)
+catch(Exception $e)
 {
-    echo 'Redis Class NO Exist';
+   echo 'Redis Error';
 }
 echo '<hr>';
 try {
@@ -46,6 +46,7 @@ try {
         ['memcached1', 11211],
         ['memcached2', 11211]
     ]);
+    echo 'Memcache WORK';
 } catch (\Throwable $th) {
     //throw $th;
     echo 'Err memcahed';

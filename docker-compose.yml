@@ -18,11 +18,10 @@ services:
       - "8080:80"
     networks:
       - backend
-      - frontend
     
   #подключаем Redis
   redis:    
-    container_name: redis
+    container_name: redis_srv
     image: redis:latest
     restart: always
     command: redis-server
@@ -32,7 +31,7 @@ services:
     volumes:
       - ./cache:/data
     ports:
-     - "6379:6379"
+     - "${REDIS_PORT}:${REDIS_PORT}"
     networks:
       - backend
     
@@ -52,7 +51,6 @@ services:
       #- ./mysql/my.ini:/etc/mysql/conf.d/my.ini
     networks:
       - backend
-      - frontend
 
   #контейне с memcached
   memcached:
@@ -87,6 +85,4 @@ volumes:
 #Docker Networks
 networks:
   backend:
-    driver: bridge
-  frontend:
     driver: bridge
