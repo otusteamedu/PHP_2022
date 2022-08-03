@@ -11,7 +11,7 @@ echo '<hr>';
 try
 {
     $redis = new Redis();
-    $redis->connect('127.0.0.1', 1504);
+    $redis->connect('db', 1504);
     echo $redis->ping();
 }
 catch(\Throwable $e)
@@ -20,7 +20,7 @@ catch(\Throwable $e)
 }
 echo '<hr>';
 try {
-    $dbhost = 'localhost';
+    $dbhost = 'db:3306';
     $dbname = 'root';
     $dbuser = 'root';
     $dbpass = 'root';
@@ -31,6 +31,9 @@ try {
 
     $test_query = "SHOW TABLES FROM $dbname";
     $result = mysqli_query($link, $test_query);
+    if ($result){
+        echo 'MYSQL CONNECTED: '.$dbhost;
+    }
 } catch (\Throwable $e){
 
 }
