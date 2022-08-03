@@ -1,2 +1,11 @@
 # jet brains ide
 .idea/
+
+# local env
+.env
+
+# docker mysql data
+docker/dbdata/
+
+# docker php socket
+docker/sock/
