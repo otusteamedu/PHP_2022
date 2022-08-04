@@ -1,7 +1,4 @@
-/nbproject/private/
-.idea/
+/.idea/
 .env
-.DS_Store
-/_tmp/
-/cache/
-/db/mysql/
+/dbdata/
+
