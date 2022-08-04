@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./../app:/data/application.local
+      - php_socket:/var/run/php
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./../app:/data/application.local
+      - php_socket:/var/run/php
+    networks:
+      - app-network
+
+  api-memcached:
+    image: 'memcached:latest'
+    command:
+      - '-m 512'
+    ports:
+      - 11211:11211
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  workspace:
+    image: php:8.1
+    container_name: console
+    volumes:
+      - ./../app:/data/application.local
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  php_socket:
