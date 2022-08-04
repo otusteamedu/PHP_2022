@@ -28,27 +28,6 @@ services:
     networks:
       - homework-network
 
-  memcached:
-    image: memcached:latest
-    container_name: memcached
-    ports:
-      - "11211:11211"
-    networks:
-      - homework-network
-
-  redis:
-    image: redis:6.2-alpine
-    restart: always
-    container_name: redis
-    ports:
-      - "6379:6379"
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    volumes:
-      - ./cache:/data/otus.local
-    networks:
-      - homework-network
-
 networks:
   homework-network:
     driver: bridge
