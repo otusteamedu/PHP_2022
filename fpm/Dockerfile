@@ -34,8 +34,10 @@ RUN apt-get update && apt-get install -y \
 # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-WORKDIR /data
+COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf
 
+WORKDIR /data
 VOLUME /data
 
-CMD ["php-fpm"]
+CMD ["php-fpm", "--nodaemonize"]

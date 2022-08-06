@@ -1,8 +1,11 @@
 FROM ubuntu:latest  
 RUN apt-get update \
     && apt-get install -y nginx
+
 COPY ./hosts/application.local.conf /etc/nginx/sites-enabled/application.local.conf
+
 WORKDIR /data
-VOLUME /data  
-EXPOSE 80
+VOLUME /data
+EXPOSE 8080
+
 CMD ["nginx", "-g", "daemon off;"]
