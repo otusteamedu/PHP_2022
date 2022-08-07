@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+. ./src/sum_two_digits/parts_of_validation_service/functions_for_validation
+
+function validate {
+    validateCmdParams $@ #передаем все параметры командной строки в функцию
+}

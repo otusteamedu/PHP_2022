@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+. ./src/sum_two_digits/parts_of_validation_service/functions_for_validation
+. ./src/sum_two_digits/services/bc_package_installation_service
+
+function validate {
+    validateCmdParams $@ #передаем все параметры командной строки в функцию
+
+    isPackageBcInstalled
+    result_checking=$?
+
+    if ! (exit $status); then
+        echo "Error: This script requires package bc. Trying to install a package..."
+        installPackage
+    fi
+}

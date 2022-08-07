@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+function validateCmdParams {
+    REGEX='^[-+]?[0-9]+\.?[0-9]*$'
+    REGEX_WRONG_DECIMAL_DELIMITER='^[-+]?[0-9],[0-9]*$'
+
+    if [[ "$#" -ne 2 ]]; then
+      echo "Illegal number of parameters" >&2
+      exit 1;
+    fi
+
+    if [[ $1 =~ $REGEX_WRONG_DECIMAL_DELIMITER ]] || [[ $2 =~ $REGEX_WRONG_DECIMAL_DELIMITER ]]; then
+        echo "One or several arguments have the wrong decimal delimiter" >&2
+        exit 1
+    elif ! [[ $1 =~ $REGEX ]] || ! [[ $2 =~ $REGEX ]]; then
+        echo "Error: One or several arguments not a number" >&2
+        exit 1
+    fi
+}
+
+function isPackageBcInstalled {
+    bc_package=$(which bc)
+
+    if [[ ! -z $bc_package ]]; then
+        true
+    else
+        false
+    fi
+}
