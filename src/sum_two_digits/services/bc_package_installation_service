@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+function installPackage {
+    BC_PKG="bc"
+    INSTALL_PROCESS_PHRASE="Installing $BC_PKG"
+
+    YUM_CMD=$(which yum)
+    APT_GET_CMD=$(which apt-get)
+    APK_CMD=$(which apk)
+    BREW_CMD=$(which brew)
+
+    install_command=""
+    if [[ ! -z $YUM_CMD ]]; then
+        echo $INSTALL_PROCESS_PHRASE
+        sudo yum -y install $BC_PKG
+    elif [[ ! -z $APT_GET_CMD ]]; then
+        echo $INSTALL_PROCESS_PHRASE
+        sudo apt-get --yes install $BC_PKG
+    elif [[ ! -z $APK_CMD ]]; then
+        echo $INSTALL_PROCESS_PHRASE
+        sudo apk add $BC_PKG
+    elif [[ ! -z $BREW_CMD ]]; then
+        echo $INSTALL_PROCESS_PHRASE
+        brew install $BC_PKG
+    else
+        echo "Error: You are using another package manager. Please install the bc package manually"
+        exit 1
+    fi
+}
