@@ -1,0 +1,36 @@
+# версия синтаксиса
+version: '3'
+
+services:
+  #nginx
+  webserver:
+    build:
+        context: ./nginx
+        dockerfile: Dockerfile
+    image: application/nginx
+    container_name: webserver
+    ports:
+        - "80:80"
+    volumes:
+        - ./www/application.local:/www/application.local
+        - ./phpfpmsocket:/var/run
+    networks:
+        - app-network
+      
+  #php
+  app:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: application/php-fpm
+    container_name: application
+    volumes:
+        - ./conf/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+        - ./www/application.local:/www/application.local
+        - ./phpfpmsocket:/var/run
+    networks:
+        - app-network
+
+networks:
+  app-network:
+    driver: bridge    
