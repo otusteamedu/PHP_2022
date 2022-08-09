@@ -1,36 +1,76 @@
-# версия синтаксиса
 version: '3'
 
 services:
-  #nginx
-  webserver:
-    build:
-        context: ./nginx
-        dockerfile: Dockerfile
-    image: application/nginx
-    container_name: webserver
-    ports:
-        - "80:80"
-    volumes:
-        - ./www/application.local:/www/application.local
-        - ./phpfpmsocket:/var/run
-    networks:
-        - app-network
+    
+    
+    #php
+    application:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile
+        image: application/php-fpm
+        container_name: application
+        volumes:
+            - ./volumes/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./volumes/phpfpmsocket:/var/run
+            - ./www/application.local:/www/application.local
+        networks:
+            - app-network
+    #nginx
+    webserver:
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        image: application/nginx
+        container_name: webserver
+        ports:
+            - "80:80"
+        volumes:
+            - ./volumes/nginx/vhosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ./volumes/phpfpmsocket:/var/run
+            - ./www/application.local:/www/application.local
+        networks:
+            - app-network
       
-  #php
-  app:
-    build:
-      context: ./php-fpm
-      dockerfile: Dockerfile
-    image: application/php-fpm
-    container_name: application
-    volumes:
-        - ./conf/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-        - ./www/application.local:/www/application.local
-        - ./phpfpmsocket:/var/run
-    networks:
-        - app-network
+                    
+    #redis
+    redis:
+        build:
+            context: ./redis
+            dockerfile: Dockerfile
+        image: application/redis
+        container_name: redis
+        volumes:
+            - ./volumes/redis/local-redis.conf:/usr/local/etc/redis/redis.conf
+            - ./volumes/redis/data:/var/redis
+        networks:
+            - app-network
+            
+    #memcached
+    memcached:
+        build:
+            context: ./memcached
+            dockerfile: Dockerfile
+        image: application/memcached
+        container_name: memcached
+        networks:
+            - app-network
+            
+    #db
+    database:
+        build:
+            context: ./postgresql
+            dockerfile: Dockerfile
+        image: application/postgresql
+        container_name: database
+        volumes:
+            - ./volumes/postgresql/data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_PASSWORD: test_pass
+        networks:
+            - app-network
+
 
 networks:
-  app-network:
-    driver: bridge    
+    app-network:
+        driver: bridge    

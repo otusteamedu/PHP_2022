@@ -1,6 +1,4 @@
-FROM nginx:1.23.1   
-
-COPY ./vhosts/application.local.conf /etc/nginx/conf.d/application.local.conf
+FROM nginx:1.23.1-alpine   
 
 WORKDIR /www/application.local  
 
