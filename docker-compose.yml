@@ -1,7 +1,6 @@
 version: '3'
 
-services:
-    
+services:    
     
     #php
     application:
@@ -16,6 +15,7 @@ services:
             - ./www/application.local:/www/application.local
         networks:
             - app-network
+            
     #nginx
     webserver:
         build:
@@ -30,8 +30,7 @@ services:
             - ./volumes/phpfpmsocket:/var/run
             - ./www/application.local:/www/application.local
         networks:
-            - app-network
-      
+            - app-network      
                     
     #redis
     redis:
@@ -69,7 +68,6 @@ services:
             POSTGRES_PASSWORD: test_pass
         networks:
             - app-network
-
 
 networks:
     app-network:
