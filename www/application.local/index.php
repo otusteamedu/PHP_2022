@@ -1,10 +1,10 @@
-<h1>Наш application.local index.php</h1>
+<h1>application.local index.php</h1>
 
 <?php
 $key = 'Bilbo';
 $value = 'Ring';
 
-echo '<br>php -> Memcached connect check: <br>';
+echo '<br>php -> Memcached basic check: <br>';
 $memcached = new Memcached();
 if ($memcached->addServer('memcached', 11211)) {
     check_store_basic($memcached, $key, $value);
@@ -12,7 +12,7 @@ if ($memcached->addServer('memcached', 11211)) {
     echo 'Failed';
 }
 
-echo '<br><br>php -> Redis connect check: <br>';
+echo '<br><br>php -> Redis basic check: <br>';
 $redis = new Redis();
 $redis->connect('redis', 6379);
 if ($redis->connect('redis', 6379)) {
@@ -32,6 +32,20 @@ try {
     $pdo = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     if ($pdo) {
         echo "Connected to the database \"$db\" successfully!";
+        echo '<br>Some information_schema tables: <br>';
+        $sql = 'SELECT * FROM information_schema.tables';
+        $result = $pdo->query($sql)->fetchAll();
+        $index = 0;
+        foreach ($result as $row) {
+            if ($row['table_schema'] === 'information_schema') {
+                echo 'table_name: ', $row['table_name'], '; ';
+                echo 'table_type: ', $row['table_type'], '<br>';
+                $index++;
+            }
+            if ($index > 10) {
+                break;
+            }
+        }
     }
 } catch (PDOException $e) {
     echo $e->getMessage();
