@@ -6,7 +6,7 @@ namespace App\Domain\ValueObjects;
 
 class Status
 {
-    public const UNKNOWN = 1;
+    public const UNKNOWN = 0;
     public const ACTIVE = 1;
     public const INVALID = 2;
     public const INACTIVE = 3;
