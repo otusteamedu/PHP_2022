@@ -9,17 +9,31 @@ use App\Infrastructure;
 
 class App
 {
-    public function run(array $argv) : void
+    protected string $inputFile;
+    protected array $request;
+
+    /**
+     * @param string $inputFile
+     */
+    public function __construct()
+    {
+        GLOBAL $argv;
+        $this->inputFile = isset($argv[1]) ? $argv[1] : null;
+        $this->request = isset($_REQUEST) ? $_REQUEST : null;
+    }
+
+
+    public function run() : void
     {
 
         try {
             if (PHP_SAPI == 'cli')
             {
-                $App = new CheckEmailApp(new Infrastructure\Cli\UploadEmailContacts($argv[1] ?? NULL), new Infrastructure\Cli\Result());
+                $App = new CheckEmailApp(new Infrastructure\Cli\UploadEmailContacts($this->inputFile), new Infrastructure\Cli\Result());
             }
             else
             {
-                $App = new CheckEmailApp(new Infrastructure\Http\UploadEmailContacts(isset($_REQUEST['emails']) ? $_REQUEST['emails'] : NULL), new Infrastructure\Http\Result());
+                $App = new CheckEmailApp(new Infrastructure\Http\UploadEmailContacts(isset($this->request['emails']) ? $this->request['emails'] : NULL), new Infrastructure\Http\Result());
             }
             $App->checkEmails(new Utils\CheckEmail());
             $App->printResult();
