@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "27568c52663911a38b04b91eef669a10",
+    "packages": [
+        {
+            "name": "nemizar/hello-world",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nemizar/hello-world.git",
+                "reference": "171ff3e46859fb971d58764554fce2abb126a201"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nemizar/hello-world/zipball/171ff3e46859fb971d58764554fce2abb126a201",
+                "reference": "171ff3e46859fb971d58764554fce2abb126a201",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nemizar\\HelloWorld\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Alexandr Kuzmin",
+                    "email": "nemizar@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Nemizar/hello-world/issues",
+                "source": "https://github.com/Nemizar/hello-world/tree/v1.0.0"
+            },
+            "time": "2022-08-14T06:08:11+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}
