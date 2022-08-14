@@ -9,19 +9,29 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 ```
 composer require ashvedov/array-flatten
 ```
-Также имется возможность запустить данную домашнюю работу в докере:
+Также имется возможность запустить данную домашнюю работу в докере.  
 Из корня проекта выполнить:
+1.
 ```
 docker-compose build
 ```
+2.
 ```
 docker-compose -p 'ashvedov-homework3' up -d
 ```
-открыть в браузере
+3. Если контейнеры запустились, то в терминале зайти в контейнер приложения:
+```
+docker exec -it app /bin/sh
+```
+4. В контейнере выполнить:
+```
+composer install
+```
+5. Открыть в браузере
 ```
 http://localhost:8005/
 ```
-пакет подключен и выполняется из:
+6. Пакет подключен и выполняется из:
 ```
 src/index.php
 ```
