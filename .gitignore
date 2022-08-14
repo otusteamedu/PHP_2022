@@ -1,0 +1,5 @@
+/.idea
+/db_data
+.env
+/vendor/
+*.orig

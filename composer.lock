@@ -1,0 +1,53 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c3d0d6c6c81f81456608c9459b6206c0",
+    "packages": [
+        {
+            "name": "ashvedov/array-flatten",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DaaN88/php-array-flatten.git",
+                "reference": "a2ce0bd345f2c1cf9d3e74426972e0b9ab5587bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DaaN88/php-array-flatten/zipball/a2ce0bd345f2c1cf9d3e74426972e0b9ab5587bd",
+                "reference": "a2ce0bd345f2c1cf9d3e74426972e0b9ab5587bd",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ashvedov\\ArrayFlatten\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Anton Shvedov",
+                    "email": "antnikshvedov@gmail.com"
+                }
+            ],
+            "description": "array flatten",
+            "support": {
+                "issues": "https://github.com/DaaN88/php-array-flatten/issues",
+                "source": "https://github.com/DaaN88/php-array-flatten/tree/v1.0.1"
+            },
+            "time": "2022-08-14T15:37:44+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

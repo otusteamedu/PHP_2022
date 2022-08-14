@@ -1,0 +1,18 @@
+{
+    "name": "ashvedov/homework-3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ashvedov\\Homework3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shvedov",
+            "email": "antnikshvedov@gmail.com"
+        }
+    ],
+    "require": {
+        "ashvedov/array-flatten": ">=1.0"
+    }
+}
