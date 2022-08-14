@@ -1,0 +1,16 @@
+{
+    "name": "ashvedov/array-flatten",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ashvedov\\ArrayFlatten\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shvedov",
+            "email": "antnikshvedov@gmail.com"
+        }
+    ],
+    "require": {}
+}
