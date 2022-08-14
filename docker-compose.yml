@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    image: otus-homework3
+    container_name: app
+    restart: unless-stopped
+    working_dir: /project
+    volumes:
+      - ./:/project
+      - ./docker-settings/php/app.ini:/usr/local/etc/php/conf.d/app.ini
+    networks:
+      - otus
+
+  nginx:
+    image: nginx:alpine
+    container_name: app-nginx
+    restart: unless-stopped
+    ports:
+      - '8005:80'
+    volumes:
+      - ./:/project
+      - ./docker-settings/nginx:/etc/nginx/conf.d/
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge
