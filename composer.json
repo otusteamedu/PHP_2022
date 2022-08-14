@@ -1,9 +1,9 @@
 {
-    "name": "ashvedov/array-flatten",
-    "type": "library",
+    "name": "ashvedov/homework-3",
+    "type": "project",
     "autoload": {
         "psr-4": {
-            "Ashvedov\\ArrayFlatten\\": "src/"
+            "Ashvedov\\Homework3\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,7 @@
             "email": "antnikshvedov@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "ashvedov/array-flatten": ">=1.0"
+    }
 }

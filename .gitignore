@@ -2,4 +2,4 @@
 /db_data
 .env
 /vendor/
-composer.lock
+*.orig
