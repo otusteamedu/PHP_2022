@@ -21,7 +21,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
     volumes:
-      - ./dbdata:/var/lib/mysql
+      - ./dbdata:/var/lib/postgresql
     ports:
       - "5432:5432"
 
