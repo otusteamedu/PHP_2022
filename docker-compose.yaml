@@ -1,0 +1,61 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/data/application.local
+    networks:
+      - app-network
+
+  db:
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRESQL_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    ports:
+      - "5432:5432"
+
+  memcache:
+    image: memcached:1.6.16-alpine
+    container_name: memcache
+    restart: always
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7.0.4-alpine
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./app:/data/application.local
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - memcache
+      - redis
+
+networks:
+  app-network:
+    driver: bridge
