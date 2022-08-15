@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hw2
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    container_name: hw2
+    working_dir: /project
+    volumes:
+      - .:/project
+    entrypoint: /bin/bash
