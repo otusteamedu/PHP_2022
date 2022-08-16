@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "nemizar/hello-world",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Nemizar/hello-world.git",
-                "reference": "171ff3e46859fb971d58764554fce2abb126a201"
+                "reference": "a47dc7e8102cba59256d764089f93bd9d5c50bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Nemizar/hello-world/zipball/171ff3e46859fb971d58764554fce2abb126a201",
-                "reference": "171ff3e46859fb971d58764554fce2abb126a201",
+                "url": "https://api.github.com/repos/Nemizar/hello-world/zipball/a47dc7e8102cba59256d764089f93bd9d5c50bf6",
+                "reference": "a47dc7e8102cba59256d764089f93bd9d5c50bf6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=7.1"
             },
             "type": "library",
             "autoload": {
@@ -38,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Nemizar/hello-world/issues",
-                "source": "https://github.com/Nemizar/hello-world/tree/v1.0.0"
+                "source": "https://github.com/Nemizar/hello-world/tree/v1.0.1"
             },
-            "time": "2022-08-14T06:08:11+00:00"
+            "time": "2022-08-16T16:11:57+00:00"
         }
     ],
     "packages-dev": [],
