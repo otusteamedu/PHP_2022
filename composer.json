@@ -1,0 +1,18 @@
+{
+    "name": "eduard/php_2022",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "EKichigin\\OtusComposerPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "eduard",
+            "email": "ek@redstart.pro"
+        }
+    ],
+    "require": {
+        "ekichigin/otus-composer-package-eduard": "^1.0"
+    }
+}
