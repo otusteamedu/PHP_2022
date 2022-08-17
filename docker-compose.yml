@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ./alpine
+      dockerfile: Dockerfile
+    image: myapp/alpine
+    container_name: alpine
+    volumes:
+      - ./app:/data
