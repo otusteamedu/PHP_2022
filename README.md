@@ -1,2 +1,4 @@
 # PHP_2022
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Homework №4
+1. В файл hosts добавить: <code>127.0.0.1 ashedov.local</code>
+2. После по адресу <code>http://ashvedov.local:8005/</code> откроется сайт
