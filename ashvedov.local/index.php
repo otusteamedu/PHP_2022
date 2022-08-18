@@ -1,5 +1,28 @@
 <?php
 
+session_start();
+
 echo 'Hello world!';
-echo PHP_EOL;
+echo '<br>';
 echo 'Host name: ' . $_SERVER['HOSTNAME'];
+echo '<br>';
+echo 'Host IP: ' . $_SERVER['SERVER_ADDR'];
+echo '<br>';
+echo 'Host port: ' . $_SERVER['SERVER_PORT'];
+echo '<br>';
+
+echo 'Session ID: ' . session_id();
+echo '<br>';
+echo '<hr>';
+
+$_SESSION['server_hostname'] = $_SERVER['HOSTNAME'];
+echo 'Server hostname added in session, you can reload of page.';
+
+echo '<br>';
+
+echo 'Checking of session in the Memcached:';
+echo '<br>';
+
+if ($_SESSION['server_hostname']) {
+    echo "Value from session: " . $_SESSION['server_hostname'];
+}
