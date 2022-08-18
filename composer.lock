@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "cdd35056822108e963ce237cfa31c259",
+    "packages": [
+        {
+            "name": "nikolaytim/dumper",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NikolayTim/dumper.git",
+                "reference": "c682ef24f258bb3b728b3a0be8b68725f1b7f135"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NikolayTim/dumper/zipball/c682ef24f258bb3b728b3a0be8b68725f1b7f135",
+                "reference": "c682ef24f258bb3b728b3a0be8b68725f1b7f135",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NikolayTim\\Dumper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Nikolai Timakov",
+                    "email": "ntimakov@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/NikolayTim/dumper/issues",
+                "source": "https://github.com/NikolayTim/dumper/tree/v1.0.0"
+            },
+            "time": "2022-08-18T13:08:15+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}
