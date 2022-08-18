@@ -1,0 +1,5 @@
+{
+    "require": {
+        "numb666/otus-composer-package": "^v1.0"
+    }
+}
