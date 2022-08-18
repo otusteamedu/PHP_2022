@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+
+  php_2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: php_2
+    volumes:
+      - ./php2data:/data/php_2
+    networks:
+      - app2-network
+
+  site-php2:
+    image: nginx:latest
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: site-php_2
+    ports:
+      - "82:82"
+    volumes:
+      - ./php2data:/data/php_2
+    depends_on:
+        - php_2
+    networks:
+      - app2-network
+
+  mysql:
+    image: mysql:latest
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    ports:
+      - '3309:3306'
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+        - app2-network
+
+networks:
+  app2-network:
+    driver: bridge

@@ -1,0 +1,20 @@
+{
+    "name": "sbbs8668/pdo-db",
+    "description": "PdoDb Library",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Sbbs\\PdoDb\\Src\\": "Sbbs/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sbbs8668",
+            "email": "sbbs8668@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*"
+    },
+    "minimum-stability": "dev"
+}

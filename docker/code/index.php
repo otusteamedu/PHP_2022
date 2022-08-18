@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 session_start();
 ?>
 <!DOCTYPE html>
@@ -51,3 +52,10 @@ session_start();
 
 
 
+=======
+echo __DIR__;
+echo "<br>";
+echo $_SERVER['HTTP_HOST'];
+echo '<br>';
+echo $_SERVER['REMOTE_ADDR'];
+>>>>>>> origin/SBobrinev/master
