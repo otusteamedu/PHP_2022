@@ -1,0 +1,71 @@
+version: '3.9'
+
+services:
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    command: redis-server
+    networks:
+      - app-network
+    ports:
+      - "6379:6379"
+    volumes:
+      - cache:/data
+
+  php:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: php
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    depends_on:
+        - php
+    networks:
+      - app-network
+
+  memcached:
+    container_name: mymemcached
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+
+  mysql:
+    image: mysql:latest
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    ports:
+      - '33306:3306'
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+        - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  cache:
+    driver: local
