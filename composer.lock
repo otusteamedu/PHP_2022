@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "8c797f2172f8fe3eb276c5dfc341b6a7",
+    "packages": [
+        {
+            "name": "numb666/otus-composer-package",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Numb666/otus-composer-package.git",
+                "reference": "ce3297ca60e017559f44366535d337a8a7154693"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Numb666/otus-composer-package/zipball/ce3297ca60e017559f44366535d337a8a7154693",
+                "reference": "ce3297ca60e017559f44366535d337a8a7154693",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Numb666\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "mikhail",
+                    "email": "morozik85@inbox.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Numb666/otus-composer-package/issues",
+                "source": "https://github.com/Numb666/otus-composer-package/tree/v1.0.4"
+            },
+            "time": "2022-08-17T22:06:40+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}
