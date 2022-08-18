@@ -2,6 +2,38 @@ version: '3.9'
 
 services:
 
+<<<<<<< HEAD
+  nginx-balance:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx-balance
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    working_dir: /data/mysite.local
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+=======
   redis:
     container_name: redis
     image: redis:latest
@@ -20,10 +52,24 @@ services:
       dockerfile: Dockerfile
     image: php
     container_name: php
+>>>>>>> origin/SBobrinev/master
     volumes:
       - ./code:/data/mysite.local
     networks:
       - app-network
+<<<<<<< HEAD
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+=======
 
   nginx:
     build:
@@ -46,12 +92,17 @@ services:
     ports:
       - "11211:11211"
 
+>>>>>>> origin/SBobrinev/master
   mysql:
     image: mysql:latest
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
     ports:
+<<<<<<< HEAD
+      - '3309:3306'
+=======
       - '33306:3306'
+>>>>>>> origin/SBobrinev/master
     env_file:
       - .env
     environment:
@@ -60,7 +111,23 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
     networks:
+<<<<<<< HEAD
+      - app-network
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    command: redis-server
+    networks:
+      - app-network
+    ports:
+      - "6379:6379"
+    volumes:
+      - cache:/data
+=======
         - app-network
+>>>>>>> origin/SBobrinev/master
 
 networks:
   app-network:
