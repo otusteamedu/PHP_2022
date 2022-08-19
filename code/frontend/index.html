@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:0 20%">
+<div style="margin: 20px 0">
+</div>
+<label for="emailsInput" style="margin: 0 20px">
+    <span>Emails Analyzer</span>
+    <input type="radio" id="emailsInput" name="apiChanger">
+</label>
+<label for='bracketsInput'>
+    <span>Brackets Analyzer</span>
+    <input type='radio' id='bracketsInput' name='apiChanger'>
+</label>
+<div class="bracketsInput" style="display: none">
+    <form name='bracketsForm' action='#' style='display: flex; flex-direction: column; padding: 10px' method="POST">
+        <h3 style='margin: 0'>Brackets Analyzer</h3>
+        <input type='text' name='http' style='margin: 6px'>
+        <button style='margin: 6px'>Generate())</button>
+        <input type='submit' name='brackets' value='Analyze Brackets' style='margin: 6px'>
+    </form>
+</div>
+<div class="emailsInput" style="display: none">
+    <form name='emailsForm' action='#' style='display: flex; flex-direction: column; padding: 10px' method='POST'>
+        <h3 style='margin: 0'>Emails Analyzer</h3>
+        <textarea name='emails_string' style='margin: 6px; resize: vertical; height: 60px' placeholder="Put the string with email addresses here"></textarea>
+        <input type='submit' name='emails' value='Analyze Emails' style='margin: 6px'>
+    </form>
+</div>
+<div class="res" style="border:1px solid gray;margin:20px; padding:20px">Choose the Analyzer</div>
+<script type="module" src="js.js"></script>
+</body>
+</html>
+
+
+
+
