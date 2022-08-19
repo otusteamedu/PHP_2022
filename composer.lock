@@ -1,0 +1,48 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d2f5f6f53ccae1d8bb589e18929a77fd",
+    "packages": [
+        {
+            "name": "ekichigin/otus-composer-package-eduard",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EduardKichigin/otus-composer-service-eduard.git",
+                "reference": "e03f5ae8e43a80ce2009875bc9093a049b9de2d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EduardKichigin/otus-composer-service-eduard/zipball/e03f5ae8e43a80ce2009875bc9093a049b9de2d9",
+                "reference": "e03f5ae8e43a80ce2009875bc9093a049b9de2d9",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EKichigin\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "eduard",
+                    "email": "ek@redstart.pro"
+                }
+            ],
+            "time": "2022-08-19T16:30:32+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}
