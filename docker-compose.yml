@@ -3,7 +3,7 @@ version: '3'
 services:
   app1:
     build:
-      context: php-fpm
+      context: docker/php-fpm
       dockerfile: Dockerfile
     image: myapp/php-fpm
     restart: always
@@ -17,7 +17,7 @@ services:
 
   app2:
     build:
-      context: php-fpm
+      context: docker/php-fpm
       dockerfile: Dockerfile
     image: myapp/php-fpm
     restart: always
@@ -31,7 +31,7 @@ services:
 
   app3:
     build:
-      context: php-fpm
+      context: docker/php-fpm
       dockerfile: Dockerfile
     image: myapp/php-fpm
     restart: always
@@ -48,7 +48,7 @@ services:
 
   nginx1:
     build:
-      context: ./nginx
+      context: docker/nginx
       dockerfile: Dockerfile
     image: myapp/nginx
     restart: always
@@ -64,7 +64,7 @@ services:
 
   nginx2:
     build:
-      context: ./nginx
+      context: docker/nginx
       dockerfile: Dockerfile
     image: myapp/nginx
     restart: always
@@ -80,7 +80,7 @@ services:
 
   nginx3:
     build:
-      context: ./nginx
+      context: docker/nginx
       dockerfile: Dockerfile
     image: myapp/nginx
     restart: always
@@ -96,7 +96,7 @@ services:
 
   balancer:
     build:
-      context: ./balancer
+      context: docker/balancer
       dockerfile: Dockerfile
     image: myapp/balancer
     restart: always
@@ -133,7 +133,7 @@ services:
 
   mcrouter1:
     build:
-      context: ./mcrouter
+      context: docker/mcrouter
       dockerfile: Dockerfile
     container_name: mcrouter1
     command: mcrouter --config-str='{"pools":{"local":{"servers":["memcached1:11211"]},"remote":{"servers":["memcached2:11211","memcached3:11211"]},"all":{"servers":["memcached1:11211","memcached2:11211","memcached3:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"add":"AllSyncRoute|Pool|all","delete":"AllSyncRoute|Pool|all","get":{"type":"MissFailoverRoute","children":["PoolRoute|local","PoolRoute|remote"]},"set":"AllSyncRoute|Pool|all"}}}' -p 11211
@@ -146,7 +146,7 @@ services:
 
   mcrouter2:
     build:
-      context: ./mcrouter
+      context: docker/mcrouter
       dockerfile: Dockerfile
     container_name: mcrouter2
     command: mcrouter --config-str='{"pools":{"local":{"servers":["memcached2:11211"]},"remote":{"servers":["memcached1:11211","memcached3:11211"]},"all":{"servers":["memcached1:11211","memcached2:11211","memcached3:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"add":"AllSyncRoute|Pool|all","delete":"AllSyncRoute|Pool|all","get":{"type":"MissFailoverRoute","children":["PoolRoute|local","PoolRoute|remote"]},"set":"AllSyncRoute|Pool|all"}}}' -p 11211
@@ -159,7 +159,7 @@ services:
 
   mcrouter3:
     build:
-      context: ./mcrouter
+      context: docker/mcrouter
       dockerfile: Dockerfile
     container_name: mcrouter3
     command: mcrouter --config-str='{"pools":{"local":{"servers":["memcached3:11211"]},"remote":{"servers":["memcached1:11211","memcached2:11211"]},"all":{"servers":["memcached1:11211","memcached2:11211","memcached3:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"add":"AllSyncRoute|Pool|all","delete":"AllSyncRoute|Pool|all","get":{"type":"MissFailoverRoute","children":["PoolRoute|local","PoolRoute|remote"]},"set":"AllSyncRoute|Pool|all"}}}' -p 11211

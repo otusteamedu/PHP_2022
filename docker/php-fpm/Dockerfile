@@ -12,6 +12,6 @@ RUN apk add --no-cache \
     && docker-php-ext-enable memcached \
     && docker-php-ext-install zip pdo pdo_mysql
 
-COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /data
