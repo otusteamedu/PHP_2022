@@ -1,6 +1,12 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Component\Kernel\Kernel;
+
 session_start();
+
+$kernel_application = new Kernel();
 
 echo 'Hello world!';
 echo '<br>';
@@ -26,3 +32,7 @@ echo '<br>';
 if ($_SESSION['server_hostname']) {
     echo "Value from session: " . $_SESSION['server_hostname'];
 }
+
+echo '<hr>';
+
+echo $kernel_application->initializeApplication();
