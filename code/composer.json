@@ -1,0 +1,16 @@
+{
+    "name": "ashishak/code",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ashishak\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shishak Anton",
+            "email": "shishak-anton@yandex.ru"
+        }
+    ],
+    "require": {}
+}
