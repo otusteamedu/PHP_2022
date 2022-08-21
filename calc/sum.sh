@@ -12,4 +12,4 @@ if ! [[ $2 =~ $regex ]]; then
   exit 1
 fi
 
-echo $(($1 + $2));
+echo $(awk "BEGIN {print $1 + $2}")
