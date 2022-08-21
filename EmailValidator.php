@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Nemizar\Php2022;
-
 class EmailValidator
 {
     public function validate(string $email, string &$error = null): bool
