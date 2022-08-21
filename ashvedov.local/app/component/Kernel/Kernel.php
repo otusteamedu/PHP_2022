@@ -4,10 +4,25 @@ declare(strict_types=1);
 
 namespace App\Component\Kernel;
 
+use App\Component\Router\Router;
+
 final class Kernel
 {
-    public function initializeApplication()
+    private Router $router;
+
+    /**
+     * Kernel construct
+     */
+    public function __construct()
     {
-        return "App is init";
+        $this->router = new Router();
+    }
+
+    /**
+     * @return void
+     */
+    public function initializeApplication(): void
+    {
+        $this->router->captureRequest();
     }
 }

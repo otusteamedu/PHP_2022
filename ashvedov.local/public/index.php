@@ -2,13 +2,13 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Component\Kernel\Kernel;
-
 session_start();
+
+use App\Component\Kernel\Kernel;
 
 $kernel_application = new Kernel();
 
-echo 'Hello world!';
+/*echo 'Hello world!';
 echo '<br>';
 echo 'Host name: ' . $_SERVER['HOSTNAME'];
 echo '<br>';
@@ -33,6 +33,6 @@ if ($_SESSION['server_hostname']) {
     echo "Value from session: " . $_SESSION['server_hostname'];
 }
 
-echo '<hr>';
+echo '<br>';*/
 
-echo $kernel_application->initializeApplication();
+$kernel_application->initializeApplication();

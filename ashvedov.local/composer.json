@@ -11,5 +11,7 @@
             "name": "Anton Shvedov"
         }
     ],
-    "require": {}
+    "require": {
+        "bramus/router": "^1.6"
+    }
 }
