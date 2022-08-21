@@ -4,13 +4,11 @@ use Bramus\Router\Router;
 
 $router = new Router();
 
-$router->get('/', function() {
+$router->get(pattern: '/', fn: function() {
     echo 'About Page Contents';
 });
 
-$router->get('/test', function() {
-    echo 'About Test Contents';
-});
+$router->get(pattern: '/balancer-work', fn: '\App\Src\Domain\BalancerWorkDemonstration\BalancerWorkController@demonstrate');
 
 $router->set404(function() {
     header(header: 'HTTP/1.1 404 Not Found');

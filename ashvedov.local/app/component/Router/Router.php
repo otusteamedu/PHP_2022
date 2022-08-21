@@ -11,6 +11,6 @@ final class Router
      */
     public function captureRequest(): void
     {
-        include_once __DIR__ . '/../../../app/config/routes.php';
+        require_once __DIR__ . '/../../../app/config/routes.php';
     }
 }
