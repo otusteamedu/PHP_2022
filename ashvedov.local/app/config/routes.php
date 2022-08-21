@@ -8,7 +8,8 @@ $router->get(pattern: '/', fn: function() {
     echo 'About Page Contents';
 });
 
-$router->get(pattern: '/balancer-work', fn: '\App\Src\Domain\DemonstrationWorkBalancer\BalancerController@demonstrate');
+$router->get(pattern: '/balancer-work', fn: '\App\Src\Infrastructure\Controllers\NginxBalancerController@showcaseWork');
+$router->get(pattern: '/parentheses', fn: '\App\Src\Infrastructure\Controllers\ParenthesesController@show');
 
 $router->set404(function() {
     header(header: 'HTTP/1.1 404 Not Found');
