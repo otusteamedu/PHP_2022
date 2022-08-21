@@ -25,7 +25,7 @@ final class NginxBalancerController
         $cache = __DIR__ . '/../../../src/Bootstrap/cache';
 
         try {
-            $blade = new BladeOne(templatePath: $views, compiledPath: $cache,mode: BladeOne::MODE_DEBUG);
+            $blade = new BladeOne(templatePath: $views, compiledPath: $cache, mode: BladeOne::MODE_DEBUG);
 
             echo $blade->run(
                 view: 'demonstration_work_balancer',

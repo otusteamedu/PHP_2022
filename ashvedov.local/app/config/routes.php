@@ -9,7 +9,9 @@ $router->get(pattern: '/', fn: function() {
 });
 
 $router->get(pattern: '/balancer-work', fn: '\App\Src\Infrastructure\Controllers\NginxBalancerController@showcaseWork');
+
 $router->get(pattern: '/parentheses', fn: '\App\Src\Infrastructure\Controllers\ParenthesesController@show');
+$router->post(pattern: '/parentheses/validate', fn: '\App\Src\Infrastructure\Controllers\ParenthesesController@validate');
 
 $router->set404(function() {
     header(header: 'HTTP/1.1 404 Not Found');
