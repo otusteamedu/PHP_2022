@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4dabf9a56e6f8b45b4ab6ae212447f1",
+    "content-hash": "53bdc9a7e488d6c71a89197e2bc289f5",
     "packages": [
         {
             "name": "bramus/router",
@@ -56,6 +56,62 @@
                 "source": "https://github.com/bramus/router/tree/1.6.1"
             },
             "time": "2021-11-18T19:24:07+00:00"
+        },
+        {
+            "name": "eftec/bladeone",
+            "version": "4.5.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EFTEC/BladeOne.git",
+                "reference": "3d83f5d527a5582f9937ad648705ec3223f39dba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EFTEC/BladeOne/zipball/3d83f5d527a5582f9937ad648705ec3223f39dba",
+                "reference": "3d83f5d527a5582f9937ad648705ec3223f39dba",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0"
+            },
+            "suggest": {
+                "eftec/bladeonehtml": "Extension to create forms",
+                "ext-mbstring": "This extension is used if it's active"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "eftec\\bladeone\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jorge Patricio Castro Castillo",
+                    "email": "jcastro@eftec.cl"
+                }
+            ],
+            "description": "The standalone version Blade Template Engine from Laravel in a single php file",
+            "homepage": "https://github.com/EFTEC/BladeOne",
+            "keywords": [
+                "blade",
+                "php",
+                "template",
+                "templating",
+                "view"
+            ],
+            "support": {
+                "issues": "https://github.com/EFTEC/BladeOne/issues",
+                "source": "https://github.com/EFTEC/BladeOne/tree/4.5.5"
+            },
+            "time": "2022-07-16T14:05:23+00:00"
         }
     ],
     "packages-dev": [],
