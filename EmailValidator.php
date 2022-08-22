@@ -7,8 +7,8 @@ class EmailValidator
     public function validate(string $email, string &$error = null): bool
     {
         $explodeEmail = \explode('@', $email);
-        if (\count($explodeEmail) === 2) {
-            return $this->checkByRegex($email) && $this->checkMx($explodeEmail[1]);
+        if (\count($explodeEmail) === 2 && $this->checkByRegex($email) && $this->checkMx($explodeEmail[1])) {
+            return true;
         }
         $error = 'Incorrect email';
         return false;
