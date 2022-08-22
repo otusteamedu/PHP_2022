@@ -8,17 +8,20 @@
     "packages": [
         {
             "name": "nikolaytim/dumper",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NikolayTim/dumper.git",
-                "reference": "c682ef24f258bb3b728b3a0be8b68725f1b7f135"
+                "reference": "479cb6be1317fcd2b2aee3dced243aef41761a7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NikolayTim/dumper/zipball/c682ef24f258bb3b728b3a0be8b68725f1b7f135",
-                "reference": "c682ef24f258bb3b728b3a0be8b68725f1b7f135",
+                "url": "https://api.github.com/repos/NikolayTim/dumper/zipball/479cb6be1317fcd2b2aee3dced243aef41761a7a",
+                "reference": "479cb6be1317fcd2b2aee3dced243aef41761a7a",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=4.0"
             },
             "type": "library",
             "autoload": {
@@ -35,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NikolayTim/dumper/issues",
-                "source": "https://github.com/NikolayTim/dumper/tree/v1.0.0"
+                "source": "https://github.com/NikolayTim/dumper/tree/v1.0.1"
             },
-            "time": "2022-08-18T13:08:15+00:00"
+            "time": "2022-08-22T09:34:16+00:00"
         }
     ],
     "packages-dev": [],
