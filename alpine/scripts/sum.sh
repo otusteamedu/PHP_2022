@@ -18,12 +18,5 @@ do
   fi
 done
 
-bc -v &> /dev/null
-
-if [ $? -ne 0 ]; then
-  echo "Для работы скрипта необходимо установить bc (basic calculator)"
-  exit 3
-fi
-
-echo "$1 + $2" | bc
+awk "BEGIN { print $1 + $2 }"
 exit 0
