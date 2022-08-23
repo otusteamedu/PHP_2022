@@ -1,6 +1,8 @@
 <?php
 namespace App\Verificator;
 
+declare(strict_types=1);
+
 define('EMAIL_VALIDATOR_ERROR_CODE_STRING',1);
 define('EMAIL_VALIDATOR_ERROR_CODE_MX',2);
 
@@ -11,11 +13,13 @@ define('EMAIL_VALIDATOR_ERROR_CODE_MX',2);
  * - проверка с учетом основных правил RFC 3696 -https://datatracker.ietf.org/doc/html/rfc3696
  */
 class EmailVerification{
+    const MAX_EMAIL_NAME_LENGTH = 64;
+    const MAX_EMAIL_DOMAIN_LENGTH = 255;
 
     /**
      * @var null
      */
-    static $lastErrorCode = 0;
+    public static $lastErrorCode = 0;
 
     /**
      * Check email, check correct or no
@@ -30,11 +34,11 @@ class EmailVerification{
         }
         if (filter_var($email, FILTER_VALIDATE_EMAIL)){
             list($userName, $mailDomain) = explode("@", $email);
-            if (strlen($userName)>64){
+            if (strlen($userName)>self::MAX_EMAIL_NAME_LENGTH){
                 self::$lastErrorCode = EMAIL_VALIDATOR_ERROR_CODE_STRING;
                 return false;
             }
-            if (strlen($mailDomain)>255){
+            if (strlen($mailDomain)>self::MAX_EMAIL_DOMAIN_LENGTH){
                 self::$lastErrorCode = EMAIL_VALIDATOR_ERROR_CODE_STRING;
                 return false;
             }
@@ -49,33 +53,5 @@ class EmailVerification{
             return true;
         }
         return false;
-    }
-
-    /**
-     * Test function
-     * @return string
-     */
-    static function selfCheck() : string{
-        $forCheckEmailList = [
-            'pasha@mail.ru',
-            'studio@webboss29283482034.pro',
-            'studio@webboss.pro',
-            'studio@webbo@ss.pro',
-            'studio@webboss.prО',
-            'studio@webb.oss.tatata',
-            '@webb.oss.tatata',
-            'webb.oss.tatata',
-            'webb.oss.tat@ta',
-            'фывфыв@asdasd.ru',
-            'фывфыв@asdasd.ru',
-            '"Abc@def"@example.com'
-        ];
-        $i = 1;
-        $result = '';
-        foreach ($forCheckEmailList as $email){
-            $result .= $i.' '.$email.' '.(EmailVerification::emailIsValid($email) ? 'ok' : 'no')."\n";
-            $i++;
-        }
-        return $result;
     }
 }
