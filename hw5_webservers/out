@@ -1,0 +1,15 @@
+ Том в устройстве E имеет метку DATA
+ Серийный номер тома: 77DE-0E69
+
+ Содержимое папки E:\OpenServer\domains\codexamps\src\mishaikon\phpexp\Courses\otus_php_pro\homework\hw5_webservers
+
+24.08.2022  12:46    <DIR>          .
+24.08.2022  12:46    <DIR>          ..
+19.08.2022  13:07    <DIR>          code
+19.08.2022  11:57             1 706 docker-compose.yaml
+19.08.2022  13:07    <DIR>          fpm
+19.08.2022  13:07    <DIR>          nginx
+24.08.2022  12:46                 0 out
+19.08.2022  12:48             4 206 README.MD
+               3 файлов          5 912 байт
+               5 папок  107 886 559 232 байт свободно
