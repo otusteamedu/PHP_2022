@@ -1,0 +1,17 @@
+{
+    "name": "wbh/dz4",
+    "description": "Test package",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Wbh\\App\\": "public/app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Igoncharov",
+            "email": "studio@webboss.pro"
+        }
+    ],
+    "require": {}
+}
