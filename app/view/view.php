@@ -8,6 +8,9 @@
     <title>Round Bracket Validator</title>
 </head>
 <body>
+<?php if (isset($result)) {
+    echo $result;
+} ?>
 <form method="post">
     <input name="string">
     <button type="submit">Отправить</button>
