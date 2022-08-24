@@ -7,13 +7,14 @@ RUN apt-get update && apt-get install -y \
 	libzip-dev \
 	libmemcached-dev \
 	libmcrypt-dev \
-        && pecl install mcrypt-1.0.5 \
+    && pecl install mcrypt-1.0.5 \
 	&& docker-php-ext-enable mcrypt \
         && docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
      && pecl install memcached && \
-        docker-php-ext-enable memcached
+        docker-php-ext-enable memcached \
+    && docker-php-ext-install sockets
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -23,5 +24,6 @@ WORKDIR /data/mysite.local
 
 VOLUME /data/mysite.local
 VOLUME /data/backend
+VOLUME /data/frontend
 
 CMD ["php-fpm"]

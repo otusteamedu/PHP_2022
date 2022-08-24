@@ -11,10 +11,10 @@ services:
     ports:
       - "80:80"
     volumes:
+      - ./code/frontend:/data/frontend
       - ./code/public:/data/mysite.local
       - ./code/backend:/data/backend
-      - ./code/frontend:/data/frontend
-    working_dir: /data/mysite.local
+      - ./code/sockets:/data/sockets
     networks:
       - app-network
 
@@ -25,8 +25,10 @@ services:
     image: balance/php
     container_name: app1
     volumes:
+      - ./code/frontend:/data/frontend
       - ./code/public:/data/mysite.local
       - ./code/backend:/data/backend
+      - ./code/sockets:/data/sockets
     networks:
       - app-network
   app2:
@@ -36,8 +38,10 @@ services:
     image: balance/php
     container_name: app2
     volumes:
+      - ./code/frontend:/data/frontend
       - ./code/public:/data/mysite.local
       - ./code/backend:/data/backend
+      - ./code/sockets:/data/sockets
     networks:
       - app-network
   app3:
@@ -47,8 +51,10 @@ services:
     image: balance/php
     container_name: app3
     volumes:
+      - ./code/frontend:/data/frontend
       - ./code/public:/data/mysite.local
       - ./code/backend:/data/backend
+      - ./code/sockets:/data/sockets
     networks:
       - app-network
 
