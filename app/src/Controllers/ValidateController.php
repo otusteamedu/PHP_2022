@@ -4,21 +4,10 @@ declare(strict_types=1);
 
 namespace Nemizar\Php2022\Controllers;
 
-use Nemizar\Php2022\Components\Render;
 use Nemizar\Php2022\Validators\RoundBracketValidator;
 
-class ValidateController
+class ValidateController extends Controller
 {
-    /**
-     * @var \Nemizar\Php2022\Components\Render
-     */
-    private Render $render;
-
-    public function __construct()
-    {
-        $this->render = new Render();
-    }
-
     public function validate(array $request): void
     {
         $string = $request['string'] ?? '';

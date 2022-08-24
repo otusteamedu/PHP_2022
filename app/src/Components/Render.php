@@ -11,7 +11,7 @@ class Render
     /**
      * @throws \Nemizar\Php2022\Components\Exceptions\ViewNotFoundException
      */
-    public function render(string $viewPath, array $params): string|bool
+    public function render(string $viewPath, array $params = []): string|bool
     {
         \extract($params, \EXTR_OVERWRITE);
 
