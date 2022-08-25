@@ -1,0 +1,19 @@
+{
+  "name": "mikonnikov/hw7",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Mikhail Ikonnikov",
+      "email": "mishaikon@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "ext-sockets": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "code/"
+    }
+  }
+}

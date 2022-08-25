@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  app_server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./app.php:/data/application.local/app.php
+      - ./code:/data/application.local/code
+      - ./vendor:/data/application.local/vendor
+      - ./socket:/data/application.local/socket
+    command: "php app.php server"
+    stdin_open: true
+    networks:
+      - app-network
+
+  app_client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./app.php:/data/application.local/app.php
+      - ./code:/data/application.local/code
+      - ./vendor:/data/application.local/vendor
+      - ./socket:/data/application.local/socket
+    depends_on:
+      - app_server
+    stdin_open: true
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: otus_hw7_memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
