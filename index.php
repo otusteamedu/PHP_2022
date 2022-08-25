@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use NikolayTim\Dumper\Dumper;
+use Nikolai\Php\Application;
 
-$someArray = [
-    'a' => 1,
-    'b' => 2,
-    'c' => 3,
-];
-
-$dumper = new Dumper();
-$dumper->dump($someArray);
+$app = new Application();
+$app->run();
