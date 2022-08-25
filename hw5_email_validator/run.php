@@ -1,50 +1,26 @@
 <?php
 
-require_once("EmailValidator.class.php");
+require_once("EmailValidator.php");
+require_once("FilesProcessor.php");
 
-$IN_FILE = "emails.txt";
-$OUT_FILE = "valid_emails.txt";
+use FilesProcessor;
+use EmailValidator;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// START
 
+$proc = new FilesProcessor();
+
+$IN_FILE = "emails.txt";
+$OUT_FILE = "valid_emails.txt";
+
 echo "START emails filtering ...\n";
+echo "Reading file '$IN_FILE' ...\n";
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Input emails
+$emails = $proc->readFile($IN_FILE);
+$new_emails = $proc->processFileData($emails);
+$proc->writeFile($OUT_FILE, $new_emails);
 
-$fp = fopen($IN_FILE, "r");
-if (!$fp) {
-    die("Error: cannot read file: $IN_FILE\n");
-}
-while (($buffer = fgets($fp, 4096)) !== false) {
-    $emails[] = trim($buffer);
-}
-if (!feof($fp)) {
-    echo "Error: fgets() failed\n";
-}
-fclose($fp);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Validate emails
-
-$validator = new EmailValidator();
-$emails = $validator->filterEmailsList($emails);
-
-$fp = fopen($OUT_FILE, "w");
-if (!$fp) {
-    die("Error: cannot write to file: $OUT_FILE\n");
-}
-
-foreach ($emails as $email) {
-    fwrite($fp, $email . "\n");
-}
-
-fclose($fp);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// End
-
-echo "FINISH, see results in $OUT_FILE.\n";
+echo "FINISH, see results in '$OUT_FILE'.\n";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

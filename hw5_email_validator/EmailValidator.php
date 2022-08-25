@@ -10,7 +10,7 @@ Class EmailValidator
      * @param string $email
      * @return bool
      */
-    public function validateRegexpEmail($email)
+    public function validateRegexpEmail(string $email): bool
     {
         return preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email);
     }
@@ -20,7 +20,7 @@ Class EmailValidator
      * @param string $email
      * @return bool
      */
-    public function validateMxEmail($email)
+    public function validateMxEmail(string $email): bool
     {
         list($user, $domain) = explode('@', $email);
         $arr = dns_get_record($domain, DNS_MX);
@@ -33,10 +33,11 @@ Class EmailValidator
     }
 
     /**
-     * Validate multiple emails:
-     * return only valid emails
+     * Validate multiple emails
+     * @param array $emails
+     * return array only valid emails
      */
-    public function filterEmailsList(array $emails)
+    public function filterEmailsList(array $emails): array
     {
         $res = [];
 
