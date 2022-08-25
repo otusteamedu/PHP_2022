@@ -2,7 +2,7 @@
 
 ### Верификатор реализован как composer-библиотека:
 ```
-composer require ashvedov/email-validator
+https://github.com/DaaN88/php-email-validator
 ```
 
 ### Для проверки создан простой докер файл:
