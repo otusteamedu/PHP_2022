@@ -1,8 +1,11 @@
 FROM nginx:latest
 
-COPY ./hosts/default.conf /etc/nginx/conf.d/default.conf
+RUN apt-get update && apt-get install -y mc
 
-WORKDIR /data  
+COPY ./hosts/default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+
+WORKDIR /data
 
 VOLUME /data  
 

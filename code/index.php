@@ -1,7 +1,10 @@
 <?php
 
-echo "Привет, Otus!<br>".date("Y-m-d H:i:s") ."<br><br>";
+declare(strict_types=1);
 
-echo "Что-то новое";
+require __DIR__ . '/vendor/autoload.php';
 
-phpinfo();
+use Nikolai\Php\Application;
+
+$app = new Application();
+$app->run();
