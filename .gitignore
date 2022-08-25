@@ -1,8 +1,6 @@
 /.idea
 /.DS_Store
 /db_data
-/ashvedov.local
-/src
 .env
 *.bak
 *.orig
