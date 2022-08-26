@@ -23,34 +23,31 @@ services:
       - ./code:/data/mysite.local
     networks:
       - app-network
-  redis:
-    image: redis
-    container_name: redis
-    networks:
-      - app-network
-  memcached:
-    image: memcached:latest
-    container_name: memcached
-    entrypoint:
-      - memcached
-      - -m 64
-    ports:
-      - "11211:11211"
-    expose:
-      - "11211"
-    networks:
-      - app-network
-  mysql:
-    image: mysql:8.0
-    platform: linux/x86_64
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-    ports:
-      - "3306:3306"
+  elastic:
+    image: elasticsearch:8.3.3
+    container_name: elastic
     volumes:
-      - ./dbdata:/var/lib/mysql
-    container_name: mysql
+      - ./elastic_data:/usr/share/elasticsearch/data/
+    environment:
+      - ES_JAVA_OPTS= -Xms512m -Xmx512m
+      - discovery.type= single-node
+      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD= 'psswd'
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    networks:
+      - app-network
+  kibana:
+    image: kibana:8.3.3
+    container_name: kibana
+    restart: always
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://localhost:9200
+    depends_on:
+      - elastic
     networks:
       - app-network
 networks:
