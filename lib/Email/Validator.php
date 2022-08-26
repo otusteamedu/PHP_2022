@@ -1,12 +1,12 @@
 <?php
 
-namespace Otus\Email;
+namespace Ppro\Hw6\Email;
 
-use Otus\File;
+use Ppro\Hw6\File;
 
 class Validator
 {
-    private $checkMX = false;
+    protected $checkMX = false;
     public $filePath = '';
     public $validEmail = [];
     public $invalidEmail = [];
@@ -36,6 +36,8 @@ class Validator
      */
     public function validateFile():void
     {
+        $this->validEmail = [];
+        $this->invalidEmail = [];
         $file = new File\Helper($this->filePath);
         foreach ($file->getRows() as $row) {
             if ($email = $this->validateEmail($row)) {

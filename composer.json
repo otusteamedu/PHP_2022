@@ -1,0 +1,10 @@
+{
+    "name": "ppro/hw6",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ppro\\Hw6\\": "lib/"
+        }
+    },
+    "require": {}
+}

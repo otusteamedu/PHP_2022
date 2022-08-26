@@ -1,6 +1,6 @@
 <?php
 
-namespace Otus\File;
+namespace Ppro\Hw6\File;
 
 class Helper
 {

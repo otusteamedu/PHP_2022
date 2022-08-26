@@ -5,9 +5,9 @@
  * @Date 22.08.2022 14:21
  */
 
-use Otus\Email;
+use Ppro\Hw6\Email;
 
-require_once __DIR__.'/lib/autoload.php';
+require 'vendor/autoload.php';
 
 $validator = new Email\Validator('email.txt', true);
 $validator->validateFile();
