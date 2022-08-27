@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  #контейнер с Nginx (only upstream)
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx-upstream-hw3
+    # проброс портов
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  #контейнер с Nginx2
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx2-hw3
+    # проброс портов
+#    ports:
+#      - "8080:8080"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #контейнер с Nginx3
+  nginx3:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx3-hw3
+    # проброс портов
+#    ports:
+#      - "443:443"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM #1
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: app1hw3 # имя контейнера после запуска
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM #2
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2hw3
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
