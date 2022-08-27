@@ -1,0 +1,17 @@
+{
+    "name": "ashvedov/otus-hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shvedov"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*"
+    }
+}
