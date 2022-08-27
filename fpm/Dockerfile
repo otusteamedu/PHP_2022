@@ -2,30 +2,20 @@ FROM php:7.4-fpm
 
 # ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
-    curl \
-    wget \
-    git \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
 	libpng-dev \
 	libonig-dev \
 	libzip-dev \
-	libmcrypt-dev \
-    libz-dev \
 	libmemcached-dev \
-	libmemcached-tools \
-    libmcrypt-dev \
-    && pecl install mcrypt-1.0.3 \
+	libmcrypt-dev \
+        && pecl install mcrypt-1.0.3 \
 	&& docker-php-ext-enable mcrypt \
-    && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo pdo_mysql zip \
+        && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd \
-    && pecl install memcached \
-    && docker-php-ext-enable memcached
-
-RUN pecl install redis && docker-php-ext-enable redis
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+        && docker-php-ext-install -j$(nproc) gd \
+     && pecl install memcached && \
+        docker-php-ext-enable memcached
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
