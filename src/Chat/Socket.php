@@ -6,38 +6,48 @@ namespace Nemizar\Php2022\Chat;
 
 class Socket
 {
-    public function __construct()
+    private \Socket $socket;
+
+    private string $senderSock;
+
+    private string $recipientSock;
+
+    public function __construct(string $senderSock, string $recipientSock)
     {
         if (!\extension_loaded('sockets')) {
             throw new \RuntimeException('Расширение "сокеты" не установлено');
         }
+        $this->senderSock = $senderSock;
+        $this->recipientSock = $recipientSock;
+        $this->create();
+        $this->bindSocket();
     }
 
-    public function create(int $domain = \AF_UNIX, int $type = \SOCK_DGRAM, int $protocol = 0): \Socket
+    private function create(): void
     {
-        $socket = \socket_create($domain, $type, $protocol);
+        $socket = \socket_create(\AF_UNIX, \SOCK_DGRAM, 0);
         if (!$socket) {
             throw new \DomainException('Не удалось создать AF_UNIX сокет');
         }
-        return $socket;
+        $this->socket = $socket;
     }
 
-    public function bindSocket(\Socket $socket, string $sockFilePath): void
+    public function bindSocket(): void
     {
-        if (!\socket_bind($socket, $sockFilePath)) {
-            throw new \RuntimeException("Unable to bind to $sockFilePath");
+        if (!\socket_bind($this->socket, $this->senderSock)) {
+            throw new \RuntimeException("Unable to bind to $this->senderSock");
         }
     }
 
-    public function sendMessage(string $msg, \Socket $socket, string $sockFilePath): void
+    public function sendMessage(string $msg): void
     {
-        $this->setNonblock($socket);
+        $this->setNonblock();
 
         $len = \strlen($msg);
 
-        $bytesSent = \socket_sendto($socket, $msg, $len, 0, $sockFilePath);
+        $bytesSent = \socket_sendto($this->socket, $msg, $len, 0, $this->recipientSock);
 
-        $this->setBlock($socket);
+        $this->setBlock();
 
         if ($bytesSent === -1) {
             throw new \DomainException('Произошла ошибка при отправке в сокет');
@@ -48,23 +58,23 @@ class Socket
         }
     }
 
-    public function setNonblock(\Socket $socket): void
+    public function setNonblock(): void
     {
-        if (!\socket_set_nonblock($socket)) {
+        if (!\socket_set_nonblock($this->socket)) {
             throw new \RuntimeException('Не удалось установить nonblocking режим для сокета');
         }
     }
 
-    public function setBlock(\Socket $socket): void
+    public function setBlock(): void
     {
-        if (!\socket_set_block($socket)) {
+        if (!\socket_set_block($this->socket)) {
             throw new \RuntimeException('Не удалось установить blocking режим для сокета');
         }
     }
 
-    public function getMessage(\Socket $socket): ?string
+    public function getMessage(): ?string
     {
-        $bytesReceived = \socket_recvfrom($socket, $data, 65536, 0, $address);
+        $bytesReceived = \socket_recvfrom($this->socket, $data, 65536, 0, $address);
 
         if ($bytesReceived === -1) {
             throw new \RuntimeException('Произошла ошибка при чтении из сокета');
@@ -73,18 +83,24 @@ class Socket
         return $data;
     }
 
-    public function getMessageWithBlock(\Socket $socket): ?string
+    public function getMessageWithBlock(): ?string
     {
-        $this->setBlock($socket);
+        $this->setBlock();
 
-        $bytesReceived = \socket_recvfrom($socket, $data, 65536, 0, $address);
+        $bytesReceived = \socket_recvfrom($this->socket, $data, 65536, 0, $address);
 
-        $this->setNonblock($socket);
+        $this->setNonblock();
 
         if ($bytesReceived === -1) {
             throw new \RuntimeException('Произошла ошибка при чтении из сокета');
         }
 
         return $data;
+    }
+
+    public function close(): void
+    {
+        \socket_close($this->socket);
+        \unlink($this->senderSock);
     }
 }
