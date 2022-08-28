@@ -4,4 +4,8 @@ use Rs\Rs\App;
 
 require 'vendor/autoload.php';
 
-(new App())->run();
+try{
+     (new App())->run();
+}catch (Exception $e){
+    var_dump($e);
+}
