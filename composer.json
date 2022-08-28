@@ -1,0 +1,20 @@
+{
+  "name": "nemizar/php_2022",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Nemizar\\Php2022\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Alexandr Kuzmin",
+      "email": "nemizar@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "ext-readline": "*",
+    "ext-sockets": "*"
+  }
+}
