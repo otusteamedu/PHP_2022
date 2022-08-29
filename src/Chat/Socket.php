@@ -35,7 +35,8 @@ class Socket
     public function bindSocket(): void
     {
         if (!\socket_bind($this->socket, $this->senderSock)) {
-            throw new \RuntimeException("Unable to bind to $this->senderSock");
+            $errorMessage = $this->getLastErrorMessage();
+            throw new \RuntimeException("Не удалось привязать сокет $this->senderSock. Причина $errorMessage");
         }
     }
 
@@ -102,5 +103,11 @@ class Socket
     {
         \socket_close($this->socket);
         \unlink($this->senderSock);
+    }
+
+    private function getLastErrorMessage(): string
+    {
+        $lastError = \socket_last_error($this->socket);
+        return \socket_strerror($lastError);
     }
 }
