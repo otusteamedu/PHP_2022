@@ -13,7 +13,6 @@ CREATE TABLE "move" (
 	"description" TEXT NOT NULL,
 	"release_date" DATE NOT NULL,
 	"duration" DECIMAL NOT NULL,
-	"price" DECIMAL NOT NULL,
 	CONSTRAINT "move_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -23,7 +22,7 @@ CREATE TABLE "ticket" (
 	"id" serial NOT NULL,
 	"date_of_sale" DATE NOT NULL,
 	"time_of_sale" TIME NOT NULL,
-	"client_id" integer NOT NULL,
+	"customer_id" integer NOT NULL,
 	"schedule_id" integer NOT NULL,
 	CONSTRAINT "ticket_pk" PRIMARY KEY ("id")
 ) WITH (
@@ -35,6 +34,7 @@ CREATE TABLE "session" (
 	"name" TEXT NOT NULL,
 	"move_id" integer NOT NULL,
 	"cinema_hall_id" integer NOT NULL,
+	"price" DECIMAL NOT NULL,
 	CONSTRAINT "session_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -72,13 +72,27 @@ CREATE TABLE "occupied_cinema_hall_seats" (
   OIDS=FALSE
 );
 
+CREATE TABLE "sales_history" (
+	"id" serial NOT NULL,
+	"move_id" integer NOT NULL,
+	"session_price" DECIMAL NOT NULL,
+	"ticket_id" integer NOT NULL,
+	CONSTRAINT "sales_history_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
 ALTER TABLE "ticket" ADD CONSTRAINT "ticket_fk0" FOREIGN KEY ("client_id") REFERENCES "customer"("id");
 ALTER TABLE "ticket" ADD CONSTRAINT "ticket_fk1" FOREIGN KEY ("schedule_id") REFERENCES "schedule"("id");
 
 ALTER TABLE "session" ADD CONSTRAINT "session_fk0" FOREIGN KEY ("move_id") REFERENCES "move"("id");
 ALTER TABLE "session" ADD CONSTRAINT "session_fk1" FOREIGN KEY ("cinema_hall_id") REFERENCES "cinema_hall"("id");
 
+
 ALTER TABLE "schedule" ADD CONSTRAINT "schedule_fk0" FOREIGN KEY ("session_id") REFERENCES "session"("id");
 
 ALTER TABLE "occupied_cinema_hall_seats" ADD CONSTRAINT "occupied_cinema_hall_seats_fk0" FOREIGN KEY ("ticket_id") REFERENCES "ticket"("id");
 ALTER TABLE "occupied_cinema_hall_seats" ADD CONSTRAINT "occupied_cinema_hall_seats_fk1" FOREIGN KEY ("cinema_hall_id") REFERENCES "cinema_hall"("id");
+
+ALTER TABLE "sales_history" ADD CONSTRAINT "sales_history_fk0" FOREIGN KEY ("move_id") REFERENCES "move"("id");
+ALTER TABLE "sales_history" ADD CONSTRAINT "sales_history_fk1" FOREIGN KEY ("ticket_id") REFERENCES "ticket"("id");

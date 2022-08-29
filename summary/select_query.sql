@@ -1,10 +1,9 @@
-SELECT move.name, SUM(move.price) AS total_price
-FROM ticket
-         JOIN schedule ON
-    ticket.schedule_id = schedule.id
-         JOIN session ON
-    schedule.session_id = session.id
+SELECT move.name, SUM(sales_history.session_price) as max_price
+FROM sales_history
          JOIN move ON
-    session.move_id = move.id
+    move.id = sales_history.move_id
+         JOIN ticket ON
+    ticket.id = sales_history.ticket_id
 GROUP BY move.name
-ORDER BY total_price DESC LIMIT 1;
+ORDER BY max_price DESC LIMIT 1
+;
