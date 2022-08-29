@@ -3,10 +3,29 @@ namespace Rs\Rs\Dto;
 
 class initFilterDto
 {
+    /**
+     * @var string|null
+     */
     private ?string $title;
+
+    /**
+     * @var string|null
+     */
     private ?string $sku;
+
+    /**
+     * @var string|null
+     */
     private ?string $category;
+
+    /**
+     * @var int|null
+     */
     private ?int $low;
+
+    /**
+     * @var int|null
+     */
     private ?int $high;
 
     public function __construct()

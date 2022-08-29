@@ -2,8 +2,9 @@
 
 namespace Rs\Rs;
 
-use Elastic\Elasticsearch\ClientBuilder;
-use GuzzleHttp\Client as HttpClient;
+use Elastic\Elasticsearch\Exception\AuthenticationException;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Rs\Rs\Dto\initFilterDto;
 
 class App
@@ -11,68 +12,14 @@ class App
 
     /**
      * @return void
+     * @throws AuthenticationException
+     * @throws ClientResponseException
+     * @throws ServerResponseException
      */
     public function run():void
     {
         $dtoParams=new initFilterDto();
-        $elasticFindBook=(new ElasticFindBook())->buildQuery($dtoParams)->search();
-
-//        $client = ClientBuilder::create()
-//            ->setHosts(['http://elastic:9200'])
-//            ->build();
-//        $params = [
-//            'index' => "otus-shop",
-//            'body' => [
-//                "query" => [
-//                    "bool" => [
-//                        "must" => [
-//                            [
-//                                "match" => [
-//                                    "title" => [
-//                                        "query" => "терминfатор",
-//                                        "fuzziness" => "auto"
-//                                    ]
-//                                ]
-//                            ]
-//                        ],
-//                        "filter" => [
-//                            [
-//                                "range" => [
-//                                    "price" => [
-//                                        "gte" => 5000
-//                                    ]
-//                                ]
-//                            ],
-//                            [
-//                                "nested" => [
-//                                    "path" => "stock",
-//                                    "query" => [
-//                                        "bool" => [
-//                                            "filter" => [
-//                                                [
-//                                                    "match" => [
-//                                                        "stock.shop" => "Мира"
-//                                                    ]
-//                                                ],
-//                                                [
-//                                                    "range" => [
-//                                                        "stock.stock" => [
-//                                                            "gte" => 15
-//                                                        ]
-//                                                    ]
-//                                                ]
-//                                            ]
-//                                        ]
-//                                    ]
-//                                ]
-//                            ]
-//                        ]
-//                    ]
-//                ]
-//            ]
-//        ];
-//        $response=$client->search($params);
-//        dump($response['hits']['hits']);
-//        echo 123;
+        $elastic_object=(new ElasticFindBook())->buildQuery($dtoParams)->search();
+        PrintResult::print($elastic_object);
     }
 }

@@ -2,8 +2,12 @@
 
 namespace Rs\Rs;
 
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
-use GuzzleHttp\Client as HttpClient;
+use Elastic\Elasticsearch\Exception\AuthenticationException;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Rs\Rs\Dto\initFilterDto;
 
 class ElasticFindBook
@@ -11,72 +15,21 @@ class ElasticFindBook
 
     const OTUS_SHOP="otus-shop";
     const HOST='http://elastic:9200';
+
+    /**
+     * @var array
+     */
     private array $query;
 
     /**
-     * @return void
+     * @var Elasticsearch
      */
-    public function run():void
-    {
-        $client = ClientBuilder::create()
-            ->setHosts(['http://elastic:9200'])
-            ->build();
-        $params = [
-            'index' => "otus-shop",
-            'body' => [
-                "query" => [
-                    "bool" => [
-                        "must" => [
-                            [
-                                "match" => [
-                                    "title" => [
-                                        "query" => "терминfатор",
-                                        "fuzziness" => "auto"
-                                    ]
-                                ]
-                            ]
-                        ],
-                        "filter" => [
-                            [
-                                "range" => [
-                                    "price" => [
-                                        "gte" => 5000
-                                    ]
-                                ]
-                            ],
-                            [
-                                "nested" => [
-                                    "path" => "stock",
-                                    "query" => [
-                                        "bool" => [
-                                            "filter" => [
-                                                [
-                                                    "match" => [
-                                                        "stock.shop" => "Мира"
-                                                    ]
-                                                ],
-                                                [
-                                                    "range" => [
-                                                        "stock.stock" => [
-                                                            "gte" => 15
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-        $response=$client->search($params);
-        dump($response['hits']['hits']);
-        echo 123;
-    }
+    private Elasticsearch $response;
 
+    /**
+     * @param initFilterDto $dto
+     * @return $this
+     */
     public function buildQuery(initFilterDto $dto): ElasticFindBook
     {
         $query=[
@@ -146,22 +99,66 @@ class ElasticFindBook
             ]
         ];
 
-        $this->query=$query;
+        $this->setQuery($query);
         return $this;
     }
 
-    public function search(){
+    /**
+     * @return $this
+     * @throws ClientResponseException
+     * @throws ServerResponseException
+     * @throws AuthenticationException
+     */
+    public function search(): object
+    {
         $client=$this->initClient();
-        $response=$client->search($this->query);
-        dump($response['hits']['hits']);
-        return 123;
+        $response=$client->search($this->getQuery());
+        $this->setResponse($response);
+        return $this;
     }
 
-    private function initClient(){
+    /**
+     * @return Client
+     * @throws AuthenticationException
+     */
+    private function initClient(): Client
+    {
         return ClientBuilder::create()
             ->setHosts([self::HOST])
             ->build();
     }
 
-//php index.php -t "Терминаткр" -s "500-185" -c "Сад и огород" -l 1000 -h 2000
-}//php index.php -t "qwe" -s "qwe" -c "qwe" -l "1" -h "2"
+    /**
+     * @return array
+     */
+    public function getQuery(): array
+    {
+        return $this->query;
+    }
+
+    /**
+     * @param array $query
+     */
+    public function setQuery(array $query): void
+    {
+        $this->query = $query;
+    }
+
+    /**
+     * @return Elasticsearch
+     */
+    public function getResponse(): Elasticsearch
+    {
+        return $this->response;
+    }
+
+
+    /**
+     * @param Elasticsearch $response
+     * @return void
+     */
+    public function setResponse(Elasticsearch $response): void
+    {
+        $this->response = $response;
+    }
+}

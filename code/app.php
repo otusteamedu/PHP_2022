@@ -7,5 +7,5 @@ require 'vendor/autoload.php';
 try{
      (new App())->run();
 }catch (Exception $e){
-    var_dump($e);
+    echo $e->getMessage();
 }
