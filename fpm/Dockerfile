@@ -1,6 +1,5 @@
 FROM php:7.4-fpm
 
-# ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -18,9 +17,5 @@ RUN apt-get update && apt-get install -y \
         docker-php-ext-enable memcached
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
-
-WORKDIR /data
-
-VOLUME /data
-
+WORKDIR /data/application.local
 CMD ["php-fpm"]

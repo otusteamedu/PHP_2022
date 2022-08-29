@@ -22,23 +22,7 @@ class Application implements ApplicationInterface
 
     public function run(): void
     {
-        $res = session_start();
-        echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'] . '<br>';
-        echo '<pre>';
-        var_dump($res);
-        echo '</pre>';
-
-        echo '<br>session_id: ';
-        var_dump(session_id());
-        echo '<br>';
-
-//        $_SESSION['a'] = 111;
-
-        echo '<pre>';
-        var_dump($_SESSION);
-        echo '</pre>';
-
-        phpinfo();
+        session_start();
 
         try {
             $request = Request::createFromGlobals();
@@ -50,10 +34,10 @@ class Application implements ApplicationInterface
             $this->verifier->verify($string);
 
             $response = new Response('Запрос корректен!', Response::HTTP_OK);
-            $response->send();
         } catch (\Exception $e) {
             $response = new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
-            $response->send();
         }
+
+        $response->send();
     }
 }
