@@ -3,32 +3,82 @@ version: '3'
 
 # в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
-  #контейнер с Nginx
-  nginx:
+  balancer:
     build:
-      context: ./nginx
+      context: ./balancer
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
-    # проброс портов
+    image: myapp/balancer
+    container_name: balancer
+    depends_on:
+      - nginx1
+      #- nginx2
     ports:
       - "80:80"
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  nginx1:
+    build:
+      context: ./nginx1
+      dockerfile: Dockerfile
+    image: myapp/nginx1
+    container_name: nginx1
+    depends_on:
+      - app1
+      - app2
+    #ports:
+    #  - "8080:8080"
     volumes:
        - ./code:/data/application.local
     networks:
       - app-network
 
-  #Контейнер с PHP-FPM, назовём его app
-  app:
-    # Если нет секции build, то система будет искать образ в репозиториях
+  nginx2:
+    build:
+      context: ./nginx2
+      dockerfile: Dockerfile
+    image: myapp/nginx2
+    container_name: nginx2
+    depends_on:
+      - app1
+      - app2
+    # ports:
+    #   - "8000:8000"
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  app1:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: myapp/php # имя будущего образа
-    container_name: app # имя контейнера после запуска
+    image: myapp/php
+    container_name: app1
     volumes:
        - ./code:/data/application.local
-    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app2
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: 'memcached'
+    restart: always
+    ports:
+      - "11211:11211"
     networks:
       - app-network
 

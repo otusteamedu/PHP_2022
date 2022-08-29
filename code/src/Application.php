@@ -22,6 +22,24 @@ class Application implements ApplicationInterface
 
     public function run(): void
     {
+        $res = session_start();
+        echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'] . '<br>';
+        echo '<pre>';
+        var_dump($res);
+        echo '</pre>';
+
+        echo '<br>session_id: ';
+        var_dump(session_id());
+        echo '<br>';
+
+//        $_SESSION['a'] = 111;
+
+        echo '<pre>';
+        var_dump($_SESSION);
+        echo '</pre>';
+
+        phpinfo();
+
         try {
             $request = Request::createFromGlobals();
             if (!$request->request->has(self::REQUIRED_POST_PARAMETER)) {
