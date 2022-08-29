@@ -1,0 +1,53 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./:/var/www
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+       - ./:/var/www
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    ports:
+      - "15672:15672"
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "25672:25672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: user
+      VIRTUAL_HOST: rabbit
+      RABBITMQ_DEFAULT_VHOST: /
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

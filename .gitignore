@@ -1,3 +1,5 @@
-.idea/
+/docker/postgres/data/
+/vendor/
 .env
-vendor/
+.idea
+/debug/
