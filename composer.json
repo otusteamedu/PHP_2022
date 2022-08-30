@@ -1,0 +1,14 @@
+{
+  "name": "allan_n_p/app",
+  "description": "Домашнее задание №3",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "allan",
+      "email": "maxneon111@gmail.com"
+    }
+  ],
+  "require": {
+    "allan_n_p/otus-composer-hw3": "^0.1.0"
+  }
+}
