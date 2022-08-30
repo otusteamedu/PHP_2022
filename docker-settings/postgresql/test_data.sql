@@ -9,9 +9,37 @@ INSERT INTO "customer" ("id", "name", "surname", "email", "phone") VALUES (8, '�
 INSERT INTO "customer" ("id", "name", "surname", "email", "phone") VALUES (9, 'Ника', 'Петрова', 'alla81@vlasova.ru', '8-800-145-7171');
 INSERT INTO "customer" ("id", "name", "surname", "email", "phone") VALUES (10, 'Олег', 'Борисов', 'sgorbunova@grisina.ru', '(35222) 36-2912');
 
-INSERT INTO "cinema_hall" ("id", "name", "max_places") VALUES (1, 'VIP', 100);
-INSERT INTO "cinema_hall" ("id", "name", "max_places") VALUES (2, 'IMAX', 50);
-INSERT INTO "cinema_hall" ("id", "name", "max_places") VALUES (3, 'RELAX', 25);
+INSERT INTO "cinema_hall" ("id", "name") VALUES (1, 'VIP');
+INSERT INTO "cinema_hall" ("id", "name") VALUES (2, 'IMAX');
+INSERT INTO "cinema_hall" ("id", "name") VALUES (3, 'RELAX');
+
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (1, 1, 1, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (2, 1, 2, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (3, 1, 3, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (4, 1, 4, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (5, 1, 5, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (6, 1, 6, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (7, 1, 7, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (8, 1, 8, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (9, 1, 9, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (10, 1, 10, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (11, 2, 1, 23);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (12, 2, 2, 23);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (13, 2, 3, 23);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (14, 2, 4, 23);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (15, 2, 5, 15);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (16, 2, 6, 15);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (17, 2, 7, 15);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (18, 2, 8, 15);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (19, 2, 9, 15);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (20, 2, 10, 15);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (21, 3, 1, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (22, 3, 2, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (23, 3, 3, 10);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (24, 3, 4, 5);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (25, 3, 5, 5);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (26, 3, 6, 5);
+INSERT INTO "cinema_hall_configuration" ("id", "cinema_hall_id", "row", "places_in_row") VALUES (27, 3, 7, 5);
 
 INSERT INTO "move" ("id", "name", "description", "release_date", "duration") VALUES (1, 'Мстители', 'Команда супергероев дает отпор скандинавскому богу Локи. Начало фантастической саги в киновселенной Marvel', '2012-05-03', 137);
 INSERT INTO "move" ("id", "name", "description", "release_date", "duration") VALUES (2, 'Человек-паук: Нет пути домой', 'Жизнь и репутация Питера Паркера оказываются под угрозой, поскольку Мистерио раскрыл всему миру тайну личности Человека-паука. Пытаясь исправить ситуацию, Питер обращается за помощью к Стивену Стрэнджу, но вскоре всё становится намного опаснее.', '2021-12-15', 148);
@@ -65,14 +93,3 @@ INSERT INTO "occupied_cinema_hall_seats" ("id", "ticket_id", "cinema_hall_id", "
 INSERT INTO "occupied_cinema_hall_seats" ("id", "ticket_id", "cinema_hall_id", "row", "place") VALUES (8, 8, 1, 4, 10);
 INSERT INTO "occupied_cinema_hall_seats" ("id", "ticket_id", "cinema_hall_id", "row", "place") VALUES (9, 9, 3, 3, 5);
 INSERT INTO "occupied_cinema_hall_seats" ("id", "ticket_id", "cinema_hall_id", "row", "place") VALUES (10, 10, 3, 1, 2);
-
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (1, 1, 250, 1);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (2, 1, 300, 2);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (3, 1, 300, 3);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (4, 2, 350, 4);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (5, 2, 350, 5);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (6, 2, 350, 6);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (7, 3, 400, 7);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (8, 5, 200, 8);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (9, 4, 350, 9);
-INSERT INTO "sales_history" ("id", "move_id", "session_price", "ticket_id") VALUES (10, 6, 250, 10);
