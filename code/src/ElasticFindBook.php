@@ -13,7 +13,14 @@ use Rs\Rs\Dto\initFilterDto;
 class ElasticFindBook
 {
 
+    /**
+     * @var string|mixed
+     */
     private string $index;
+
+    /**
+     * @var string|mixed
+     */
     private string $host;
 
     /**
@@ -26,6 +33,9 @@ class ElasticFindBook
      */
     private Elasticsearch $response;
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         list($index, $host)=Config::getConfig();

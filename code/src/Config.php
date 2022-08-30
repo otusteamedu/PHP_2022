@@ -4,7 +4,9 @@ namespace Rs\Rs;
 
 class Config
 {
+
     /**
+     * @return array
      * @throws \Exception
      */
     public static function getConfig(): array
