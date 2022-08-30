@@ -13,8 +13,8 @@ use Rs\Rs\Dto\initFilterDto;
 class ElasticFindBook
 {
 
-    const OTUS_SHOP="otus-shop";
-    const HOST='http://elastic:9200';
+    private string $index;
+    private string $host;
 
     /**
      * @var array
@@ -26,6 +26,13 @@ class ElasticFindBook
      */
     private Elasticsearch $response;
 
+    public function __construct()
+    {
+        list($index, $host)=Config::getConfig();
+        $this->index=$index;
+        $this->host=$host;
+    }
+
     /**
      * @param initFilterDto $dto
      * @return $this
@@ -33,7 +40,7 @@ class ElasticFindBook
     public function buildQuery(initFilterDto $dto): ElasticFindBook
     {
         $query=[
-            'index' => self::OTUS_SHOP,
+            'index' => $this->index,
             'body' => [
                 "query"=>[
                     "bool"=>[
@@ -124,7 +131,7 @@ class ElasticFindBook
     private function initClient(): Client
     {
         return ClientBuilder::create()
-            ->setHosts([self::HOST])
+            ->setHosts([$this->host])
             ->build();
     }
 
