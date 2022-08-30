@@ -1,0 +1,31 @@
+{
+  "name": "olelishna/php_2022",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Olga Svistunova",
+      "email": "olelishna@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "ext-mbstring": "*",
+    "php-di/php-di": "^6.0",
+    "psr/event-dispatcher": "^1.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "code/"
+    }
+  }
+}
