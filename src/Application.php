@@ -5,6 +5,7 @@ namespace Mselyatin\Queue;
 use Mselyatin\Queue\application\interfaces\QueueInterface;
 use Mselyatin\Queue\application\valueObject\queue\QueueDataConnectionValueObject;
 use \InvalidArgumentException;
+use Mselyatin\Queue\infrastructure\controllers\http\FormController;
 
 /**
  * @author Михаил Селятин <selyatin83@mail.ru>
@@ -67,5 +68,11 @@ class Application
     public function getQueueManager(): QueueInterface
     {
         return $this->queue;
+    }
+
+    public function runFormProcessController(): void
+    {
+        $controller = new FormController();
+        $controller->addBlankDetails();
     }
 }

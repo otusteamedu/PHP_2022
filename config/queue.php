@@ -4,7 +4,7 @@ use Mselyatin\Queue\infrastructure\queue\RabbitQueue;
 
 return [
     'class' => RabbitQueue::class,
-    'host' => '172.18.0.2',
+    'host' => '172.20.0.4',
     'port' => 5672,
     'user' => 'user',
     'password' => 'user',
