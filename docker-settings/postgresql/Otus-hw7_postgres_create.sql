@@ -1,10 +1,10 @@
 CREATE TABLE "cinema_hall"
 (
-    "id"         serial       NOT NULL,
-    "name"       VARCHAR(255) NOT NULL,
+    "id"   serial       NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
     CONSTRAINT "cinema_hall_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 CREATE TABLE "move"
@@ -14,21 +14,24 @@ CREATE TABLE "move"
     "description"  TEXT         NOT NULL,
     "release_date" DATE         NOT NULL,
     "duration"     DECIMAL      NOT NULL,
+    "price"        DECIMAL      NOT NULL,
     CONSTRAINT "move_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 CREATE TABLE "ticket"
 (
-    "id"           serial  NOT NULL,
-    "date_of_sale" DATE    NOT NULL,
-    "time_of_sale" TIME    NOT NULL,
-    "customer_id"  integer NOT NULL,
-    "schedule_id"  integer NOT NULL,
+    "id"           serial       NOT NULL,
+    "date_of_sale" DATE         NOT NULL,
+    "time_of_sale" TIME         NOT NULL,
+    "customer_id"  integer      NOT NULL,
+    "schedule_id"  integer      NOT NULL,
+    "total_price"  DECIMAL      NOT NULL,
+    "move_name"    VARCHAR(255) NOT NULL,
     CONSTRAINT "ticket_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 CREATE TABLE "session"
@@ -40,7 +43,7 @@ CREATE TABLE "session"
     "price"          DECIMAL NOT NULL,
     CONSTRAINT "session_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 CREATE TABLE "customer"
@@ -52,7 +55,7 @@ CREATE TABLE "customer"
     "phone"   VARCHAR(255) NOT NULL,
     CONSTRAINT "customer_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 CREATE TABLE "schedule"
@@ -63,7 +66,7 @@ CREATE TABLE "schedule"
     "start_time_session" TIME    NOT NULL,
     CONSTRAINT "schedule_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 CREATE TABLE "occupied_cinema_hall_seats"
@@ -75,7 +78,7 @@ CREATE TABLE "occupied_cinema_hall_seats"
     "place"          integer NOT NULL,
     CONSTRAINT "occupied_cinema_hall_seats_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 CREATE TABLE "cinema_hall_configuration"
@@ -86,7 +89,7 @@ CREATE TABLE "cinema_hall_configuration"
     "places_in_row"  integer NOT NULL,
     CONSTRAINT "cinema_hall_configuration_pk" PRIMARY KEY ("id")
 ) WITH (
-  OIDS = FALSE
+    OIDS = FALSE
 );
 
 ALTER TABLE "ticket"
