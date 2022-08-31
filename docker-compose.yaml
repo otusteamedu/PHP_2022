@@ -5,12 +5,12 @@ services:
   nginx1:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_nginx_upstream_hw3
     image: balance/nginx
-    container_name: nginx-upstream-hw3
-    # проброс портов
+    container_name: nginx_upstream_hw3
+     #проброс портов
     ports:
-      - "80:80"
+     - "80:80"
     networks:
       - app-network
 
@@ -18,12 +18,12 @@ services:
   nginx2:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_nginx2_hw3
     image: balance/nginx
-    container_name: nginx2-hw3
-    # проброс портов
-#    ports:
-#      - "8080:8080"
+    container_name: nginx2_hw3
+     #проброс портов
+    ports:
+      - "8080:8080"
     volumes:
       - ./code:/data/mysite.local
     networks:
@@ -33,12 +33,12 @@ services:
   nginx3:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_nginx3_hw3
     image: balance/nginx
-    container_name: nginx3-hw3
-    # проброс портов
-#    ports:
-#      - "443:443"
+    container_name: nginx3_hw3
+     #проброс портов
+    ports:
+      - "443:443"
     volumes:
       - ./code:/data/mysite.local
     networks:
@@ -50,7 +50,7 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: balance/php # имя будущего образа
-    container_name: app1hw3 # имя контейнера после запуска
+    container_name: app1_hw3 # имя контейнера после запуска
     volumes:
        - ./code:/data/mysite.local
     networks:
@@ -62,9 +62,31 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: balance/php
-    container_name: app2hw3
+    container_name: app2_hw3
     volumes:
       - ./code:/data/mysite.local
+    networks:
+      - app-network
+  
+  db:
+    image: mysql
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_PATH}/dbdata:/var/lib/mysql  
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: mymemcached
+    restart: always
+    ports:
+      - "11211:11211"
     networks:
       - app-network
 
