@@ -1,0 +1,5 @@
+
+parameters:
+  emailsFile: /emails.txt
+
+services:
