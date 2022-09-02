@@ -60,22 +60,22 @@ class ElasticFindBook
             ]
         ];
 
-        if($title=$dto->getTitle()){
+        if(!is_null($dto->getTitle())){
             $query['body']['query']['bool']['must'][]['match']['title']=[
-                "query"=>$title,
+                "query"=>$dto->getTitle(),
                 "fuzziness"=>"auto",
             ];
         }
 
-        if($sku=$dto->getSku()){
+        if(!is_null($dto->getSku())){
             $query['body']['query']['bool']['must'][]['term']['sku']=[
-                "value"=>$sku,
+                "value"=>$dto->getSku(),
             ];
         }
 
-        if($category=$dto->getCategory()){
+        if(!is_null($dto->getCategory())){
             $query['body']['query']['bool']['must'][]['term']['category']=[
-                "value"=>$category,
+                "value"=>$dto->getCategory(),
             ];
         }
 
