@@ -6,14 +6,15 @@ namespace Nikolai\Php;
 
 use Nikolai\Php\Service\EmailsFromFileVerifierService;
 use Nikolai\Php\Service\EmailVerifier;
-use Symfony\Component\Yaml\Yaml;
+use Nikolai\Php\Configuration;
 
 class Application implements ApplicationInterface
 {
     public function run(): void
     {
         try {
-            $configuration = Yaml::parseFile(dirname(__DIR__) . '/config/services.yaml');
+            $configurationLoader = new Configuration\ConfigurationLoader(dirname(__DIR__) . '/config/services.yaml');
+            $configuration = $configurationLoader->load();
 
             $stringVerifier = new EmailVerifier();
             $emailsFromFileVerifierService = new EmailsFromFileVerifierService(

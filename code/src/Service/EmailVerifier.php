@@ -8,12 +8,14 @@ use Nikolai\Php\Exception\StringVerifierException;
 
 class EmailVerifier implements StringVerifierInterface
 {
+    const VERIFIED_PATTERN = "/[^\p{L}0-9\@\.\-_]/u";
+
     // Ключ - домен, значение - результат проверки домена
     public function __construct(private array $verifiedDomains = []) {}
 
     public function verify(string $string): string
     {
-        if (preg_match("/[^\p{L}0-9\@\.\-_]/u",$string)) {
+        if (preg_match(self::VERIFIED_PATTERN, $string)) {
             throw new StringVerifierException('Не допустимые символы!');
         }
 
