@@ -1,4 +1,6 @@
 /.idea
+/pgadmin
+/db_data
 .env
 .DS_Store
 *.bak
