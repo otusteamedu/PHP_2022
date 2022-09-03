@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
         && php composer-setup.php \
         && php -r "unlink('composer-setup.php');" \
         && mv composer.phar /usr/local/bin/composer \
-    && docker-php-ext-install sockets
+    && docker-php-ext-install sockets \
+    && mkdir -p /tmp/files/sockets
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug

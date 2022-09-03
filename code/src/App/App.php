@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Nsavelev\Hw6\App;
 
+use Nsavelev\Hw6\App\Console\Commands\ClientCommand;
+use Nsavelev\Hw6\App\Console\Commands\ServerCommand;
 use Nsavelev\Hw6\App\Exceptions\NoArgumentException;
 use Nsavelev\Hw6\App\Exceptions\WrongArgumentException;
 use Nsavelev\Hw6\App\Interfaces\AppInterface;
-use Nsavelev\Hw6\Services\Server\Server;
 
 class App implements AppInterface
 {
@@ -27,7 +28,8 @@ class App implements AppInterface
      * @param $argc
      * @param $argv
      * @return string
-     * @throws \Exception
+     * @throws NoArgumentException
+     * @throws WrongArgumentException
      */
     public function handle($argc, $argv): string
     {
@@ -45,13 +47,15 @@ class App implements AppInterface
         switch ($argument) {
             case self::ALLOWED_ARGUMENT_SERVER:
             {
-                $server = Server::create();
+                (new ServerCommand)->handle();
 
                 break;
             }
 
             case self::ALLOWED_ARGUMENT_CLIENT:
             {
+                (new ClientCommand())->handle();
+
                 break;
             }
         }

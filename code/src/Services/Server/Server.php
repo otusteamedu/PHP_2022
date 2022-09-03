@@ -4,48 +4,94 @@ declare(strict_types=1);
 
 namespace Nsavelev\Hw6\Services\Server;
 
-use Nsavelev\Hw6\Services\Config\Config;
+use Nsavelev\Hw6\Services\Server\DTOs\BaseMessageDTO;
+use Nsavelev\Hw6\Services\Server\DTOs\ServerConfigDTO;
 use Nsavelev\Hw6\Services\Server\Exceptions\ServerAlreadyStartedException;
+use Nsavelev\Hw6\Services\Server\Interfaces\MessageHandlerInterface;
+use Nsavelev\Hw6\Services\Server\Interfaces\ServerInterface;
+use Socket;
+use Nsavelev\Hw6\Services\SocketHelper\Factories\SocketHelperFactory;
 
-class Server
+class Server implements ServerInterface
 {
     /** @var Server */
     private static Server $server;
 
-    /** @var string */
-    private string $pathToSocket = '';
+    /** @var Socket */
+    private Socket $socket;
 
-    private function __construct()
+    /** @var string */
+    private string $serverSocketFilePath;
+
+    /** @var string */
+    private string $answerSocketFilePath;
+
+    /**
+     * @param ServerConfigDTO $serverConfigDTO
+     */
+    private function __construct(ServerConfigDTO $serverConfigDTO)
     {
-        $this->init();
+        $this->serverSocketFilePath = $serverConfigDTO->getServerSocketFilePath();
+        $this->answerSocketFilePath = $serverConfigDTO->getAnswerSocketFilePath();
+
+        $socket = $this->init();
+        $this->socket = $socket;
     }
 
     /**
+     * @param ServerConfigDTO $serverConfigDTO
      * @return Server
      * @throws ServerAlreadyStartedException
      */
-    public static function create()
+    public static function create(ServerConfigDTO $serverConfigDTO): Server
     {
         if (!empty(static::$server)) {
             throw new ServerAlreadyStartedException('Server already started.');
         }
 
-        $server = new self();
+        $server = new self($serverConfigDTO);
 
         return $server;
     }
 
-    private function init()
+    /**
+     * @return Socket
+     */
+    private function init(): Socket
     {
-        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        socket_bind($socket, '/tmp/server.sock');
-        socket_listen($socket, 1);
+        $socket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
+        socket_bind($socket, $this->serverSocketFilePath);
 
-        socket_close($socket);
+        return $socket;
+    }
+
+    /**
+     * @param MessageHandlerInterface $messageHandler
+     * @return void
+     */
+    public function listen(MessageHandlerInterface $messageHandler): void
+    {
+        $socketListener = SocketHelperFactory::getInstance();
+
+        $socketListener->listen(
+            $this->socket,
+            function ($messageOption, $message) use ($messageHandler) {
+
+                $baseMessageDTO = new BaseMessageDTO(
+                    $message,
+                    $messageOption,
+                    $this->answerSocketFilePath
+                );
+
+                $messageHandler->handle($baseMessageDTO);
+
+                return true;
+        });
     }
 
     public function __destruct()
     {
-        unlink('/tmp/server.sock');
+        socket_close($this->socket);
+        unlink($this->serverSocketFilePath);
     }
 }
