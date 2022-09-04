@@ -22,6 +22,11 @@ class SocketHelper implements SocketHelperInterface
     public function create(string $socketFilePath): Socket
     {
         $socket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
+
+        if (realpath($socketFilePath)) {
+            unlink($socketFilePath);
+        }
+
         socket_bind($socket, $socketFilePath);
 
         return $socket;

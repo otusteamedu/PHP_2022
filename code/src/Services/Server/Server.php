@@ -9,6 +9,7 @@ use Nsavelev\Hw6\Services\Server\DTOs\ServerConfigDTO;
 use Nsavelev\Hw6\Services\Server\Exceptions\ServerAlreadyStartedException;
 use Nsavelev\Hw6\Services\Server\Interfaces\MessageHandlerInterface;
 use Nsavelev\Hw6\Services\Server\Interfaces\ServerInterface;
+use Nsavelev\Hw6\Services\SocketHelper\Interfaces\SocketHelperInterface;
 use Socket;
 use Nsavelev\Hw6\Services\SocketHelper\Factories\SocketHelperFactory;
 
@@ -26,6 +27,9 @@ class Server implements ServerInterface
     /** @var string */
     private string $answerSocketFilePath;
 
+    /** @var SocketHelperInterface */
+    private SocketHelperInterface $socketHelper;
+
     /**
      * @param ServerConfigDTO $serverConfigDTO
      */
@@ -33,6 +37,7 @@ class Server implements ServerInterface
     {
         $this->serverSocketFilePath = $serverConfigDTO->getServerSocketFilePath();
         $this->answerSocketFilePath = $serverConfigDTO->getAnswerSocketFilePath();
+        $this->socketHelper = SocketHelperFactory::getInstance();
 
         $socket = $this->init();
         $this->socket = $socket;
@@ -59,8 +64,7 @@ class Server implements ServerInterface
      */
     private function init(): Socket
     {
-        $socket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
-        socket_bind($socket, $this->serverSocketFilePath);
+        $socket = $this->socketHelper->create($this->serverSocketFilePath);
 
         return $socket;
     }
