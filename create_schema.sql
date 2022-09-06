@@ -64,6 +64,7 @@ create table ticket
         constraint ticket_pk
             primary key
         unique,
+    price       integer not null,
     session_id  integer not null
         constraint fk_session_id
             references session (id) on delete restrict on update restrict,
