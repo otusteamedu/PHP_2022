@@ -1,2 +1,23 @@
 # PHP_2022
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+
+# ДЗ: EAV модель
+
+- Из корня проекта выполнить - ```docker-compose -p 'otus-hw8' up -d```;
+- Должны создаться и стартануть два контейнера:  
+![img.png](summary/img.png)
+- При первом открытии ```pgadmin``` база инициализируется автоматически, но нужно создать подключение сначала к базе. Подключеие создается аналогично ```AShvedov/hw7```;
+- Файлы инициализации (в том числе и представления) находятся в директории ```docker-settings/postgresql```;
+- Так как данные базы сохраняются в ```volume``` и используется в представлении current_date, то чтобы представление ```current_and_future_tasks``` правильно работало, нужно каждый новый день удалять ```volume``` базы данных (таким образом БД всегда будет инициализирована текущей датой).
+
+Если все ок, то БД и представления готовы:
+![img_1.png](summary/img_1.png)
+
+Результат выполнения представления на текущие и будущие задачи:  
+![img_2.png](summary/img_2.png)  
+
+Результат выполнения представления для маркетинга:
+![img_3.png](summary/img_3.png)  
+![img_4.png](summary/img_4.png)  
+![img_5.png](summary/img_5.png)  
+![img_6.png](summary/img_6.png)  
+![img_7.png](summary/img_7.png)
