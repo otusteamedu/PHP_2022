@@ -3,7 +3,6 @@ CREATE VIEW marketing_data AS
         film.name, move_attribute.name AS move_attribute, move_attribute_type.name AS move_attribute_type,
         CASE
             WHEN move_value.value_int IS NOT NULL THEN move_value.value_int::text
-            WHEN move_value.value_char IS NOT NULL THEN move_value.value_char
             WHEN move_value.value_string IS NOT NULL THEN move_value.value_string
             WHEN move_value.value_text IS NOT NULL THEN move_value.value_text
             WHEN move_value.value_jsonb IS NOT NULL THEN move_value.value_jsonb::text

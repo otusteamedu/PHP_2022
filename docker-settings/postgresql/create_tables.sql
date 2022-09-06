@@ -32,7 +32,6 @@ CREATE TABLE "move_value"
     "move_entity_id"    bigint NOT NULL,
     "move_attribute_id" bigint NOT NULL,
     "value_int"         integer,
-    "value_char"        char(6),
     "value_string"      varchar(255),
     "value_text"        TEXT,
     "value_jsonb"       jsonb,

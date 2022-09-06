@@ -41,7 +41,7 @@ INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_de
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (4, 1, 4, 22000000);
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (5, 1, 5, 9.00);
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (6, 1, 6, 8.8);
-INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_char") VALUES (7, 1, 7, 'R');
+INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (7, 1, 7, 'R');
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_text") VALUES (8, 1, 8, 'драма, биография, история, военный');
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (9, 1, 9, '250 лучших фильмов');
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_int") VALUES (10, 1, 10, 195);
@@ -70,7 +70,7 @@ INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_de
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (26, 2, 4, 60000000);
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (27, 2, 5, 8.60);
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (28, 2, 6, 9.1);
-INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_char") VALUES (29, 2, 7, 'R');
+INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (29, 2, 7, 'R');
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_text") VALUES (30, 2, 8, 'драма, криминал');
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (31, 2, 9, '250 лучших фильмов');
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_int") VALUES (32, 2, 10, 189);
@@ -97,7 +97,7 @@ INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_de
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (47, 3, 4, 94000000); /*Бюджет фильма*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (48, 3, 5, 9.00); /*Рейтинг IMDb*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (49, 3, 6, 8.6); /*Рейтинг Кинопоиск*/
-INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_char") VALUES (50, 3, 7, 'PG-13'); /*Рейтинг MPAA*/
+INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (50, 3, 7, 'PG-13'); /*Рейтинг MPAA*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_text") VALUES (51, 3, 8, 'фэнтези, приключения, драма'); /*Жанр*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (52, 3, 9, '250 лучших фильмов'); /*Категория*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_int") VALUES (53, 3, 10, 201); /*Продолжительность*/
@@ -124,7 +124,7 @@ INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_de
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (68, 4, 4, 8000000); /*Бюджет фильма*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (69, 4, 5, 8.9); /*Рейтинг IMDb*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (70, 4, 6, 8.6); /*Рейтинг Кинопоиск*/
-INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_char") VALUES (71, 4, 7, 'R'); /*Рейтинг MPAA*/
+INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (71, 4, 7, 'R'); /*Рейтинг MPAA*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_text") VALUES (72, 4, 8, 'криминал, драма'); /*Жанр*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (73, 4, 9, '250 лучших фильмов'); /*Категория*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_int") VALUES (74, 4, 10, 154); /*Продолжительность*/
@@ -152,7 +152,7 @@ INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_de
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (90, 5, 4, 185000000); /*Бюджет фильма*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (91, 5, 5, 9.00); /*Рейтинг IMDb*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_decimal") VALUES (92, 5, 6, 8.5); /*Рейтинг Кинопоиск*/
-INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_char") VALUES (93, 5, 7, 'PG-13'); /*Рейтинг MPAA*/
+INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (93, 5, 7, 'PG-13'); /*Рейтинг MPAA*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_text") VALUES (94, 5, 8, 'фантастика, боевик, триллер, криминал, драма'); /*Жанр*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_string") VALUES (95, 5, 9, '250 лучших фильмов'); /*Категория*/
 INSERT INTO "move_value" ("id", "move_entity_id", "move_attribute_id", "value_int") VALUES (96, 5, 10, 152); /*Продолжительность*/
