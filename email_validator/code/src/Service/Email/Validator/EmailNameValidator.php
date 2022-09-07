@@ -3,22 +3,17 @@
 declare(strict_types=1);
 
 
-namespace Mapaxa\EmailVerificationApp\Service\Email;
+namespace Mapaxa\EmailVerificationApp\Service\Email\Validator;
 
 
-class EmailNameValidator
+use Mapaxa\EmailVerificationApp\Service\Email\EmailValidatorInterface;
+
+class EmailNameValidator implements EmailValidatorInterface
 {
-    private array $emails;
-
-    public function __construct(array $emails)
+    public function validate(array $emails): ?array
     {
-        $this->emails = $emails;
-    }
-
-
-    public function getValidEmailNames() {
         //валидные имена имэйлов
-        $validEmailNames = array_filter($this->emails, function($email) {
+        $validEmailNames = array_filter($emails, function($email) {
             return $this->isValidEmailName($email);
         });
 

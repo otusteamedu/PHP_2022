@@ -2,8 +2,9 @@
 declare(strict_types=1);
 namespace Mapaxa\EmailVerificationApp\Controller;
 
-use Mapaxa\EmailVerificationApp\Service\Email\EmailValidator;
+use Mapaxa\EmailVerificationApp\Service\Email\EmailValidatorManager;
 use Mapaxa\EmailVerificationApp\Service\Renderer\Renderer;
+use Mapaxa\EmailVerificationApp\HandBook\ConfigHandbook;
 
 class EmailController
 {
@@ -12,10 +13,11 @@ class EmailController
     {
         if (filter_has_var(INPUT_POST, 'email')) {
 
+            $availableValidators = require_once ConfigHandbook::EMAIL_VALIDATORS_CONFIG;
             $stringWithEmails = filter_input(INPUT_POST, 'email');
             $emailsList = explode("\r\n", $stringWithEmails);
 
-            $emailValidator = new EmailValidator($emailsList);
+            $emailValidator = new EmailValidatorManager($emailsList, $availableValidators);
             $validEmails = $emailValidator->getValidEmails();
         }
 

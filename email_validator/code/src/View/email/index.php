@@ -18,7 +18,7 @@
     <h4>Следующие почтовые адреса являются валидными:</h4>
     <ol>
         <?php foreach ($data['validEmails'] as $validEmail): ?>
-            <li><?= $validEmail->email; ?></li>
+            <li><?= $validEmail; ?></li>
         <?php endforeach; ?>
     </ol>
 <?php } else { ?>

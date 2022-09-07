@@ -1,4 +1,4 @@
-# Transliterator from ru to en
+# Email validator
 
 Email validator
 
