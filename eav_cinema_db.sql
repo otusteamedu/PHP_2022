@@ -1,32 +1,32 @@
--- Homework for Lesson #10: EAV databases
+п»ї-- Homework for Lesson #10: EAV databases
 -- @author Mikhail Ikonnikov <mishaikon@gmail.com>
 -- Otus PHP Pro course: https://fas.st/wRyRs
 
 --------------------------------------------------------------------------------
 -- STRUCTURE 
 
--- Таблица "Фильм":
--- id - уникальный ID
--- name - имя фильма
--- year - год производства
+-- РўР°Р±Р»РёС†Р° "Р¤РёР»СЊРј":
+-- id - СѓРЅРёРєР°Р»СЊРЅС‹Р№ ID
+-- name - РёРјСЏ С„РёР»СЊРјР°
+-- year - РіРѕРґ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°
 CREATE TABLE IF NOT EXISTS film_ent (
     id serial PRIMARY KEY NOT NULL,
     name varchar(255) NOT NULL,
     year varchar(4) NOT NULL
 );
 
--- Таблица "Типы атрибутов фильма":
--- id - уникальный ID
--- name - название типа атрибута
+-- РўР°Р±Р»РёС†Р° "РўРёРїС‹ Р°С‚СЂРёР±СѓС‚РѕРІ С„РёР»СЊРјР°":
+-- id - СѓРЅРёРєР°Р»СЊРЅС‹Р№ ID
+-- name - РЅР°Р·РІР°РЅРёРµ С‚РёРїР° Р°С‚СЂРёР±СѓС‚Р°
 CREATE TABLE IF NOT EXISTS film_attr_type (
     id smallserial PRIMARY KEY NOT NULL,
     name varchar(100) NOT NULL UNIQUE
 );
 
--- Таблица "Атрибуты фильма":
--- id - уникальный ID
--- film_attr_type_id - тип атрибута фильма
--- name - название атрибута
+-- РўР°Р±Р»РёС†Р° "РђС‚СЂРёР±СѓС‚С‹ С„РёР»СЊРјР°":
+-- id - СѓРЅРёРєР°Р»СЊРЅС‹Р№ ID
+-- film_attr_type_id - С‚РёРї Р°С‚СЂРёР±СѓС‚Р° С„РёР»СЊРјР°
+-- name - РЅР°Р·РІР°РЅРёРµ Р°С‚СЂРёР±СѓС‚Р°
 CREATE TABLE IF NOT EXISTS film_attr (
     id smallserial PRIMARY KEY NOT NULL,
     film_attr_type_id smallint NOT NULL,
@@ -34,16 +34,16 @@ CREATE TABLE IF NOT EXISTS film_attr (
     FOREIGN KEY (film_attr_type_id) REFERENCES film_attr_type (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Таблица "Значения атрибутов фильма":
--- id - уникальный ID
--- film_ent_id - id фильма
--- film_attr_id - id атрибута
--- value_char - значение типа varchar
--- value_text - значение типа text
--- value_int - значение типа money
--- value_float - значение типа numeric
--- value_date - значение типа date
--- value_boolean - значение типа boolean
+-- РўР°Р±Р»РёС†Р° "Р—РЅР°С‡РµРЅРёСЏ Р°С‚СЂРёР±СѓС‚РѕРІ С„РёР»СЊРјР°":
+-- id - СѓРЅРёРєР°Р»СЊРЅС‹Р№ ID
+-- film_ent_id - id С„РёР»СЊРјР°
+-- film_attr_id - id Р°С‚СЂРёР±СѓС‚Р°
+-- value_char - Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° varchar
+-- value_text - Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° text
+-- value_int - Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° money
+-- value_float - Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° numeric
+-- value_date - Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° date
+-- value_boolean - Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° boolean
 CREATE TABLE IF NOT EXISTS film_attr_value (
     id serial PRIMARY KEY NOT NULL,
     film_ent_id integer NOT NULL,
@@ -75,10 +75,10 @@ ON film_attr_type(name);
 -- DATA
 
 INSERT INTO film_attr_type(name) VALUES
-    ('Рецензия'),
-    ('Премия'),
-    ('Важная дата'),
-    ('Служебная дата');
+    ('Р РµС†РµРЅР·РёСЏ'),
+    ('РџСЂРµРјРёСЏ'),
+    ('Р’Р°Р¶РЅР°СЏ РґР°С‚Р°'),
+    ('РЎР»СѓР¶РµР±РЅР°СЏ РґР°С‚Р°');
     
 INSERT INTO film_ent(name, year) VALUES
     ('Terminator', 1984),
@@ -86,19 +86,19 @@ INSERT INTO film_ent(name, year) VALUES
     ('The Godfather', 1972);
     
 INSERT INTO film_attr(film_attr_type_id, name) VALUES
-    (1, 'Рецензия зрителей'),
-    (1, 'Рецензия кинокритиков'),
-    (2, 'Премия Оскар'),
-    (2, 'Премия Тэффи'),
-    (3, 'Премьера в мире'),
-    (3, 'Премьера в России'),
-    (4, 'Дата начала продажи билетов'),
-    (4, 'Запуск рекламы');
+    (1, 'Р РµС†РµРЅР·РёСЏ Р·СЂРёС‚РµР»РµР№'),
+    (1, 'Р РµС†РµРЅР·РёСЏ РєРёРЅРѕРєСЂРёС‚РёРєРѕРІ'),
+    (2, 'РџСЂРµРјРёСЏ РћСЃРєР°СЂ'),
+    (2, 'РџСЂРµРјРёСЏ РўСЌС„С„Рё'),
+    (3, 'РџСЂРµРјСЊРµСЂР° РІ РјРёСЂРµ'),
+    (3, 'РџСЂРµРјСЊРµСЂР° РІ Р РѕСЃСЃРёРё'),
+    (4, 'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РїСЂРѕРґР°Р¶Рё Р±РёР»РµС‚РѕРІ'),
+    (4, 'Р—Р°РїСѓСЃРє СЂРµРєР»Р°РјС‹');
 
-INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (1, 1, 'Супер!');              
-INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (1, 2, 'Бывает получше.');
-INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (2, 2, 'Я в восторге!');
-INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (3, 1, 'Отличное кино на вечер.');
+INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (1, 1, 'РЎСѓРїРµСЂ!');              
+INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (1, 2, 'Р‘С‹РІР°РµС‚ РїРѕР»СѓС‡С€Рµ.');
+INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (2, 2, 'РЇ РІ РІРѕСЃС‚РѕСЂРіРµ!');
+INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_text) VALUES (3, 1, 'РћС‚Р»РёС‡РЅРѕРµ РєРёРЅРѕ РЅР° РІРµС‡РµСЂ.');
 
 INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_boolean) VALUES (1, 3, true);
 INSERT INTO public.film_attr_value(film_ent_id, film_attr_id, value_boolean) VALUES (2, 4, true);
