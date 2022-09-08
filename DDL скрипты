@@ -1,0 +1,49 @@
+CREATE TABLE IF NOT EXISTS public.cinema_hall
+(
+    cinema_hall_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    cinema_hall_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    cinema_hall_capacity integer NOT NULL,
+    CONSTRAINT "PK_cineme_hall_id" PRIMARY KEY (cinema_hall_id)
+)
+
+
+CREATE TABLE IF NOT EXISTS public.film
+(
+    film_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    film_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    film_duration integer NOT NULL,
+    CONSTRAINT "Film_pkey" PRIMARY KEY (film_id)
+)
+
+CREATE TABLE IF NOT EXISTS public.seance
+(
+    seance_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    film_id integer NOT NULL,
+    cinema_hall_id integer NOT NULL,
+    seance_start timestamp with time zone NOT NULL,
+    seance_finish timestamp with time zone NOT NULL,
+    CONSTRAINT seance_pkey PRIMARY KEY (seance_id),
+    CONSTRAINT "FK1_film_id" FOREIGN KEY (film_id)
+        REFERENCES public.film (film_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "FK2_cinema_hall_id" FOREIGN KEY (cinema_hall_id)
+        REFERENCES public.cinema_hall (cinema_hall_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+CREATE TABLE IF NOT EXISTS public.ticket
+(
+    ticket_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    seance_id integer NOT NULL,
+    ticket_price integer NOT NULL,
+    CONSTRAINT ticket_pkey PRIMARY KEY (ticket_id),
+    CONSTRAINT seance_id FOREIGN KEY (seance_id)
+        REFERENCES public.seance (seance_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
