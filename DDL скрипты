@@ -15,6 +15,18 @@ CREATE TABLE IF NOT EXISTS public.film
     CONSTRAINT "Film_pkey" PRIMARY KEY (film_id)
 )
 
+CREATE TABLE IF NOT EXISTS public.place
+(
+    place_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    cinema_hall_id integer NOT NULL,
+    place_number integer,
+    CONSTRAINT place_pkey PRIMARY KEY (place_id),
+    CONSTRAINT "FK1_cinema_hall_id" FOREIGN KEY (cinema_hall_id)
+        REFERENCES public.cinema_hall (cinema_hall_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
 CREATE TABLE IF NOT EXISTS public.seance
 (
     seance_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -40,9 +52,17 @@ CREATE TABLE IF NOT EXISTS public.ticket
     ticket_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     seance_id integer NOT NULL,
     ticket_price integer NOT NULL,
+    place_id integer NOT NULL,
     CONSTRAINT ticket_pkey PRIMARY KEY (ticket_id),
-    CONSTRAINT seance_id FOREIGN KEY (seance_id)
+    CONSTRAINT "UNIQUE_seance_id_place_id" UNIQUE (seance_id, place_id)
+        INCLUDE(seance_id, place_id),
+    CONSTRAINT "FK1_seance_id" FOREIGN KEY (seance_id)
         REFERENCES public.seance (seance_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "FK2_place_id" FOREIGN KEY (place_id)
+        REFERENCES public.place (place_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID
