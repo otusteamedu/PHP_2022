@@ -1,0 +1,10 @@
+1@2.ru
+ testyandex.ru
+test@yandex.ru
+test.@yandex.ru
+test@yandex.ru'
+test@yabdex.ru
+test@yabdex.ru3
+test@mail.ru3
+test@mail.ru
+test@mail121.ru
