@@ -9,17 +9,24 @@ use App\Application\Component\Event\EventDispatcher;
 use App\Application\Component\Form\ComplexElementCreator;
 use App\Application\Component\Form\SimpleElementCreator;
 use App\Application\Component\FormComponent\FormComponent;
+use App\Application\Component\FormComponent\Validator\EmailValidator;
 use App\Application\Component\FormComponent\Validator\NameValidator;
 use App\Application\Component\FormComponent\Validator\Passport\IssueCodeValidator;
 use App\Application\Component\FormComponent\Validator\Passport\IssueDateValidator;
 use App\Application\Component\FormComponent\Validator\Passport\NumberValidator;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 use App\Application\Component\Http\{Request, Response};
 use App\Domain\Event\CreditRequested;
 
 class CreditController extends AbstractController
 {
-    public function requestFormPage(Request $request, EventDispatcher $dispatcher, IdentityMap $identityMap): Response
-    {
+    public function requestFormPage(
+        Request $request,
+        EventDispatcher $dispatcher,
+        IdentityMap $identityMap,
+        AMQPStreamConnection $amqpConnection
+    ): Response {
+
         if ($request->get('submit') !== null) {
 
             $data = [
@@ -29,12 +36,13 @@ class CreditController extends AbstractController
                 'passport_number' => $request->get('pass_number'),
                 'passport_who' => $request->get('pass_place_code'),
                 'passport_when' => $request->get('pass_issue_date'),
+                'email_callback' => $request->get('email_callback'),
             ];
 
             $validation_tree = $this->getCreditRequestTree(...$data);
             $validation_tree->process();
 
-            $dispatcher->dispatch(new CreditRequested($data, $identityMap));
+            $dispatcher->dispatch(new CreditRequested($data, $identityMap, $amqpConnection));
 
             return $this->render('templates/credit_success.html');
         }
@@ -48,7 +56,8 @@ class CreditController extends AbstractController
         string $middlename,
         string $passport_number,
         string $passport_who,
-        string $passport_when
+        string $passport_when,
+        string $email_callback
     ): FormComponent {
 
         $complex_ec = new ComplexElementCreator();
@@ -68,9 +77,12 @@ class CreditController extends AbstractController
 
         $user_passport->add($passport_data);
 
+        $email = $simple_ec->newTreeElement($email_callback, new EmailValidator());
+
         $tree = $complex_ec->newTreeElement();
         $tree->add($user_name);
         $tree->add($user_passport);
+        $tree->add($email);
 
         return $tree;
     }

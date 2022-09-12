@@ -28,9 +28,10 @@ class App
         $request = $this->container->get('request');
         $dispatcher = $this->container->get('dispatcher');
         $identityMap = $this->container->get('identityMap');
+        $amqpConnection = $this->container->get('amqp');
 
         $controller = new CreditController();
 
-        return $controller->requestFormPage($request, $dispatcher, $identityMap)->send();
+        return $controller->requestFormPage($request, $dispatcher, $identityMap, $amqpConnection)->send();
     }
 }

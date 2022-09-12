@@ -16,10 +16,12 @@ class CreditRequestListener
 
         $request = new CreditRequestProxy(
             new CreditRequest(
-                name: $requestData['lastname'].$requestData['firstname'].$requestData['middlename'],
+                name: $requestData['lastname']." ".$requestData['firstname']." ".$requestData['middlename'],
                 passport_number: $requestData['passport_number'],
                 passport_who: $requestData['passport_who'],
-                passport_when: $requestData['passport_when']
+                passport_when: $requestData['passport_when'],
+                email_callback: $requestData['email_callback'],
+                amqpConnection: $event->getAmqpConnection()
             ), $event->getIdentityMap()
         );
 

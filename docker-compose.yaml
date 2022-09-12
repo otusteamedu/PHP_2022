@@ -30,6 +30,7 @@ services:
       - ./code:/data/application.local/code
       - ./vendor:/data/application.local/vendor
       - ./templates:/data/application.local/templates
+      - ./scripts:/data/application.local/scripts
       - ./nginx/webserver/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
     networks:
       - app-network
@@ -46,6 +47,7 @@ services:
       - ./code:/data/application.local/code
       - ./vendor:/data/application.local/vendor
       - ./templates:/data/application.local/templates
+      - ./scripts:/data/application.local/scripts
       - ./composer.json:/data/application.local/composer.json
       - ./composer.lock:/data/application.local/composer.lock
     extra_hosts:
@@ -60,6 +62,18 @@ services:
       - "11211:11211"
     volumes:
       - ./volumes/memcached:/data
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./volumes/rabbitmq/data/:/var/lib/rabbitmq
+      - ./volumes/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - app-network
 
