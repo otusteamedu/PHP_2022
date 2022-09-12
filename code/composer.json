@@ -1,0 +1,25 @@
+{
+  "name": "otus/mvc",
+  "description": "HW3 nginx upstream, check  string",
+  "type": "project",
+  "license": "Freeware",
+  "authors": [
+    {
+      "name": "I.Tsyganok",
+      "email": "ciganokigor@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otus\\Mvc\\Controllers\\": "Controllers/",
+      "Otus\\Mvc\\Core\\": "Core/",
+      "Otus\\Mvc\\Models\\": "Models/",
+      "Otus\\Mvc\\Views\\": "Views/",
+      "Otus\\Mvc\\Services\\": "Services/",
+      "Otus\\Mvc\\Assets\\": "Assets/"
+    }
+  }
+}

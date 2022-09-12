@@ -5,12 +5,15 @@ services:
   nginx1:
     build:
       context: ./nginx
-      dockerfile: Dockerfile_nginx_upstream_hw3
+      dockerfile: nginx/Dockerfile
     image: balance/nginx
     container_name: nginx_upstream_hw3
      #проброс портов
     ports:
      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/nginx1_upstream.conf:/etc/nginx/conf.d/mysite.local.conf
     networks:
       - app-network
 
@@ -18,14 +21,13 @@ services:
   nginx2:
     build:
       context: ./nginx
-      dockerfile: Dockerfile_nginx2_hw3
+      dockerfile: Dockerfile
     image: balance/nginx
     container_name: nginx2_hw3
      #проброс портов
-    ports:
-      - "8080:8080"
     volumes:
       - ./code:/data/mysite.local
+      - ./nginx/hosts/nginx2_app1.conf:/etc/nginx/conf.d/mysite.local.conf
     networks:
       - app-network
 
@@ -33,14 +35,13 @@ services:
   nginx3:
     build:
       context: ./nginx
-      dockerfile: Dockerfile_nginx3_hw3
+      dockerfile: Dockerfile
     image: balance/nginx
     container_name: nginx3_hw3
      #проброс портов
-    ports:
-      - "443:443"
     volumes:
       - ./code:/data/mysite.local
+      - ./nginx/hosts/nginx3_app2.conf:/etc/nginx/conf.d/mysite.local.conf
     networks:
       - app-network
 
@@ -83,7 +84,7 @@ services:
 
   memcached:
     image: memcached:latest
-    container_name: mymemcached
+    container_name: memcached
     restart: always
     ports:
       - "11211:11211"
