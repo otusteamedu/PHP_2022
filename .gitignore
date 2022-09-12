@@ -1,4 +1,5 @@
 /.idea/
 /.git/
-./code/config/.env
+/code/vendor
+/code/config/.env
 
