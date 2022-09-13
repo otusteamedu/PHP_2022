@@ -1,0 +1,18 @@
+{
+    "name": "nikolai/php",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nikolai\\Php\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikolai Timakov",
+            "email": "ntimakov@mail.ru"
+        }
+    ],
+    "require": {
+        "symfony/yaml": "^5.4"
+    }
+}
