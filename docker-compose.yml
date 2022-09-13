@@ -1,0 +1,94 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: server
+    volumes:
+      - ./code:/data/application.local
+      - ./socket:/socket
+    networks:
+      - app-network
+
+  client1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: client1
+    volumes:
+      - ./code:/data/application.local
+      - ./socket:/socket
+    networks:
+      - app-network
+
+  client2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: client2
+    volumes:
+      - ./code:/data/application.local
+      - ./socket:/socket
+    networks:
+      - app-network
+
+  #nginx:
+  #  build:
+  #    context: ./nginx
+  #    dockerfile: Dockerfile
+  #  image: myapp/nginx
+  #  container_name: nginx
+  #  depends_on:
+  #    - app
+  #  ports:
+  #    - "80:80"
+  #  volumes:
+  #    - ./code:/data/application.local
+  #    - ./socket:/socket
+  #  networks:
+  #    - app-network
+
+  #postgresql:
+  #  image: postgres:13
+  #  ports:
+  #    - "5432:5432"
+  #  container_name: 'postgresql'
+  #  working_dir: /data/application.local
+  #  restart: always
+  #  environment:
+  #    - POSTGRES_DB=${POSTGRES_DB}
+  #    - POSTGRES_USER=${POSTGRES_USER}
+  #    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #  volumes:
+  #    - postgresql:/var/lib/postgresql/data
+  #  networks:
+  #    - app-network
+
+  #redis:
+  #  container_name: 'redis'
+  #  image: redis
+  #  ports:
+  #    - "6379:6379"
+  #  networks:
+  #    - app-network
+
+  #memcached:
+  #  image: memcached:latest
+  #  container_name: 'memcached'
+  #  restart: always
+  #  ports:
+  #    - "11211:11211"
+  #  networks:
+  #    - app-network
+
+# volumes:
+  # postgresql:
+
+networks:
+  app-network:
+    driver: bridge
