@@ -32,7 +32,7 @@ docker-compose run socket-chat-server bash
  ```
 - Run script in container with server side
 ```bash
-php server.php
+php app.php
  ```
  
 - Run container with client
@@ -41,7 +41,7 @@ docker-compose run socket-chat-client bash
 ```
 - Run script in client container
 ```bash
-php client.php
+php app.php
 ```
 
 - Follow instructions in client container

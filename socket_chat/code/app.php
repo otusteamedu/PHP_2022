@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use \Mapaxa\SocketChatApp\Client\App;
+use Mapaxa\SocketChatApp\App\App;
 
 try {
     $app = new App();
