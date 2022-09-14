@@ -30,23 +30,6 @@ services:
     networks:
       - app-network
 
-  rabbit:
-    image: rabbitmq:3-management
-    container_name: rabbit
-    ports:
-      - "15672:15672"
-      - "4369:4369"
-      - "5671:5671"
-      - "5672:5672"
-      - "25672:25672"
-    environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: user
-      VIRTUAL_HOST: rabbit
-      RABBITMQ_DEFAULT_VHOST: /
-    networks:
-      - app-network
-
 #Docker Networks
 networks:
   app-network:

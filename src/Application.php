@@ -1,10 +1,10 @@
 <?php
 
-namespace Mselyatin\Queue;
+namespace Mselyatin\Patterns;
 
-use Mselyatin\Queue\application\interfaces\QueueInterface;
-use Mselyatin\Queue\application\valueObject\queue\QueueDataConnectionValueObject;
-use \InvalidArgumentException;
+use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Михаил Селятин <selyatin83@mail.ru>
@@ -14,8 +14,11 @@ class Application
     /** @var Application|null $this  */
     public static ?self $app = null;
 
-    /** @var QueueInterface  */
-    private QueueInterface $queue;
+    /** @var ContainerInterface|null  */
+    public static ?ContainerInterface $container = null;
+
+    /** @var Request|null  */
+    public ?Request $request = null;
 
     /** @var array  */
     private array $config = [];
@@ -31,41 +34,31 @@ class Application
     {
         if (static::$app === null) {
             $this->config = $config;
-            $this->initQueueManager();
             static::$app = $this;
         }
-    }
 
-    private function initQueueManager(): void
-    {
-        try {
-            $dataConnection = new QueueDataConnectionValueObject(
-                $this->config['queue']['host'] ?? '',
-                $this->config['queue']['port'] ?? '',
-                $this->config['queue']['user'] ?? '',
-                $this->config['queue']['password'] ?? '',
-                $this->config['queue']['connection_timeout'] ?? 3.0,
-                $this->config['queue']['connection_write'] ?? 3.0,
-                $this->config['queue']['vhost'] ?? '/',
+        if (static::$container === null) {
+            $this->initContainer();
+        }
+
+        if ($this->request === null) {
+            $this->request = new Request(
+                $_GET,
+                $_POST,
+                [],
+                $_COOKIE,
+                $_FILES,
+                $_SERVER
             );
-
-            $classQueueManager = $this->config['queue']['class'] ?? null;
-            if (class_exists($classQueueManager)) {
-                $this->queue = new $classQueueManager($dataConnection);
-                return;
-            }
-
-            throw new InvalidArgumentException(
-                "Error! Class $classQueueManager not exists.",
-            );
-
-        } catch (\Exception $e) {
-            throw $e;
         }
     }
 
-    public function getQueueManager(): QueueInterface
+    private function initContainer(): void
     {
-        return $this->queue;
+        $definitions = $this->config['diconfig'] ?? [];
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions($definitions);
+
+        static::$container = $containerBuilder->build();
     }
 }

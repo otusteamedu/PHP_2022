@@ -1,7 +1,7 @@
 <?php
 
-$queue = require_once('queue.php') ?? [];
+$diConfig = require_once('di.php') ?? [];
 
 return [
-    'queue' => $queue
+    'diconfig' => $diConfig
 ];
