@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  socket-chat-server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    image: php
+    container_name: socket-chat-server
+    working_dir: /data/socket-chat.local
+    env_file: .env
+    environment:
+      APP_TYPE: server
+    volumes:
+      - ./code:/data/socket-chat.local
+    networks:
+      - app-network
+
+  socket-chat-client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    image: php
+    container_name: socket-chat-client
+    working_dir: /data/socket-chat.local
+    env_file: .env
+    environment:
+      APP_TYPE: client
+    volumes:
+      - ./code:/data/socket-chat.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
