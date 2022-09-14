@@ -1,10 +1,9 @@
+SELECT a.film_name, d.place_id from film as a
+inner join public.seance as b on a.film_id = b.film_id
+inner join public.ticket as c on b.seance_id = c.seance_id
+inner join public.place as d on d.place_id = c.place_id
+inner join public.row_seat as e on d.row_seat_id = e.row_seat_id
+inner join public.table_price as f on e.price_id = f.price_id;
 
-SELECT film.film_name, sum(ticket.ticket_price) from film, seance, ticket
-where seance.film_id = film.film_id
-and ticket.seance_id = seance.seance_id
-group by film.film_name
-
-
-"film_name"	"sum"
-"Рокки"	3150
-"Соучастник"	1350
+"Рокки" 1290
+"Соучастник"    750
