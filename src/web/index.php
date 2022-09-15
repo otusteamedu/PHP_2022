@@ -11,7 +11,7 @@
 
 <h1>Форма заказа фастфуда</h1>
 
-<form action="/processing.php" method="GET" name="order_form">
+<form action="processing.php" method="GET" name="order_form">
 
     <h3>Выберите товар</h3>
     <select name="product_id" id="">

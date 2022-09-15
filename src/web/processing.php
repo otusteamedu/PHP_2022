@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require("./vendor/autoload.php");
+require("../../vendor/autoload.php");
 
 use Mselyatin\Patterns\infrastructure\mappers\TypeProductToStrategyMapper;
 use Mselyatin\Patterns\infrastructure\mappers\StringIdToCompositionMapper;
@@ -11,7 +11,7 @@ use Mselyatin\Patterns\application\interfaces\services\FastFoodServiceInterface;
 use Mselyatin\Patterns\domain\valueObjects\products\ReadinessStatusValue;
 use Mselyatin\Patterns\domain\constants\ReadinessStatusConstants;
 
-$configs = require_once('config/configs.php') ?? [];
+$configs = require_once('../../config/configs.php') ?? [];
 
 try {
     $application = new \Mselyatin\Patterns\Application();
