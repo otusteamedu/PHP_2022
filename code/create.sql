@@ -2,7 +2,7 @@
 CREATE TABLE cinema_hall (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id));
 
 /* Создание таблицы film (фильмы): длительность фильма - в минутах */
-CREATE TABLE film (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, duration INT NOT NULL, PRIMARY KEY(id));
+CREATE TABLE film (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, duration INT NOT NULL, base_price DECIMAL NOT NULL, PRIMARY KEY(id));
 
 /* Создание таблицы place (места в залах): row - ряд, col - место в ряду */
 CREATE TABLE place (id SERIAL NOT NULL, row INT NOT NULL, col INT NOT NULL, PRIMARY KEY(id));
@@ -28,3 +28,32 @@ CREATE INDEX ticket__schedule_id__ind ON ticket (schedule_id);
 CREATE INDEX ticket__cinema_hall_place_relation_id__ind ON ticket (cinema_hall_place_relation_id);
 ALTER TABLE ticket ADD CONSTRAINT ticket__schedule_id__fk FOREIGN KEY (schedule_id) REFERENCES schedule (id);
 ALTER TABLE ticket ADD CONSTRAINT ticket__cinema_hall_place_relation_id__fk FOREIGN KEY (cinema_hall_place_relation_id) REFERENCES cinema_hall_place_relation (id);
+
+/* Создание таблицы log для отладки скрипта по добавлению тестовыхданных и тригера*/
+CREATE TABLE log (id SERIAL NOT NULL, tbl VARCHAR(100), txt VARCHAR(2048), PRIMARY KEY(id));
+CREATE INDEX log__tbl__ind ON log (tbl);
+
+/**
+    Триггер, который проверяет, что билет создан или обновлен к месту, которое есть в данном зале
+ */
+CREATE OR REPLACE FUNCTION verify_cinema_hall_place_relation() RETURNS trigger AS $verify_cinema_hall_place_relation$
+DECLARE
+    cinema_hall_id_ticket INT;
+    cinema_hall_place_relation_id INT;
+BEGIN
+    SELECT cinema_hall_id FROM schedule WHERE id = NEW.schedule_id INTO cinema_hall_id_ticket;
+
+    SELECT id FROM cinema_hall_place_relation
+    WHERE id = NEW.cinema_hall_place_relation_id AND cinema_hall_id = cinema_hall_id_ticket
+    INTO cinema_hall_place_relation_id;
+
+    IF cinema_hall_place_relation_id IS NULL THEN
+        RAISE EXCEPTION 'В зале с cinema_hall_id: % нет места с cinema_hall_place_relation_id: %', cinema_hall_id_ticket, NEW.cinema_hall_place_relation_id;
+    END IF;
+
+    RETURN NEW;
+END;
+$verify_cinema_hall_place_relation$ LANGUAGE plpgsql;
+
+CREATE TRIGGER verify_cinema_hall_place_relation BEFORE INSERT OR UPDATE ON ticket
+    FOR EACH ROW EXECUTE PROCEDURE verify_cinema_hall_place_relation();
