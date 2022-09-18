@@ -7,7 +7,7 @@ CREATE TABLE "cinema_hall"
     OIDS = FALSE
 );
 
-CREATE TABLE "move"
+CREATE TABLE "movie"
 (
     "id"           serial       NOT NULL,
     "name"         VARCHAR(150) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE "move"
     "release_date" DATE         NOT NULL,
     "duration"     DECIMAL      NOT NULL,
     "price"        DECIMAL      NOT NULL,
-    CONSTRAINT "move_pk" PRIMARY KEY ("id")
+    CONSTRAINT "movie_pk" PRIMARY KEY ("id")
 ) WITH (
     OIDS = FALSE
 );
@@ -28,7 +28,7 @@ CREATE TABLE "ticket"
     "customer_id"  integer      NOT NULL,
     "schedule_id"  integer      NOT NULL,
     "total_price"  DECIMAL      NOT NULL,
-    "move_name"    VARCHAR(255) NOT NULL,
+    "movie_name"    VARCHAR(255) NOT NULL,
     CONSTRAINT "ticket_pk" PRIMARY KEY ("id")
 ) WITH (
     OIDS = FALSE
@@ -38,7 +38,7 @@ CREATE TABLE "session"
 (
     "id"             serial  NOT NULL,
     "name"           TEXT    NOT NULL,
-    "move_id"        integer NOT NULL,
+    "movie_id"        integer NOT NULL,
     "cinema_hall_id" integer NOT NULL,
     "price"          DECIMAL NOT NULL,
     CONSTRAINT "session_pk" PRIMARY KEY ("id")
@@ -98,7 +98,7 @@ ALTER TABLE "ticket"
     ADD CONSTRAINT "ticket_fk1" FOREIGN KEY ("schedule_id") REFERENCES "schedule" ("id");
 
 ALTER TABLE "session"
-    ADD CONSTRAINT "session_fk0" FOREIGN KEY ("move_id") REFERENCES "move" ("id");
+    ADD CONSTRAINT "session_fk0" FOREIGN KEY ("movie_id") REFERENCES "movie" ("id");
 ALTER TABLE "session"
     ADD CONSTRAINT "session_fk1" FOREIGN KEY ("cinema_hall_id") REFERENCES "cinema_hall" ("id");
 
