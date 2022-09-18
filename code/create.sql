@@ -28,6 +28,7 @@ CREATE INDEX ticket__schedule_id__ind ON ticket (schedule_id);
 CREATE INDEX ticket__cinema_hall_place_relation_id__ind ON ticket (cinema_hall_place_relation_id);
 ALTER TABLE ticket ADD CONSTRAINT ticket__schedule_id__fk FOREIGN KEY (schedule_id) REFERENCES schedule (id);
 ALTER TABLE ticket ADD CONSTRAINT ticket__cinema_hall_place_relation_id__fk FOREIGN KEY (cinema_hall_place_relation_id) REFERENCES cinema_hall_place_relation (id);
+CREATE UNIQUE INDEX ticket__schedule_id_cinema_hall_place_relation_id__ind ON ticket (schedule_id, cinema_hall_place_relation_id);
 
 /* Создание таблицы log для отладки скрипта по добавлению тестовыхданных и тригера*/
 CREATE TABLE log (id SERIAL NOT NULL, tbl VARCHAR(100), txt VARCHAR(2048), PRIMARY KEY(id));
