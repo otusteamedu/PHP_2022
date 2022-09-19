@@ -38,6 +38,7 @@ create table value
             on update restrict on delete restrict,
     text         text,
     int          integer,
+    float        float,
     date         timestamp,
     bool         boolean default false not null
 );
