@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  otus_queue__proxy:
+    image: nginx:alpine
+    container_name: otus_queue__proxy
+    depends_on:
+      - otus_queue__php_fpm
+    ports:
+     - "6080:6080"
+    volumes:
+     - ./docker-res/nginx:/etc/nginx/conf.d
+     - ./backend/app:/app/code
+    networks:
+      - otus-queue-network
+
+  otus_queue__php_fpm:
+    image: webdevops/php:$PHP_VERSION-alpine
+    container_name: otus_queue__php_fpm
+    depends_on:
+      - "otus_queue__db"
+      - "otus_queue__rabbit-mq"
+    volumes:
+     - ./backend/app:/app/code
+    networks:
+      - otus-queue-network
+
+  otus_queue__rabbit-mq:
+    image: rabbitmq:3.7.5-management
+    container_name: otus_queue__rabbit-mq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - otus-queue-network
+
+  otus_queue__queue-consumer:
+    image: webdevops/php:$PHP_VERSION-alpine
+    container_name: otus_queue__queue-consumer
+    working_dir: /app/code
+    depends_on:
+      - "otus_queue__db"
+      - "otus_queue__rabbit-mq"
+    command: ["php", "artisan", "queue:work"]
+    volumes:
+     - ./backend/app:/app/code
+    networks:
+      - otus-queue-network
+
+  otus_queue__db:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/postgres:/var/lib/postgresql/data
+    networks:
+      - otus-queue-network
+
+networks:
+  otus-queue-network:
+    driver: bridge
