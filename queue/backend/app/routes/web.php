@@ -16,3 +16,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => '/api'], function () use ($router) {
+    $router->group(['prefix' => 'v1'], function () use ($router) {
+        $router->group(['prefix' => 'bank-statement-for-client'], function () use ($router) {
+            $router->post('get', 'Api\V1\BankClientController@getBankStatementForClient');
+        });
+    });
+});

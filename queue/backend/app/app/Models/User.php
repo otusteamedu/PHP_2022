@@ -30,4 +30,24 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function getUserIdentifier(): ?int
+    {
+        return $this->attributes['id'] ?? null;
+    }
+
+    public function getBankSecretToken(): ?string
+    {
+        return 'ldfkbnlbewmgenrgdbkgbdbnndfn393e8rtreghbvsdv';
+    }
+
+    public function getTelegramChatId(): ?string
+    {
+        return '39745100350';
+    }
+
+    public function getEmail(): ?string
+    {
+        return 'login@domain.com';
+    }
 }
