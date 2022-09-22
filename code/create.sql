@@ -14,6 +14,7 @@ CREATE INDEX cinema_hall_place_relation__cinema_hall_id__ind ON cinema_hall_plac
 CREATE INDEX cinema_hall_place_relation__place_id__ind ON cinema_hall_place_relation (place_id);
 ALTER TABLE cinema_hall_place_relation ADD CONSTRAINT cinema_hall_place_relation__cinema_hall_id__fk FOREIGN KEY (cinema_hall_id) REFERENCES cinema_hall (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE cinema_hall_place_relation ADD CONSTRAINT cinema_hall_place_relation__place_id__fk FOREIGN KEY (place_id) REFERENCES place (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+CREATE UNIQUE INDEX cinema_hall_place_relation__cinema_hall_id_place_id__ind ON cinema_hall_place_relation (cinema_hall_id, place_id);
 
 /* Создание таблицы schedule (расписание сеансов) */
 CREATE TABLE schedule (id SERIAL NOT NULL, begin_session TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, film_id INT NOT NULL, cinema_hall_id INT NOT NULL, PRIMARY KEY(id));
@@ -29,6 +30,17 @@ CREATE INDEX ticket__cinema_hall_place_relation_id__ind ON ticket (cinema_hall_p
 ALTER TABLE ticket ADD CONSTRAINT ticket__schedule_id__fk FOREIGN KEY (schedule_id) REFERENCES schedule (id);
 ALTER TABLE ticket ADD CONSTRAINT ticket__cinema_hall_place_relation_id__fk FOREIGN KEY (cinema_hall_place_relation_id) REFERENCES cinema_hall_place_relation (id);
 CREATE UNIQUE INDEX ticket__schedule_id_cinema_hall_place_relation_id__ind ON ticket (schedule_id, cinema_hall_place_relation_id);
+
+/* Создание таблицы price_setting (коэффициенты цен для билетов) */
+CREATE TABLE price_setting (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, coefficient DECIMAL NOT NULL, PRIMARY KEY(id));
+
+/* Создание таблицы ticket_price_setting_relation (отношения билетов и коэффициентов цен) */
+CREATE TABLE ticket_price_setting_relation (id SERIAL NOT NULL, ticket_id INT NOT NULL, price_setting_id INT NOT NULL, PRIMARY KEY(id));
+CREATE INDEX ticket_price_setting_relation__ticket_id__ind ON ticket_price_setting_relation (ticket_id);
+CREATE INDEX ticket_price_setting_relation__price_setting_id__ind ON ticket_price_setting_relation (price_setting_id);
+ALTER TABLE ticket_price_setting_relation ADD CONSTRAINT ticket_price_setting_relation__ticket_id__fk FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_price_setting_relation ADD CONSTRAINT ticket_price_setting_relation__price_setting_id__fk FOREIGN KEY (price_setting_id) REFERENCES price_setting (id);
+CREATE UNIQUE INDEX ticket_price_setting_relation__ticket_id_price_setting_id__ind ON ticket_price_setting_relation (ticket_id, price_setting_id);
 
 /* Создание таблицы log для отладки скрипта по добавлению тестовыхданных и тригера*/
 CREATE TABLE log (id SERIAL NOT NULL, tbl VARCHAR(100), txt VARCHAR(2048), PRIMARY KEY(id));

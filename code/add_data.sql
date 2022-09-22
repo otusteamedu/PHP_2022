@@ -168,6 +168,58 @@ BEGIN
 END;
 $$;
 
+/* Добавляет коэффициенты цен для билетов */
+CREATE OR REPLACE PROCEDURE insert_price_settings()
+    LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO price_setting (name, coefficient) VALUES ('Вечерний сеанс', 0.2),
+                                                         ('Сеанс в выходные', 0.3),
+                                                         ('Ближний ряд', 0.1),
+                                                         ('Место в середине ряда', 0.15),
+                                                         ('VIP зал', 0.25);
+END;
+$$;
+
+/* Добавляет билет */
+CREATE OR REPLACE PROCEDURE insert_ticket(IN ticket_rec RECORD)
+    LANGUAGE plpgsql
+AS $$
+DECLARE
+    total_sum_coefficients DECIMAL := 0;
+    price_setting_rec RECORD;
+    price_setting_ids INT[];
+    target_price_setting_id INT;
+    status BOOLEAN := false;
+BEGIN
+    IF round(random()) > 0 THEN
+        status := true;
+    END IF;
+
+    FOR price_setting_rec IN SELECT * FROM price_setting LOOP
+        IF round(random()) > 0 THEN
+            total_sum_coefficients := total_sum_coefficients + price_setting_rec.coefficient;
+            price_setting_ids := array_append(price_setting_ids, price_setting_rec.id);
+        END IF;
+    END LOOP;
+
+    INSERT INTO ticket (schedule_id, cinema_hall_place_relation_id, price, status)
+    VALUES (
+               ticket_rec.schedule_id,
+               ticket_rec.cinema_hall_place_relation_id,
+               round(ticket_rec.base_price * (1.0 + total_sum_coefficients), 2),
+               status
+           );
+
+    IF array_length(price_setting_ids, 1) > 0 THEN
+        FOREACH target_price_setting_id IN ARRAY price_setting_ids LOOP
+            INSERT INTO ticket_price_setting_relation (ticket_id, price_setting_id)
+            VALUES (pg_catalog.currval('ticket_id_seq'), target_price_setting_id);
+        END LOOP;
+    END IF;
+END;
+$$;
+
 /* Добавляет билеты (проданные и нет) */
 CREATE OR REPLACE PROCEDURE insert_tickets()
     LANGUAGE plpgsql
@@ -175,9 +227,6 @@ AS $$
 DECLARE
     ticket_rec RECORD;
     count_tickets INT := 0;
-    coefficient_price DECIMAL; /* билет в 1,5 - 2 раза дороже базовой цены */
-    status_decimal DECIMAL;
-    status BOOLEAN;
 BEGIN
     FOR ticket_rec IN
         SELECT sch.id AS schedule_id, f.base_price, rel.id AS cinema_hall_place_relation_id
@@ -185,23 +234,7 @@ BEGIN
         JOIN film f ON sch.film_id = f.id
         JOIN cinema_hall_place_relation rel on sch.cinema_hall_id = rel.cinema_hall_id
     LOOP
-        status_decimal := round(random());
-        IF status_decimal = 0 THEN
-            status := false;
-        ELSE
-            status := true;
-        END IF;
-
-        CALL rnd(0.5, 1.0, coefficient_price);
-
-        INSERT INTO ticket (schedule_id, cinema_hall_place_relation_id, price, status)
-        VALUES (
-                    ticket_rec.schedule_id,
-                    ticket_rec.cinema_hall_place_relation_id,
-                    round(ticket_rec.base_price * coefficient_price, 2),
-                    status
-                );
-
+        CALL insert_ticket(ticket_rec);
         count_tickets := count_tickets + 1;
     END LOOP;
 
@@ -224,6 +257,7 @@ DO $$
         CALL insert_places(count_rows, count_cols);
         CALL insert_cinema_hall_place_relations(count_rows, count_cols);
         CALL insert_schedule(date_begining, date_end, time_begining, time_end);
+        CALL insert_price_settings();
         CALL insert_tickets();
     END;
 $$;

@@ -1,3 +1,5 @@
+drop table ticket_price_setting_relation;
+drop table price_setting;
 drop table ticket;
 drop table schedule;
 drop table cinema_hall_place_relation;
