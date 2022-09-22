@@ -1,0 +1,16 @@
+{
+    "name": "shilyaev/hw14",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pavel Shilyaev",
+            "email": "pashilyaev@yandex.ru"
+        }
+    ],
+    "require": {}
+}
