@@ -9,7 +9,6 @@ CREATE TABLE attribute (
     id SERIAL NOT NULL,
     name VARCHAR(255) NOT NULL,
     attribute_type_id INT NOT NULL,
-    /*multiple BOOLEAN DEFAULT FALSE,   атрибут имеет множество значений */
     value_field_name VARCHAR(255) NOT NULL, /* имя поля таблицы attribute_value, в котором хранятся значения данного типа атрибута */
     PRIMARY KEY(id)
 );
@@ -40,7 +39,6 @@ ALTER TABLE attribute_value ADD CONSTRAINT attribute_value__entity_id__fk FOREIG
 /* Создание таблицы log для отладки */
 CREATE TABLE log (id SERIAL NOT NULL, tbl VARCHAR(100), txt VARCHAR(2048), PRIMARY KEY(id));
 CREATE INDEX log__tbl__ind ON log (tbl);
-
 
 /* Добавляет значение аттрибута типа int */
 CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value INT)
@@ -93,7 +91,6 @@ BEGIN
     VALUES (seq_id, seq_id, entity_id, attribute_id, value);
 END;
 $$;
-
 
 /* Добавляет значения аттрибута типа int[] */
 CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value INT[])
@@ -190,3 +187,18 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION get_value(target_entity_id INT, target_attribute_id INT)
+RETURNS SETOF TEXT AS
+$$
+DECLARE
+    field_name VARCHAR;
+    delimiter VARCHAR := ', ';
+BEGIN
+    SELECT value_field_name FROM attribute WHERE id = target_attribute_id INTO field_name;
+
+    RETURN QUERY EXECUTE 'SELECT string_agg(' || quote_ident(field_name) ||
+        '::VARCHAR, $1) FROM attribute_value WHERE entity_id = $2 AND attribute_id = $3 GROUP BY value_id'
+        USING delimiter, target_entity_id, target_attribute_id;
+END;
+$$ LANGUAGE plpgsql;
