@@ -10,7 +10,7 @@ use App\Application;
 $pdo = new \PDO('mysql:host=localhost;dbname=test', 'test_user', 'test_password');
 $storage = new \App\Infrastructure\ProductStorage($pdo);
 
-//Клас для вывода результатов
+//Класc для вывода результатов
 $response = new \App\Infrastructure\ConsoleOutput();
 
 //Создаем приложение
