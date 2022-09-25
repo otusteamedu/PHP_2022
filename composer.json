@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "App": "app/"
+            "App\\": "app/"
         }
     },
     "authors": [
@@ -13,5 +13,12 @@
             "name": "Anton Shvedov"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=8.1",
+        "elasticsearch/elasticsearch": "^8.4",
+        "phplucidframe/console-table": "^1.2"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    }
 }
