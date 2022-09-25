@@ -1,3 +1,23 @@
 # PHP_2022
 
 # ДЗ: ElasticSearch
+
+## Запуск
+- создать ```.env``` файл на базе ```.env.example``` (указать нужно только пароли)  
+- из дирекотрии с проектом выполнить: ```docker-compose build```  
+- когда ```build``` отработает, выполнить: ```docker-compose -p 'otus-hw10' up -d```  
+- если все успешно, то стартанут контейнеры:
+![img.png](readme-img/img.png)  
+- не заходя ни в какой контейнер, из директории проекта выполнить: ```docker cp es01:/usr/share/elasticsearch/config/certs/es01/es01.crt .```
+- если появился сертифкат ```es01.crt``` в директории проекта, для проверки что все хорошо, выполнить: ```curl --cacert es01.crt -u elastic https://localhost:9200```
+![img_1.png](readme-img/img_1.png)  
+- на требование ввести пароль, набрать пароль который был указан в .env для параметра ```ELASTIC_PASSWORD=```
+![img_2.png](readme-img/img_2.png)  
+- Однако, чтобы заработала ```kibana```, нужно пароли сгенерировать из контейнера с ```elasticsearch``` (в данном случае, это ```es01```)
+![img_3.png](readme-img/img_3.png)  
+- зайти в контейнер ```docker exec -it es-01 /bin/sh```  
+- в контейнере выполнить ```./bin/elasticsearch-setup-passwords interactive```  
+- будет предложено создать пароли (в целях разработки можно задать теже пароли которые в .env для всех запрашиваемых юзеров):
+![img_4.png](readme-img/img_4.png)  
+- если нужно что-то тестировать из Postman, то в самом Postman, в настройках авторизации выбрать Basic auth:
+![img_5.png](readme-img/img_5.png)  
