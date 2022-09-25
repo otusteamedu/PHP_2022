@@ -3,7 +3,7 @@
 # ДЗ: ElasticSearch
 [текст ДЗ](fixtures/hw-10.md)
 
-## Запуск
+## Создание и запуск контейнеров
 - создать ```.env``` файл на базе ```.env.example``` (указать нужно только пароли)  
 - из дирекотрии с проектом выполнить: ```docker-compose build```  
 - когда ```build``` отработает, выполнить: ```docker-compose -p 'otus-hw10' up -d```  
@@ -20,5 +20,19 @@
 - в контейнере выполнить ```./bin/elasticsearch-setup-passwords interactive```  
 - будет предложено создать пароли (в целях разработки можно задать теже пароли которые в ```.env``` для всех запрашиваемых юзеров):
 ![img_4.png](readme-img/img_4.png)  
+- для входа в ```kibana``` использовать логин ```elastic``` и соответствующий данному логину пароль  
 - если нужно что-то тестировать из ```Postman```, то в самом ```Postman```, в настройках авторизации выбрать ```Basic auth```:
 ![img_5.png](readme-img/img_5.png)  
+
+## Создание индекса и заполенение индекса данными
+- Из контейнера ```fpm-hw10```, выполнить: ```curl --cacert es01.crt -u elastic:password --request PUT 'https://es01:9200/otus-hw10' --header 'Content-Type: application/json' --data-binary "@elasticsearc
+  h-settings/mapping.json"```  
+```password``` здесь тот который использован в ```.env``` (или тот который был переопределен при командой ```./bin/elasticsearch-setup-passwords interactive```)  
+- чтобы заполнить индекс данными, выполнить из этого же контейнера: ```curl --cacert es01.crt -u elastic:rootqwerty --request POST 'https://es01:9200/otus-hw10/_bulk' --header 'Content-Type: application/json' --data-binary "@fixtu
+  res/books-hw10.json"```  
+И если все ок, то в Postman можно выполнить _search и убедиться что данные в индексе есть:  
+![img.png](readme-img/img_6.png)
+
+## Запуск приложения
+- сделать исполняемым скрипт: из корня проекта выполнить ```chmod +x app.php```
+- теперь можно запускать скрипт как ```./app.php <parameters>```
