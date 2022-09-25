@@ -50,6 +50,10 @@ DECLARE
     random_value_text VARCHAR;
 BEGIN
     count_values = round(random() * 10)::INTEGER;
+    IF count_values = 0 THEN
+        count_values := 2;
+    END IF;
+
     FOR i IN 1..count_values LOOP
         CALL get_random_value_text(random_value_text);
         random_value_array_text := array_append(random_value_array_text, random_value_text);
@@ -143,7 +147,7 @@ BEGIN
             IF attribute_rec.name = 'Рецензии критиков' THEN
                 CALL get_random_value_array_text(random_value_array_text);
                 CALL insert_attribute_value(film_id, attribute_rec.id, random_value_array_text);
-                random_value_array_text := ARRAY[]::VARCHAR[];
+                random_value_array_text := ARRAY[]::TEXT[];
 
             ELSEIF attribute_rec.value_field_name = 'value_text' THEN
                 CALL get_random_value_text(random_value_text);

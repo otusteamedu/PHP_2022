@@ -17,14 +17,15 @@ ALTER TABLE attribute ADD CONSTRAINT attribute__attribute_type_id__fk FOREIGN KE
 
 /* Создание таблицы attribute_value (значения атрибутов) */
 CREATE TABLE attribute_value (
-    id INT NOT NULL, /*SERIAL NOT NULL,*/
+    id INT NOT NULL,
     value_id INT NOT NULL,
     entity_id INT NOT NULL,
     attribute_id INT NOT NULL,
     value_int INT,
-    value_text VARCHAR(2048),
+    value_text TEXT,
     value_date DATE,
     value_bool BOOLEAN,
+    value_decimal DECIMAL,
     PRIMARY KEY(id)
 );
 CREATE SEQUENCE attribute_value_id_seq AS INTEGER;
@@ -54,7 +55,7 @@ END;
 $$;
 
 /* Добавляет значение аттрибута типа varchar */
-CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value VARCHAR)
+CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value TEXT)
     LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -92,6 +93,19 @@ BEGIN
 END;
 $$;
 
+/* Добавляет значение аттрибута типа decimal */
+CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value DECIMAL)
+    LANGUAGE plpgsql
+AS $$
+DECLARE
+    seq_id INT;
+BEGIN
+    SELECT pg_catalog.nextval('attribute_value_id_seq') INTO seq_id;
+    INSERT INTO attribute_value (id, value_id, entity_id, attribute_id, value_decimal)
+    VALUES (seq_id, seq_id, entity_id, attribute_id, value);
+END;
+$$;
+
 /* Добавляет значения аттрибута типа int[] */
 CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value INT[])
     LANGUAGE plpgsql
@@ -117,7 +131,7 @@ END;
 $$;
 
 /* Добавляет значения аттрибута типа varchar[] */
-CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value VARCHAR[])
+CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value TEXT[])
     LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -182,6 +196,30 @@ BEGIN
         ELSE
             SELECT pg_catalog.nextval('attribute_value_id_seq') INTO seq_id;
             INSERT INTO attribute_value (id, value_id, entity_id, attribute_id, value_bool)
+            VALUES (seq_id, value_id, entity_id, attribute_id, value[i]);
+        END IF;
+    END LOOP;
+END;
+$$;
+
+/* Добавляет значения аттрибута типа decimal[] */
+CREATE OR REPLACE PROCEDURE insert_attribute_value(IN entity_id INT, IN attribute_id INT, IN value DECIMAL[])
+    LANGUAGE plpgsql
+AS $$
+DECLARE
+    seq_id INT;
+    value_id INT;
+    count_values INT := array_length(value, 1);
+BEGIN
+    SELECT pg_catalog.nextval('attribute_value_id_seq') INTO value_id;
+
+    FOR i IN 1..count_values LOOP
+        IF i = 1 THEN
+            INSERT INTO attribute_value (id, value_id, entity_id, attribute_id, value_decimal)
+            VALUES (value_id, value_id, entity_id, attribute_id, value[i]);
+        ELSE
+            SELECT pg_catalog.nextval('attribute_value_id_seq') INTO seq_id;
+            INSERT INTO attribute_value (id, value_id, entity_id, attribute_id, value_decimal)
             VALUES (seq_id, value_id, entity_id, attribute_id, value[i]);
         END IF;
     END LOOP;
