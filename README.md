@@ -1,3 +1,21 @@
-# PHP_2022
+# Процессор строк
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+ Преобразование каждого слова строки к верхнему регистру
+ 
+## Требования
+
+- PHP 7.4
+
+## Установка
+
+~~~bash
+$ composer require olehandrei/my-composer-lib
+~~~
+
+## Использование
+
+~~~php
+<?php
+$new_app = new StringModify();
+echo $new_app->convertString('наШа мАша громкО плаЧет');
+~~~
