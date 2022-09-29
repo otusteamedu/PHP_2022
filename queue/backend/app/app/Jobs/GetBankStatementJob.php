@@ -10,8 +10,9 @@ class GetBankStatementJob extends Job
 {
     private Application\Contracts\GetBankStatementRequestInterface $request;
 
-    public function __construct(Application\Contracts\GetBankStatementRequestInterface $request)
-    {
+    public function __construct(
+        Application\Contracts\GetBankStatementRequestInterface $request
+    ) {
         $this->request = $request;
     }
 

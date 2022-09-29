@@ -33,7 +33,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getUserIdentifier(): ?int
     {
-        return $this->attributes['id'] ?? null;
+        return 1;
     }
 
     public function getBankSecretToken(): ?string

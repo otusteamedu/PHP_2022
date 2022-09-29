@@ -6,31 +6,37 @@ use App\Application\Actions\BankStatement\DTO\GetBankStatementRequest;
 use App\Jobs\GetBankStatementJob;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Throwable;
 
 class BankClientController
 {
     public function getBankStatementForClient(
-        Request $httpRequest,
-        User $user
+        Request $httpRequest
     ) {
+        $validateTransferChannel = function (Request $httpRequest): string {
+            if (   is_string($httpRequest->json()->get('transferChannel'))
+                && in_array($httpRequest->json()->get('transferChannel'), ['telegram', 'email'])
+            ) {
+                return $httpRequest->json()->get('transferChannel');
+            }
+
+            throw new \Exception("transferChannel expected string value ['telegram', 'email'] allowed.");
+        };
+
         try {
             dispatch(new GetBankStatementJob(new GetBankStatementRequest(
-                $user,
-                $httpRequest->json()->get('transferChannel')
+                (new User()),
+                $validateTransferChannel($httpRequest)
             )));
 
             return new JsonResponse([
                 'success' => true,
                 'message' => null,
-                'payload' => []
+                'payload' => null
             ]);
 
         } catch (Throwable $e) {
-            Log::error($e->getMessage());
-
             $message = in_array(env('APP_ENV'), ['dev', 'local']) ? $e->getMessage() : 'Unexpected error!';
 
             return new JsonResponse([

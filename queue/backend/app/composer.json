@@ -6,7 +6,10 @@
     "type": "project",
     "require": {
         "php": "^7.4|^8.0",
-        "laravel/lumen-framework": "^8.3.1"
+        "ext-json": "*",
+        "laravel/lumen-framework": "^8.3.1",
+        "symfony/http-client": "^5.4",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "11.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -3,13 +3,11 @@
 namespace App\Application\Actions\BankStatement;
 
 use App\Application\Actions\BankStatement\DTO\GetBankStatementResponse;
-use App\Application\Actions\EmailMessage\DTO\SendTextEmailMessageRequest;
-use App\Application\Actions\TelegramMessage\DTO\SendTextTelegramMessageRequest;
 use App\Application\Contracts\GetBankStatementInterface;
 use App\Application\Contracts\GetBankStatementRequestInterface;
-use App\Application\Contracts\SendTextEmailMessageInterface;
-use App\Application\Contracts\SendTextTelegramMessageInterface;
 use App\Http;
+use App\Jobs\NotifyUserJob;
+use App\Models\User;
 
 class GetBankStatementAction
     implements GetBankStatementInterface
@@ -23,7 +21,18 @@ class GetBankStatementAction
 
     public function formatReport(array $data): string
     {
-        return '';
+        return json_encode($data);
+    }
+
+    private function chooseReceiverCredentials(string $transferChannel, User $user): string
+    {
+        if ($transferChannel === 'telegram') {
+            return $user->getTelegramChatId();
+        } elseif ($transferChannel === 'email') {
+            return $user->getEmail();
+        } else {
+            return '';
+        }
     }
 
     public function get(GetBankStatementRequestInterface $request): GetBankStatementResponse
@@ -35,21 +44,11 @@ class GetBankStatementAction
             )
         );
 
-        if ($request->getTransferChannel() === 'telegram') {
-            /** @var SendTextTelegramMessageInterface $sender */
-            $sender = app()->make(SendTextTelegramMessageInterface::class);
-            $sender->send(new SendTextTelegramMessageRequest(
-                $request->getUser()->getTelegramChatId(),
-                $this->formatReport($response->getData())
-            ));
-        } elseif ($request->getTransferChannel() === 'email') {
-            /** @var SendTextEmailMessageInterface $sender */
-            $sender = app()->make(SendTextEmailMessageInterface::class);
-            $sender->send(new SendTextEmailMessageRequest(
-                $request->getUser()->getEmail(),
-                $this->formatReport($response->getData())
-            ));
-        }
+        dispatch(new NotifyUserJob(
+            $this->formatReport($response->getData()),
+            $request->getTransferChannel(),
+            $this->chooseReceiverCredentials($request->getTransferChannel(), $request->getUser())
+        ));
 
         return new GetBankStatementResponse();
     }

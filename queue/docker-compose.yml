@@ -41,6 +41,7 @@ services:
     image: webdevops/php:$PHP_VERSION-alpine
     container_name: otus_queue__queue-consumer
     working_dir: /app/code
+    restart: unless-stopped
     depends_on:
       - "otus_queue__db"
       - "otus_queue__rabbit-mq"

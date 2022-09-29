@@ -2,15 +2,17 @@
 
 namespace App\Application\Actions\TelegramMessage;
 
-use App\Application\Actions\TelegramMessage\DTO\SendTextTelegramMessageRequest;
-use App\Application\Actions\TelegramMessage\DTO\SendTextTelegramMessageResponse;
-use App\Application\Contracts\SendTextTelegramMessageInterface;
+use App\Application\Contracts\SendTextMessageRequestInterface;
+use App\Application\Contracts\TextMessageTransportInterface;
 
 class SendTextTelegramMessageAction
-    implements SendTextTelegramMessageInterface
+    implements TextMessageTransportInterface
 {
-    public function send(SendTextTelegramMessageRequest $request): SendTextTelegramMessageResponse
+    public function send(SendTextMessageRequestInterface $request): void
     {
-        return new SendTextTelegramMessageResponse();
+        echo sprintf('Отправляем пользователю telegram[chat_id: %s]:' . PHP_EOL . '%s' . PHP_EOL,
+            $request->getReceiverCredentials(),
+            $request->getMessage()
+        );
     }
 }

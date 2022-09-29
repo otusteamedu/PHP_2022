@@ -2,15 +2,17 @@
 
 namespace App\Application\Actions\EmailMessage;
 
-use App\Application\Actions\EmailMessage\DTO\SendTextEmailMessageRequest;
-use App\Application\Actions\EmailMessage\DTO\SendTextEmailMessageResponse;
-use App\Application\Contracts\SendTextEmailMessageInterface;
+use App\Application\Contracts\SendTextMessageRequestInterface;
+use App\Application\Contracts\TextMessageTransportInterface;
 
 class SendTextEmailMessageAction
-    implements SendTextEmailMessageInterface
+    implements TextMessageTransportInterface
 {
-    public function send(SendTextEmailMessageRequest $request): SendTextEmailMessageResponse
+    public function send(SendTextMessageRequestInterface $request): void
     {
-        return new SendTextEmailMessageResponse();
+        echo sprintf('Отправляем по email[%s]:' . PHP_EOL . '%s' . PHP_EOL,
+            $request->getReceiverCredentials(),
+            $request->getMessage()
+        );
     }
 }
