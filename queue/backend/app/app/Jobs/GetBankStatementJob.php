@@ -25,7 +25,7 @@ class GetBankStatementJob extends Job
         Application\Contracts\GetBankStatementInterface $getBankStatementAction
     ) {
         try {
-            $response = $getBankStatementAction->get($this->request);
+            $getBankStatementAction->get($this->request);
         } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
