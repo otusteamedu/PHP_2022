@@ -8,9 +8,9 @@ use App\Application\Contracts\TextMessageTransportInterface;
 class SendTextTelegramMessageAction
     implements TextMessageTransportInterface
 {
-    public function send(SendTextMessageRequestInterface $request): void
+    public function send(SendTextMessageRequestInterface $request): string
     {
-        echo sprintf('Отправляем пользователю telegram[chat_id: %s]:' . PHP_EOL . '%s' . PHP_EOL,
+        return sprintf('Отправляем пользователю telegram[chat_id: %s]:' . PHP_EOL . '%s' . PHP_EOL,
             $request->getReceiverCredentials(),
             $request->getMessage()
         );

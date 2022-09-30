@@ -4,5 +4,5 @@ namespace App\Application\Contracts;
 
 interface TextMessageTransportInterface
 {
-    public function send(SendTextMessageRequestInterface $request): void;
+    public function send(SendTextMessageRequestInterface $request): string;
 }

@@ -8,9 +8,9 @@ use App\Application\Contracts\TextMessageTransportInterface;
 class SendTextEmailMessageAction
     implements TextMessageTransportInterface
 {
-    public function send(SendTextMessageRequestInterface $request): void
+    public function send(SendTextMessageRequestInterface $request): string
     {
-        echo sprintf('Отправляем по email[%s]:' . PHP_EOL . '%s' . PHP_EOL,
+        return sprintf('Отправляем по email[%s]:' . PHP_EOL . '%s' . PHP_EOL,
             $request->getReceiverCredentials(),
             $request->getMessage()
         );
