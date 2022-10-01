@@ -1,0 +1,20 @@
+{
+    "name": "nikolai/php",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nikolai\\Php\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikolai Timakov",
+            "email": "ntimakov@mail.ru"
+        }
+    ],
+    "require": {
+        "symfony/http-foundation": "^5.4",
+        "elasticsearch/elasticsearch": "7.9",
+        "symfony/dotenv": "^5.4"
+    }
+}
