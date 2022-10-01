@@ -58,6 +58,6 @@ class App implements AppInterface
             }
         }
 
-        return 'ok';
+        return "ok\n";
     }
 }

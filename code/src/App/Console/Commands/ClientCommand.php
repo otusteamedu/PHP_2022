@@ -21,29 +21,25 @@ class ClientCommand implements CommandInterface
         $serverSocketFilePath = $config->get('app.server_socket_filename_with_path');
         $clientSocketFilePath = $config->get('app.client_socket_filename_with_path');
 
-        try {
+        $clientConfigDTO = (new ClientConfigDTO())
+            ->setServerSocketFilePath($serverSocketFilePath)
+            ->setAnswerSocketFilePath($clientSocketFilePath);
 
-            $clientConfigDTO = (new ClientConfigDTO())
-                ->setServerSocketFilePath($serverSocketFilePath)
-                ->setAnswerSocketFilePath($clientSocketFilePath);
+        $client = new Client($clientConfigDTO);
+        $client->connectToSocket();
 
-            $client = new Client($clientConfigDTO);
-            $client->connectToSocket();
+        echo "Для завершения отправки сообщений на сервер нажмите Enter.\n";
 
-            while (true) {
-                $userText = trim(fgets(STDIN));
+        while (true) {
+            $userText = trim(fgets(STDIN));
 
-                if ($userText === '') {
-                    break;
-                }
-
-                $serverAnswer = $client->sendMessageWithConfirm($userText);
-
-                echo "$serverAnswer\n";
+            if ($userText === '') {
+                break;
             }
 
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+            $serverAnswer = $client->sendMessageWithConfirm($userText);
+
+            echo "$serverAnswer\n";
         }
     }
 }

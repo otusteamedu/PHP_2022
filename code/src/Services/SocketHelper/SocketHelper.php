@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nsavelev\Hw6\Services\SocketHelper;
 
+use Nsavelev\Hw6\Services\SocketHelper\Exceptions\SocketErrorException;
 use Nsavelev\Hw6\Services\SocketHelper\Interfaces\SocketHelperInterface;
 use Socket;
 
@@ -39,7 +40,10 @@ class SocketHelper implements SocketHelperInterface
     public function connect(string $socketFilePath): Socket
     {
         $socket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
+        $this->checkSocketError();
+
         socket_connect($socket, $socketFilePath);
+        $this->checkSocketError();
 
         return $socket;
     }
@@ -52,6 +56,7 @@ class SocketHelper implements SocketHelperInterface
     public function listen(Socket $socket, callable $messageHandler): void
     {
         socket_listen($socket, 1);
+        $this->checkSocketError();
 
         $isStopListening = false;
 
@@ -59,13 +64,17 @@ class SocketHelper implements SocketHelperInterface
         {
             /** @var Socket|false $newConnect */
             $newConnect = socket_accept($socket);
+            $this->checkSocketError();
 
             if (!empty($newConnect))
             {
                 while($isStopListening !== true) {
 
                     $messageOption = socket_get_option($newConnect, SOL_SOCKET, SO_RCVBUF);
+                    $this->checkSocketError();
+
                     $message = socket_read($newConnect, $messageOption);
+                    $this->checkSocketError();
 
                     $clientIsDisconnected = $this->checkSocketIsDisconnectedByMessage($message);
 
@@ -80,6 +89,21 @@ class SocketHelper implements SocketHelperInterface
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * @return void
+     * @throws SocketErrorException
+     */
+    public function checkSocketError(): void
+    {
+        $lastErrorNumber = socket_last_error();
+
+        if ($lastErrorNumber !== SocketHelper::SOCKET_STATUS_SUCCESS) {
+            $errorText = socket_strerror($lastErrorNumber);
+
+            throw new SocketErrorException("Socket exception: $errorText");
         }
     }
 

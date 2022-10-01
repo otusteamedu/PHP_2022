@@ -42,6 +42,7 @@ class Client
     public function connectToSocket(): self
     {
         socket_connect($this->serverSocket, $this->socketFile);
+        $this->socketHelper->checkSocketError();
 
         return $this;
     }
@@ -59,13 +60,7 @@ class Client
             throw new \Exception("Не было передано ни одного байта ($bytesSent)");
         }
 
-        $lastErrorNumber = socket_last_error();
-
-        if ($lastErrorNumber !== SocketHelper::SOCKET_STATUS_SUCCESS) {
-            $errorText = socket_strerror($lastErrorNumber);
-
-            throw new \Exception("Socket exception: $errorText");
-        }
+        $this->socketHelper->checkSocketError();
 
         return $this;
     }
@@ -81,10 +76,14 @@ class Client
 
         socket_write($this->serverSocket, $message);
 
+        $this->socketHelper->checkSocketError();
+
         $serverAnswerMessage = $this->listenServerAnswer($confirmSocket);
 
         socket_close($confirmSocket);
         unlink($socketAnswerPath);
+
+        $this->socketHelper->checkSocketError();
 
         return $serverAnswerMessage;
     }
@@ -115,5 +114,6 @@ class Client
     public function disconnect(): void
     {
         socket_close($this->serverSocket);
+        $this->socketHelper->checkSocketError();
     }
 }
