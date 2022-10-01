@@ -6,10 +6,10 @@ namespace Nikolai\Php\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController
+class DefaultController extends AbstructController
 {
     public function __invoke(Request $request)
     {
-        echo 'Не найден контроллер для команды: ' . $request->server->get('argv')[1] . PHP_EOL;
+        $this->dumper->dump('Не найден контроллер для команды: ' . $request->server->get('argv')[1]);
     }
 }

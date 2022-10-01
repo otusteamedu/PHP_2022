@@ -6,13 +6,18 @@ namespace Nikolai\Php;
 
 use Nikolai\Php\Configuration\ConfigurationLoader;
 use Nikolai\Php\Kernel\Kernel;
+use Nikolai\Php\Service\Dumper;
+use Nikolai\Php\Service\DumperInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class Application implements ApplicationInterface
 {
+    private DumperInterface $dumper;
+
     public function __construct()
     {
         (new ConfigurationLoader())->load();
+        $this->dumper = new Dumper();
     }
 
     public function run(): void
@@ -22,7 +27,7 @@ class Application implements ApplicationInterface
             $response = (new Kernel())->process($request);
             $response?->send();
         } catch (\Exception $exception) {
-            echo 'Исключение: ' . $exception->getMessage() . PHP_EOL;
+            $this->dumper->dump('Исключение: ' . $exception->getMessage());
         }
     }
 }

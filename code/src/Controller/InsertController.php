@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Controller;
 
-use Nikolai\Php\ElasticSearchClient\ElasticSearchClient;
 use Nikolai\Php\Service\FileReader;
 use Symfony\Component\HttpFoundation\Request;
 
-class InsertController
+class InsertController extends AbstructController
 {
     const ELASTICSEARCH_FILE = 'ELASTICSEARCH_FILE';
-
-    public function __construct(private ElasticSearchClient $elasticSearchClient) {}
 
     public function __invoke(Request $request)
     {
@@ -21,10 +18,10 @@ class InsertController
 
         $response = $this->elasticSearchClient->bulk(['body' => $books]);
         if (!$response['errors']) {
-            echo 'Данные из файла успешно добавлены в индекс!' . PHP_EOL;
+            $this->dumper->dump('Данные из файла успешно добавлены в индекс!');
         }
         else {
-            echo 'При добавлении данных из файла в индекс возникли ошибки!' . PHP_EOL;
+            $this->dumper->dump('При добавлении данных из файла в индекс возникли ошибки!');
         }
     }
 }

@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Controller;
 
-use Nikolai\Php\ElasticSearchClient\ElasticSearchClient;
 use Nikolai\Php\ElasticSearchClient\ElasticSearchClientInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CreateIndexController
+class CreateIndexController extends AbstructController
 {
     const PARAMS = [
         'index' => ElasticSearchClientInterface::INDEX_NAME,
@@ -44,21 +43,17 @@ class CreateIndexController
         ],
     ];
 
-    public function __construct(private ElasticSearchClient $elasticSearchClient) {}
-
     public function __invoke(Request $request)
     {
         try {
             $response = $this->elasticSearchClient->indices()->create(self::PARAMS);
             if ($response['acknowledged'] === true && $response['index'] === ElasticSearchClientInterface::INDEX_NAME) {
-                echo 'Индекс: ' . ElasticSearchClientInterface::INDEX_NAME . ' создан!' . PHP_EOL;
+                $this->dumper->dump('Индекс: ' . ElasticSearchClientInterface::INDEX_NAME . ' создан!');
             } else {
-                echo 'Некорректный ответ при создании индекса:';
-                var_dump($response);
+                $this->dumper->dump('Некорректный ответ при создании индекса:', $response);
             }
         } catch (\Exception $exception) {
-            echo 'Ошибка при создании индекса:' . PHP_EOL;
-            var_dump(json_decode($exception->getMessage()));
+            $this->dumper->dump('Ошибка при создании индекса:', json_decode($exception->getMessage(), true));
         }
     }
 }

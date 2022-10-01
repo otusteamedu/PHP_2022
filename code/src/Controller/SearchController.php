@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Controller;
 
-use Nikolai\Php\ElasticSearchClient\ElasticSearchClientInterface;
 use Nikolai\Php\Service\ConsoleArgumentToElasticSearchFilterConverter;
 use Symfony\Component\HttpFoundation\Request;
 
-class SearchController
+class SearchController extends AbstructController
 {
     const TEMPLATE = '/Template/search.php';
-
-    public function __construct(private ElasticSearchClientInterface $elasticSearchClient) {}
 
     public function __invoke(Request $request)
     {
@@ -20,7 +17,7 @@ class SearchController
         $response = $this->elasticSearchClient->search($params);
 
         if ($response['hits']['total']['value'] === 0) {
-            echo 'По вашему запросу ничего не найдено!' . PHP_EOL;
+            $this->dumper->dump('По вашему запросу ничего не найдено!');
         } else {
             $this->render(dirname(__DIR__) . self::TEMPLATE, $response);
         }
