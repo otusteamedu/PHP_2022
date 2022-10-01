@@ -76,7 +76,7 @@ class SocketHelper implements SocketHelperInterface
                     $message = socket_read($newConnect, $messageOption);
                     $this->checkSocketError();
 
-                    $clientIsDisconnected = $this->checkSocketIsDisconnectedByMessage($message);
+                    $clientIsDisconnected = $this->checkClientIsDisconnectedByMessage($message);
 
                     if ($clientIsDisconnected) {
                         break;
@@ -111,7 +111,7 @@ class SocketHelper implements SocketHelperInterface
      * @param string $message
      * @return bool
      */
-    private function checkSocketIsDisconnectedByMessage(string $message): bool
+    private function checkClientIsDisconnectedByMessage(string $message): bool
     {
         $isDisconnected = false;
 

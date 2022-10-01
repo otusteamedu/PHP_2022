@@ -2,6 +2,7 @@
 
 namespace Nsavelev\Hw6\Services\SocketHelper\Interfaces;
 
+use Nsavelev\Hw6\Services\SocketHelper\Exceptions\SocketErrorException;
 use Socket;
 
 interface SocketHelperInterface
@@ -24,4 +25,10 @@ interface SocketHelperInterface
      * @return void
      */
     public function listen(Socket $socket, callable $messageHandler): void;
+
+    /**
+     * @return void
+     * @throws SocketErrorException
+     */
+    public function checkSocketError(): void;
 }

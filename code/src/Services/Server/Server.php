@@ -75,9 +75,8 @@ class Server implements ServerInterface
      */
     public function listen(MessageHandlerInterface $messageHandler): void
     {
-        $socketListener = SocketHelperFactory::getInstance();
 
-        $socketListener->listen(
+        $this->socketHelper->listen(
             $this->socket,
             function ($messageOption, $message) use ($messageHandler) {
 
@@ -97,5 +96,7 @@ class Server implements ServerInterface
     {
         socket_close($this->socket);
         unlink($this->serverSocketFilePath);
+
+        $this->socketHelper->checkSocketError();
     }
 }
