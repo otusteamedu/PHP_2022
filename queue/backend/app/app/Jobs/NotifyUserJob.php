@@ -38,10 +38,12 @@ class NotifyUserJob extends Job
         try {
             $transport = $this->getTransport();
 
-            $transport->send(new SendTextMessageRequest(
-                $this->receiverCredentials,
-                $this->message
-            ));
+            Log::debug(
+                $transport->send(new SendTextMessageRequest(
+                    $this->receiverCredentials,
+                    $this->message
+                ))
+            );
 
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
