@@ -31,7 +31,7 @@ class App implements AppInterface
      * @throws NoArgumentException
      * @throws WrongArgumentException
      */
-    public function handle($argc, $argv): string
+    public function run($argc, $argv): string
     {
         if (!array_key_exists(1, $argv)) {
             throw new NoArgumentException('No argument.');
@@ -48,14 +48,12 @@ class App implements AppInterface
             case self::ALLOWED_ARGUMENT_SERVER:
             {
                 (new ServerCommand)->handle();
-
                 break;
             }
 
             case self::ALLOWED_ARGUMENT_CLIENT:
             {
                 (new ClientCommand())->handle();
-
                 break;
             }
         }

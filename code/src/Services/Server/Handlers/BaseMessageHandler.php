@@ -21,14 +21,13 @@ class BaseMessageHandler implements MessageHandlerInterface
         $answerSocketFilePath = $baseMessageDto->getClientSocketFilePath();
 
         $clientMessage = $baseMessageDto->getMessage();
-        $messageOption = $baseMessageDto->getMessageOption();
+        $messageOption = mb_strlen($clientMessage);
 
-        echo "message: $clientMessage \n";
-        echo "message option: $messageOption\n";
+        echo "$clientMessage\n";
 
-//        $message = "Received $messageOption bytes";
+        $message = "Received $messageOption bytes";
 
-//        $this->sendMessageToClient($answerSocketFilePath, $message);
+        $this->sendMessageToClient($answerSocketFilePath, $message);
     }
 
     /**
@@ -44,6 +43,7 @@ class BaseMessageHandler implements MessageHandlerInterface
 
         $client = new Client($clientConfigDTO);
         $client->connectToSocket()
-            ->sendMessage($message);
+            ->sendMessage($message)
+            ->disconnect();
     }
 }

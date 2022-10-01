@@ -37,7 +37,9 @@ class ClientCommand implements CommandInterface
                     break;
                 }
 
-                $client->sendMessage($userText);
+                $serverAnswer = $client->sendMessageWithConfirm($userText);
+
+                echo "$serverAnswer\n";
             }
 
         } catch (\Exception $e) {

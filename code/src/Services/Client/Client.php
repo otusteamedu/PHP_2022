@@ -20,14 +20,17 @@ class Client
     /** @var Socket */
     private Socket $serverSocket;
 
-    /**
-     * @param ClientConfigDTO $clientDto
-     */
-    public function __construct(ClientConfigDTO $clientDto)
-    {
-        $this->socketHelper = SocketHelperFactory::getInstance();
+    /** @var ClientConfigDTO */
+    private ClientConfigDTO $clientConfigDto;
 
-        $this->socketFile   = $clientDto->getServerSocketFilePath();
+    /**
+     * @param ClientConfigDTO $clientConfigDto
+     */
+    public function __construct(ClientConfigDTO $clientConfigDto)
+    {
+        $this->socketHelper     = SocketHelperFactory::getInstance();
+        $this->socketFile       = $clientConfigDto->getServerSocketFilePath();
+        $this->clientConfigDto  = $clientConfigDto;
 
         $serverSocket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
         $this->serverSocket = $serverSocket;
@@ -45,12 +48,11 @@ class Client
 
     /**
      * @param string $message
-     * @return bool|int
+     * @return self
+     * @throws \Exception
      */
-    public function sendMessage(string $message): bool|int
+    public function sendMessage(string $message): self
     {
-        $messageLength = mb_strlen($message, 'utf-8');
-
         $bytesSent = socket_write($this->serverSocket, $message);
 
         if (empty($bytesSent)) {
@@ -65,34 +67,38 @@ class Client
             throw new \Exception("Socket exception: $errorText");
         }
 
-        return $messageLength;
+        return $this;
     }
 
     /**
      * @param string $message
-     * @param Socket $confirmSocket
      * @return string
      */
-    public function sendMessageWithConfirm(string $message, Socket $confirmSocket): string
+    public function sendMessageWithConfirm(string $message): string
     {
-        $messageLength = mb_strlen($message, 'utf-8');
+        $socketAnswerPath = $this->clientConfigDto->getAnswerSocketFilePath();
+        $confirmSocket = $this->socketHelper->create($socketAnswerPath);
 
-        socket_write($confirmSocket, $message, $messageLength);
+        socket_write($this->serverSocket, $message);
 
-        $serverAnswerMessage = $this->listenServerAnswer();
+        $serverAnswerMessage = $this->listenServerAnswer($confirmSocket);
+
+        socket_close($confirmSocket);
+        unlink($socketAnswerPath);
 
         return $serverAnswerMessage;
     }
 
     /**
+     * @param Socket $answerSocket
      * @return string
      */
-    public function listenServerAnswer(): string
+    public function listenServerAnswer(Socket $answerSocket): string
     {
         $serverAnswerMessage  = '';
 
         $this->socketHelper->listen(
-            $this->clientSocket,
+            $answerSocket,
             function ($messageData, $message) use (&$serverAnswerMessage)
             {
                 $serverAnswerMessage = $message;

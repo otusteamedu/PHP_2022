@@ -11,5 +11,5 @@ interface AppInterface
      * @param $argv
      * @return string
      */
-    public function handle($argc, $argv): string;
+    public function run($argc, $argv): string;
 }
