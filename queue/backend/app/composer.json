@@ -9,6 +9,7 @@
         "ext-json": "*",
         "laravel/lumen-framework": "^8.3.1",
         "symfony/http-client": "^5.4",
+        "symfony/uid": "^5.4",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "11.3"
     },
     "require-dev": {

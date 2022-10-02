@@ -50,6 +50,6 @@ class GetBankStatementAction
             $this->chooseReceiverCredentials($request->getTransferChannel(), $request->getUser())
         ));
 
-        return new GetBankStatementResponse();
+        return new GetBankStatementResponse($response->getData());
     }
 }

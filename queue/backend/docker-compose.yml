@@ -1,0 +1,8 @@
+version: '3.9'
+
+services:
+  otus_queue__php:
+    container_name: otus_queue__php
+    image: webdevops/php:7.4-alpine
+    volumes:
+      - ./app:/app
