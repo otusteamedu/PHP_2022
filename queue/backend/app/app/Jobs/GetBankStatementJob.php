@@ -3,17 +3,23 @@
 namespace App\Jobs;
 
 use App\Application;
+use DateInterval;
 use Illuminate\Support\Facades\Log;
 use Throwable;
+use Illuminate\Support\Facades\Cache;
 
 class GetBankStatementJob extends Job
 {
     private Application\Contracts\GetBankStatementRequestInterface $request;
 
+    private string $requestId;
+
     public function __construct(
-        Application\Contracts\GetBankStatementRequestInterface $request
+        Application\Contracts\GetBankStatementRequestInterface $request,
+        string $requestId
     ) {
         $this->request = $request;
+        $this->requestId = $requestId;
     }
 
     /**
@@ -25,7 +31,10 @@ class GetBankStatementJob extends Job
         Application\Contracts\GetBankStatementInterface $getBankStatementAction
     ) {
         try {
-            $getBankStatementAction->get($this->request);
+            $response = $getBankStatementAction->get($this->request);
+            sleep(15); // имитируем работу для ожидания и проверки статуса
+            $getLifeTime = fn() => 300;
+            Cache::put($this->requestId, json_encode($response->getData()), $getLifeTime());
         } catch (Throwable $e) {
             Log::error($e->getMessage());
         }

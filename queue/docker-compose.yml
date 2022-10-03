@@ -63,6 +63,14 @@ services:
     networks:
       - otus-queue-network
 
+  otus_queue__memcached:
+    image: memcached
+    container_name: otus_queue__memcached
+    ports:
+      - 11211:11211
+    networks:
+      - otus-queue-network
+
 networks:
   otus-queue-network:
     driver: bridge

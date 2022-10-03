@@ -22,5 +22,7 @@ $router->group(['prefix' => '/api'], function () use ($router) {
         $router->group(['prefix' => 'bank-statement-for-client'], function () use ($router) {
             $router->post('get', 'Api\V1\BankClientController@getBankStatementForClient');
         });
+
+        $router->post('request-data/check', 'Api\V1\BankClientController@checkRequestStatus');
     });
 });
