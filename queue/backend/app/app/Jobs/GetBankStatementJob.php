@@ -32,8 +32,9 @@ class GetBankStatementJob extends Job
     ) {
         try {
             $response = $getBankStatementAction->get($this->request);
-            sleep(30); // имитируем работу для ожидания и проверки статуса
-            Cache::put($this->requestId, json_encode($response->getData()), 300);
+            sleep(15); // имитируем работу для ожидания и проверки статуса
+            $getLifeTime = fn() => 300;
+            Cache::put($this->requestId, json_encode($response->getData()), $getLifeTime());
         } catch (Throwable $e) {
             Log::error($e->getMessage());
         }

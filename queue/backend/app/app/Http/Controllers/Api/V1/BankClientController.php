@@ -38,7 +38,9 @@ class BankClientController
                 $requestId->toBase32()
             ));
 
-            Cache::add($requestId->toBase32(), '!', 500);
+            $getLifeTime = fn() => 500;
+
+            Cache::add($requestId->toBase32(), $requestId->toBase32(), $getLifeTime());
 
             return new JsonResponse([
                 'success' => true,
@@ -73,7 +75,7 @@ class BankClientController
                 throw new Exception('request not found!');
             }
 
-            if (Cache::get($requestId->toBase32()) === '!') {
+            if (Cache::get($requestId->toBase32()) === $requestId->toBase32()) {
                 return new JsonResponse([
                     'success' => true,
                     'message' => null,
