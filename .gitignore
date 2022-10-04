@@ -1,5 +1,4 @@
-/vagrant/
 /vendor/
-/docker/.env
-/docker/dbdata/
-/docker/redis_db/
+/elastic_search/.env
+/elastic_search/ca.rt
+/elastic_search/code/vendor/
