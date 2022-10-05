@@ -4,23 +4,23 @@
 
 Для функционирования отсылки писем нужно в файле /src/config.ini в секции [smtp] указать реальные парамтеры сервера.
 
-`[rabbit-mq]
-host = rabbit-mq
-port = 5672
-user = user
-password = password
-
-[queue]
-queue = BankReport
-routing_key = BankReport
-number-of-consumers = 10
-
-[smtp]
-host = smtp.mail.ru
-port = 25
-user = testsender@ail.ru
-password = ******
-sender = testsender@ail.ru`
+    [rabbit-mq]
+    host = rabbit-mq
+    port = 5672
+    user = user
+    password = password
+    
+    [queue]
+    queue = BankReport
+    routing_key = BankReport
+    number-of-consumers = 10
+    
+    [smtp]
+    host = smtp.mail.ru
+    port = 25
+    user = testsender@ail.ru
+    password = ******
+    sender = testsender@ail.ru
 
 ## Запуск приложения
 
