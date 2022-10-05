@@ -4,32 +4,22 @@ declare(strict_types=1);
 
 namespace Nikolai\Php;
 
-use Nikolai\Php\Service\EmailsFromFileVerifierService;
-use Nikolai\Php\Service\EmailVerifier;
 use Nikolai\Php\Configuration;
+use Nikolai\Php\ControllerResolver\ConsoleCommandControllerResolver;
 
 class Application implements ApplicationInterface
 {
+    const CONFIGURATION_FILE = '/config/services.yaml';
+
     public function run(): void
     {
-        try {
-            $configurationLoader = new Configuration\ConfigurationLoader(dirname(__DIR__) . '/config/services.yaml');
-            $configuration = $configurationLoader->load();
+        $configurationLoader = new Configuration\ConfigurationLoader(
+            dirname(__DIR__) . self::CONFIGURATION_FILE
+        );
+        $configuration = $configurationLoader->load();
 
-            $stringVerifier = new EmailVerifier();
-            $emailsFromFileVerifierService = new EmailsFromFileVerifierService(
-                dirname(__DIR__) . $configuration['parameters']['emailsFile'],
-                $stringVerifier
-            );
-
-            $result = $emailsFromFileVerifierService->verify();
-
-            echo '<br>Результаты проверки:<br><pre>';
-            var_dump($result);
-            echo '</pre>';
-
-        } catch (\Exception $exception) {
-            echo '<br>Исключение: ' . $exception->getMessage() . '<br>';
-        }
+        $controllerClass = (new ConsoleCommandControllerResolver($_SERVER['argv'][1]))->resolve();
+        $controller = new $controllerClass();
+        $controller($configuration['parameters']['socketFile']);
     }
 }

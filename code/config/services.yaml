@@ -1,5 +1,5 @@
 
 parameters:
-  emailsFile: /emails.txt
+  socketFile: /data/ch.sock
 
 services:

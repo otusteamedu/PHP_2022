@@ -1,6 +1,7 @@
 FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y \
+    locales \
     curl \
     wget \
     git \
@@ -30,11 +31,24 @@ RUN apt-get update && apt-get install -y \
         && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
         && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/memcached.ini
 
+# Locale
+RUN sed -i -e \
+  's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen \
+   && locale-gen
+
+ENV LANG ru_RU.UTF-8
+ENV LANGUAGE ru_RU:ru
+ENV LC_LANG ru_RU.UTF-8
+ENV LC_ALL ru_RU.UTF-8
+
+# +Timezone (если надо на этапе сборки)
+ENV TZ Europe/Moscow
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+    # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY www.conf /usr/local/etc/php-fpm.d/www.conf
-RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf
+WORKDIR /data
+# VOLUME /data
 
-WORKDIR /data/application.local
-
-CMD ["php-fpm", "--nodaemonize"]
+CMD ["php-fpm"]
