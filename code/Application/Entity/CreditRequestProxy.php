@@ -7,6 +7,7 @@ namespace App\Application\Entity;
 use App\Application\Component\DataMapper\IdentityMap;
 use App\Domain\Entity\CreditRequest;
 use App\Domain\Entity\CreditRequestInterface;
+use Exception;
 
 class CreditRequestProxy implements CreditRequestInterface
 {
@@ -14,6 +15,9 @@ class CreditRequestProxy implements CreditRequestInterface
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function send(): void
     {
         $id = (int)$this->request->getPassportNumber();

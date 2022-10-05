@@ -8,7 +8,13 @@
 
 `php /data/application.local/scripts/credit:requests:process.php`
 
+[API (openapi v3)](openapi.yaml)
+
 ## Application
+
+![addCreditRequest](images/addCreditRequest.png)
+
+![getCreditRequestStatus](images/getCreditRequestStatus.png)
 
 ![Application](images/app.png)
 

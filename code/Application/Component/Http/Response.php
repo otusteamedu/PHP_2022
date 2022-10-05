@@ -50,9 +50,19 @@ class Response
         $this->version = $version;
     }
 
-    public function sendHeaders(): void
+    public function sendHeaders(): static
     {
+        if (headers_sent()) {
+            return $this;
+        }
+
+        if (isset($this->headers['Content-Type'])) {
+            header(sprintf('Content-Type: %s', $this->headers['Content-Type']));
+        }
+
         header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText), true, $this->statusCode);
+
+        return $this;
     }
 
     public function sendContent(): string

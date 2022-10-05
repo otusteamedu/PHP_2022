@@ -22,5 +22,18 @@ return [
     'identityMap' => DI\create(IdentityMap::class),
 
     'amqp' => DI\create(AMQPStreamConnection::class)
-        ->constructor(getenv("AMQP_HOST"), getenv("AMQP_PORT"), getenv("AMQP_USER"), getenv("AMQP_PASS")),
+        ->constructor(
+            getenv("AMQP_HOST"),
+            getenv("AMQP_PORT"),
+            getenv("AMQP_USER"),
+            getenv("AMQP_PASS")
+        ),
+
+    'memcached' => DI\create(Memcached::class)
+        ->constructor('', null, '')
+        ->method(
+            'addServer',
+            getenv("MEMCACHED_HOST"),
+            getenv("MEMCACHED_PORT")
+        ),
 ];

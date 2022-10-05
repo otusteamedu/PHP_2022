@@ -17,8 +17,9 @@ try {
     $container = $builder->build();
 
     $amqpConnection = $container->get('amqp');
+    $memcached = $container->get('memcached');
 
-    $processor = new CreditRequestProcessor($amqpConnection);
+    $processor = new CreditRequestProcessor($amqpConnection, $memcached);
 
     while (true) {
         $processor->listen();

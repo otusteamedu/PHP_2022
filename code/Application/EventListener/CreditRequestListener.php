@@ -21,7 +21,8 @@ class CreditRequestListener
                 passport_who: $requestData['passport_who'],
                 passport_when: $requestData['passport_when'],
                 email_callback: $requestData['email_callback'],
-                amqpConnection: $event->getAmqpConnection()
+                amqpConnection: $event->getAmqpConnection(),
+                mcConnection: $event->getMemcached()
             ), $event->getIdentityMap()
         );
 
