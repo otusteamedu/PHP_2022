@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: HW 28 API Sample
+  description: |-
+    This is a sample of API implementation
+  contact:
+    email: olelishna@gmail.com
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Otus
+  url: https://otus.ru/
+servers:
+  - url: http://application.local/api
+tags:
+  - name: credit request
+    description: Everything about credit requests
+paths:
+  /requests:
+    post:
+      tags:
+        - credit request
+      summary: Add a new credit request to the site
+      description: Add a new credit request to the site
+      operationId: addCreditRequest
+      requestBody:
+        description: Create a new credit request on the site
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditRequestResponse'
+        '400':
+          description: Invalid input
+  /requests/{requestId}/status:
+    get:
+      tags:
+        - credit request
+      summary: Find credit request status by ID
+      description: Returns a single credit request status
+      operationId: getCreditRequestStatus
+      parameters:
+        - name: requestId
+          in: path
+          description: ID of credit request to return its status
+          required: true
+          schema:
+            type: string
+            format: hash
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditRequestStatus'          
+        '400':
+          description: Invalid or not existed ID supplied
+components:
+  schemas:
+  
+    CreditRequest:
+      required:
+        - lastname
+        - firstname
+        - middlename
+        - pass_number
+        - pass_place_code
+        - pass_issue_date
+        - email_callback
+      type: object
+      properties:
+        lastname:
+          type: string
+          example: Иванов
+        firstname:
+          type: string
+          example: Иван
+        middlename:
+          type: string
+          example: Иванович
+        pass_number:
+          type: integer
+          format: int64
+          example: 2509403012
+        pass_place_code:
+          type: string
+          example: 380-123
+        pass_issue_date:
+          type: string
+          example: 2009-06-01
+        email_callback:
+          type: string
+          example: example@example.com
+
+    CreditRequestResponse:
+      type: object
+      properties:
+        creditRequestID:
+          type: string
+          example: a78c6482597af3e1d14a92780465ed4a991cb4b1797092b1ff203c6f156e797f
+      
+    CreditRequestStatus:
+      type: object
+      properties:
+        creditRequestID:
+          type: string
+          example: a78c6482597af3e1d14a92780465ed4a991cb4b1797092b1ff203c6f156e797f
+        status:
+          type: string
+          example: READY
+          enum:
+            - NOT FOUND
+            - PROCESSING
+            - READY

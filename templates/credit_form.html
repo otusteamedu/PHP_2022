@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Credit Form</title>
+    <style>
+        .mb {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<form action="" method="POST">
+    <fieldset class="mb">
+        <legend>ФИО</legend>
+        <div class="mb">
+            <label for="lastname">Фамилия: </label>
+            <input type="text" id="lastname" name="lastname" value="" required>
+        </div>
+        <div class="mb">
+            <label for="firstname">Имя: </label>
+            <input type="text" id="firstname" name="firstname" value="" required>
+        </div>
+        <div class="mb">
+            <label for="middlename">Отчество: </label>
+            <input type="text" id="middlename" name="middlename" value="">
+        </div>
+    </fieldset>
+
+    <fieldset class="mb">
+        <legend>Паспорт</legend>
+        <div class="mb">
+            <label for="pass_number">Серия и номер: </label>
+            <input type="number" id="pass_number" name="pass_number" value="" required>
+        </div>
+
+        <fieldset class="mb">
+            <legend>Кем выдан</legend>
+            <div class="mb">
+                <label for="pass_place_code">Код подразделения: </label>
+                <input type="text" id="pass_place_code" name="pass_place_code" value="" required>
+            </div>
+            <div class="mb">
+                <label for="pass_issue_date">Дата выдачи: </label>
+                <input type="date" id="pass_issue_date" name="pass_issue_date" value="" min="1900-01-01" required>
+            </div>
+        </fieldset>
+    </fieldset>
+
+    <div class="mb">
+        <label for="email_callback">Email для получения результата: </label>
+        <input type="email" id="email_callback" name="email_callback" value="" required>
+    </div>
+
+    <input type="submit" name="submit" value="Отправить заявку">
+
+</form>
+</body>
+</html>
