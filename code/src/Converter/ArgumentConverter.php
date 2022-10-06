@@ -31,8 +31,6 @@ class ArgumentConverter implements ArgumentConverterInterface
      *
      *      - category:Фантастика - KeywordTypePropertyConverter
      *      - stock.stock:lt:10 - NestedTypePropertyConverter
-     *
-     * Для типов полей
      */
     public function convert(): array
     {
