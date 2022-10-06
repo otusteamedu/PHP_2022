@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Nikolai\Php\Converter;
 
 use Nikolai\Php\ElasticSearchClient\ElasticSearchClientInterface;
-use Nikolai\Php\Exception\ConverterException;
 
 class ArgumentConverter implements ArgumentConverterInterface
 {
@@ -19,9 +18,28 @@ class ArgumentConverter implements ArgumentConverterInterface
         $this->propertyVerified = new PropertyVerified(ElasticSearchClientInterface::INDEX_MAPPINGS_PROPERTIES);
     }
 
+    /**
+     * Парсинг допустимого аргумента (.AND.).
+     * Например, из: title:преключения.AND.price:lt:10000
+     * будет цикл:
+     *      - title:преключения
+     *      - price:lt:10000
+     * Далее, парсятся уже элементы цикла:
+     *      - title:преключения - поле title ищется в mapping-е индекса, и определяется тип поля.
+     *      По нему создается экземпляр класса: "Тип поля" + TypePropertyConverter, например TextTypePropertyConverter.
+     *      - price:lt:10000 - тоже самое, ShortTypePropertyConverter.
+     *
+     *      - category:Фантастика - KeywordTypePropertyConverter
+     *      - stock.stock:lt:10 - NestedTypePropertyConverter
+     *
+     * Для типов полей
+     */
     public function convert(): array
     {
-        return array_map(function (string $stringItem) {
+        $result = [];
+
+        foreach (explode(ArgumentConverterInterface::ITEM_SEPARATOR, $this->argumentValue) as $stringItem)
+        {
             $item = explode(ArgumentConverterInterface::VALUE_SEPARATOR, $stringItem);
 
             $this->propertyVerified->verify($item[0]);
@@ -32,7 +50,9 @@ class ArgumentConverter implements ArgumentConverterInterface
 
             $class = self::NAMESPACE . $typeProperty . self::CONVERTER_CLASS_POSTFIX;
 
-            return (new $class($item))->convert();
-        }, explode(ArgumentConverterInterface::ITEM_SEPARATOR, $this->argumentValue));
+            $result[] = (new $class($item))->convert();
+        }
+
+        return $result;
     }
 }

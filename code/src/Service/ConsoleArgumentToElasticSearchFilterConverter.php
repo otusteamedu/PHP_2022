@@ -19,6 +19,14 @@ class ConsoleArgumentToElasticSearchFilterConverter implements ConsoleArgumentTo
         'should'
     ];
 
+    /**
+     * Парсинг поисковой строки.
+     * Например, из: php App.php search must=title:преключения.AND.price:lt:10000 filter=price:gte:9990.AND.stock.stock:lt:10 should=category:Фантастика
+     * будет цикл по следубщим элементам:
+     *      - must=title:преключения.AND.price:lt:10000
+     *      - filter=price:gte:9990.AND.stock.stock:lt:10
+     *      - should=category:Фантастика
+     */
     public function convert(Request $request): array
     {
         $result = [];

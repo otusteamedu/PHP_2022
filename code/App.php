@@ -6,5 +6,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Nikolai\Php\Application;
 
-$app = new Application();
-$app->run();
+try {
+    $app = new Application();
+    $app->run();
+} catch (\Exception $exception) {
+    echo 'Исключение: ' . $exception->getMessage();
+}
