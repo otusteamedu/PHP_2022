@@ -18,8 +18,7 @@ class Application implements ApplicationInterface
         );
         $configuration = $configurationLoader->load();
 
-        $controllerClass = (new ConsoleCommandControllerResolver($_SERVER['argv'][1]))->resolve();
-        $controller = new $controllerClass();
+        $controller = (new ConsoleCommandControllerResolver($_SERVER['argv'][1]))->resolve();
         $controller($configuration['parameters']['socketFile']);
     }
 }

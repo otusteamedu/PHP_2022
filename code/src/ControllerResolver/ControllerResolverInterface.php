@@ -2,7 +2,9 @@
 
 namespace Nikolai\Php\ControllerResolver;
 
+use Nikolai\Php\Controller\AbstractController;
+
 interface ControllerResolverInterface
 {
-    public function resolve(): string;
+    public function resolve(): AbstractController;
 }

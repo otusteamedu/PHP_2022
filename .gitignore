@@ -1,3 +1,4 @@
 /.idea/
 
 /code/vendor/
+/code/.env
