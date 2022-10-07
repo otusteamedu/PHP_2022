@@ -1,0 +1,19 @@
+{
+    "name": "avasechkin/data-mapper",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Alex Vasechkin",
+            "email": "vasechkin.alex.v@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "AVasechkin\\DataMapper\\": "src"
+        }
+    }
+}
