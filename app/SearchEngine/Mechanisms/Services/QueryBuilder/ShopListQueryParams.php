@@ -16,7 +16,7 @@ final class ShopListQueryParams implements ElasticsearchQueryParams
         $tmp_field_name_parts = explode(separator: '_', string: $field_name);
 
         foreach ($tmp_field_value_parts as $tmp_field_value_part) {
-            $query_params = [
+            $query_params['query']['bool']['must'][] = [
                 'nested' => [
                     'path' => 'stock',
                     'query' => [

@@ -16,11 +16,17 @@ final class PriceQueryParams implements ElasticsearchQueryParams
     public static function getParam(string $field_name, string $field_value): array
     {
         return [
-            'match' => [
-                $field_name => [
-                    'query' => (int) $field_value,
+            'query' => [
+                'bool' => [
+                    'must' => [
+                        'match' => [
+                            $field_name => [
+                                'query' => (int) $field_value,
+                            ],
+                        ]
+                    ]
                 ],
-            ]
+            ],
         ];
     }
 }

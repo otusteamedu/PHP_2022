@@ -16,18 +16,24 @@ final class StockQueryParams implements ElasticsearchQueryParams
     public static function getParam(string $field_name, string $field_value): array
     {
         return [
-            'nested' => [
-                'path' => 'stock',
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            'match' => [
-                                'stock.' . $field_name => $field_value
+            'query' => [
+                'bool' => [
+                    'must' => [
+                        'nested' => [
+                            'path' => 'stock',
+                            'query' => [
+                                'bool' => [
+                                    'must' => [
+                                        'match' => [
+                                            'stock.' . $field_name => $field_value
+                                        ]
+                                    ]
+                                ]
                             ]
                         ]
                     ]
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

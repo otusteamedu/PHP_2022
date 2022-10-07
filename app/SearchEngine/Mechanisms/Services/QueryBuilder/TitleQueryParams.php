@@ -16,12 +16,18 @@ final class TitleQueryParams implements ElasticsearchQueryParams
     public static function getParam(string $field_name, string $field_value): array
     {
         return [
-            'match' => [
-                $field_name => [
-                    'query' => $field_value,
-                    'fuzziness' => 'auto',
+            'query' => [
+                'bool' => [
+                    'must' => [
+                        'match' => [
+                            $field_name => [
+                                'query' => $field_value,
+                                'fuzziness' => 'auto',
+                            ],
+                        ]
+                    ]
                 ],
-            ]
+            ],
         ];
     }
 }

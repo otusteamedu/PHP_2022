@@ -27,7 +27,24 @@ final class Validator
             if (! empty($query_param_value)) {
                 $param_name = ucfirst(string: $query_param_name);
 
-                $concrete_validator = '\App\SearchEngine\Validation\Services\\' . $param_name .'Validation';
+                $concrete_validator = '\App\SearchEngine\Validation\Services\\' . $param_name . 'Validation';
+
+                if (str_contains(haystack: $param_name, needle: '_')) {
+                    $param_name_parts = explode(separator: '_', string: $param_name);
+
+                    $tmp_class_name = array_reduce(
+                        array: $param_name_parts,
+                        callback: function ($tmp, $value) {
+                            $tmp .= ucfirst($value);
+
+                            return ucfirst($tmp);
+                        },
+                        initial: ''
+                    );
+
+                    $concrete_validator = '\App\SearchEngine\Validation\Services\\' . $tmp_class_name . 'Validation';
+                }
+
                 return $concrete_validator::validate(value: $query_param_value);
             }
         }

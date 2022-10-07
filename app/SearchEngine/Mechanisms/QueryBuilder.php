@@ -61,12 +61,21 @@ final class QueryBuilder
                 if (str_contains(haystack: $param_name, needle: '_')) {
                     $param_name_parts = explode(separator: '_', string: $param_name);
 
-                    $class = 'App\SearchEngine\Mechanisms\Services\QueryBuilder\\' .
-                        ucfirst(string: $param_name_parts[0]) . ucfirst(string: $param_name_parts[1]) . 'QueryParams';
+                    $tmp_class_name = array_reduce(
+                        array: $param_name_parts,
+                        callback: function ($tmp, $value) {
+                            $tmp .= ucfirst($value);
+
+                            return ucfirst($tmp);
+                        },
+                        initial: ''
+                    );
+
+                    $class = 'App\SearchEngine\Mechanisms\Services\QueryBuilder\\' . $tmp_class_name . 'QueryParams';
                 }
 
-                $query['query']['bool']['must'][] =
-                    $class::getParam(field_name: $param_name, field_value: $param_value);
+                //$query['query']['bool']['must'][] =
+                $query = array_merge($query, $class::getParam(field_name: $param_name, field_value: $param_value));
             } catch (\Throwable $exception) {
                 throw new \Exception(
                     message: 'Method: ' . __METHOD__ . 'Error: Can\'t find class. ' . $exception->getMessage()

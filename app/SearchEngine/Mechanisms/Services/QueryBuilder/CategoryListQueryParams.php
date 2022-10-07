@@ -21,7 +21,7 @@ final class CategoryListQueryParams implements ElasticsearchQueryParams
         $tmp_field_name_parts = explode(separator: '_', string: $field_name);
 
         foreach ($tmp_field_value_parts as $tmp_field_value_part) {
-            $query_params = [
+            $query_params['query']['bool']['must'][] = [
                 'match' => [
                     $tmp_field_name_parts[0] => [
                         'query' => $tmp_field_value_part,

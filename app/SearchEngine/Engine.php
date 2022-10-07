@@ -54,7 +54,7 @@ final class Engine
      * @throws AuthenticationException
      * @throws ClientResponseException
      * @throws ServerResponseException
-     * Кто подставил поручика Ржевского на Луне
+     * Кто подставил поручика Ржевского на Луне,Советы по выращиванию рептилоидов под мухой
      * Исторический роман,Детектив
      * Мира,Ленина
      * 500-000
@@ -77,9 +77,6 @@ final class Engine
         }
 
         $query_builder = new QueryBuilder(query_params_dto: $query_params_from_user);
-
-        /*var_dump($query_builder->buildQuery());
-        die();*/
 
         $response = $connection
             ->connect()

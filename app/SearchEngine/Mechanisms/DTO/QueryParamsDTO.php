@@ -16,6 +16,7 @@ final class QueryParamsDTO
     public string $stock_range;
     public string $shop;
     public string $shops;
+    public string $number_of_results;
 
     public function __construct(
         string $title = '',
@@ -28,6 +29,7 @@ final class QueryParamsDTO
         string $stock_range = '',
         string $shop = '',
         string $shops = '',
+        string $number_of_results = '10'
     ) {
         $this->title = $title;
         $this->titles = $titles;
@@ -39,5 +41,6 @@ final class QueryParamsDTO
         $this->stock_range = $stock_range;
         $this->shop = $shop;
         $this->shops = $shops;
+        $this->number_of_results = $number_of_results;
     }
 }

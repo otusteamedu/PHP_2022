@@ -22,21 +22,27 @@ final class StockRangeQueryParams implements ElasticsearchQueryParams
         $lte = (int) $tmp_field_value_parts[1];
 
         return [
-            'nested' => [
-                'path' => 'stock',
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            'range' => [
-                                'stock' . $tmp_field_name_parts[0] => [
-                                    'gte' => $gte,
-                                    'lte' => $lte,
+            'query' => [
+                'bool' => [
+                    'must' => [
+                        'nested' => [
+                            'path' => 'stock',
+                            'query' => [
+                                'bool' => [
+                                    'must' => [
+                                        'range' => [
+                                            'stock' . $tmp_field_name_parts[0] => [
+                                                'gte' => $gte,
+                                                'lte' => $lte,
+                                            ]
+                                        ]
+                                    ]
                                 ]
                             ]
                         ]
                     ]
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

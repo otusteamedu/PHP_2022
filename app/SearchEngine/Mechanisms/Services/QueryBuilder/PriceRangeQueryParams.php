@@ -22,12 +22,18 @@ final class PriceRangeQueryParams implements ElasticsearchQueryParams
         $lte = (int) $tmp_field_value_parts[1];
 
         return [
-            'range' => [
-                $tmp_field_name_parts[0] => [
-                    'gte' => $gte,
-                    'lte' => $lte,
-                ]
-            ]
+            'query' => [
+                'bool' => [
+                    'must' => [
+                        'range' => [
+                            $tmp_field_name_parts[0] => [
+                                'gte' => $gte,
+                                'lte' => $lte,
+                            ]
+                        ]
+                    ]
+                ],
+            ],
         ];
     }
 }

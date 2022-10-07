@@ -47,7 +47,7 @@ final class CliDialog
 
             if (! isset($menu_map[$selected_menu_item])) {
                 line(msg: 'Выбран неверный параметр.' . PHP_EOL);
-                $answer = prompt(question: 'Продолжить выбор параметров?', marker: ': ');
+                $answer = prompt(question: 'Продолжить выбор параметров?');
 
                 continue;
             }
@@ -75,10 +75,13 @@ final class CliDialog
                 line(msg: $menu_map[$selected_menu_item]['explanation'] . PHP_EOL);
             }
 
-            $query_parameters_dto->$internal_key = prompt(question: 'Введите значение для ' . $parameter, marker: ': ');
+            $query_parameters_dto->$internal_key = prompt(question: 'Введите значение для ' . $parameter);
 
-            $answer = prompt(question: 'Продолжить выбор параметров?', marker: ': ');
+            $answer = prompt(question: 'Продолжить выбор параметров?');
         }
+
+        $query_parameters_dto->number_of_results =
+            prompt(question: 'Введите количество резлультатов поиска. по умолчанию - ', default: '10');
 
         return $query_parameters_dto;
     }
