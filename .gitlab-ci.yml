@@ -21,6 +21,9 @@ deploy_server1:
       git clone https://olelishna-deploy:i6LUaV2Dg8TQhQzLbVh8@gitlab.com/olelishna/credit-request.git $DIR &&
       sudo chown www-data:www-data $DIR -R &&
       cd $DIR &&
-      sh ./deploy.sh $SERVER1 $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD $MEMCACHED_HOST $MEMCACHED_PORT"
+      sh ./deploy.sh $SERVER1 $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD $MEMCACHED_HOST $MEMCACHED_PORT &&
+      cd .. &&
+      ( [ ! -d /data/application.local/current ] || mv -Tf /data/application.local/current /data/application.local/previous ) &&
+      ln -s /data/application.local/$DIR /data/application.local/current"
   only:
     - master

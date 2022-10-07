@@ -6,7 +6,7 @@
 то скрипт для обработки очереди заявок запустится автоматически, однако, его
 так же можно запустить, выполнив в консоли команду:
 
-`php /data/application.local/scripts/credit:requests:process.php`
+`php /data/application.local/current/scripts/credit:requests:process.php`
 
 [API (openapi v3)](openapi.yaml)
 
