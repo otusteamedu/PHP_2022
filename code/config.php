@@ -26,7 +26,8 @@ return [
             getenv("AMQP_HOST"),
             getenv("AMQP_PORT"),
             getenv("AMQP_USER"),
-            getenv("AMQP_PASS")
+            getenv("AMQP_PASS"),
+            getenv("AMQP_VHOST")
         ),
 
     'memcached' => DI\create(Memcached::class)

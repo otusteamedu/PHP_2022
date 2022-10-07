@@ -40,8 +40,6 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/php
-    env_file:
-      - .env
     volumes:
       - ./public:/data/application.local/public
       - ./code:/data/application.local/code
@@ -50,6 +48,8 @@ services:
       - ./scripts:/data/application.local/scripts
       - ./composer.json:/data/application.local/composer.json
       - ./composer.lock:/data/application.local/composer.lock
+      - ./.env:/data/application.local/.env
+      - ./.env.local:/data/application.local/.env.local
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:

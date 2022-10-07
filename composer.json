@@ -14,7 +14,8 @@
     "bramus/router": "~1.6",
     "php-amqplib/php-amqplib": "^3.2",
     "php-di/php-di": "^6.0",
-    "psr/event-dispatcher": "^1.0"
+    "psr/event-dispatcher": "^1.0",
+    "symfony/dotenv": "^6.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest"
