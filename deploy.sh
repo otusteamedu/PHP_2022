@@ -9,5 +9,6 @@ sudo -u www-data sed -i -- "s|%RABBITMQ_USER%|$3|g" .env
 sudo -u www-data sed -i -- "s|%RABBITMQ_PASSWORD%|$4|g" .env
 sudo -u www-data sed -i -- "s|%MEMCACHED_HOST%|$5|g" .env
 sudo -u www-data sed -i -- "s|%MEMCACHED_PORT%|$6|g" .env
+set -a; source .env; set +a
 sudo service memcached restart
 sudo service supervisor restart
