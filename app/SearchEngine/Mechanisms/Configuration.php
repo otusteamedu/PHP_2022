@@ -58,10 +58,11 @@ final class Configuration
         );
 
         $ini_params = parse_ini_file(filename: __DIR__ . '/../config/elasticsearch.ini');
+        $dialog_config = include(__DIR__ . '/../config/dialog_config.php');
 
         /**
          * регистр ключей в массиве не подвергается изменению ради консистентности имен в конфиг-файлах и в коде
          */
-        return array_merge($ini_params, $env_configuration);
+        return array_merge($ini_params, $env_configuration, $dialog_config);
     }
 }

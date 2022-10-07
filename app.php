@@ -7,6 +7,5 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use App\SearchEngine\Engine;
 
-$search_system = new Engine();
-
-$search_system->startSystem();
+$search_system = Engine::getInstance();
+$search_system->start();
