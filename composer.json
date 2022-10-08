@@ -1,0 +1,25 @@
+{
+    "name": "ashvedov/hw10",
+    "description": "hw10-elasticsearch",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shvedov"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "elasticsearch/elasticsearch": "^8.4",
+        "phplucidframe/console-table": "^1.2",
+        "wp-cli/php-cli-tools": "^0.11.15"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    }
+}
