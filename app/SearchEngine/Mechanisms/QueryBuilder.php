@@ -8,6 +8,9 @@ use App\SearchEngine\Mechanisms\DTO\QueryParamsDTO;
 
 final class QueryBuilder
 {
+    private const NAMESPACE_TO_CONCRETE_QUERY_BUILDER_CLASS = 'App\SearchEngine\Mechanisms\Services\QueryBuilder\\';
+    private const SECOND_PART_NAME_CONCRETE_QUERY_BUILDER_CLASS = 'QueryParams';
+
     private QueryParamsDTO $query_params_dto;
     private array $configuration;
 
@@ -55,8 +58,8 @@ final class QueryBuilder
 
         foreach ($cleaning_empty_values as $param_name => $param_value) {
             try {
-                $class = 'App\SearchEngine\Mechanisms\Services\QueryBuilder\\'
-                    . ucfirst(string: $param_name) . 'QueryParams';
+                $class = self::NAMESPACE_TO_CONCRETE_QUERY_BUILDER_CLASS
+                    . ucfirst(string: $param_name) . self::SECOND_PART_NAME_CONCRETE_QUERY_BUILDER_CLASS;
 
                 if (str_contains(haystack: $param_name, needle: '_')) {
                     $param_name_parts = explode(separator: '_', string: $param_name);
@@ -71,10 +74,10 @@ final class QueryBuilder
                         initial: ''
                     );
 
-                    $class = 'App\SearchEngine\Mechanisms\Services\QueryBuilder\\' . $tmp_class_name . 'QueryParams';
+                    $class = self::NAMESPACE_TO_CONCRETE_QUERY_BUILDER_CLASS . $tmp_class_name
+                        . self::SECOND_PART_NAME_CONCRETE_QUERY_BUILDER_CLASS;
                 }
 
-                //$query['query']['bool']['must'][] =
                 $query = array_merge($query, $class::getParam(field_name: $param_name, field_value: $param_value));
             } catch (\Throwable $exception) {
                 throw new \Exception(

@@ -14,7 +14,7 @@ final class NumberOfResultsValidation implements Validation
      */
     public static function validate(string $value): bool
     {
-        preg_match(pattern: '/^[0-9]+$/m', subject: $value, matches: $matches);
+        preg_match(pattern: '/^[1-9][0-9]*$/m', subject: $value, matches: $matches);
 
         return ! empty($matches[0]);
     }

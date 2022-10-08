@@ -30,7 +30,7 @@
 ```password``` здесь тот который использован в ```.env``` (или тот который был переопределен при командой ```./bin/elasticsearch-setup-passwords interactive```)  
 - чтобы заполнить индекс данными, выполнить из этого же контейнера: ```curl --cacert es01.crt -u elastic:rootqwerty --request POST 'https://es01:9200/otus-hw10/_bulk' --header 'Content-Type: application/json' --data-binary "@fixtu
   res/books-hw10.json"```  
-И если все ок, то в Postman можно выполнить _search и убедиться что данные в индексе есть:  
+И если все ок, то в Postman можно выполнить ```_search``` и убедиться что данные в индексе есть:  
 ![img.png](readme-img/img_6.png)
 
 ## Запуск приложения

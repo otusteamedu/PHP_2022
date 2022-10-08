@@ -81,7 +81,7 @@ final class CliDialog
         }
 
         $query_parameters_dto->number_of_results =
-            prompt(question: 'Введите количество резлультатов поиска. по умолчанию - ', default: '10');
+            prompt(question: 'Введите количество резлультатов поиска (по умолчанию 10)');
 
         return $query_parameters_dto;
     }

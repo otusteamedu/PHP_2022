@@ -29,7 +29,7 @@ final class QueryParamsDTO
         string $stock_range = '',
         string $shop = '',
         string $shops = '',
-        string $number_of_results = '10'
+        string $number_of_results = ''
     ) {
         $this->title = $title;
         $this->titles = $titles;

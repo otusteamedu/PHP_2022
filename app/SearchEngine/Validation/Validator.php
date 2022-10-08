@@ -8,6 +8,9 @@ use App\SearchEngine\Mechanisms\DTO\QueryParamsDTO;
 
 final class Validator
 {
+    private const NAMESPACE_TO_CONCRETE_VALIDATOR = '\App\SearchEngine\Validation\Services\\';
+    private const SECOND_PART_NAME_CONCRETE_VALIDATOR_CLASS = 'Validation';
+
     private QueryParamsDTO $query_params_dto;
 
     /**
@@ -24,10 +27,12 @@ final class Validator
     public function validate(): bool
     {
         foreach ($this->query_params_dto as $query_param_name => $query_param_value) {
-            if (! empty($query_param_value)) {
+            // так приходится делать, потому что ! empty() строку с нулем воспринимает как пустую
+            if ((string) $query_param_value !== '') {
                 $param_name = ucfirst(string: $query_param_name);
 
-                $concrete_validator = '\App\SearchEngine\Validation\Services\\' . $param_name . 'Validation';
+                $concrete_validator = self::NAMESPACE_TO_CONCRETE_VALIDATOR
+                    . $param_name . self::SECOND_PART_NAME_CONCRETE_VALIDATOR_CLASS;
 
                 if (str_contains(haystack: $param_name, needle: '_')) {
                     $param_name_parts = explode(separator: '_', string: $param_name);
@@ -42,10 +47,13 @@ final class Validator
                         initial: ''
                     );
 
-                    $concrete_validator = '\App\SearchEngine\Validation\Services\\' . $tmp_class_name . 'Validation';
+                    $concrete_validator = self::NAMESPACE_TO_CONCRETE_VALIDATOR
+                        . $tmp_class_name . self::SECOND_PART_NAME_CONCRETE_VALIDATOR_CLASS;
                 }
 
-                return $concrete_validator::validate(value: $query_param_value);
+                if (! $concrete_validator::validate(value: $query_param_value)) {
+                    return false;
+                }
             }
         }
 
