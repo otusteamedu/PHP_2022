@@ -16,6 +16,6 @@ final class NumberOfResultsValidation implements Validation
     {
         preg_match(pattern: '/^[1-9][0-9]*$/m', subject: $value, matches: $matches);
 
-        return ! empty($matches[0]);
+        return ! empty($matches[0]) && ($value <= '10000');
     }
 }
