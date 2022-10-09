@@ -1,0 +1,5 @@
+
+parameters:
+  socketFile: /data/ch.sock
+
+services:
