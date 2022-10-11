@@ -1,0 +1,21 @@
+{
+    "name": "belfil/otushw6",
+    "autoload": {
+        "psr-4": {
+            "Otus\\Core\\": "core/",
+            "Otus\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "philip",
+            "email": "belousovfilip@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^5.4"
+    },
+    "require": {
+        "php-di/php-di": "^6.4"
+    }
+}
