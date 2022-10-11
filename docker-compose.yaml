@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: docker/php-fpm
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_BACKEND_WORKDIR}:${DOCKER_WORKDIR}
+    networks:
+      - app-network
+  server:
+    build:
+      context: docker/php-fpm
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_BACKEND_WORKDIR}:${DOCKER_WORKDIR}
+    networks:
+      - app-network
+  workspace:
+    build:
+      context: docker/workspace
+      args:
+        - WORKDIR=${DOCKER_WORKDIR}
+        - PHP_VERSION=${DOCKER_PHP_VERSION}
+    volumes:
+      - ./${DOCKER_BACKEND_WORKDIR}:${DOCKER_WORKDIR}
+    command: sh -c "composer install"
+networks:
+  app-network:
+    driver: bridge
