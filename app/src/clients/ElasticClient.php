@@ -2,47 +2,65 @@
 
 declare(strict_types=1);
 
-namespace Nemizar\OtusShop;
+namespace Nemizar\OtusShop\clients;
 
 use Elastic\Elasticsearch\Client;
-use Nemizar\OtusShop\config\Config;
-use Nemizar\OtusShop\render\OutputInterface;
+use Elastic\Elasticsearch\ClientBuilder;
+use Nemizar\OtusShop\components\config\Config;
+use Nemizar\OtusShop\entity\Book;
+use Nemizar\OtusShop\entity\Stock;
 
-class BookSearch
+class ElasticClient implements RepositoryInterface
 {
     private Config $config;
 
-    private Client $client;
-
-    private OutputInterface $output;
-
     private const LIMIT = 25;
 
-    public function __construct(Config $config, Client $client, OutputInterface $output)
+    private Client $client;
+
+    public function __construct(Config $config)
     {
-        $this->client = $client;
         $this->config = $config;
-        $this->output = $output;
+        $this->client = ClientBuilder::create()
+            ->setHosts([$this->config->host])
+            ->build();
     }
 
-    public function search(array $paramsForSearch): void
+    /** @inheritDoc */
+    public function search(array $params): array
     {
-        $params = $this->getParams($paramsForSearch);
-        $response = $this->client->search($params);
-
-        $result = $response->asArray()['hits']['hits'];
-        $this->output->echo($result);
+        $preparedParams = $this->getPreparedParams($params);
+        $response = $this->client->search($preparedParams);
+        $responseAsArray = $response->asArray()['hits']['hits'];
+        return $this->formatResult($responseAsArray);
     }
 
-    private function getParams(array $paramsForSearch): array
+    /**
+     * @param Book[] $result
+     * @return array
+     */
+    private function formatResult(array $result): array
+    {
+        $preparedResult = [];
+        foreach ($result as $bookInfo) {
+            $book = new Book($bookInfo['_source']['sku'], $bookInfo['_source']['title'], $bookInfo['_source']['category'], $bookInfo['_source']['price']);
+            foreach ($bookInfo['_source']['stock'] as $stockInfo) {
+                $book->addStock(new Stock($stockInfo['shop'], $stockInfo['stock']));
+            }
+            $preparedResult[] = $book;
+        }
+        return $preparedResult;
+    }
+
+    private function getPreparedParams(array $params): array
     {
         $conditions = [];
-        foreach ($paramsForSearch as $name => $value) {
+        foreach ($params as $name => $value) {
             switch ($name) {
                 case 'title':
                     $conditions['match'][$name] = [
                         'query' => $value,
-                        'fuzziness' => "auto",
+                        'fuzziness' => 'auto',
                     ];
                     break;
                 case 'sku':

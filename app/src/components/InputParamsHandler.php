@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nemizar\OtusShop;
+namespace Nemizar\OtusShop\components;
 
 class InputParamsHandler
 {

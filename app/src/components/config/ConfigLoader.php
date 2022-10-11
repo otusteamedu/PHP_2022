@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Nemizar\OtusShop\config;
+namespace Nemizar\OtusShop\components\config;
 
 use Nemizar\OtusShop\exception\FileNotFoundException;
 
 class ConfigLoader
 {
-    private string $configFile = __DIR__ . '/config.ini';
+    private string $configFile = \APP_DIR . '/config/config.ini';
 
     public function __invoke(): Config
     {

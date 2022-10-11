@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Nemizar\OtusShop\render;
 
 use LucidFrame\Console\ConsoleTable;
+use Nemizar\OtusShop\entity\Book;
 
 class ConsoleOutput implements OutputInterface
 {
-    public function echo(array $message): void
+    /**
+     * @param Book[] $books
+     * @return void
+     */
+    public function echo(array $books): void
     {
         $table = new ConsoleTable();
         $table
@@ -20,16 +25,15 @@ class ConsoleOutput implements OutputInterface
             ->addHeader('Наличие');
 
         $lineNumber = 1;
-        foreach ($message as $item) {
-            $source = $item['_source'];
+        foreach ($books as $book) {
             $table->addRow()
                 ->addColumn($lineNumber)
-                ->addColumn($source['sku'])
-                ->addColumn($source['title'])
-                ->addColumn($source['category'])
-                ->addColumn($source['price']);
+                ->addColumn($book->getSku())
+                ->addColumn($book->getTitle())
+                ->addColumn($book->getCategory())
+                ->addColumn($book->getPrice());
 
-            $stockInfo = $this->getStockInfo($source['stock']);
+            $stockInfo = $this->getStockInfo($book->getStocks());
             $table->addColumn(\implode(', ', $stockInfo));
             $lineNumber++;
         }
@@ -38,14 +42,14 @@ class ConsoleOutput implements OutputInterface
     }
 
     /**
-     * @param $stock
+     * @param \Nemizar\OtusShop\entity\Stock[] $stock
      * @return array
      */
-    private function getStockInfo($stock): array
+    private function getStockInfo(array $stock): array
     {
         $stockInfo = [];
         foreach ($stock as $item) {
-            $stockInfo[] = $item['shop'] . ': ' . $item['stock'];
+            $stockInfo[] = $item->getName() . ': ' . $item->getStock();
         }
         return $stockInfo;
     }

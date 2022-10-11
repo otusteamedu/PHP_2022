@@ -4,25 +4,30 @@ declare(strict_types=1);
 
 namespace Nemizar\OtusShop;
 
-use Elastic\Elasticsearch\ClientBuilder;
-use Nemizar\OtusShop\config\ConfigLoader;
+use Nemizar\OtusShop\clients\ElasticClient;
+use Nemizar\OtusShop\components\config\ConfigLoader;
+use Nemizar\OtusShop\components\InputParamsHandler;
 use Nemizar\OtusShop\render\ConsoleOutput;
 
 class App
 {
+    private array $inputParams;
+
+    private ElasticClient $client;
+
+    private ConsoleOutput $output;
+
+    public function __construct()
+    {
+        $this->inputParams = (new InputParamsHandler())();
+        $config = (new ConfigLoader())();
+        $this->client = new ElasticClient($config);
+        $this->output = new ConsoleOutput();
+    }
+
     public function run(): void
     {
-        $inputParams = (new InputParamsHandler())();
-
-        $config = (new ConfigLoader())();
-
-        $client = ClientBuilder::create()
-            ->setHosts([$config->host])
-            ->build();
-
-        $output = new ConsoleOutput();
-        
-        $bookSearch = new BookSearch($config, $client, $output);
-        $bookSearch->search($inputParams);
+        $result = $this->client->search($this->inputParams);
+        $this->output->echo($result);
     }
 }

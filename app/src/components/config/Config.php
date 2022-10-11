@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nemizar\OtusShop\config;
+namespace Nemizar\OtusShop\components\config;
 
 class Config
 {

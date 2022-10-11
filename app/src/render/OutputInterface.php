@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace Nemizar\OtusShop\render;
 
+use Nemizar\OtusShop\entity\Book;
+
 interface OutputInterface
 {
-    public function echo(array $message): void;
+    /**
+     * @param Book[] $books
+     * @return void
+     */
+    public function echo(array $books): void;
 }

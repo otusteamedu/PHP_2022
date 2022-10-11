@@ -6,6 +6,8 @@ use Nemizar\OtusShop\App;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+define('APP_DIR', dirname(__DIR__) . '/src');
+
 try {
     $app = new App();
     $app->run();
