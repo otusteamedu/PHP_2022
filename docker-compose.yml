@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  #nginx:
+  #  build:
+  #    context: ./nginx
+  #    dockerfile: Dockerfile
+  #  image: myapp/nginx
+  #  container_name: nginx
+  #  ports:
+  #    - "80:80"
+  #    - "443:443"
+  #  volumes:
+  #    - ./code:/data/application.local
+  #  networks:
+  #    - app-network
+
+  #elasticsearch:
+  #  image: bitnami/elasticsearch:7.9.2
+  #  container_name: ${ELASTICSEARCH_HOST}
+  #  environment:
+  #    - cluster.name=docker-cluster
+  #    - bootstrap.memory_lock=true
+  #    - discovery.type=single-node
+  #    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #  ulimits:
+  #    memlock:
+  #      soft: -1
+  #      hard: -1
+  #  ports:
+  #    - "${ELASTICSEARCH_PORT}:9200"
+  #    - "9300:9300"
+  #  networks:
+  #    - app-network
+
+  #kibana:
+  #  image: bitnami/kibana:7.9.2
+  #  container_name: 'kibana'
+  #  depends_on:
+  #    - elasticsearch
+  #  ports:
+  #    - 5601:5601
+  #  networks:
+  #    - app-network
+
+  #postgresql:
+  #  image: postgres:13
+  #  ports:
+  #    - "5432:5432"
+  #  container_name: 'postgresql'
+  #  working_dir: /data/application.local
+  #  restart: always
+  #  environment:
+  #    - POSTGRES_DB=${POSTGRES_DB}
+  #    - POSTGRES_USER=${POSTGRES_USER}
+  #    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #  volumes:
+  #    - postgresql:/var/lib/postgresql/data
+  #  networks:
+  #    - app-network
+
+  redis:
+    container_name: ${REDIS_HOST}
+    image: redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    networks:
+      - app-network
+
+  #memcached:
+  #  image: memcached:latest
+  #  container_name: 'memcached'
+  #  restart: always
+  #  ports:
+  #    - "11211:11211"
+  #  networks:
+  #    - app-network
+
+#volumes:
+#  postgresql:
+
+networks:
+  app-network:
+    driver: bridge
