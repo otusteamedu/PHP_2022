@@ -64,7 +64,7 @@ class Server implements ServerInterface
      */
     private function init(): Socket
     {
-        $socket = $this->socketHelper->create($this->serverSocketFilePath);
+        $socket = $this->socketHelper->createSocketFile($this->serverSocketFilePath);
 
         return $socket;
     }

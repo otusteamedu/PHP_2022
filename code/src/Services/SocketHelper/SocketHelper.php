@@ -17,12 +17,23 @@ class SocketHelper implements SocketHelperInterface
     private const SOCKET_CLIENT_DISCONNECTED = 0;
 
     /**
+     * @return Socket
+     */
+    public function createSocket(): Socket
+    {
+        $socket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
+        $this->checkSocketError();
+
+        return $socket;
+    }
+
+    /**
      * @param string $socketFilePath
      * @return Socket
      */
-    public function create(string $socketFilePath): Socket
+    public function createSocketFile(string $socketFilePath): Socket
     {
-        $socket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
+        $socket = $this->createSocket();
 
         if (realpath($socketFilePath)) {
             unlink($socketFilePath);
@@ -39,7 +50,7 @@ class SocketHelper implements SocketHelperInterface
      */
     public function connect(string $socketFilePath): Socket
     {
-        $socket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
+        $socket = $this->createSocket();
         $this->checkSocketError();
 
         socket_connect($socket, $socketFilePath);

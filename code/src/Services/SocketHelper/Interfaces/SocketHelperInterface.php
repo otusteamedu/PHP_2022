@@ -8,10 +8,15 @@ use Socket;
 interface SocketHelperInterface
 {
     /**
+     * @return Socket
+     */
+    public function createSocket(): Socket;
+
+    /**
      * @param string $socketFilePath
      * @return Socket
      */
-    public function create(string $socketFilePath): Socket;
+    public function createSocketFile(string $socketFilePath): Socket;
 
     /**
      * @param string $socketFilePath

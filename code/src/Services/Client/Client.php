@@ -32,8 +32,7 @@ class Client
         $this->socketFile       = $clientConfigDto->getServerSocketFilePath();
         $this->clientConfigDto  = $clientConfigDto;
 
-        $serverSocket = socket_create(AF_UNIX, SOCK_SEQPACKET, 0);
-        $this->serverSocket = $serverSocket;
+        $this->serverSocket = $this->socketHelper->createSocket();
     }
 
     /**
@@ -72,7 +71,7 @@ class Client
     public function sendMessageWithConfirm(string $message): string
     {
         $socketAnswerPath = $this->clientConfigDto->getAnswerSocketFilePath();
-        $confirmSocket = $this->socketHelper->create($socketAnswerPath);
+        $confirmSocket = $this->socketHelper->createSocketFile($socketAnswerPath);
 
         socket_write($this->serverSocket, $message);
 
