@@ -1,0 +1,99 @@
+openapi: 3.0.0
+servers:
+  - description: Локальное docker окружение
+    url: http://127.0.0.1/v1/
+info:
+  description: Это учебное API в рамках домашнего задания Otus. Сервис берет целое число и осуществляет проверку на простоту. Задание ставится в очередь и результат доступен по ИД задания. Так как задание учебное по теме API, то здесь вы не встретитие изощренных алгоритмов проверки на простоту.
+  version: "1.0.0"
+  title: API простых чисел
+  contact:
+    email: pashilyaev@yandex.ru
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: number
+    description: Запрос на проверку числа
+  - name: result
+    description: Запрос ранее созданного запроса на проверку числа
+paths:
+  /number:
+    post:
+      tags:
+        - number
+      summary: Добавление числа на проверку
+      operationId: checkNumber
+      description: Добавляется задание на проверку, является ли число простым или нет. Каждому запросу присваивается определенный идентификатор, по которому в последсвтие можно узнать результат
+      responses:
+        '200':
+          description: Запрос принят
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/uuid'
+        '400':
+          description: Ошибка во входных данных
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Число не целое!
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/number'
+        description: Число для проверки на простоту
+  /task/{taskId}:
+    get:
+      tags:
+        - result
+      summary: Получение результата проверки
+      operationId: getResult
+      description: Получает результат ранее переданного запроса на проверку простоты числа
+      responses:
+        '200':
+          description: Результат готов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+        '400':
+          description: По данному заданию нет результата
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      parameters:
+        - name: taskId
+          in: path
+          description: ИД операции для проверки
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 9151f21f-43ae-43b4-92f3-f4af67cdf544
+components:
+  schemas:
+    number:
+      type: integer
+      format: int64
+      example: 100000
+    uuid:
+      type: string
+      format: uuid
+      example: 9151f21f-43ae-43b4-92f3-f4af67cdf544
+    result:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Стадия выполнения задания
+          enum:
+            - calculating
+            - ready
+            - error
+        result:
+          type: boolean
+          description: Результат проверки на простое число
+          example: true

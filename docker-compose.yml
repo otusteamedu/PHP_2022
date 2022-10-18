@@ -1,0 +1,63 @@
+version: '3.1'
+
+services:
+
+  php-fpm:
+    build: php-fpm
+    container_name: 'php'
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./:/www
+    working_dir: /data
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: 'nginx'
+    working_dir: /data
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/www
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.10.8-management-alpine
+    working_dir: /data
+    hostname: rabbit-mq
+    container_name: 'rabbit-mq'
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql
+    ports:
+        - '3306:3306'
+    expose:
+        - '3306'
+    environment:
+        MYSQL_ROOT_PASSWORD: 'RTPWD'
+        MYSQL_USER: 'USER'
+        MYSQL_PASSWORD: 'UPASS'
+        MYSQL_DATABASE: 'simplenumbers'
+    volumes:
+        - ./mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+volumes:
+  dump:
+
+networks:
+  app-network:
+    driver: bridge
