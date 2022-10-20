@@ -1,0 +1,61 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw5/nginx
+    container_name: appnginx
+    # проброс портов
+    ports:
+      - "8901:80"
+    volumes:
+       - ./public:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw5/php # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+       - ./public:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw5/php # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
+    volumes:
+      - ./public:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с memcached
+  memcached:
+    image: bitnami/memcached
+    container_name: appmemcached
+    ports:
+      - '11212:11211'
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
