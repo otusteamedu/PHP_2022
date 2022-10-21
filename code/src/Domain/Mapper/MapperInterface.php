@@ -12,4 +12,5 @@ interface MapperInterface
     public function delete(AbstractEntity $entity): bool;
     public function find(string $entityClass, int $id): ?AbstractEntity;
     public function findBy(string $entityClass, array $params): ArrayCollection;
+    public function getCollection(AbstractEntity $entity, string $propertyName): ArrayCollection;
 }

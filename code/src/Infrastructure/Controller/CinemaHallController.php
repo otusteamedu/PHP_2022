@@ -6,8 +6,8 @@ namespace Nikolai\Php\Infrastructure\Controller;
 
 use Nikolai\Php\Domain\Entity\CinemaHall;
 use Nikolai\Php\Domain\Entity\CinemaHallPlaceRelation;
+use Nikolai\Php\Domain\Entity\Place;
 use Nikolai\Php\Domain\Mapper\MapperInterface;
-use Nikolai\Php\Infrastructure\SqlBuilder\SqlBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -17,12 +17,23 @@ class CinemaHallController implements ControllerInterface
 
     public function __invoke(Request $request)
     {
-
-        $cinemaHall = $this->mapper->find(CinemaHall::class, 7);
+        $cinemaHall = $this->mapper->find(Place::class, 1);
         var_dump($cinemaHall);
+/*
+        echo PHP_EOL . 'count: ' . PHP_EOL;
+        var_dump($cinemaHall->getCinemaHallPlaceRelation()->count());
+        echo PHP_EOL;
+        var_dump($cinemaHall);
+*/
+/*
+        echo PHP_EOL;
+        var_dump($cinemaHall->getCinemaHallPlaceRelation()->count());
+        echo PHP_EOL;
 
-        $cinemaHallPlaceRelation = $this->mapper->findBy(CinemaHallPlaceRelation::class, ['id' => 5]);
-        var_dump($cinemaHallPlaceRelation);
+        var_dump($cinemaHall);
+*/
+//        $cinemaHallPlaceRelation = $this->mapper->findBy(CinemaHallPlaceRelation::class, ['id' => 5]);
+//        var_dump($cinemaHallPlaceRelation);
 
 /*
         var_dump($cinemaHall->getCinemaHallPlaceRelation()->count());

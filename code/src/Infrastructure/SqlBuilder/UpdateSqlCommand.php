@@ -6,9 +6,9 @@ namespace Nikolai\Php\Infrastructure\SqlBuilder;
 
 class UpdateSqlCommand extends AbstractSqlCommand
 {
-    private array $values;
+    private array $values  = [];
 
-    private array $where;
+    private array $where  = [];
 
     public function __construct()
     {

@@ -6,7 +6,7 @@ namespace Nikolai\Php\Infrastructure\SqlBuilder;
 
 final class DeleteSqlCommand extends AbstractSqlCommand
 {
-    private array $where;
+    private array $where  = [];
 
     public function __construct()
     {

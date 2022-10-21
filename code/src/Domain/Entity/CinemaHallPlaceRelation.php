@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Domain\Entity;
 
+use Nikolai\Php\Domain\Collection\LazyLoadCollection;
+
 class CinemaHallPlaceRelation extends AbstractEntity
 {
     private ?int $id = null;
@@ -12,11 +14,16 @@ class CinemaHallPlaceRelation extends AbstractEntity
 
     private Place $place;
 
-    public function __construct(?int $id, CinemaHall $cinemaHall, Place $place)
+    private LazyLoadCollection $ticket;
+
+    public function __construct(?int $id, CinemaHall $cinemaHall, Place $place, ?LazyLoadCollection $ticket = null)
     {
         $this->id = $id;
         $this->cinemaHall = $cinemaHall;
         $this->place = $place;
+        $this->ticket =
+            $ticket ??
+            new LazyLoadCollection($this, 'ticket');
     }
 
     public function getId(): ?int
@@ -49,6 +56,17 @@ class CinemaHallPlaceRelation extends AbstractEntity
     public function setPlace(Place $place): self
     {
         $this->place = $place;
+        return $this;
+    }
+
+    public function getTicket(): ?LazyLoadCollection
+    {
+        return $this->ticket;
+    }
+
+    public function setTicket(?LazyLoadCollection $ticket): self
+    {
+        $this->ticket = $ticket;
         return $this;
     }
 }

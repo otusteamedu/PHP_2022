@@ -6,24 +6,27 @@ namespace Nikolai\Php\Domain\Entity;
 
 use Nikolai\Php\Domain\Collection\LazyLoadCollection;
 
-class CinemaHall extends AbstractEntity
+class Film extends AbstractEntity
 {
     private ?int $id = null;
 
     private string $name;
 
-    private LazyLoadCollection $cinemaHallPlaceRelation;
+    private int $duration;
+
+    private float $basePrice;
 
     private LazyLoadCollection $schedule;
 
-    public function __construct(?int $id, string $name, ?LazyLoadCollection $cinemaHallPlaceRelation = null, ?LazyLoadCollection $schedule = null)
+    public function __construct(?int $id, string $name, int $duration, $basePrice, ?LazyLoadCollection $schedule = null)
     {
         $this->id = $id;
         $this->name = $name;
-        $this->cinemaHallPlaceRelation =
-            $cinemaHallPlaceRelation ??
-            new LazyLoadCollection($this, 'cinemaHallPlaceRelation');
-        $this->schedule = $schedule ?? new LazyLoadCollection($this, 'schedule');
+        $this->duration = $duration;
+        $this->basePrice = (float) $basePrice;
+        $this->schedule =
+            $schedule ??
+            new LazyLoadCollection($this, 'schedule');
     }
 
     public function getId(): ?int
@@ -48,14 +51,25 @@ class CinemaHall extends AbstractEntity
         return $this;
     }
 
-    public function getCinemaHallPlaceRelation(): ?LazyLoadCollection
+    public function getDuration(): int
     {
-        return $this->cinemaHallPlaceRelation;
+        return $this->duration;
     }
 
-    public function setCinemaHallPlaceRelation(?LazyLoadCollection $cinemaHallPlaceRelation): self
+    public function setDuration(int $duration): self
     {
-        $this->cinemaHallPlaceRelation = $cinemaHallPlaceRelation;
+        $this->duration = $duration;
+        return $this;
+    }
+
+    public function getBasePrice(): float
+    {
+        return $this->basePrice;
+    }
+
+    public function setBasePrice(float $basePrice): self
+    {
+        $this->basePrice = $basePrice;
         return $this;
     }
 

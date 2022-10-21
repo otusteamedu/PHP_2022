@@ -6,7 +6,7 @@ namespace Nikolai\Php\Infrastructure\SqlBuilder;
 
 class InsertSqlCommand extends AbstractSqlCommand
 {
-    private array $values;
+    private array $values  = [];
 
     public function __construct()
     {

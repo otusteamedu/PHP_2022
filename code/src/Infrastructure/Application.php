@@ -20,30 +20,17 @@ class Application implements ApplicationInterface
 
         $builder = new ContainerBuilder();
         $builder->addDefinitions([
-/*
             'PDO' => DI\autowire('PDO')
                 ->constructorParameter('dsn', $request->server->get('DB_DSN')),
-*/
-            'Nikolai\Php\Domain\Mapper\MapperInterface' =>
-                DI\autowire('Nikolai\Php\Infrastructure\Mapper\Mapper')
+            'Nikolai\Php\Infrastructure\SqlBuilder\SqlBuilderFactoryInterface' =>
+                DI\autowire('Nikolai\Php\Infrastructure\SqlBuilder\SqlBuilderFactory'),
+            'Nikolai\Php\Infrastructure\Mapper\MappingConfiguratorInterface' =>
+                DI\autowire('Nikolai\Php\Infrastructure\Mapper\MappingConfigurator')
                     ->constructorParameter('mapping', $mapping),
-/*
-            'Nikolai\Php\Domain\Collection\LazyLoadCollection' =>
-                DI\autowire()
-                    ->methodParameter('doInitialize', 'mapper', $request),
-*/
-
-/*
-            'Nikolai\Php\Application\Contract\EventClientInterface' =>
-                DI\autowire('Nikolai\Php\Infrastructure\EventClient\RedisEventClient')
-                    ->constructorParameter('host', $request->server->get('REDIS_HOST'))
-                    ->constructorParameter('port', (int) $request->server->get('REDIS_PORT'))
-                    ->constructorParameter('minEventPriority', (int) $request->server->get('MIN_EVENT_PRIORITY'))
-                    ->constructorParameter('maxEventPriority', (int) $request->server->get('MAX_EVENT_PRIORITY')),
-            'Nikolai\Php\Application\RequestConverter\RequestConverterInterface' =>
-                DI\autowire('Nikolai\Php\Application\RequestConverter\RequestConverter')
-                    ->methodParameter('convert', 'request', $request),
-*/
+            'Nikolai\Php\Infrastructure\Mapper\EntityObjectBuilderInterface' =>
+                DI\autowire('Nikolai\Php\Infrastructure\Mapper\EntityObjectBuilder'),
+            'Nikolai\Php\Domain\Mapper\MapperInterface' =>
+                DI\autowire('Nikolai\Php\Infrastructure\Mapper\Mapper'),
         ]);
         $container = $builder->build();
 

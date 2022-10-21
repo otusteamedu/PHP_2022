@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Domain\Entity;
 
-use Nikolai\Php\Domain\Collection\AbstractLazyCollection;
 use Nikolai\Php\Domain\Collection\LazyLoadCollection;
 
 class Place extends AbstractEntity
@@ -22,11 +21,9 @@ class Place extends AbstractEntity
         $this->id = $id;
         $this->row = $row;
         $this->col = $col;
-        if ($cinemaHallPlaceRelation) {
-            $this->cinemaHallPlaceRelation = $cinemaHallPlaceRelation;
-        } else {
-            $this->cinemaHallPlaceRelation = new LazyLoadCollection($this, 'cinemaHallPlaceRelation');
-        }
+        $this->cinemaHallPlaceRelation =
+            $cinemaHallPlaceRelation ??
+            new LazyLoadCollection($this, 'cinemaHallPlaceRelation');
     }
 
     public function getId(): ?int

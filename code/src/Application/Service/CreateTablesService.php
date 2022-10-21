@@ -6,7 +6,7 @@ namespace Nikolai\Php\Application\Service;
 
 use PDO;
 
-class CreateTablesService implements ServiceInterface
+class CreateTablesService
 {
     const CREATE_TABLES_AND_INDEXES_SQL = [
         'CREATE TABLE cinema_hall (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id));',

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Infrastructure\Controller;
 
-use Nikolai\Php\Domain\Entity\AbstractEntity;
 use Nikolai\Php\Domain\Entity\CinemaHall;
 use Nikolai\Php\Domain\Entity\CinemaHallPlaceRelation;
 use Nikolai\Php\Domain\Entity\Place;

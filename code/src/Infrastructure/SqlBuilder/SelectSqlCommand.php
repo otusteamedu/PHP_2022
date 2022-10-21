@@ -6,7 +6,7 @@ namespace Nikolai\Php\Infrastructure\SqlBuilder;
 
 final class SelectSqlCommand extends AbstractSqlCommand
 {
-    private array $where;
+    private array $where = [];
 
     public function __construct()
     {
@@ -23,6 +23,11 @@ final class SelectSqlCommand extends AbstractSqlCommand
     protected function doBuild(): string
     {
         $result = [];
+
+        if (!$this->where) {
+            return '';
+        }
+
         foreach ($this->where as $field => $value) {
             $result[] = $field . '=' . self::PLACEHOLDER;
         }

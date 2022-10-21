@@ -6,7 +6,7 @@ namespace Nikolai\Php\Application\Service;
 
 use PDO;
 
-class DropTablesService implements ServiceInterface
+class DropTablesService
 {
     const DROP_TABLES_SQL = [
         'drop table ticket;',
