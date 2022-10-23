@@ -1,7 +1,7 @@
 <?php
 
 return [
-    //'repository' => 'Redis'
+    //'repository' => 'Redis',
     'repository' => 'Memcached',
     'redis_host' => 'redis-hw11',
     'redis_port' => 6379,

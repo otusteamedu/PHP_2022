@@ -69,7 +69,6 @@ final class ControllerRequestValidator
         return $this->examination(needed_keys: [
             'key',
             'conditions',
-            'event_description'
         ]);
     }
 

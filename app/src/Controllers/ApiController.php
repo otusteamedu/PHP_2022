@@ -50,7 +50,7 @@ final class ApiController
             )
         );
 
-        $this->http->outputJsonResponse(response: 'Storage cleared', http_code: 200);
+        $this->http->outputJsonResponse(response: 'Event added', http_code: 200);
     }
 
     /**
@@ -82,7 +82,8 @@ final class ApiController
             )
         );
 
-        $this->http->outputJsonResponse(response: 'Event ' . $this->request['key'] . ' deleted', http_code: 200);
+        $this->http
+            ->outputJsonResponse(response: 'Event ' . $this->request['event_description'] . ' deleted', http_code: 200);
     }
 
     /**
@@ -110,7 +111,7 @@ final class ApiController
 
         $event = $this->repository->getConcreteEvent(
             event: new Event(
-                repository_dto: new RepositoryDTO(key: $this->request['key'])
+                repository_dto: new RepositoryDTO(key: $this->request['key'], conditions: $this->request['conditions'])
             )
         );
 
