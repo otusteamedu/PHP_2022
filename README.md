@@ -14,3 +14,6 @@
 ![img.png](readme_img/memcached.png)  
 - убедиться, что работает ```nginx можно```, открыв в браузере адрес ```http://localhost:8005```:  
 ![img.png](readme_img/nginx.png)  
+
+### Использование
+- зайдя в контейнер ```otus-hw11``` выполнить ```chmod +x analytics_panel.php```
