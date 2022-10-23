@@ -14,9 +14,9 @@ class Ticket extends AbstractEntity
 
     private float $price;
 
-    private bool $status;
+    private int $status;
 
-    public function __construct(?int $id, Schedule $schedule, CinemaHallPlaceRelation $cinemaHallPlaceRelation, float $price, bool $status)
+    public function __construct(?int $id, Schedule $schedule, CinemaHallPlaceRelation $cinemaHallPlaceRelation, float $price, int $status)
     {
         $this->id = $id;
         $this->schedule = $schedule;
@@ -69,12 +69,12 @@ class Ticket extends AbstractEntity
         return $this;
     }
 
-    public function getStatus(): bool
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(int $status): self
     {
         $this->status = $status;
         return $this;

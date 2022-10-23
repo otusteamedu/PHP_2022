@@ -25,7 +25,7 @@ class MappingConfigurator implements MappingConfiguratorInterface
         try {
             return (new \ReflectionClass($entityOrEntityClass))->getShortName();
         } catch (\Exception $exception) {
-            throw new MapperException('Не возможно определить короткое имя класса: ' . $entity);
+            throw new MapperException('Не возможно определить короткое имя класса: ' . $entityOrEntityClass);
         }
     }
 

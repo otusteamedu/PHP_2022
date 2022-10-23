@@ -9,6 +9,7 @@ use Nikolai\Php\Domain\Entity\CinemaHallPlaceRelation;
 use Nikolai\Php\Domain\Entity\Film;
 use Nikolai\Php\Domain\Entity\Place;
 use Nikolai\Php\Domain\Entity\Schedule;
+use Nikolai\Php\Domain\Entity\Ticket;
 use Nikolai\Php\Domain\Mapper\MapperInterface;
 
 class AddTestDataService
@@ -20,19 +21,36 @@ class AddTestDataService
 
     public function execute(): void
     {
-/*
         $this->insertFilms();
         $this->insertCinemaHalls();
         $this->insertPlaces();
         $this->insertCinemaHallPlaceRelations();
         $this->insertSchedule();
-*/
         $this->insertTickets();
     }
 
     private function insertTickets(): void
     {
-        
+        $countTickets = 0;
+        $schedule = $this->mapper->findBy(Schedule::class, []);
+
+        foreach ($schedule as $session) {
+            fwrite(STDOUT, 'Добавляются билеты на сеанс с id: ' . $session->getId() . PHP_EOL);
+
+            $cinemaHallPlaceRelations = $this->mapper->findBy(
+                CinemaHallPlaceRelation::class,
+                ['cinema_hall_id' => $session->getCinemaHall()->getId()]
+            );
+            foreach ($cinemaHallPlaceRelations as $item) {
+                $price = round($session->getFilm()->getBasePrice() * (rand(13, 20) / 10.), 2);
+                $status = rand(0, 1);
+                $ticket = new Ticket(null, $session, $item, $price, $status);
+                $this->mapper->insert($ticket);
+                $countTickets++;
+            }
+        }
+
+        fwrite(STDOUT, 'Вставлено: ' . $countTickets . ' билетов.' . PHP_EOL);
     }
 
     private function insertSchedule(): void

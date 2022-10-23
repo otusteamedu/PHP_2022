@@ -28,7 +28,5 @@ final class Connection
 
     private function __clone() {}
 
-    public function __wakeup() {
-        throw new \Exception("Cannot unserialize singleton");
-    }
+    public function __wakeup() {}
 }

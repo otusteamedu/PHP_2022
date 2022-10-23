@@ -44,7 +44,7 @@ class Mapper implements MapperInterface
                  * поэтому обновляем ее, иначе (нет id) - добавляем и ее
                  */
                 if ($idReferenceEntity) {
-//                    $this->update($referenceEntity);
+                    $this->update($referenceEntity);
                     $sqlBuilder->value($property['fieldName'], $idReferenceEntity);
                 } else {
                     $insertedReferenceEntity = $this->insert($referenceEntity);
