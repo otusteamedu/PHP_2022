@@ -10,9 +10,9 @@
 ![img.png](readme_img/docker.png)  
 - убедиться что ```redis``` работает, можно зайдя в контейнер ```redis-hw11``` и там выполнить ```redis-cli```:  
 ![img_1.png](readme_img/redis.png)  
-- убедиться что работает ```memcached``` можнт зайди в контейнер ```otus-hw11``` и выполнить ```telnet memcached 11211```:   
+- убедиться что работает ```memcached``` можно зайдя в контейнер ```otus-hw11``` и выполнить ```telnet memcached 11211```:   
 ![img.png](readme_img/memcached.png)  
-- убедиться, что работает ```nginx можно```, открыв в браузере адрес ```http://localhost:8005```:
+- убедиться, что работает ```nginx``` можно, открыв в браузере адрес ```http://localhost:8005```:
 ![img.png](readme_img/nginx.png)  
 
 ### Настройка
@@ -55,7 +55,7 @@
 ### Примеры работы через HTTP API  
 - Переключимся на Memcached (проверим через консольное приложение):  
 ![img_10.png](readme_img/img_10.png)  
-- Проверием что событий нет:  
+- Проверим что событий нет:  
 ![img_11.png](readme_img/img_11.png)  
 - Начинаем добавлять:  
 ![img_12.png](readme_img/img_12.png)  
