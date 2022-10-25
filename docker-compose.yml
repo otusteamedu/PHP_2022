@@ -1,0 +1,54 @@
+version: "3.9"
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    image: otus-homework11
+    container_name: app-hw12
+    env_file:
+      - .env
+    restart: unless-stopped
+    working_dir: /project
+    volumes:
+      - ./:/project
+      - ./docker-settings/php/app.ini:/usr/local/etc/php/conf.d/app.ini
+    networks:
+      - otus
+
+  postgres:
+    container_name: postgres-hw12
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB_NAME}"
+      POSTGRES_USER: "${POSTGRES_DB_LOGIN}"
+      POSTGRES_PASSWORD: "${POSTGRES_DB_PASSWORD}"
+      PGDATA: "${PG_DATA}"
+    volumes:
+      - ./docker-settings/postgresql/:/docker-entrypoint-initdb.d
+      - ./db_data:/var/lib/postgresql/data
+      - ./docker-settings/postgresql/conf/custom.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - otus
+
+  pgadmin:
+    container_name: pgadmin-hw12
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+      PGADMIN_CONFIG_SERVER_MODE: "${PGADMIN_CONFIG_SERVER_MODE}"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge
