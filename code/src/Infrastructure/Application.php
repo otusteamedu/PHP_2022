@@ -6,6 +6,7 @@ namespace Nikolai\Php\Infrastructure;
 
 use Nikolai\Php\Domain\Service\ServiceManager;
 use Nikolai\Php\Infrastructure\Configuration\Configuration;
+use Nikolai\Php\Infrastructure\Connection\Connection;
 use Nikolai\Php\Infrastructure\ControllerResolver\ControllerResolver;
 use Symfony\Component\HttpFoundation\Request;
 use DI;
@@ -21,7 +22,7 @@ class Application implements ApplicationInterface
         $builder = new ContainerBuilder();
         $builder->addDefinitions([
             'PDO' => DI\autowire('PDO')
-                ->constructorParameter('dsn', $request->server->get('DB_DSN')),
+                ->constructorParameter('dsn', Connection::getInstance()->getConnection()),
             'Nikolai\Php\Infrastructure\SqlBuilder\SqlBuilderFactoryInterface' =>
                 DI\autowire('Nikolai\Php\Infrastructure\SqlBuilder\SqlBuilderFactory'),
             'Nikolai\Php\Infrastructure\Mapper\MappingConfiguratorInterface' =>
