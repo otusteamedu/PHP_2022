@@ -1,0 +1,50 @@
+CinemaHall:
+  tableName: 'cinema_hall'
+  properties:
+    - { name: 'id', type: 'int', fieldName: 'id' }
+    - { name: 'name', type: 'string', fieldName: 'name' }
+    - { name: 'cinemaHallPlaceRelation', type: 'Nikolai\Php\Domain\Collection\LazyLoadCollection', fieldName: 'cinema_hall_id', tableName: 'cinema_hall_place_relation', itemCollectionClass: 'Nikolai\Php\Domain\Entity\CinemaHallPlaceRelation' }
+    - { name: 'schedule', type: 'Nikolai\Php\Domain\Collection\LazyLoadCollection', fieldName: 'cinema_hall_id', tableName: 'schedule', itemCollectionClass: 'Nikolai\Php\Domain\Entity\Schedule' }
+
+Place:
+  tableName: 'place'
+  properties:
+    - { name: 'id', type: 'int', fieldName: 'id' }
+    - { name: 'row', type: 'int', fieldName: 'row' }
+    - { name: 'col', type: 'int', fieldName: 'col' }
+    - { name: 'cinemaHallPlaceRelation', type: 'Nikolai\Php\Domain\Collection\LazyLoadCollection', fieldName: 'place_id', tableName: 'cinema_hall_place_relation', itemCollectionClass: 'Nikolai\Php\Domain\Entity\CinemaHallPlaceRelation' }
+
+CinemaHallPlaceRelation:
+  tableName: 'cinema_hall_place_relation'
+  properties:
+    - { name: 'id', type: 'int', fieldName: 'id' }
+    - { name: 'cinemaHall', type: 'Nikolai\Php\Domain\Entity\CinemaHall', fieldName: 'cinema_hall_id', tableName: 'cinema_hall' }
+    - { name: 'place', type: 'Nikolai\Php\Domain\Entity\Place', fieldName: 'place_id', tableName: 'place' }
+    - { name: 'ticket', type: 'Nikolai\Php\Domain\Collection\LazyLoadCollection', fieldName: 'cinema_hall_place_relation_id', tableName: 'ticket', itemCollectionClass: 'Nikolai\Php\Domain\Entity\Ticket' }
+
+Film:
+  tableName: 'film'
+  properties:
+    - { name: 'id', type: 'int', fieldName: 'id' }
+    - { name: 'name', type: 'string', fieldName: 'name' }
+    - { name: 'duration', type: 'int', fieldName: 'duration' }
+    - { name: 'basePrice', type: 'float', fieldName: 'base_price' }
+    - { name: 'schedule', type: 'Nikolai\Php\Domain\Collection\LazyLoadCollection', fieldName: 'film_id', tableName: 'schedule', itemCollectionClass: 'Nikolai\Php\Domain\Entity\Schedule' }
+
+Schedule:
+  tableName: 'schedule'
+  properties:
+    - { name: 'id', type: 'int', fieldName: 'id' }
+    - { name: 'beginSession', type: 'int', fieldName: 'begin_session' }
+    - { name: 'film', type: 'Nikolai\Php\Domain\Entity\Film', fieldName: 'film_id', tableName: 'film' }
+    - { name: 'cinemaHall', type: 'Nikolai\Php\Domain\Entity\CinemaHall', fieldName: 'cinema_hall_id', tableName: 'cinema_hall' }
+    - { name: 'ticket', type: 'Nikolai\Php\Domain\Collection\LazyLoadCollection', fieldName: 'schedule_id', tableName: 'ticket', itemCollectionClass: 'Nikolai\Php\Domain\Entity\Ticket' }
+
+Ticket:
+  tableName: 'ticket'
+  properties:
+    - { name: 'id', type: 'int', fieldName: 'id' }
+    - { name: 'schedule', type: 'Nikolai\Php\Domain\Entity\Schedule', fieldName: 'schedule_id', tableName: 'schedule' }
+    - { name: 'cinemaHallPlaceRelation', type: 'Nikolai\Php\Domain\Entity\CinemaHallPlaceRelation', fieldName: 'cinema_hall_place_relation_id', tableName: 'cinema_hall_place_relation' }
+    - { name: 'price', type: 'float', fieldName: 'price' }
+    - { name: 'status', type: 'bool', fieldName: 'status' }
