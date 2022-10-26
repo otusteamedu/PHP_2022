@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  nginx:
+    build: nginx/
+    image: pinguk/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - './src:/data/mysite.local'
+    networks:
+      - app-network
+    links:
+      - app
+
+  app:
+    build: php-fpm/
+    image: pinguk/fpm
+    container_name: app
+    volumes:
+      - './src:/data/mysite.local'
+    networks:
+      - app-network
+
+  memcache:
+    image: memcached:latest
+    container_name: memcache
+    command: -m 128
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
