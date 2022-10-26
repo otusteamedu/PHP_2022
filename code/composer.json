@@ -1,0 +1,17 @@
+{
+    "name": "nsavelev/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nsavelev\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "NSavelev"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^6.1"
+    }
+}
