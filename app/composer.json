@@ -1,0 +1,17 @@
+{
+    "name": "a-tolmachev/my-app",
+    "autoload": {
+        "psr-4": {
+            "ATolmachev\\MyApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander",
+            "email": "carabidaee@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*"
+    }
+}
