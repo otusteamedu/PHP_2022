@@ -5,7 +5,7 @@ RUN apt update && apt install -y nginx && ln -snf /usr/share/zoneinfo/$TZ /etc/l
 
 WORKDIR /var/www
 
-COPY ./hosts/mysite.local.conf /etc/nginx/sites-enabled/mysite.local.conf
+COPY hosts/application.local.conf /etc/nginx/sites-enabled/application.local.conf
 
 EXPOSE 80
 

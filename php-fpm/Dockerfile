@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     && pecl install redis \
     && docker-php-ext-enable redis
 
-COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /data
 

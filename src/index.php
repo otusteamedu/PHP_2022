@@ -26,3 +26,9 @@ if (ini_get('session.save_handler') === 'redis') {
         print_r($redis->get('PHPREDIS_SESSION:' . session_id()));
     }
 }
+
+$mysqli = mysqli_connect('db', 'root', 'root');
+if ($mysqli->connect_error) {
+    die($mysqli->connect_error);
+}
+var_dump($mysqli->client_info);

@@ -2,30 +2,32 @@ version: '3'
 
 services:
   nginx:
-    build: nginx/
+    build: nginx
     image: pinguk/nginx
     container_name: webserver
+    restart: always
     ports:
       - "80:80"
     volumes:
-      - './src:/data/mysite.local'
+      - "./src:/data/application.local"
     networks:
       - app-network
     links:
       - app
 
   app:
-    build: php-fpm/
+    build: php-fpm
     image: pinguk/fpm
     container_name: app
     volumes:
-      - './src:/data/mysite.local'
+      - "./src:/data/application.local"
     networks:
       - app-network
 
   memcached:
     image: memcached:latest
     container_name: memcached
+    restart: always
     command: -m 128
     ports:
       - "11211:11211"
@@ -35,11 +37,23 @@ services:
   redis:
     image: redis
     container_name: redis
+    restart: always
     networks:
       - app-network
     command: redis-server --save 20 1
     volumes:
-      - './redis/data:/data'
+      - "./data/redis:/data"
+
+  db:
+    image: mysql
+    container_name: db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - app-network
+    volumes:
+      - "./data/mysql:/var/lib/mysql"
 
 networks:
   app-network:
