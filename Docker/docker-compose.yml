@@ -37,6 +37,9 @@ services:
     container_name: redis
     networks:
       - app-network
+    command: redis-server --save 20 1
+    volumes:
+      - './redis/data:/data'
 
 networks:
   app-network:
