@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/data/application.local
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    working_dir: /data
+    container_name: app
+    depends_on:
+      - mysql
+    volumes:
+       - ./src:/data/application.local
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8
+    restart: always
+    container_name: db
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+        MYSQL_DATABASE: db
+        MYSQL_ROOT_PASSWORD: root
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
