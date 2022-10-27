@@ -11,9 +11,18 @@ if (isset($_SESSION['visit_count'])) {
 
 if (ini_get('session.save_handler') === 'memcached') {
     $memcache = new Memcached();
-    $memcache->addServer('memcache', 11211);
+    $memcache->addServer('memcached', 11211);
 
     $prefix = ini_get('memcached.sess_prefix');
 
     var_dump($memcache->get($prefix . session_id()));
+}
+
+if (ini_get('session.save_handler') === 'redis') {
+    $redis = new Redis();
+    $redis->connect('redis');
+
+    if ($redis->isConnected()) {
+        print_r($redis->get('PHPREDIS_SESSION:' . session_id()));
+    }
 }

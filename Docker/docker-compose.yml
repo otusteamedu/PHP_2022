@@ -23,12 +23,18 @@ services:
     networks:
       - app-network
 
-  memcache:
+  memcached:
     image: memcached:latest
-    container_name: memcache
+    container_name: memcached
     command: -m 128
     ports:
       - "11211:11211"
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    container_name: redis
     networks:
       - app-network
 
