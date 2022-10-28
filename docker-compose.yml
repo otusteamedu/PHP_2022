@@ -21,6 +21,8 @@ services:
     container_name: app
     volumes:
       - "./src:/data/application.local"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - app-network
 
@@ -49,7 +51,7 @@ services:
     container_name: db
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - app-network
     volumes:

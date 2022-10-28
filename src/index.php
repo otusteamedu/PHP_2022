@@ -27,7 +27,7 @@ if (ini_get('session.save_handler') === 'redis') {
     }
 }
 
-$mysqli = mysqli_connect('db', 'root', 'root');
+$mysqli = mysqli_connect('db', 'root', $_ENV['MYSQL_ROOT_PASSWORD']);
 if ($mysqli->connect_error) {
     die($mysqli->connect_error);
 }
