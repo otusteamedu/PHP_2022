@@ -1,0 +1,8 @@
+/.idea/
+/.git/
+code/vendor
+tmp
+elasticsearch-data
+
+
+
