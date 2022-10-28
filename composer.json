@@ -1,0 +1,21 @@
+{
+  "name": "otus/mvc",
+  "description": "HW7 chat unix socket",
+  "type": "project",
+  "license": "Freeware",
+  "authors": [
+    {
+      "name": "I.Tsyganok",
+      "email": "ciganokigor@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-sockets": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "code/"
+    }
+  }
+}
