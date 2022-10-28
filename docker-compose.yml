@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/data/mysite.local
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    restart: always
+    volumes:
+      - ./src:/data/mysite.local
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7
+    container_name: database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+      MYSQL_USER: admin
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./docker/mysql/init_db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+    restart: always
+    ports:
+      - "8081:80"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:4-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "16379:6379"
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:alpine
+    container_name: memcached
+    restart: always
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
