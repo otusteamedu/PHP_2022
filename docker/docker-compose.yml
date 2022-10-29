@@ -19,6 +19,17 @@ services:
     volumes:
       - ./src:/app
 
+  composer:
+    image: composer
+    volumes:
+      - ./src:/app
+    working_dir: /app
+    entrypoint:
+      - composer
+      - install
+    depends_on:
+      - php-fpm
+
   db-postgres:
     image: postgres:14.5-alpine
     environment:
