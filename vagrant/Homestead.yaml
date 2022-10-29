@@ -7,12 +7,12 @@ keys:
     - ~/.ssh/id_rsa
 folders:
     -
-        map: /home/sla/PhpstormProjects/PHP_2022/vagrant
-        to: /home/vagrant/code
+        map: ./src
+        to: /home/vagrant/src
 sites:
     -
-        map: homestead.test
-        to: /home/vagrant/code/public
+        map: application.local
+        to: /home/vagrant/src/public
 databases:
     - homestead
 features:
