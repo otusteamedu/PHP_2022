@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/var/www/application.local
+       - "./phpsocket:/var/run"
+    networks:
+      - network
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: php-fpm
+    volumes:
+      - ./code:/var/www/application.local
+      - "./phpsocket:/var/run"
+    networks:
+      - network
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    container_name: redis
+    networks:
+      - network
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    ports:
+        - "11211:11211"
+    networks:
+      - network
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    volumes:
+      - ./postgres/db:/var/lib/postgresql
+      - ./postgres/dump:/dump
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
