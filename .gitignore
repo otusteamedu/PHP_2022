@@ -1,3 +1,9 @@
-/.env
+# Служебные файлы IDE и ОС
 .idea
 .DS_Store
+
+# Конфигурационные файлы
+/.env
+
+# Docker
+docker-compose.override.yml
