@@ -11,6 +11,14 @@ RUN apk update && apk add --no-cache postgresql-dev fcgi git \
     && docker-php-ext-install pdo_pgsql xdebug \
     && apk del git
 
+RUN apk --no-cache add autoconf g++ make \
+    && pecl install -o -f redis \
+    && docker-php-ext-enable redis
+
+RUN apk --no-cache add zlib-dev libmemcached-dev \
+    && pecl install memcached \
+    && docker-php-ext-enable memcached
+
 COPY ./php-fpm/conf.d /usr/local/etc/php/conf.d
 
 WORKDIR /app
