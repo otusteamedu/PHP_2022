@@ -32,11 +32,12 @@ services:
     container_name: database
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_PASSWORD: password
-      MYSQL_USER: admin
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_DATABASE: ${DB_NAME}
+      SERVICE_TAGS: ${DB_SERVICE_TAGS}
+      SERVICE_NAME: ${DB_SERVICE_NAME}
     volumes:
       - ./dbdata:/var/lib/mysql
       - ./docker/mysql/init_db.sql:/docker-entrypoint-initdb.d/init.sql
