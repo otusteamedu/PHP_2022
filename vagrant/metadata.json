@@ -1,0 +1,10 @@
+{
+  "name": "laravel/homestead",
+  "versions": [{
+    "version": "12.2.0",
+    "providers": [{
+      "name": "virtualbox",
+      "url": "file:///home/sla/Загрузки/1281941f-a564-4471-9a66-828c885f4a89"
+    }]
+  }]
+}
