@@ -1,0 +1,34 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/hosts:/etc/nginx/conf.d
+      - ./nginx/logs/nginx:/var/log/nginx
+      - ./phpsocket:/var/run
+      - ./src:/var/www/dev.site
+    links:
+      - app
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php-app
+    volumes:
+      - ./src:/var/www/dev.site
+      - ./phpsocket:/var/run
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
