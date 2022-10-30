@@ -3,3 +3,4 @@
 /sock*
 /db/postgres
 /logs
+.env
