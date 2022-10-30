@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+
+  #nginx
+  server:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+      - ./docker/data/phpfpmsocket:/var/run
+      - ./www/application.local:/www/application.local
+    networks:
+      - app-network
+
+
+  #memcached
+  memcached:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  #redis
+  redis:
+    build:
+      context: ./docker/redis
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/data/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/data/redis/data:/var/redis
+    networks:
+      - app-network
+
+  #php
+  php:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/php-fpm/php-docker.conf:/usr/local/etc/php-fpm.d/php-docker.conf
+      - ./docker/data/phpfpmsocket:/var/run
+      - ./www/application.local:/www/application.local
+    networks:
+      - app-network
+
+  #Database
+  database:
+    build:
+      context: ./docker/postgresql
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/data/postgresql/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
