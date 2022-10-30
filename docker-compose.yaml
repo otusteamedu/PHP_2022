@@ -56,7 +56,7 @@ services:
     volumes:
       - ./docker/data/postgresql/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
     networks:
       - app-network
 
