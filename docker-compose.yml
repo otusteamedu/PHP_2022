@@ -48,9 +48,10 @@ services:
     container_name: db
     volumes:
       - ./db:/var/lib/mysql
+    env_file: .env
     environment:
-        MYSQL_DATABASE: db
-        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: $DB_DATABASE
+        MYSQL_ROOT_PASSWORD: $DB_PASSWORD
     networks:
       - app-network
 
