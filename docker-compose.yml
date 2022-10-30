@@ -7,6 +7,8 @@ services:
     working_dir: /var/www/app
     volumes:
       - .:/var/www/app
+    networks:
+      - app-network
 
   nginx:
     build:
@@ -18,6 +20,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - app-network
 
   db:
     image: postgres:15
@@ -29,5 +33,9 @@ services:
       - ./docker/postgresql_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - app-network
 
-#networks:
+networks:
+  app-network:
+    driver: bridge
