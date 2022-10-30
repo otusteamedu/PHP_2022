@@ -9,10 +9,20 @@
 </head>
 <body>
     <h2>Hi, user!</h2>
-<p>
 <?php
-echo 'PHP works';
+echo '<p>PHP works</p>';
+echo '<p>Кириллица выводится корректно</p>';
+echo '<p>Тест БД</p>';
+// проверка подключения к БД
+$dsn = 'pgsql:dbname=app;host=db';
+$user = 'app';
+$password = 'app';
+
+$dbh = new PDO($dsn, $user, $password);
+$x = $dbh->query('SELECT datname FROM pg_database;')->fetchAll();
+echo '<pre>';
+var_dump($x);
+echo '</pre>';
 ?>
-</p>
 </body>
 </html>
