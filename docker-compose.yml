@@ -17,7 +17,7 @@ services:
     container_name: amarkhay_nginx
     volumes:
       - .:/var/www/app
-      - ./docker/nginx/supersite.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
     ports:
       - "80:80"
       - "443:443"
