@@ -1,3 +1,5 @@
 .idea
 /nginx/logs/
-/phpsocket/nginx.pid
+/mysql/
+/redis/
+/phpsocket/
