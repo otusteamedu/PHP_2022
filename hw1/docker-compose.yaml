@@ -51,9 +51,11 @@ services:
     cap_add:
       - SYS_NICE
     restart: always
+    env_file:
+      - ".env"
     environment:
-      - MYSQL_DATABASE=quotes
-      - MYSQL_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - '3306:3306'
     volumes:
