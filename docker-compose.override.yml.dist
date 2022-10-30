@@ -1,0 +1,13 @@
+version: '3'
+services:
+  nginx:
+    ports:
+      - "8083:80"
+
+  db:
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "54320:5432"

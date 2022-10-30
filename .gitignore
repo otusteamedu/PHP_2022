@@ -7,3 +7,6 @@
 
 # Docker
 docker-compose.override.yml
+
+# Данные БД
+./docker/postgresql_data/

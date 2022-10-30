@@ -1,0 +1,33 @@
+version: '3'
+services:
+  php-fpm:
+    build:
+      context: docker/php-fpm
+    container_name: amarkhay_php-fpm
+    working_dir: /var/www/app
+    volumes:
+      - .:/var/www/app
+
+  nginx:
+    build:
+      context: docker/nginx
+    container_name: amarkhay_nginx
+    volumes:
+      - .:/var/www/app
+      - ./docker/nginx/supersite.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+      - "443:443"
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    volumes:
+      - ./docker/postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+#networks:
