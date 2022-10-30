@@ -28,6 +28,11 @@ echo '</pre>';
 $redis = new Redis();
 $redis->connect('redis');
 echo '<p>Redis сервер работает: ' . $redis->ping() . '</p>';
+
+$memcache = new Memcache;
+$memcache->connect('memcache', 11211) or die ('Не удается подключиться к Memcache');
+$version = $memcache->getVersion();
+echo "<p>Подключение к Memcache успешно. Версия " . $version . "</p>";
 ?>
 </body>
 </html>

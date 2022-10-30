@@ -43,11 +43,11 @@ services:
     networks:
       - app-network
 
-#  memcache:
-#    image: memcached:alpine
-#    container_name: amarkhay_memcache
-#    networks:
-#      - app-network
+  memcache:
+    image: memcached:alpine
+    container_name: amarkhay_memcache
+    networks:
+      - app-network
 
 networks:
   app-network:
