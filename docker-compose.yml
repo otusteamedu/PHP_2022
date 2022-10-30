@@ -37,6 +37,18 @@ services:
     networks:
       - app-network
 
+  redis:
+    image: redis:alpine
+    container_name: amarkhay_redis
+    networks:
+      - app-network
+
+#  memcache:
+#    image: memcached:alpine
+#    container_name: amarkhay_memcache
+#    networks:
+#      - app-network
+
 networks:
   app-network:
     driver: bridge

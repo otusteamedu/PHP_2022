@@ -23,6 +23,11 @@ $x = $dbh->query('SELECT datname FROM pg_database;')->fetchAll();
 echo '<pre>';
 var_dump($x);
 echo '</pre>';
+
+// проверка подключения к Redis
+$redis = new Redis();
+$redis->connect('redis');
+echo '<p>Redis сервер работает: ' . $redis->ping() . '</p>';
 ?>
 </body>
 </html>
