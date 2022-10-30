@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:rw
+
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11212:11211"
+
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_DATABASE=quotes
+      - MYSQL_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+    ports:
+      - '3306:3306'
+    volumes:
+      - db:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  composer:
+    image: composer:1.9.3
+    environment:
+      - COMPOSER_CACHE_DIR=/app/var/cache/composer
+    volumes:
+      - .:/app
+    command: install
+
+volumes:
+  db:
+    driver: local
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
