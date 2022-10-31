@@ -1,0 +1,6 @@
+.idea
+/nginx/logs/
+/mysql/
+/redis/
+/phpsocket/
+/.env

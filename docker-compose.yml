@@ -1,0 +1,59 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php-app
+    restart: always
+    volumes:
+      - ./src:/var/www/dev.site
+      - ./phpsocket:/var/run
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-webserver
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/hosts:/etc/nginx/conf.d
+      - ./nginx/logs/nginx:/var/log/nginx
+      - ./src:/var/www/dev.site
+      - ./phpsocket:/var/run
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./redis:/var/lib/redis
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    networks:
+      - app-network
+
+  db:
+    image: mysql:latest
+    restart: always
+    env_file:
+      - ".env"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
