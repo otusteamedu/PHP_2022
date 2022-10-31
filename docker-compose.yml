@@ -45,8 +45,10 @@ services:
   db:
     image: mysql:latest
     restart: always
+    env_file:
+      - ".env"
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./mysql:/var/lib/mysql
     networks:

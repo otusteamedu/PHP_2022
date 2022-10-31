@@ -3,3 +3,4 @@
 /mysql/
 /redis/
 /phpsocket/
+/.env
