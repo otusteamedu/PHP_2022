@@ -1,1 +1,3 @@
-FROM nginx:alpine
+FROM nginx:latest
+
+CMD ["nginx", "-g", "daemon off;"]
