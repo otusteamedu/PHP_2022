@@ -1,0 +1,10 @@
+{
+    "require": {
+        "elasticsearch/elasticsearch": "^8.4",
+        "vanilla/garden-cli": "~2.0",
+        "phplucidframe/console-table": "^1.2"
+    },
+    "autoload": {
+        "psr-4": { "": "src/" }
+    }
+}
