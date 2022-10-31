@@ -26,10 +26,8 @@ services:
 
   db:
     image: postgres:15
-    environment:
-      POSTGRES_USER: app
-      POSTGRES_PASSWORD: app
-      POSTGRES_DB: app
+    env_file:
+      - .env
     volumes:
       - ./docker/postgresql_data:/var/lib/postgresql/data
     ports:
