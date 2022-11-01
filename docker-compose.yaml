@@ -32,8 +32,6 @@ services:
       - "5432:5432"
     volumes:
       - ./docker/postgresql-data:/var/lib/postgresql/data:cached
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
     restart: always
     networks:
       - app-network
