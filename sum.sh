@@ -7,7 +7,7 @@ for i in "$@"; do
     echo "$i error: Not valid number" >&2
     exit 1
   fi
-  total=$(echo "$total+$i" | bc -l)
+  total=$(echo "$total $i" | awk '{print $1 + $2}')
 done
 
 echo "Sum is $total"
