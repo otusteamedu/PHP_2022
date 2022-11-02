@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# если cp не установлен, отдаем ошибку
-if ! command -v bc &> /dev/null
+# если awk не установлен, отдаем ошибку
+if ! command -v awk &> /dev/null
 then
-    echo "Please, install 'cp' package before using this script."
+    echo "Please, install 'awk' package before using this script."
     exit
 fi
 
@@ -22,5 +22,5 @@ then
 fi
 
 
-sum=$(echo $1 + $2 | bc)
+sum=$(echo $1 $2 | awk '{print $1+$2}')
 echo "Sum is $sum"
