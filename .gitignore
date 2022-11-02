@@ -1,0 +1,36 @@
+# IDE and SCM trash
+.idea
+*.idea/*
+.mc/
+.settings/
+.subversion/
+.buildpath
+.classpath
+.cproject
+.loadpath
+.metadata
+.pmt
+.project
+.htaccess
+.htaccess*
+.well-known
+
+# OS trash
+$RECYCLE.BIN/
+.DS_Store
+Desktop.ini
+Nginx_1.14_vhost.conf
+Nginx_1.17_vhost.conf
+Nginx_1.21_vhost.conf
+ehthumbs.db
+Thumbs.db
+nx_log.txt
+sitemap*.xml
+robots.txt
+sitemap
+*.flg
+*.sql
+tmp.log
+/tmp.log
+*.md
+.php_cs.cache
