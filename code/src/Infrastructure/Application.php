@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Infrastructure;
 
+use Nikolai\Php\Application\Container\ContainerBuilder;
 use Nikolai\Php\Infrastructure\Configuration\Configuration;
 use Nikolai\Php\Infrastructure\ControllerResolver\ControllerResolver;
 use Symfony\Component\HttpFoundation\Request;
-use DI;
-use DI\ContainerBuilder;
 
 class Application implements ApplicationInterface
 {
@@ -16,24 +15,9 @@ class Application implements ApplicationInterface
     {
         $configuration = (new Configuration())->load();
         $request = Request::createFromGlobals();
+        $container = (new ContainerBuilder($request, $configuration))->build();
 
-        $builder = new ContainerBuilder();
-/*
-        $builder->addDefinitions([
-            'PDO' => DI\autowire('PDO')
-                ->constructorParameter('dsn', Connection::getInstance()->getConnection()),
-            'Nikolai\Php\Infrastructure\SqlBuilder\SqlBuilderFactoryInterface' =>
-                DI\autowire('Nikolai\Php\Infrastructure\SqlBuilder\SqlBuilderFactory'),
-            'Nikolai\Php\Infrastructure\Mapper\MappingConfiguratorInterface' =>
-                DI\autowire('Nikolai\Php\Infrastructure\Mapper\MappingConfigurator')
-                    ->constructorParameter('mapping', $mapping),
-            'Nikolai\Php\Infrastructure\Mapper\EntityObjectBuilderInterface' =>
-                DI\autowire('Nikolai\Php\Infrastructure\Mapper\EntityObjectBuilder'),
-            'Nikolai\Php\Domain\Mapper\MapperInterface' =>
-                DI\autowire('Nikolai\Php\Infrastructure\Mapper\Mapper'),
-        ]);
-*/
-        $container = $builder->build();
+//var_dump($container->get('configuration'));
 
         $consoleCommand = $request->server->get('argv')[1] ?? '';
         $controllerClass = (new ControllerResolver($consoleCommand))->resolve();

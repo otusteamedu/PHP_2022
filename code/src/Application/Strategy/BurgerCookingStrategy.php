@@ -26,10 +26,8 @@ class BurgerCookingStrategy implements CookableInterface
         fwrite(STDOUT, 'Состояние: ' . $this->dish->getStringState() . PHP_EOL . PHP_EOL);
     }
 
-/*
     public function getDish(): Burger
     {
         return $this->dish;
     }
-*/
 }

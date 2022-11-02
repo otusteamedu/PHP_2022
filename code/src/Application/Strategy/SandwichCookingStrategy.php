@@ -20,10 +20,8 @@ class SandwichCookingStrategy implements CookableInterface
         fwrite(STDOUT, 'Состояние: ' . $this->dish->getStringState() . PHP_EOL . PHP_EOL);
     }
 
-/*
     public function getDish(): Sandwich
     {
         return $this->dish;
     }
-*/
 }

@@ -29,10 +29,8 @@ class HotDogCookingStrategy implements CookableInterface
         fwrite(STDOUT, 'Состояние: ' . $this->dish->getStringState() . PHP_EOL . PHP_EOL);
     }
 
-/*
     public function getDish(): HotDog
     {
         return $this->dish;
     }
-*/
 }
