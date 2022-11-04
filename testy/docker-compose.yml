@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  web:
+    image: nginx:mainline-alpine
+    container_name: elastic-test-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./code:/app
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./logs/nginx-error.log:/var/log/nginx/error.log
+      - ./logs/nginx-access.log:/var/log/ngnix/access.log
+    links:
+      - php
+
+  php:
+    image: php:7.2-fpm-alpine
+    container_name: elastic-test-php
+    build:
+      context: .
+      dockerfile: fpm/Dockerfile
+    volumes:
+      - ./code:/app
+
+  elasticsearch6:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.23
+    container_name: elasticsearch6
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "xpack.security.enabled=false"
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./data/elastic:/usr/share/elasticsearch/data
