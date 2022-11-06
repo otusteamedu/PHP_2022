@@ -1,8 +1,17 @@
-<h1>Hello World</h1>
-<p>Dramatically grow resource-leveling infomediaries for sticky alignments. Dramatically iterate.</p>
-<p>Appropriately leverage existing customer directed meta-services and collaborative value.</p>
-<p>Professionally seize end-to-end innovation rather than global growth strategies.</p>
-
 <?php
+
+// Memcached
+//$memcache = new Memcache;
+//$memcache->connect('127.0.0.1', 11211);
+//var_dump($memcache);
+
+//Connecting to Redis server on localhost
+//$redis = new Redis();
+//$redis->connect('127.0.0.1', 6379);
+//echo "Connection to server sucessfully";
+////check whether server is running or not
+//echo "Server is running: " . $redis->ping();
+
+
 
 phpinfo();
