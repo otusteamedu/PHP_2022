@@ -1,7 +1,6 @@
 #!/bin/bash
 
 re='[+-]?[0-9]([.][0-9]+)?$'
-I=`dpkg -s bc | grep "Status"`
 
 if [[ $# -ne 2 ]]
 then
