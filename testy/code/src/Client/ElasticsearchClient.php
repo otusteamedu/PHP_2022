@@ -7,13 +7,14 @@ namespace Mapaxa\ElasticSearch\Client;
 use Elasticsearch\ClientBuilder;
 use Mapaxa\ElasticSearch\Config\ConfigLoader;
 use Mapaxa\ElasticSearch\QueryBuilder\QueryBuilder;
-use Mapaxa\ElasticSearch\Entity\Book\BookFactory;
+use Mapaxa\ElasticSearch\ResponseToBookManager\ResponseToBookManager;
 
 class ElasticsearchClient
 {
     private $clientBuilder;
     private $queryBuilder;
     private $config;
+    private $bookManager;
 
 
     public function __construct()
@@ -21,6 +22,7 @@ class ElasticsearchClient
         $this->config = (new ConfigLoader())();
         $this->queryBuilder = new QueryBuilder();
         $this->clientBuilder = ClientBuilder::create()->setHosts([$this->config->getHost()])->build();
+        $this->bookManager = new ResponseToBookManager();
     }
 
     public function search(array $params): array
@@ -32,19 +34,6 @@ class ElasticsearchClient
 
     private function getResults($response): array
     {
-        $booksResponse = $response['hits']['hits'];
-        $books = [];
-        foreach ($booksResponse as $book) {
-            $books[] = BookFactory::create(
-                $book['_source']['sku'],
-                $book['_source']['title'],
-                (float)$book['_score'],
-                $book['_source']['category'],
-                $book['_source']['price'],
-                $book['_source']['stock']
-            );
-        }
-
-        return $books;
+        return $this->bookManager->getBooksFromResponse($response);
     }
 }
