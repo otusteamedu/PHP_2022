@@ -23,13 +23,9 @@ class Age
     }
 
     /*
-     * Сравнение дат.
+     * Получение даты.
      *
-     * @param int $year Год.
-     * @param int $month Месяц.
-     * @param int $day День.
-     *
-     * @return int Возраст.
+     * @return Дата.
      */
     public function getDate()
     {
