@@ -14,4 +14,20 @@ $redis->set('random_num', rand());
 echo sprintf('Redis: %d', $redis->get('random_num'));
 echo '<br />';
 
+try {
+    $dbh = new PDO(
+        sprintf('%s:host=%s;dbname=%s', getenv('DB_CONNECTION'), getenv('DB_HOST'), getenv('DB_DATABASE')),
+        getenv('DB_USERNAME'),
+        getenv('DB_PASSWORD')
+    );
+    foreach ($dbh->query('SELECT NOW()') as $row) {
+        print_r($row);
+    }
+    $dbh = null;
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+
+
 //phpinfo();
