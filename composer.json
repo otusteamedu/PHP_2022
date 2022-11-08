@@ -1,0 +1,18 @@
+{
+    "name": "sveta/php_2022",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Sveta\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sveta",
+            "email": "svatelnet@gmail.com"
+        }
+    ],
+    "require": {
+        "svatelnet/my-library": "^1.0"
+    }
+}
