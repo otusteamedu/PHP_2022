@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b394dd6882c5cdc7c5752e3340f43371",
+    "packages": [
+        {
+            "name": "nikcrazy37/composer-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikcrazy37/composer-package.git",
+                "reference": "05c3a989c240e6e141db81bf56ac1f05f0ef26ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikcrazy37/composer-package/zipball/05c3a989c240e6e141db81bf56ac1f05f0ef26ed",
+                "reference": "05c3a989c240e6e141db81bf56ac1f05f0ef26ed",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nikcrazy37\\ComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "nikcrazy37",
+                    "email": "nik_crazy@bk.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/nikcrazy37/composer-package/issues",
+                "source": "https://github.com/nikcrazy37/composer-package/tree/v1.0.0"
+            },
+            "time": "2022-11-08T21:30:49+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
