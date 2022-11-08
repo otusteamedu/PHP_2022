@@ -1,9 +1,10 @@
 <?php
 
 // Memcached
-//$memcache = new Memcache;
-//$memcache->connect('127.0.0.1', 11211);
-//var_dump($memcache);
+$memcacheD = new Memcached;
+$memcacheD->addServer(getenv('MEMCACHED_HOST'), getenv('MEMCACHED_PORT'));
+$memcacheD->set('random_num', rand());
+var_dump($memcacheD->get('random_num'));
 
 //Connecting to Redis server on localhost
 //$redis = new Redis();
@@ -14,4 +15,4 @@
 
 
 
-phpinfo();
+//phpinfo();

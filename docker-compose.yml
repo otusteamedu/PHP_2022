@@ -26,9 +26,33 @@ services:
     volumes:
       - ./app:/app
       - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+    env_file:
+      - .env
     networks:
       - sail
       - external
+
+  # Контейнер с memcached
+  memcached:
+    image: 'memcached:alpine'
+    ports:
+      - '${FORWARD_MEMCACHED_PORT:-11211}:${MEMCACHED_PORT}'
+    networks:
+      - sail
+
+  # Контейнер с redis
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'sail-redis:/data'
+    networks:
+      - sail
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      timeout: 5s
 
   # Контейнер с mysql
   mysql:
@@ -48,20 +72,6 @@ services:
       - sail
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
-      retries: 3
-      timeout: 5s
-
-  # Контейнер с redis
-  redis:
-    image: 'redis:alpine'
-    ports:
-      - '${FORWARD_REDIS_PORT:-6379}:6379'
-    volumes:
-      - 'sail-redis:/data'
-    networks:
-      - sail
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
       retries: 3
       timeout: 5s
 
