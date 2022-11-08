@@ -30,7 +30,7 @@ class App
         echo "\nПлощадь прямоугольника = " . $rectangle->getSquare($lengthRectangle, $widthRectangle);
         echo "\nДиагональ прямоугольника = " . $rectangle->getDiagonal($lengthRectangle, $widthRectangle);
         echo "\nИспользование библиотеки Carbon.";
-        printf( "\nВозраст: %s", $this->age->getAge(1999, 3, 30));
-        printf( "\nВремя сейчас: %s", $this->age->getDate());
+        printf("\nВозраст: %s", $this->age->getAge(1999, 3, 30));
+        printf("\nВремя сейчас: %s", $this->age->getDate());
     }
 }
