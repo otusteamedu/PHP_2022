@@ -1,0 +1,53 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "00dba1a854e9024d4709c7f36243d86e",
+    "packages": [
+        {
+            "name": "dkozlov/otus-package",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/develop-dmitry/otus-package",
+                "reference": "e6dd2aa6dd99c1c4c28887c8f312ccba4b8c5dd6"
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dkozlov\\OtusPackage\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Kozlov",
+                    "email": "d.kozlov@intensa.ru"
+                }
+            ],
+            "homepage": "https://github.com/develop-dmitry/otus-package",
+            "time": "2022-11-08T08:58:14+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "dkozlov/otus-package": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.0"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}
