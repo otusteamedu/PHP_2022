@@ -7,4 +7,5 @@ if [ $CHECK_INPUT -gt 0 ]; then
     echo "Вы ввели некорректное число"
     exit 1
 fi
-echo $(bc <<< $a+$b)
+
+echo `awk "BEGIN {print $a+$b}"`
