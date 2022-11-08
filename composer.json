@@ -1,0 +1,5 @@
+{
+    "require": {
+        "msmerdov/deformator": "^1.0"
+    }
+}
