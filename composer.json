@@ -1,0 +1,5 @@
+{
+    "require": {
+        "waisee/dbaluev-library": "^1.0"
+    }
+}
