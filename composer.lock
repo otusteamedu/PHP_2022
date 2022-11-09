@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "eliasjump/password-generator",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eljump/password-generator.git",
-                "reference": "fa8aff8596677077afd6dcc568eebd0a3330fc22"
+                "reference": "e525891e8f7f62e57948cb2b30ba9dc0f05a4d76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eljump/password-generator/zipball/fa8aff8596677077afd6dcc568eebd0a3330fc22",
-                "reference": "fa8aff8596677077afd6dcc568eebd0a3330fc22",
+                "url": "https://api.github.com/repos/eljump/password-generator/zipball/e525891e8f7f62e57948cb2b30ba9dc0f05a4d76",
+                "reference": "e525891e8f7f62e57948cb2b30ba9dc0f05a4d76",
                 "shasum": ""
             },
             "require": {
@@ -38,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/eljump/password-generator/issues",
-                "source": "https://github.com/eljump/password-generator/tree/v1.0.1"
+                "source": "https://github.com/eljump/password-generator/tree/v1.0.2"
             },
-            "time": "2022-11-08T12:28:15+00:00"
+            "time": "2022-11-09T06:36:30+00:00"
         }
     ],
     "packages-dev": [],
