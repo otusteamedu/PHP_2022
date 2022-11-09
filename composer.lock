@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "5489994f76ccbb20fe3c3e4977804312",
+    "packages": [
+        {
+            "name": "waisee/dbaluev-library",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Waisee/DBaluev-library.git",
+                "reference": "16915b19b2928e0d983f001327389af64921224a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Waisee/DBaluev-library/zipball/16915b19b2928e0d983f001327389af64921224a",
+                "reference": "16915b19b2928e0d983f001327389af64921224a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Waisee\\DBaluevLibrary\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Danil",
+                    "email": "danil.baluev@rt.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Waisee/DBaluev-library/issues",
+                "source": "https://github.com/Waisee/DBaluev-library/tree/1.0.1"
+            },
+            "time": "2022-11-09T20:15:39+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
