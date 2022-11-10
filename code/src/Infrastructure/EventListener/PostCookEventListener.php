@@ -10,9 +10,6 @@ class PostCookEventListener
 {
     public function __invoke(PostCookEvent $event): void
     {
-        fwrite(STDOUT, 'PostCookEventListener!' . get_class($this) . PHP_EOL);
-//        var_dump($event);
-//        $object = $event->getObject();
-
+        fwrite(STDOUT, 'PostCookEventListener, event: PostCookEvent' . PHP_EOL . PHP_EOL);
     }
 }

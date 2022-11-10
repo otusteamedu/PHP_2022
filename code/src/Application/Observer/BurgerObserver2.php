@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Application\Observer;
 
-use SplObserver;
-use SplSubject;
+use Nikolai\Php\Domain\Observer\DishStateObserver;
+use Nikolai\Php\Domain\Model\AbstractDish;
 
-class BurgerObserver2 implements SplObserver
+class BurgerObserver2 implements DishStateObserver
 {
-    public function update(SplSubject $subject): void
+    public function update(AbstractDish $dish): void
     {
-        fwrite(STDOUT, 'Наблюдатель: BurgerObserver2, Состояние: ' . $subject->getStringState() . PHP_EOL);
+        fwrite(STDOUT, 'Наблюдатель: BurgerObserver2, Состояние: ' . $dish->getStringState() . PHP_EOL);
     }
 }

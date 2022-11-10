@@ -15,4 +15,9 @@ class CookingStrategy implements CookableInterface
     {
         fwrite(STDOUT, 'Стратегия: приготовление блюда по-умолчанию' . PHP_EOL);
     }
+
+    public function getDish(): AbstractDish
+    {
+        return $this->dish;
+    }
 }

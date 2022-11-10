@@ -10,6 +10,6 @@ class PreCookEventListener2
 {
     public function __invoke(PreCookEvent $event): void
     {
-        fwrite(STDOUT, 'PreCookEventListener2! ' . get_class($this) . PHP_EOL);
+        fwrite(STDOUT, 'PreCookEventListener2, event: PreCookEvent' . PHP_EOL);
     }
 }

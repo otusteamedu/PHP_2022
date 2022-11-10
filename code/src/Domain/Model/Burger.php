@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Domain\Model;
 
-use Nikolai\Php\Application\State\Burger\NewState;
-
 class Burger extends AbstractDish
 {
+/*
     private BurgerStateInterface $state;
 
     public function __construct()
     {
+        parent::__construct();
         $this->state = new NewState($this);
     }
 
@@ -39,5 +39,15 @@ class Burger extends AbstractDish
     public function getStringState(): string
     {
         return $this->state->toString();
+    }
+*/
+    public function getDescription(): string
+    {
+        return 'Бургер';
+    }
+
+    public function getPrice(): int
+    {
+        return 111;
     }
 }

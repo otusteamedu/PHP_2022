@@ -17,6 +17,7 @@ class ContainerBuilder implements ContainerBuilderInterface
     public function build(): Container
     {
         $builder = new \DI\ContainerBuilder();
+        $builder->useAnnotations(true);
 
         $listenerProvider = $this->getListenerProvider();
 
@@ -25,6 +26,10 @@ class ContainerBuilder implements ContainerBuilderInterface
             'Psr\EventDispatcher\EventDispatcherInterface' =>
                 DI\autowire('Nikolai\Php\Infrastructure\Dispatcher\EventDispatcher')
                     ->constructorParameter('listenerProvider', $listenerProvider),
+            'Nikolai\Php\Domain\Factory\FactoryDishFactoryInterface' =>
+                DI\autowire('Nikolai\Php\Application\Factory\FactoryDishFactory'),
+            'Nikolai\Php\Domain\Factory\DecorateFactoryInterface' =>
+                DI\autowire('Nikolai\Php\Application\Factory\DecorateFactory'),
 
 /*
             'PDO' => DI\autowire('PDO')

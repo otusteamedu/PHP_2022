@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Domain\Model;
 
-use Nikolai\Php\Application\State\HotDog\NewState;
-
 class HotDog extends AbstractDish
 {
+/*
     private HotDogStateInterface $state;
 
     public function __construct()
     {
+        parent::__construct();
         $this->state = new NewState($this);
     }
 
@@ -44,5 +44,15 @@ class HotDog extends AbstractDish
     public function getStringState(): string
     {
         return $this->state->toString();
+    }
+*/
+    public function getDescription(): string
+    {
+        return 'Хот-дог';
+    }
+
+    public function getPrice(): int
+    {
+        return 222;
     }
 }

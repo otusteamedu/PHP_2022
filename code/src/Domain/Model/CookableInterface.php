@@ -7,5 +7,5 @@ namespace Nikolai\Php\Domain\Model;
 interface CookableInterface
 {
     public function cook(): void;
-//    public function getDish(): AbstractDish;
+    public function getDish(): AbstractDish;
 }

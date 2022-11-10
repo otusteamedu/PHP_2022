@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Domain\Model;
 
-use Nikolai\Php\Application\State\Sandwich\NewState;
-
 class Sandwich extends AbstractDish
 {
+/*
     private SandwichStateInterface $state;
 
     public function __construct()
     {
+        parent::__construct();
         $this->state = new NewState($this);
     }
 
@@ -29,5 +29,15 @@ class Sandwich extends AbstractDish
     public function getStringState(): string
     {
         return $this->state->toString();
+    }
+*/
+    public function getDescription(): string
+    {
+        return 'Сэндвич';
+    }
+
+    public function getPrice(): int
+    {
+        return 333;
     }
 }
