@@ -2,6 +2,7 @@
     "php": "^8.1",
     "require": {
         "slim/slim": "4.*",
-        "slim/psr7": "^1.5"
+        "slim/psr7": "^1.5",
+        "getinweb/test-composer-package": "^1.0"
     }
 }
