@@ -1,5 +1,7 @@
 DOCKER_COMPOSE = docker compose
 
+init: down up composer-install
+
 up:
 	${DOCKER_COMPOSE} up -d
 
@@ -10,3 +12,6 @@ build:
 	${DOCKER_COMPOSE} build
 
 restart: down up
+
+composer-install:
+	${DOCKER_COMPOSE} run --rm composer composer install
