@@ -64,16 +64,16 @@
         },
         {
             "name": "getinweb/test-composer-package",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getinweb/test-composer-package.git",
-                "reference": "15f4d87d96b6784903c8cb1ef0623a76856eab86"
+                "reference": "3e1429200e3ed0103eb8bb81ffec91475d55814a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getinweb/test-composer-package/zipball/15f4d87d96b6784903c8cb1ef0623a76856eab86",
-                "reference": "15f4d87d96b6784903c8cb1ef0623a76856eab86",
+                "url": "https://api.github.com/repos/getinweb/test-composer-package/zipball/3e1429200e3ed0103eb8bb81ffec91475d55814a",
+                "reference": "3e1429200e3ed0103eb8bb81ffec91475d55814a",
                 "shasum": ""
             },
             "require": {
@@ -95,9 +95,9 @@
             "description": "Test version of composer package",
             "support": {
                 "issues": "https://github.com/getinweb/test-composer-package/issues",
-                "source": "https://github.com/getinweb/test-composer-package/tree/v1.1.1"
+                "source": "https://github.com/getinweb/test-composer-package/tree/v1.1.2"
             },
-            "time": "2022-11-10T13:13:15+00:00"
+            "time": "2022-11-10T13:41:22+00:00"
         },
         {
             "name": "nikic/fast-route",
