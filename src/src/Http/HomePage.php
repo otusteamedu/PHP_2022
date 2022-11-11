@@ -15,9 +15,10 @@ class HomePage implements RequestHandlerInterface
     {
         $response = new Response();
 
-        $response->getBody()->write('Hello');
+        $message = 'Hello from ' . $_SERVER['SERVER_NAME'] . '<br>';
+
+        $response->getBody()->write($message);
 
         return $response;
-
     }
 }

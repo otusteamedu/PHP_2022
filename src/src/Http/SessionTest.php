@@ -13,15 +13,13 @@ class SessionTest implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $message = 'Hello from ' . $_SERVER['SERVER_NAME'] . '<br>';
-
         session_start();
 
         if (!isset($_SESSION['visit'])) {
-            $message .= "This is the first time you're visiting this server\n";
+            $message = "This is the first time you're visiting this server\n";
             $_SESSION['visit'] = 0;
         } else {
-            $message .= "Your number of visits: " . $_SESSION['visit'] . "\n";
+            $message = "Your number of visits: " . $_SESSION['visit'] . "\n";
         }
 
         $_SESSION['visit']++;
