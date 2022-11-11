@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "babcaa1e6cc21d21a13b4c952f4c95a7",
+    "content-hash": "285ddc9ddeefce0b996c355da865d991",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -61,43 +61,6 @@
                 "source": "https://github.com/php-fig/http-message-util/tree/1.1.5"
             },
             "time": "2020-11-24T22:02:12+00:00"
-        },
-        {
-            "name": "getinweb/test-composer-package",
-            "version": "v1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/getinweb/test-composer-package.git",
-                "reference": "3e1429200e3ed0103eb8bb81ffec91475d55814a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/getinweb/test-composer-package/zipball/3e1429200e3ed0103eb8bb81ffec91475d55814a",
-                "reference": "3e1429200e3ed0103eb8bb81ffec91475d55814a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Getinweb\\TestComposerPackage\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "getinweb",
-                    "email": "info@getinweb.site"
-                }
-            ],
-            "description": "Test version of composer package",
-            "support": {
-                "issues": "https://github.com/getinweb/test-composer-package/issues",
-                "source": "https://github.com/getinweb/test-composer-package/tree/v1.1.2"
-            },
-            "time": "2022-11-10T13:41:22+00:00"
         },
         {
             "name": "nikic/fast-route",
