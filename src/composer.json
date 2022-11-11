@@ -9,5 +9,8 @@
             "App\\": "src/",
             "Bundle\\CheckBracketsBundle\\": "src/Bundle/CheckBracketsBundle/src/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
     }
 }
