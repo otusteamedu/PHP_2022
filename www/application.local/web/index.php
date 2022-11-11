@@ -1,51 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>application.local</title>
-</head>
-<body>
-
-Good evening, world. Today is <?=date('Y-m-d') ?>.
-
 <?php
 
-try
-{
-    $redis = new \Redis;
-    $redis->connect('redis');
-    $redis->set('rediskey', '<br>Сохранено в redis');
-    $fromRedis = $redis->get('rediskey');
-    echo $fromRedis;
-}
-catch(\Exception $e)
-{
-    echo '<br>Redis не работает: '.$e->getMessage();
-}
+$str = $_POST['string'];
 
 try {
-    $memcached = new Memcached;
-    $memcached->addServer('memcached', 11211);
-    $memcached->set('memcached_key', '<br>Сохранено в memcached');
-    echo $memcached->get('memcached_key');
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Допустим только POST метод.', 405);
+    }
 
-} catch (\Exception $e) {
-    echo '<br>memcached не работает: '.$e->getMessage();
+    if (empty($str)) {
+        throw new Exception('Пустой запрос', 400);
+    }
+
+    $remainder = removeBracketsCouples($str);
+    if (!empty($remainder)) {
+        throw new Exception('Неверный запрос. Заберите лишние скобки: '.$remainder, 400);
+    }
+
+    echo 'Скобки расставлены корректно.';
+
+} catch (Exception $e) {
+    http_response_code($e->getCode());
+    echo $e->getMessage();
 }
 
-$connection = pg_connect ("host=db dbname=test_db user=root password=root");
-if($connection) {
-    $query = pg_query($connection, "SELECT * FROM first_table");
-    $result = pg_fetch_array($query);
 
-    echo '<br>'.$result['title'];
-} else {
-    echo '<br>there has been an error connecting';
+function removeBracketsCouples($str) {
+    $coupleCount = substr_count($str, '()');
+    if ($coupleCount > 0) {
+        $str = str_replace('()', '', $str);
+        return removeBracketsCouples($str);
+    }
+    return $str;
 }
-
-phpinfo();
-?>
-
-
-</body>
-</html>

@@ -2,5 +2,5 @@
 .DS_Store
 /sock*
 /db/postgres
-/logs
+/logs/*
 .env
