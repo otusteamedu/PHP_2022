@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "bb43268582c0970a1aae080a12a6ebfd",
+    "packages": [
+        {
+            "name": "eliasjump/password-generator",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eljump/password-generator.git",
+                "reference": "47c5e9e08bc71b36db60880faaf3a1abf147daef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eljump/password-generator/zipball/47c5e9e08bc71b36db60880faaf3a1abf147daef",
+                "reference": "47c5e9e08bc71b36db60880faaf3a1abf147daef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EliasJump\\PasswordGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "elias",
+                    "email": "eliasejump@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/eljump/password-generator/issues",
+                "source": "https://github.com/eljump/password-generator/tree/v1.0.3"
+            },
+            "time": "2022-11-10T07:27:04+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
