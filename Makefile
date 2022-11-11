@@ -15,3 +15,9 @@ restart: down up
 
 composer-install:
 	${DOCKER_COMPOSE} run --rm composer composer install
+
+composer-update:
+	${DOCKER_COMPOSE} run --rm composer composer install
+
+app-test:
+	${DOCKER_COMPOSE} run --rm composer composer test
