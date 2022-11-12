@@ -1,20 +1,18 @@
 <?php
+require __DIR__.'/../vendor/autoload.php';
 
-$str = $_POST['string'];
+use app\helpers\BracketsHelper;
+use app\helpers\RequestHelper;
+
+$requestHelper = new RequestHelper();
+$requestHelper->setAllowedMethods(['POST']);
 
 try {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        throw new Exception('Допустим только POST метод.', 405);
-    }
+    $requestHelper->checkActualMethod();
+    $str = $requestHelper->getPostParamValue('string');
 
-    if (empty($str)) {
-        throw new Exception('Пустой запрос', 400);
-    }
-
-    $remainder = removeBracketsCouples($str);
-    if (!empty($remainder)) {
-        throw new Exception('Неверный запрос. Заберите лишние скобки: '.$remainder, 400);
-    }
+    $bracketsHelper = new BracketsHelper($str);
+    $bracketsHelper->validateString();
 
     echo 'Скобки расставлены корректно.';
 
@@ -24,11 +22,3 @@ try {
 }
 
 
-function removeBracketsCouples($str) {
-    $coupleCount = substr_count($str, '()');
-    if ($coupleCount > 0) {
-        $str = str_replace('()', '', $str);
-        return removeBracketsCouples($str);
-    }
-    return $str;
-}
