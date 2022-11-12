@@ -16,7 +16,7 @@ class Validator
     public function regexCheck(string $string): bool
     {
         $regex = '/^[^()]*+(((?>[^()]|(?1))*+)[^()]*+)++$/';
-        if (preg_match($regex, $string)) {
+        if ($string && preg_match($regex, $string)) {
             return true;
         }
         return false;
