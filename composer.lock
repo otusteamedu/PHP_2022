@@ -8,17 +8,20 @@
     "packages": [
         {
             "name": "nikcrazy37/composer-package",
-            "version": "v1.0.0",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikcrazy37/composer-package.git",
-                "reference": "05c3a989c240e6e141db81bf56ac1f05f0ef26ed"
+                "reference": "2f058a71c9874f637a4403369b84420972269b65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikcrazy37/composer-package/zipball/05c3a989c240e6e141db81bf56ac1f05f0ef26ed",
-                "reference": "05c3a989c240e6e141db81bf56ac1f05f0ef26ed",
+                "url": "https://api.github.com/repos/nikcrazy37/composer-package/zipball/2f058a71c9874f637a4403369b84420972269b65",
+                "reference": "2f058a71c9874f637a4403369b84420972269b65",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
             },
             "type": "library",
             "autoload": {
@@ -35,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikcrazy37/composer-package/issues",
-                "source": "https://github.com/nikcrazy37/composer-package/tree/v1.0.0"
+                "source": "https://github.com/nikcrazy37/composer-package/tree/v1.0.2"
             },
-            "time": "2022-11-08T21:30:49+00:00"
+            "time": "2022-11-12T15:13:36+00:00"
         }
     ],
     "packages-dev": [],

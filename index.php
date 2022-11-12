@@ -6,5 +6,5 @@ require __DIR__ . "/vendor/autoload.php";
 
 use Nikcrazy37\ComposerPackage\StringRedactor;
 
-$stringer = new StringRedactor();
-echo $stringer->setUpper('some text');
+$stringer = new StringRedactor('some text');
+echo $stringer->setUpper();
