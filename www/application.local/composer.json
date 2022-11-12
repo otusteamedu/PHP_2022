@@ -1,0 +1,16 @@
+{
+    "name": "maxim/application.local",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "app\\": "."
+        }
+    },
+    "authors": [
+        {
+            "name": "m.smerdov",
+            "email": "zdraff@gmail.com"
+        }
+    ],
+    "require": {}
+}
