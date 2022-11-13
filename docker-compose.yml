@@ -1,11 +1,23 @@
 version: '3'
 services:
-  app:
+  app1:
     build:
       context: ./docker/fpm
       dockerfile: Dockerfile
     image: myapp/php
-    container_name: php-app
+    container_name: php-app1
+    restart: always
+    volumes:
+      - ./app:/var/www/dev.site
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php-app2
     restart: always
     volumes:
       - ./app:/var/www/dev.site
@@ -22,13 +34,12 @@ services:
       - ./docker/nginx/hosts:/etc/nginx/conf.d
       - ./docker/nginx/logs/nginx:/var/log/nginx
       - ./app:/var/www/dev.site
-    depends_on:
-      - app
     networks:
       - app-network
 
   memcached:
     image: memcached:latest
+    container_name: memcached
     networks:
       - app-network
 
