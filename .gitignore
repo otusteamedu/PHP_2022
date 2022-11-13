@@ -1,2 +1,5 @@
 .idea
 /docker/nginx/logs/
+/app/composer.lock
+/app/vendor
+/app/lint.log
