@@ -9,4 +9,5 @@
 docker-compose.override.yml
 
 # Данные БД
-./docker/postgresql_data/
+/docker/postgresql_data/
+/vendor/
