@@ -10,6 +10,9 @@
 <body>
     <h2>Hi, user!</h2>
 <?php
+
+require '../vendor/autoload.php';
+
 echo '<p>PHP works</p>';
 echo '<p>Кириллица выводится корректно</p>';
 echo '<p>Тест БД</p>';
@@ -33,6 +36,10 @@ $memcache = new Memcache;
 $memcache->connect('memcache', 11211) or die ('Не удается подключиться к Memcache');
 $version = $memcache->getVersion();
 echo "<p>Подключение к Memcache успешно. Версия " . $version . "</p>";
+
+$generator = new \AndrewMarkhai\StathamPhraseGenerator\Generator();
+$phrase = $generator->createPhrase();
+echo '<p>Фраза от Стэтхэма: ' . $phrase . '</p>';
 ?>
 </body>
 </html>

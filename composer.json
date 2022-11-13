@@ -1,0 +1,20 @@
+{
+    "name": "andrew_marhai/php_2022",
+    "description": "HW3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "AndrewMarhai\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Andrew Markhay",
+            "email": "buk2018irinam@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "andrew_markhai/statham_phrase_generator": "^0.0.2"
+    }
+}

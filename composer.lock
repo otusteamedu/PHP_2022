@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "29f12abf924d1f7a042945deb608fdce",
+    "packages": [
+        {
+            "name": "andrew_markhai/statham_phrase_generator",
+            "version": "v0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amarkhai/StathamPhraseGenerator.git",
+                "reference": "1f52e7e0cf657c310bf752f17b61cbe0c29d56bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amarkhai/StathamPhraseGenerator/zipball/1f52e7e0cf657c310bf752f17b61cbe0c29d56bc",
+                "reference": "1f52e7e0cf657c310bf752f17b61cbe0c29d56bc",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AndrewMarkhai\\StathamPhraseGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Markhay",
+                    "email": "buk2018irinam@gmail.com"
+                }
+            ],
+            "description": "Generator of true phrases from Great philosopher Jason Statham",
+            "support": {
+                "issues": "https://github.com/amarkhai/StathamPhraseGenerator/issues",
+                "source": "https://github.com/amarkhai/StathamPhraseGenerator/tree/v0.0.2"
+            },
+            "time": "2022-11-13T18:23:22+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
