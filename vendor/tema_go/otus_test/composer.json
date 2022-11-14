@@ -1,0 +1,18 @@
+{
+    "name": "tema_go/otus_test",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "TemaGo\\OtusTest\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artem",
+            "email": "artem@agsys.ru"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    }
+}
