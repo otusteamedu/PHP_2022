@@ -5,7 +5,7 @@ services:
       context: ./docker/fpm
       dockerfile: Dockerfile
     image: myapp/php
-    container_name: php-app1
+    container_name: app1
     restart: always
     volumes:
       - ./app:/var/www/dev.site
@@ -17,23 +17,53 @@ services:
       context: ./docker/fpm
       dockerfile: Dockerfile
     image: myapp/php
-    container_name: php-app2
+    container_name: app2
     restart: always
     volumes:
       - ./app:/var/www/dev.site
     networks:
       - app-network
 
-  nginx:
+  nginx-balancer:
     image: nginx:latest
-    container_name: nginx-webserver
+    container_name: nginx-balancer
     restart: always
     ports:
       - "80:80"
     volumes:
-      - ./docker/nginx/hosts:/etc/nginx/conf.d
-      - ./docker/nginx/logs/nginx:/var/log/nginx
+      - ./docker/nginx/balancer/hosts:/etc/nginx/conf.d
+      - ./docker/nginx/balancer/nginx:/etc/nginx
+      - ./docker/nginx/logs/nginx-balancer:/var/log/nginx
       - ./app:/var/www/dev.site
+    depends_on:
+      - nginx1
+      - nginx2
+    networks:
+      - app-network
+
+  nginx1:
+    image: nginx:latest
+    container_name: nginx1
+    restart: always
+    volumes:
+      - ./docker/nginx/hosts/nginx1:/etc/nginx/conf.d
+      - ./docker/nginx/logs/nginx1:/var/log/nginx
+      - ./app:/var/www/dev.site
+    depends_on:
+      - app1
+    networks:
+      - app-network
+
+  nginx2:
+    image: nginx:latest
+    container_name: nginx2
+    restart: always
+    volumes:
+      - ./docker/nginx/hosts/nginx2:/etc/nginx/conf.d
+      - ./docker/nginx/logs/nginx2:/var/log/nginx
+      - ./app:/var/www/dev.site
+    depends_on:
+      - app2
     networks:
       - app-network
 

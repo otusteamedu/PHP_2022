@@ -1,5 +1,4 @@
 FROM php:8.1-fpm
-
 # ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
     curl \
@@ -22,6 +21,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
-WORKDIR /var/www
+WORKDIR /var/www/dev.site
 
 CMD ["php-fpm"]
