@@ -2,3 +2,4 @@
 /docker/nginx/logs/
 /app/vendor
 /app/lint.log
+/docker/balancer/logs/

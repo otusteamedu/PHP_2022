@@ -24,20 +24,18 @@ services:
     networks:
       - app-network
 
-  nginx-balancer:
+  balancer:
     image: nginx:latest
-    container_name: nginx-balancer
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./docker/nginx/balancer/hosts:/etc/nginx/conf.d
-      - ./docker/nginx/balancer/nginx:/etc/nginx
-      - ./docker/nginx/logs/nginx-balancer:/var/log/nginx
-      - ./app:/var/www/dev.site
+    container_name: balancer
     depends_on:
       - nginx1
       - nginx2
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/balancer/hosts:/etc/nginx/conf.d
+      - ./docker/balancer/logs:/var/log/nginx
+      - ./app:/var/www/dev.site
     networks:
       - app-network
 
@@ -46,11 +44,12 @@ services:
     container_name: nginx1
     restart: always
     volumes:
-      - ./docker/nginx/hosts/nginx1:/etc/nginx/conf.d
+      - ./docker/nginx/hosts:/etc/nginx/conf.d
       - ./docker/nginx/logs/nginx1:/var/log/nginx
       - ./app:/var/www/dev.site
     depends_on:
       - app1
+      - app2
     networks:
       - app-network
 
@@ -59,10 +58,11 @@ services:
     container_name: nginx2
     restart: always
     volumes:
-      - ./docker/nginx/hosts/nginx2:/etc/nginx/conf.d
+      - ./docker/nginx/hosts:/etc/nginx/conf.d
       - ./docker/nginx/logs/nginx2:/var/log/nginx
       - ./app:/var/www/dev.site
     depends_on:
+      - app1
       - app2
     networks:
       - app-network
