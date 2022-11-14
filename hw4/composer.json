@@ -1,0 +1,16 @@
+{
+    "name": "veraadzhieva/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "VeraAdzhieva\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vera Adzhieva",
+            "email": "vera.adzhieva3003@mail.ru"
+        }
+    ],
+    "require": {}
+}

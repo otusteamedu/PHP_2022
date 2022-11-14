@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Validator;
+namespace VeraAdzhieva\Hw4\Service;
 
 class Validator
 {

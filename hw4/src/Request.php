@@ -2,11 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Request;
+namespace VeraAdzhieva\Hw4;
 
-require_once("Validator.php");
-
-use Validator\Validator;
+use VeraAdzhieva\Hw4\Service\Validator;
 
 class Request
 {
