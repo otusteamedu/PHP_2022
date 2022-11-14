@@ -4,33 +4,17 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Application\Factory;
 
-use Nikolai\Php\Application\Observer\SandwichObserver;
-use Nikolai\Php\Application\Proxy\CookProxy;
-use Nikolai\Php\Application\Strategy\Cook;
-use Nikolai\Php\Application\Strategy\SandwichCookingStrategy;
-use Nikolai\Php\Domain\Factory\DishFactoryInterface;
+use Nikolai\Php\Domain\Factory\AbstractDishFactory;
 use Nikolai\Php\Domain\Model\AbstractDish;
-use Nikolai\Php\Domain\Model\CookableInterface;
 use Nikolai\Php\Domain\Model\Sandwich;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-class SandwichFactory implements DishFactoryInterface
+class SandwichFactory extends AbstractDishFactory
 {
     public function __construct(private EventDispatcherInterface $eventDispatcher) {}
 
-    public function createDish(): AbstractDish
+    public function createDish(?string $description): AbstractDish
     {
-        $dish = new Sandwich();
-        $sandwichObserver = new SandwichObserver();
-        $dish->attach($sandwichObserver);
-
-        return $dish;
-    }
-
-    public function createCookProxy(AbstractDish $dish): CookableInterface
-    {
-        $cookingStrategy = new SandwichCookingStrategy($dish);
-        $cook = new Cook($cookingStrategy);
-        return new CookProxy($cook, $this->eventDispatcher);
+        return $description ? new Sandwich($this->eventDispatcher, $description) : new Sandwich($this->eventDispatcher);
     }
 }

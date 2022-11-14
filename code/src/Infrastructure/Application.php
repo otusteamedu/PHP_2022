@@ -17,8 +17,6 @@ class Application implements ApplicationInterface
         $request = Request::createFromGlobals();
         $container = (new ContainerBuilder($request, $configuration))->build();
 
-//var_dump($container->get('configuration'));
-
         $consoleCommand = $request->server->get('argv')[1] ?? '';
         $controllerClass = (new ControllerResolver($consoleCommand))->resolve();
 

@@ -4,15 +4,66 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Domain\Model;
 
+use Nikolai\Php\Application\Observer\Observerable;
+use Nikolai\Php\Application\Proxy\CookProxy;
+use Nikolai\Php\Application\State\NewState;
+use Nikolai\Php\Application\Strategy\SandwichCookingStrategy;
+use Nikolai\Php\Domain\Observer\DishStateObserver;
+use Nikolai\Php\Domain\Observer\DishStateSubject;
+use Nikolai\Php\Domain\State\StateInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 class Sandwich extends AbstractDish
 {
-/*
-    private SandwichStateInterface $state;
+    private StateInterface $state;
+    private DishStateSubject $dishStateSubject;
+    private CookableInterface $cookingStrategy;
 
-    public function __construct()
+    public function __construct(private EventDispatcherInterface $eventDispatcher, protected string $description = 'Составной сэндвич', protected int $price = 250)
     {
-        parent::__construct();
+        $this->dishStateSubject = new Observerable($this);
         $this->state = new NewState($this);
+        $this->cookingStrategy = new CookProxy(new SandwichCookingStrategy($this), $this->eventDispatcher);
+    }
+
+    public function attach(DishStateObserver $observer): void
+    {
+        $this->dishStateSubject->attach($observer);
+    }
+
+    public function detach(DishStateObserver $observer): void
+    {
+        $this->dishStateSubject->detach($observer);
+    }
+
+    public function notify(): void
+    {
+        $this->dishStateSubject->notify();
+    }
+
+    public function cook(): void
+    {
+        $this->cookingStrategy->cook();
+    }
+
+    public function fryCutlet(): void
+    {
+        $this->state->fryCutlet();
+    }
+
+    public function boilSausage(): void
+    {
+        $this->state->boilSausage();
+    }
+
+    public function addSauces(): void
+    {
+        $this->state->addSauces();
+    }
+
+    public function cutBun(): void
+    {
+        $this->state->cutBun();
     }
 
     public function addIngredients(): void
@@ -20,7 +71,12 @@ class Sandwich extends AbstractDish
         $this->state->addIngredients();
     }
 
-    public function setState(SandwichStateInterface $state): void
+    public function done(): void
+    {
+        $this->state->done();
+    }
+
+    public function setState(StateInterface $state): void
     {
         $this->state = $state;
         $this->notify();
@@ -28,16 +84,16 @@ class Sandwich extends AbstractDish
 
     public function getStringState(): string
     {
-        return $this->state->toString();
+        return $this->state->getStringState();
     }
-*/
+
     public function getDescription(): string
     {
-        return 'Сэндвич';
+        return $this->description;
     }
 
     public function getPrice(): int
     {
-        return 333;
+        return $this->price;
     }
 }

@@ -13,7 +13,6 @@ class HotDogCookingStrategy implements CookableInterface
 
     public function cook(): void
     {
-//        fwrite(STDOUT, 'Стратегия: Приготовление хотдога' . PHP_EOL);
         fwrite(STDOUT, 'Состояние: ' . $this->dish->getStringState() . PHP_EOL);
 
         $this->dish->boilSausage();

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Application\State;
 
-use Nikolai\Php\Domain\Decorator\DishDecorator;
 use Nikolai\Php\Domain\Model\AbstractDish;
 use Nikolai\Php\Domain\Model\Burger;
 use Nikolai\Php\Domain\Model\HotDog;
@@ -27,7 +26,7 @@ class NewState implements StateInterface
 
     public function boilSausage(): void
     {
-        if ($this->dish instanceof HotDog || $this->dish instanceof DishDecorator) {
+        if ($this->dish instanceof HotDog) {
             $this->dish->setState(new BoilSausageState($this->dish));
         } else {
             fwrite(STDOUT, 'Недопустимый вызов метода ' . __METHOD__ . ' для ' . $this->dish->getDescription()

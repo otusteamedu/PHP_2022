@@ -6,9 +6,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Nikolai\Php\Infrastructure\Application;
 
-//try {
+try {
     $app = new Application();
     $app->run();
-//} catch (Throwable $exception) {
-//    echo 'Исключение: ' . $exception->getMessage() . PHP_EOL;
-//}
+} catch (Throwable $exception) {
+    echo 'Исключение: ' . $exception->getMessage() . PHP_EOL;
+}

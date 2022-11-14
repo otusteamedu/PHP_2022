@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Application\Factory;
 
-use Nikolai\Php\Domain\Factory\DishFactoryInterface;
+use Nikolai\Php\Domain\Factory\AbstractDishFactory;
 use Nikolai\Php\Domain\Factory\FactoryDishFactoryInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class FactoryDishFactory implements FactoryDishFactoryInterface
 {
+    private const POSTFIX_FACTORY_CLASS = 'Factory';
+
     public function __construct(private EventDispatcherInterface $eventDispatcher) {}
 
-    public function createDishFactory(string $dishName): DishFactoryInterface
+    public function createDishFactory(string $nameDish): AbstractDishFactory
     {
-        if ($dishName === 'HotDog') {
-            return new HotDogFactory($this->eventDispatcher);
-        } elseif ($dishName === 'Burger') {
-            return new BurgerFactory($this->eventDispatcher);
-        } elseif ($dishName === 'Sandwich') {
-            return new SandwichFactory($this->eventDispatcher);
+        $classDishFactory = __NAMESPACE__ . "\\" . $nameDish . self::POSTFIX_FACTORY_CLASS;
+        if (!class_exists($classDishFactory)) {
+            throw new \Exception('Не найдена фабрика для блюда: ' . $nameDish);
         }
+
+        return new $classDishFactory($this->eventDispatcher);
     }
 }

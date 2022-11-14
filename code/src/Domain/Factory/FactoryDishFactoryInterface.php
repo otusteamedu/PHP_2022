@@ -6,5 +6,5 @@ namespace Nikolai\Php\Domain\Factory;
 
 interface FactoryDishFactoryInterface
 {
-    public function createDishFactory(string $dishName): DishFactoryInterface;
+    public function createDishFactory(string $nameDish): AbstractDishFactory;
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f39c334a6839c5d6cb9ba8ff56d99695",
+    "content-hash": "42e832e07bf70f94391b1ea248750aba",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -154,6 +154,48 @@
                 }
             ],
             "time": "2022-02-28T11:07:21+00:00"
+        },
+        {
+            "name": "haydenpierce/class-finder",
+            "version": "0.4.4",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.com:hpierce1102/ClassFinder.git",
+                "reference": "94c602870ddf8d4fa2d67fb9bae637d88f9bd76e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/hpierce1102%2FClassFinder/repository/archive.zip?sha=94c602870ddf8d4fa2d67fb9bae637d88f9bd76e",
+                "reference": "94c602870ddf8d4fa2d67fb9bae637d88f9bd76e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "~9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "HaydenPierce\\ClassFinder\\": "src/",
+                    "HaydenPierce\\ClassFinder\\UnitTest\\": "test/unit"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hayden Pierce",
+                    "email": "hayden@haydenpierce.com"
+                }
+            ],
+            "description": "A library that can provide of a list of classes in a given namespace",
+            "time": "2022-09-26T22:42:59+00:00"
         },
         {
             "name": "laravel/serializable-closure",

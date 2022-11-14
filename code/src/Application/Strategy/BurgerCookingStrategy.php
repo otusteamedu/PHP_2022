@@ -13,7 +13,6 @@ class BurgerCookingStrategy implements CookableInterface
 
     public function cook(): void
     {
-//        fwrite(STDOUT, 'Стратегия: Приготовление бургера' . PHP_EOL);
         fwrite(STDOUT, 'Состояние: ' . $this->dish->getStringState() . PHP_EOL);
 
         $this->dish->fryCutlet();
@@ -27,7 +26,6 @@ class BurgerCookingStrategy implements CookableInterface
 
         $this->dish->done();
         fwrite(STDOUT, 'Состояние: ' . $this->dish->getStringState() . PHP_EOL);
-
     }
 
     public function getDish(): AbstractDish

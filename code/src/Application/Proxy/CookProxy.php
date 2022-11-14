@@ -12,23 +12,23 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class CookProxy implements CookableInterface
 {
-    public function __construct(private CookableInterface $cook, private EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(private CookableInterface $cookingStrategy, private EventDispatcherInterface $eventDispatcher) {}
 
     public function cook(): void
     {
         fwrite(STDOUT, 'Прокси: Начинаем готовить ' . $this->getDish()->getDescription() . PHP_EOL);
 
-        $preCookEvent = new PreCookEvent($this->cook->getDish());
+        $preCookEvent = new PreCookEvent($this->cookingStrategy->getDish());
         $this->eventDispatcher->dispatch($preCookEvent);
 
-        $this->cook->cook();
+        $this->cookingStrategy->cook();
 
-        $postCookEvent = new PostCookEvent($this->cook->getDish());
+        $postCookEvent = new PostCookEvent($this->cookingStrategy->getDish());
         $this->eventDispatcher->dispatch($postCookEvent);
     }
 
     public function getDish(): AbstractDish
     {
-        return $this->cook->getDish();
+        return $this->cookingStrategy->getDish();
     }
 }

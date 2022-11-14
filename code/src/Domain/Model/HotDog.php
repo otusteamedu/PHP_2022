@@ -4,20 +4,61 @@ declare(strict_types=1);
 
 namespace Nikolai\Php\Domain\Model;
 
+use Nikolai\Php\Application\Observer\Observerable;
+use Nikolai\Php\Application\Proxy\CookProxy;
+use Nikolai\Php\Application\State\NewState;
+use Nikolai\Php\Application\Strategy\HotDogCookingStrategy;
+use Nikolai\Php\Domain\Observer\DishStateObserver;
+use Nikolai\Php\Domain\Observer\DishStateSubject;
+use Nikolai\Php\Domain\State\StateInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 class HotDog extends AbstractDish
 {
-/*
-    private HotDogStateInterface $state;
+    private StateInterface $state;
+    private DishStateSubject $dishStateSubject;
+    private CookableInterface $cookingStrategy;
 
-    public function __construct()
+    public function __construct(private EventDispatcherInterface $eventDispatcher, protected string $description = 'Составной хотдог', protected int $price = 150)
     {
-        parent::__construct();
+        $this->dishStateSubject = new Observerable($this);
         $this->state = new NewState($this);
+        $this->cookingStrategy = new CookProxy(new HotDogCookingStrategy($this), $this->eventDispatcher);
+    }
+
+    public function attach(DishStateObserver $observer): void
+    {
+        $this->dishStateSubject->attach($observer);
+    }
+
+    public function detach(DishStateObserver $observer): void
+    {
+        $this->dishStateSubject->detach($observer);
+    }
+
+    public function notify(): void
+    {
+        $this->dishStateSubject->notify();
+    }
+
+    public function cook(): void
+    {
+        $this->cookingStrategy->cook();
+    }
+
+    public function fryCutlet(): void
+    {
+        $this->state->fryCutlet();
     }
 
     public function boilSausage(): void
     {
         $this->state->boilSausage();
+    }
+
+    public function addSauces(): void
+    {
+        $this->state->addSauces();
     }
 
     public function cutBun(): void
@@ -30,12 +71,12 @@ class HotDog extends AbstractDish
         $this->state->addIngredients();
     }
 
-    public function addSauces(): void
+    public function done(): void
     {
-        $this->state->addSauces();
+        $this->state->done();
     }
 
-    public function setState(HotDogStateInterface $state): void
+    public function setState(StateInterface $state): void
     {
         $this->state = $state;
         $this->notify();
@@ -43,16 +84,16 @@ class HotDog extends AbstractDish
 
     public function getStringState(): string
     {
-        return $this->state->toString();
+        return $this->state->getStringState();
     }
-*/
+
     public function getDescription(): string
     {
-        return 'Хот-дог';
+        return $this->description;
     }
 
     public function getPrice(): int
     {
-        return 222;
+        return $this->price;
     }
 }
