@@ -2,19 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Http\CheckBrackets;
-use App\Http\HomePage;
-use App\Http\SessionTest;
-use Slim\Factory\AppFactory;
-
 http_response_code(500);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = AppFactory::create();
+$app = (require __DIR__ . '/../config/app.php')();
 
-$app->get('/', HomePage::class);
-$app->post('/', CheckBrackets::class);
-$app->get('/session-test', SessionTest::class);
-
-$app->run();
+try {
+    $app->run();
+} catch (Exception $e) {
+    echo 'Caught exception: ', $e->getCode(), "\n";
+}
