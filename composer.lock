@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "5d9cbb207ff1e3911b7407edf0695dc6",
+    "packages": [
+        {
+            "name": "pingachguk/my-first-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pingachguk/my-first-package.git",
+                "reference": "f9af742ba3b45a0bc6ae325898cb96ac682321f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pingachguk/my-first-package/zipball/f9af742ba3b45a0bc6ae325898cb96ac682321f7",
+                "reference": "f9af742ba3b45a0bc6ae325898cb96ac682321f7",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pingachguk\\MyFirstPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "pingachguk",
+                    "email": "imayakimov@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Pingachguk/my-first-package/issues",
+                "source": "https://github.com/Pingachguk/my-first-package/tree/v1.0.0"
+            },
+            "time": "2022-11-13T22:12:51+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
