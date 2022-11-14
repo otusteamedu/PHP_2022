@@ -1,0 +1,11 @@
+parameters:
+
+services:
+
+listeners:
+  Nikolai\Php\Infrastructure\EventListener\PreCookEventListener:
+    event: Nikolai\Php\Infrastructure\Event\PreCookEvent
+  Nikolai\Php\Infrastructure\EventListener\PreCookEventListener2:
+    event: Nikolai\Php\Infrastructure\Event\PreCookEvent
+  Nikolai\Php\Infrastructure\EventListener\PostCookEventListener:
+    event: Nikolai\Php\Infrastructure\Event\PostCookEvent
