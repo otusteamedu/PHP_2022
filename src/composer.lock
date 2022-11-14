@@ -64,20 +64,20 @@
         },
         {
             "name": "getinweb/test-composer-package",
-            "version": "v1.1.2",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getinweb/test-composer-package.git",
-                "reference": "3e1429200e3ed0103eb8bb81ffec91475d55814a"
+                "reference": "b52045fabc7edd2e1336ec89697b86fec217e0e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getinweb/test-composer-package/zipball/3e1429200e3ed0103eb8bb81ffec91475d55814a",
-                "reference": "3e1429200e3ed0103eb8bb81ffec91475d55814a",
+                "url": "https://api.github.com/repos/getinweb/test-composer-package/zipball/b52045fabc7edd2e1336ec89697b86fec217e0e2",
+                "reference": "b52045fabc7edd2e1336ec89697b86fec217e0e2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": "^7.0 || ^8.0"
             },
             "type": "library",
             "autoload": {
@@ -95,9 +95,9 @@
             "description": "Test version of composer package",
             "support": {
                 "issues": "https://github.com/getinweb/test-composer-package/issues",
-                "source": "https://github.com/getinweb/test-composer-package/tree/v1.1.2"
+                "source": "https://github.com/getinweb/test-composer-package/tree/v1.1.3"
             },
-            "time": "2022-11-10T13:41:22+00:00"
+            "time": "2022-11-14T09:14:11+00:00"
         },
         {
             "name": "nikic/fast-route",
