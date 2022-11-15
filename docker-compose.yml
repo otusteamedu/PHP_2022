@@ -40,7 +40,7 @@ services:
       context: .docker
       dockerfile: ./php-fpm/Dockerfile
     environment:
-      DB_HOST: db-postgres
+      DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
@@ -56,7 +56,7 @@ services:
       context: .docker
       dockerfile: ./php-fpm/Dockerfile
     environment:
-      DB_HOST: db-postgres
+      DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
