@@ -2,6 +2,8 @@
 
 echo "Привет, Otus!<br>".date("Y-m-d H:i:s") ."<br><br>";
 
-echo "Что-то еще";
+echo "Сайт application.local";
 
-phpinfo();
+echo "<pre>";
+print_r($_SERVER);
+echo "</pre>";
