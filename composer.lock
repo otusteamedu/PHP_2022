@@ -8,17 +8,20 @@
     "packages": [
         {
             "name": "pingachguk/my-first-package",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Pingachguk/my-first-package.git",
-                "reference": "f9af742ba3b45a0bc6ae325898cb96ac682321f7"
+                "reference": "6e6dfb962b10660817d7048608c1620e9c839db0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Pingachguk/my-first-package/zipball/f9af742ba3b45a0bc6ae325898cb96ac682321f7",
-                "reference": "f9af742ba3b45a0bc6ae325898cb96ac682321f7",
+                "url": "https://api.github.com/repos/Pingachguk/my-first-package/zipball/6e6dfb962b10660817d7048608c1620e9c839db0",
+                "reference": "6e6dfb962b10660817d7048608c1620e9c839db0",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
             },
             "type": "library",
             "autoload": {
@@ -35,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Pingachguk/my-first-package/issues",
-                "source": "https://github.com/Pingachguk/my-first-package/tree/v1.0.0"
+                "source": "https://github.com/Pingachguk/my-first-package/tree/v1.1.0"
             },
-            "time": "2022-11-13T22:12:51+00:00"
+            "time": "2022-11-15T13:36:47+00:00"
         }
     ],
     "packages-dev": [],
