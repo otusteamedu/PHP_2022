@@ -7,5 +7,5 @@ use Waisee\StringVerificator\Helpers\StringHelper;
 $string = $_POST['string'];
 
 $helper = new StringHelper();
-return $helper->verify($string) ? http_response_code(200) : http_response_code(400);
+return $helper->verify($string);
 
