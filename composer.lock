@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "tema_go/otus_test",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tema-go/otus_test.git",
-                "reference": "7d641d6d33040b6c15cfa2d5accde60402c19315"
+                "reference": "6682e9f20c3c537112443bb4e537e255f262b96e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tema-go/otus_test/zipball/7d641d6d33040b6c15cfa2d5accde60402c19315",
-                "reference": "7d641d6d33040b6c15cfa2d5accde60402c19315",
+                "url": "https://api.github.com/repos/tema-go/otus_test/zipball/6682e9f20c3c537112443bb4e537e255f262b96e",
+                "reference": "6682e9f20c3c537112443bb4e537e255f262b96e",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4"
+                "php": ">=7"
             },
             "type": "library",
             "autoload": {
@@ -38,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tema-go/otus_test/issues",
-                "source": "https://github.com/tema-go/otus_test/tree/v1.0.0"
+                "source": "https://github.com/tema-go/otus_test/tree/v1.0.1"
             },
-            "time": "2022-11-14T13:39:58+00:00"
+            "time": "2022-11-16T12:03:35+00:00"
         }
     ],
     "packages-dev": [],
