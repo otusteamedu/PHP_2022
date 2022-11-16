@@ -1,0 +1,5 @@
+{
+    "require": {
+        "tema_go/otus_test": "^1.0"
+    }
+}

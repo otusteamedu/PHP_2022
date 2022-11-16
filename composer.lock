@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "85942aec98515c90952c638421135c43",
+    "packages": [
+        {
+            "name": "tema_go/otus_test",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tema-go/otus_test.git",
+                "reference": "6682e9f20c3c537112443bb4e537e255f262b96e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tema-go/otus_test/zipball/6682e9f20c3c537112443bb4e537e255f262b96e",
+                "reference": "6682e9f20c3c537112443bb4e537e255f262b96e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TemaGo\\OtusTest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Artem",
+                    "email": "artem@agsys.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/tema-go/otus_test/issues",
+                "source": "https://github.com/tema-go/otus_test/tree/v1.0.1"
+            },
+            "time": "2022-11-16T12:03:35+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
