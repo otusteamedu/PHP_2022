@@ -20,9 +20,13 @@ class EmailValidator {
     }
 
     private function validateDns() {
+        if (!strpos($this->email, '@')) { // умышленно не проверяю на === false, т.к. @ в начале - тоже ошибка
+            $this->error = 'Некорректный email '.$this->email.'.';
+            return;
+        }
         $arr = explode("@", $this->email);
         if (!checkdnsrr($arr[1], 'MX')) {
-            $this->error = 'Не найдена MX запись для доменного имени '.$arr[1];
+            $this->error = 'Не найдена MX запись для доменного имени '.$arr[1].'.';
         }
     }
 

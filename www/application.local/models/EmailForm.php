@@ -5,11 +5,11 @@ namespace app\models;
 use app\validators\EmailValidator;
 
 class EmailForm {
-    private string $inputStr;
-    private array $errors;
+    private string $inputStr = '';
+    private array $errors = [];
 
-    public function __construct(string $inputStr) {
-        $this->inputStr = $inputStr;
+    public function loadPOSTData() {
+        $this->inputStr = $_POST['emails'];
     }
 
     public function validate(): bool {
