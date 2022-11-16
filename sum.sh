@@ -1,13 +1,6 @@
 #!/bin/bash
 
-installed=`dpkg -s bc | grep "Status"`
-
-if [ -z "$installed" ]
-then
-  exit
-fi
-
-numRegex='^(-)?[0-9]+([.][0-9]+)?$'
+numRegex='^(-)?[0-9]+([,][0-9]+)?$'
 
 if ! [[ $1 =~ $numRegex ]] || ! [[ $2 =~ $numRegex ]]
 then
@@ -15,6 +8,4 @@ then
   exit
 fi
 
-sum=$(bc <<< "$1+$2")
-
-echo "$1 + $2 = $sum"
+echo "$1 $2"  | awk -F ' ' '{sum+=$1+$2} END {print $1 " + " $2 " = " sum}'
