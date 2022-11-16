@@ -13,6 +13,10 @@ services:
             - ./nginx/hosts/nginx_balancer.conf:/etc/nginx/conf.d/application.local.conf
         networks:
             - app-network
+        depends_on:
+            - nginx1
+            - nginx2
+            - nginx3
 
     nginx1:
         image: nginx
@@ -20,13 +24,15 @@ services:
             context: ./nginx
             dockerfile: Dockerfile
         container_name: nginx1
-        ports:
-            - "82:80"
         volumes:
-            - ./public:/data/application.local
-            - ./nginx/hosts/application1.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ./app:/data/application.local
+            - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
         networks:
             - app-network
+        depends_on:
+            - app1
+            - app2
+            - app3
 
     nginx2:
         image: nginx
@@ -34,13 +40,15 @@ services:
             context: ./nginx
             dockerfile: Dockerfile
         container_name: nginx2
-        ports:
-            - "83:80"
         volumes:
-            - ./public:/data/application.local
-            - ./nginx/hosts/application2.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ./app:/data/application.local
+            - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
         networks:
             - app-network
+        depends_on:
+            - app1
+            - app2
+            - app3
 
     nginx3:
         image: nginx
@@ -48,13 +56,15 @@ services:
             context: ./nginx
             dockerfile: Dockerfile
         container_name: nginx3
-        ports:
-            - "84:80"
         volumes:
-            - ./public:/data/application.local
-            - ./nginx/hosts/application3.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ./app:/data/application.local
+            - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
         networks:
             - app-network
+        depends_on:
+            - app1
+            - app2
+            - app3
 
     app1:
         build:
@@ -63,7 +73,7 @@ services:
         image: php-fpm
         container_name: app1
         volumes:
-            - ./public:/data/application.local
+            - ./app:/data/application.local
         networks:
             - app-network
 
@@ -74,7 +84,7 @@ services:
         image: php-fpm
         container_name: app2
         volumes:
-            - ./public:/data/application.local
+            - ./app:/data/application.local
         networks:
             - app-network
 
@@ -85,7 +95,7 @@ services:
         image: php-fpm
         container_name: app3
         volumes:
-            - ./public:/data/application.local
+            - ./app:/data/application.local
         networks:
             - app-network
 
