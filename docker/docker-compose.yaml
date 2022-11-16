@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/var/www/application.local
+    networks:
+      - network
+  php-fpm1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: php-fpm1
+    volumes:
+      - ./code:/var/www/application.local
+    ports:
+      - "8081:80"
+    networks:
+      - network
+  php-fpm2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: php-fpm2
+    volumes:
+      - ./code:/var/www/application.local
+    ports:
+      - "8082:80"
+    networks:
+      - network
+  php-fpm3:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: php-fpm3
+    volumes:
+      - ./code:/var/www/application.local
+    ports:
+      - "8083:80"
+    networks:
+      - network
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    ports:
+        - "11211:11211"
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
