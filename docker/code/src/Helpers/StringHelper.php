@@ -1,6 +1,6 @@
 <?php
 
-namespace Waisee\StringVerification\Helpers;
+namespace Waisee\StringVerificator\Helpers;
 
 class StringHelper
 {

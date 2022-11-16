@@ -1,9 +1,9 @@
 {
-    "name": "waisee/code",
+    "name": "waisee/string-verificator",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Waisee\\StringVerification\\": "/"
+            "Waisee\\StringVerificator\\": "src/"
         }
     },
     "authors": [

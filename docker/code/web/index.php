@@ -1,8 +1,8 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-use Waisee\StringVerification\Helpers\StringHelper;
+use Waisee\StringVerificator\Helpers\StringHelper;
 
 $string = $_POST['string'];
 
