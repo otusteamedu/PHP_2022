@@ -1,0 +1,5 @@
+{
+    "require": {
+        "klykovrv/natural-number-divisors-package": "^1.0"
+    }
+}
