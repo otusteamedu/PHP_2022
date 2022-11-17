@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    nginx:
+        build: ./nginx
+        ports:
+            - "${NGINX_PORT}:80"
+        volumes:
+            - ../public:/home/www/:delegated
+    php:
+        build:
+            context: ./php
+        volumes:
+            - ../public:/home/www/:delegated
+    redis:
+        build: ./redis
+        ports: 
+            - "${REDIS_PORT}:6379"
+    mysql:
+        build: ./mysql
+        volumes:
+            - ./mysql/conf.d:/etc/mysql/conf.d
+            - ${MYSQL_DATABASES_STORAGE}:/var/lib/mysql
+        restart: always
+        ports:
+            - "${MYSQL_PORT}:3306"
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    memcached:
+        build: ./memcached
+        volumes:
+            - ${MYSQL_DATABASES_STORAGE}/memcached:/var/lib/memcached
+        ports:
+            - "${MEMCACHED_PORT}:11211"
+
+networks:
+    app-network:
+        driver: bridge
