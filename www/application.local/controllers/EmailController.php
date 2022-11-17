@@ -13,9 +13,9 @@ class EmailController {
         }
 
         $emails = $_POST['emails'] ?? '';
-        $errors = implode("<br />", $model->getErrors());
+        $errors = $model->getErrors();
 
         $view = new EmailView();
-        echo $view->render($errors, $emails);
+        return $view->render($errors, $emails);
     }
 }
