@@ -1,0 +1,78 @@
+version: '3'
+services:
+  app1:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app1
+    restart: always
+    volumes:
+      - ./app:/var/www/dev.site
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app2
+    restart: always
+    volumes:
+      - ./app:/var/www/dev.site
+    networks:
+      - app-network
+
+  balancer:
+    image: nginx:latest
+    container_name: balancer
+    depends_on:
+      - nginx1
+      - nginx2
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/balancer/hosts:/etc/nginx/conf.d
+      - ./docker/balancer/logs:/var/log/nginx
+      - ./app:/var/www/dev.site
+    networks:
+      - app-network
+
+  nginx1:
+    image: nginx:latest
+    container_name: nginx1
+    restart: always
+    volumes:
+      - ./docker/nginx/hosts:/etc/nginx/conf.d
+      - ./docker/nginx/logs/nginx1:/var/log/nginx
+      - ./app:/var/www/dev.site
+    depends_on:
+      - app1
+      - app2
+    networks:
+      - app-network
+
+  nginx2:
+    image: nginx:latest
+    container_name: nginx2
+    restart: always
+    volumes:
+      - ./docker/nginx/hosts:/etc/nginx/conf.d
+      - ./docker/nginx/logs/nginx2:/var/log/nginx
+      - ./app:/var/www/dev.site
+    depends_on:
+      - app1
+      - app2
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

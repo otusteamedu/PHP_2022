@@ -1,0 +1,20 @@
+{
+    "name": "eliasjump/strings-verification",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eliasjump\\StringsVerification\\": "src/"
+        },
+        "files": [
+            "src/Functions/Validates.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Ilya Prigunov"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
+}
