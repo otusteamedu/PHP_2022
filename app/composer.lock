@@ -8,17 +8,20 @@
     "packages": [
         {
             "name": "klykovrv/natural-number-divisors-package",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/klykov-rv/natural-number-divisors-package.git",
-                "reference": "acdaf20c7d2e937550b2980611afd294983b7ada"
+                "reference": "47c36777448df1c87fabf1d0c354bf941aae0885"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/klykov-rv/natural-number-divisors-package/zipball/acdaf20c7d2e937550b2980611afd294983b7ada",
-                "reference": "acdaf20c7d2e937550b2980611afd294983b7ada",
+                "url": "https://api.github.com/repos/klykov-rv/natural-number-divisors-package/zipball/47c36777448df1c87fabf1d0c354bf941aae0885",
+                "reference": "47c36777448df1c87fabf1d0c354bf941aae0885",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
@@ -35,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/klykov-rv/natural-number-divisors-package/issues",
-                "source": "https://github.com/klykov-rv/natural-number-divisors-package/tree/v1.0.0"
+                "source": "https://github.com/klykov-rv/natural-number-divisors-package/tree/v1.0.1"
             },
-            "time": "2022-08-24T21:04:48+00:00"
+            "time": "2022-11-17T19:37:54+00:00"
         }
     ],
     "packages-dev": [],

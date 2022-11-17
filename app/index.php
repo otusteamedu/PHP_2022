@@ -8,32 +8,28 @@ echo NaturalNumberDivisors::getDivisors(3);
 echo "<hr>";
 echo NaturalNumberDivisors::getDivisors(20);
 echo "<hr>";
+echo NaturalNumberDivisors::getDivisors(1);
+echo "<hr>";
 try {
-    NaturalNumberDivisors::getDivisors(0);
+    echo NaturalNumberDivisors::getDivisors(0);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
 echo "<hr>";
 try {
-    NaturalNumberDivisors::getDivisors(-2);
+    echo NaturalNumberDivisors::getDivisors(-2);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
 echo "<hr>";
 try {
-    NaturalNumberDivisors::getDivisors(-2);
+    echo NaturalNumberDivisors::getDivisors(1.5);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
 echo "<hr>";
 try {
-    NaturalNumberDivisors::getDivisors(1.5);
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
-echo "<hr>";
-try {
-    NaturalNumberDivisors::getDivisors("aaa");
+    echo NaturalNumberDivisors::getDivisors("aaa");
 } catch (Exception $e) {
     echo $e->getMessage();
 }
