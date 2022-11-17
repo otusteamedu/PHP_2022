@@ -9,6 +9,7 @@
     <testsuites>
         <testsuite name="bundles">
             <directory>src/Bundle/CheckBracketsBundle/tests</directory>
+            <directory>src/Bundle/CheckEmailBundle/tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
