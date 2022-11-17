@@ -26,7 +26,7 @@
         <div>
             <p>Введите список email</p>
             <label>
-                <textarea rows="10" cols="37" name="emails"><?= implode("\n", $emails) ?></textarea>
+                <textarea rows="10" cols="37" name="emails"><?= implode("\n", $response['emails']) ?></textarea>
             </label>
         </div>
         <div>
