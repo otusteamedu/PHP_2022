@@ -1,9 +1,9 @@
 {
-    "name": "maxim/application.local",
+    "name": "maxim/app",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "app\\": "."
+            "app\\": "src/"
         }
     },
     "authors": [
