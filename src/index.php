@@ -1,9 +1,41 @@
 <?php
 
-include ('../vendor/autoload.php');
+try {
+    if (!isset($_POST['string'])) {
+        throw new ErrorException('Некорректный параметр');
+    }
 
-use TemaGo\OtusTest\NumberParser;
+    //$param = '(()()()()))((((()()()))(()()()(((()))))))';
+    $param = $_POST['string'];
 
-$parser = new NumberParser();
-$phone = $parser->parse('Привет, мой номер телефона - 8 999 888 77 66');
-echo ($phone);
+    if (empty($param)) {
+        throw new ErrorException('Некорректный параметр');
+    }
+
+    $split = mb_str_split($param);
+    $temp = [];
+    foreach ($split as $letter) {
+        if ($letter != '(' && $letter != ')') {
+            continue;
+        }
+
+        if (count($temp) == 0) {
+            $temp[] = $letter;
+        } elseif ($temp[count($temp) - 1] == '(' && $letter == ')') {
+            unset($temp[count($temp) - 1]);
+            $temp = array_values($temp);
+        } else {
+            $temp[] = $letter;
+        }
+    }
+
+    if (count($temp)) {
+        throw new ErrorException('Некорректный параметр');
+    }
+
+    header("HTTP/1.1 200 OK");
+    echo 'Корректный параметр';
+} catch (ErrorException $e) {
+    header("HTTP/1.1 400 Bad Request");
+    echo $e->getMessage();
+}
