@@ -30,7 +30,8 @@ class EmailValidator {
     }
 
     // Получение списка email адресов
-    public function setEmails(array $emails) {
+    public function setEmails(array $emails): EmailValidator
+    {
         $this->emails = $emails;
         return $this;
     }
