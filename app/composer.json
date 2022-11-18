@@ -1,0 +1,16 @@
+{
+    "name": "larisadebelova/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Larisadebelova\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Лариса Дебёлова",
+            "email": "degtereva_la@magnit.ru"
+        }
+    ],
+    "require": {}
+}
