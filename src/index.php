@@ -70,7 +70,8 @@ $emails = [
     'artem@agsys2.ru',
     'artem@agsys.ru',
     'artem@bp-l.ru',
-    'artem@yandex.ru',
+    'artem@yandex',
+    'artem@yan.dex',
 ];
 
 $result = (new EmailValidator())->setEmails($emails)->validate();
