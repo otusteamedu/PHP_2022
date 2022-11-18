@@ -11,42 +11,57 @@ class Validation
     const SUCCESS = 'Всё хорошо';
     const ERROR = 'Всё плохо';
 
+    const LEFT_BRACE = '(';
+    const RIGHT_BRACE = ')';
+
+    /**
+     * @param $string
+     */
+    public static function run($string)
+    {
+        try {
+            self::validate($string);
+            http_response_code(200);
+            echo self::SUCCESS;
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo $e->getMessage();
+        }
+    }
+
     /**
      * @param string $string
-     * @return string
+     * @return void
      * @throws Exception
      */
-    public static function validate(string $string): string
+    private static function validate(string $string): void
+    {
+        if (!self::validateBrace($string)) {
+            throw new Exception(self::ERROR);
+        }
+    }
+
+    /**
+     * Проверка на
+     * @param string $string
+     * @return bool
+     */
+    private static function validateBrace(string $string): bool
     {
         $counter = 0;
-        $firstClose = false;
 
-        if (trim($string) == '') {
-            throw new Exception(self::ERROR);
-        }
-        if (preg_match("/^\(.*\)/", $string)) {
-            throw new Exception(self::ERROR);
+        if ($string[0] === self::RIGHT_BRACE || empty($string)) {
+            return false;
         }
 
-        $length = strlen($string);
-
-        for ($i = 0; $i < $length; $i++) {
-            $bracket = $string[$i];
-
-            if ($bracket === '(') {
+        for ($ch = 0; $ch < strlen($string); $ch++) {
+            if (self::LEFT_BRACE == $string[$ch]) {
                 $counter++;
-            } elseif ($bracket === ')') {
+            } else {
                 $counter--;
-                if ($counter <= 0) {
-                    $firstClose = true;
-                }
             }
         }
 
-        if ($counter !== 0 || $firstClose) {
-            throw new Exception(self::ERROR, 400);
-        }
-
-        return self::SUCCESS;
+        return $counter == 0;
     }
 }
