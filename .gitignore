@@ -1,0 +1,5 @@
+/vendor
+.idea
+/data
+.env
+/app/vendor/

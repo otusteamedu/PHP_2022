@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+  service.app:
+    container_name: service.app
+    build:
+      context: ./.devops/nginx
+      dockerfile: Dockerfile
+    image: nginx:1.23.2
+    ports:
+      - "80:80"
+    volumes:
+      - ./.devops/nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+      - ./data/logs/nginx/app:/var/log/nginx
+    networks:
+      - service.network
+    depends_on:
+      - service.server_1
+      - service.server_2
+
+  service.server_1:
+    container_name: service.server_1
+    build:
+      context: ./.devops/nginx
+      dockerfile: Dockerfile
+    image: nginx:1.23.2
+    volumes:
+      - ./app:/var/www
+      - ./.devops/nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+      - ./data/logs/nginx/server1:/var/log/nginx
+    networks:
+      - service.network
+    depends_on:
+      - service.php-fpm_1
+
+  service.server_2:
+    container_name: service.server_2
+    build:
+      context: ./.devops/nginx
+      dockerfile: Dockerfile
+    image: nginx:1.23.2
+    volumes:
+      - ./app:/var/www
+      - ./.devops/nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+      - ./data/logs/nginx/webserver_2:/var/log/nginx
+    networks:
+      - service.network
+    depends_on:
+      - service.php-fpm_2
+
+
+  service.php-fpm_1:
+    container_name: service.php-fpm_1
+    build:
+      context: ./.devops/php_fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    volumes:
+      - ./app:/var/www
+    networks:
+      - service.network
+
+  service.php-fpm_2:
+    container_name: service.php-fpm_2
+    build:
+      context: ./.devops/php_fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    volumes:
+      - ./app:/var/www
+    networks:
+      - service.network
+
+  service.memcached:
+    container_name: memcached
+    image: memcached:1.6.17
+    networks:
+      - service.network
+
+  service.db:
+    container_name: db
+    image: postgres:14.5
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+    volumes:
+      - ./data/db/postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - service.network
+
+
+networks:
+  service.network:
+    driver: bridge
