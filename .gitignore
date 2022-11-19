@@ -1,0 +1,5 @@
+.idea
+/docker/nginx/logs/
+/socket/
+/app/lint.log
+/app/vendor/
