@@ -1,15 +1,15 @@
 {
-    "name": "kopte/hw3-composer",
+    "name": "koptev/hw3-composer",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Kopte\\Hw3Composer\\": "src/"
+            "Koptev\\Hw3Composer\\": "src/"
         }
     },
     "authors": [
         {
             "name": "koptev",
-            "email": "koptev@alfa.im"
+            "email": "koptev19@yandex.ru"
         }
     ],
     "require": {
