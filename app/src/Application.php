@@ -17,32 +17,20 @@ class Application
         $this->response['emails'] = $this->emails;
     }
 
-    public function run(): void
+    public function run(): array
     {
-        try {
-            $validator = new EmailValidator();
-            foreach ($this->emails as $email) {
-                try {
-                    $validator->validate($email);
-                } catch (ValidateException $validateException) {
-                    http_response_code($validateException->httpCode);
-                    $this->response['errors'][] = $validateException->getMessage();
-                }
+        $validator = new EmailValidator();
+        foreach ($this->emails as $email) {
+            try {
+                $validator->validate($email);
+            } catch (ValidateException $validateException) {
+                http_response_code($validateException->httpCode);
+                $this->response['errors'][] = $validateException->getMessage();
             }
-            echo $this->renderTemplate();
-        } catch (Exception $exception) {
-            http_response_code(500);
-            echo "500 Ошибка сервера" . PHP_EOL;
-            echo $exception->getMessage();
         }
+
+        return $this->response;
     }
 
-    private function renderTemplate(): bool|string
-    {
-        ob_start();
-        $response = $this->response;
-        require __DIR__ . '/template.php';
 
-        return ob_get_clean();
-    }
 }
