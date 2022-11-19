@@ -1,0 +1,19 @@
+{
+    "name": "eliasjump/unix.chat",
+    "description": "study project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eliasjump\\UnixChat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Prigunov"
+        }
+    ],
+    "require": {
+      "php": "8.*",
+      "ext-sockets": "*"
+    }
+}
