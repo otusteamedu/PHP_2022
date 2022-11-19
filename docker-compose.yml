@@ -16,9 +16,12 @@ services:
     image: nginx:alpine
     volumes:
       - ./src:/app
-      - ./.docker/nginx-1/conf.d:/etc/nginx/conf.d
+      - ./.docker/nginx-proxy/conf.d/default.conf:/etc/nginx/templates/default.conf.template
     ports:
       - "8081:80"
+    environment:
+      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME_1}
+      PHP_FPM_SERVER_NAME: ${PHP_FPM_SERVER_NAME_1}
     depends_on:
       - php-fpm-1
 
@@ -26,9 +29,12 @@ services:
     image: nginx:alpine
     volumes:
       - ./src:/app
-      - ./.docker/nginx-2/conf.d:/etc/nginx/conf.d
+      - ./.docker/nginx-proxy/conf.d/default.conf:/etc/nginx/templates/default.conf.template
     ports:
       - "8082:80"
+    environment:
+      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME_2}
+      PHP_FPM_SERVER_NAME: ${PHP_FPM_SERVER_NAME_2}
     depends_on:
       - php-fpm-2
 
