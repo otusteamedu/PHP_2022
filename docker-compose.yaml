@@ -1,0 +1,142 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+
+       - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+  nginx11:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx11
+
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite1.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+
+  nginx12:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx12
+
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite2.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+
+  nginx13:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx13
+
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite3.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+
+
+  php1:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php1
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  php2:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+  php3:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php3
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+
+
+
+  postgres:
+    image: postgres:12
+    ports:
+      - 15432:5432
+    container_name: 'postgresql'
+    working_dir: /data/mysite.local
+    restart: always
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - dump:/data/mysite.local
+      - postgresql:/var/lib/postgresql/data
+  redis:
+    container_name: 'redis'
+    image: redis
+    ports:
+      - 6379:6379
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    working_dir: /app
+    hostname: rabbit-mq
+    container_name: 'rabbit-mq'
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dump:
+  postgresql:

@@ -1,0 +1,16 @@
+{
+    "name": "study/stringvalidator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Study\\StringValidator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Albina Mukhamediyeva",
+            "email": "albinamkh@mail.ru"
+        }
+    ],
+    "require": {}
+}
