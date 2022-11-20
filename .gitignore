@@ -3,10 +3,13 @@
 .DS_Store
 
 # Конфигурационные файлы
-/.env
+.env
 
 # Docker
 docker-compose.override.yml
 
 # Данные БД
-./docker/postgresql_data/
+docker/postgresql_data/
+
+# composer
+vendor/
