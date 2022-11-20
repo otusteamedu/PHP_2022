@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  # Контейнер с Nginx
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    volumes:
+      - ./:/app
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "${HTTP_PORT_EXTERNAL}:${HTTP_PORT_INTERNAL}"
+    networks:
+      - external
+      - sail
+
+  # Контейнер с php-fpm
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./:/app
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+    env_file:
+      - .env
+    networks:
+      - sail
+
+
+# Docker networks
+networks:
+  sail:
+  external:
