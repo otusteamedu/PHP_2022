@@ -31,5 +31,4 @@ $ docker compose up -d
 
 ```bash
 $ docker compose exec php composer install
-$ composer require chernysh/fish-text
 ```
