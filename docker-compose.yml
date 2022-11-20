@@ -28,6 +28,7 @@ services:
     image: postgres:15
     env_file:
       - .env
+    container_name: amarkhay_db
     volumes:
       - ./docker/postgresql_data:/var/lib/postgresql/data
     ports:
