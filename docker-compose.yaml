@@ -1,0 +1,131 @@
+version: '3'
+
+services:
+  nginx_balancer:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balancer/nginx
+    container_name: nginx_balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local/
+      - ./nginx/hosts/balancer.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+    depends_on:
+      - nginx1
+      - nginx2
+      - nginx3
+
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: app/nginx
+    container_name: nginx1
+    volumes:
+      - ./code:/data/mysite.local/
+      - ./nginx/hosts/nginx1.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+    depends_on:
+      - app1
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: app/nginx
+    container_name: nginx2
+    volumes:
+      - ./code:/data/mysite.local/
+      - ./nginx/hosts/nginx2.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+    depends_on:
+      - app2
+
+  nginx3:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: app/nginx
+    container_name: nginx3
+    volumes:
+      - ./code:/data/mysite.local/
+      - ./nginx/hosts/nginx3.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+    depends_on:
+      - app3
+
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+      - ./code:/data/mysite.local/
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./code:/data/mysite.local/
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./code:/data/mysite.local/
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    volumes:
+      - ./dbdata/mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    restart: always
+    environment:
+      - PMA_HOST=${PMA_HOST}
+      - PMA_USER=${PMA_USER}
+      - PMA_PASSWORD=${PMA_PASSWORD}
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
