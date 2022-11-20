@@ -14,14 +14,36 @@ services:
     networks:
       - app-network
 
-  app:
+  app1:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: myapp/php
-    container_name: app
+    image: balance/php
+    container_name: app1
     volumes:
-       - ./code:/data/mysite.local
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./code:/data/mysite.local
     networks:
       - app-network
 
