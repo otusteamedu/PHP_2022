@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2016cab75f9a346e0971ee7c612ae802",
+    "packages": [
+        {
+            "name": "albinamkh/month-translator",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Albinamkh21/month-translator.git",
+                "reference": "65e7482c840447aca6722974369336b936e26e43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Albinamkh21/month-translator/zipball/65e7482c840447aca6722974369336b936e26e43",
+                "reference": "65e7482c840447aca6722974369336b936e26e43",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Albinamkh\\MonthTranslator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Albina Mukhamediyeva",
+                    "email": "albinamkh@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Albinamkh21/month-translator/issues",
+                "source": "https://github.com/Albinamkh21/month-translator/tree/v1.0.3"
+            },
+            "time": "2022-11-20T19:36:05+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}
