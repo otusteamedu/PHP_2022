@@ -65,10 +65,15 @@ final class CliController
     /**
      * @param array $raw_data
      * @return void
+     * @throws \Exception
      */
     public function insert(array $raw_data): void
     {
-        $this->mapper->insert(raw_data: $raw_data);
+        $new_ticket = new Ticket();
+
+        $new_ticket->setDateOfSale(date_of_sale: $raw_data['date_of_sale']);
+
+        $this->mapper->insert(ticket: $new_ticket);
 
         fwrite(stream: STDOUT ,data: 'Данные успешно добавлены' . PHP_EOL);
     }
@@ -76,10 +81,11 @@ final class CliController
     /**
      * @param array $raw_data
      * @return void
+     * @throws \Exception
      */
     public function update(array $raw_data): void
     {
-        $ticket = new Ticket(id: $raw_data['id']);
+        $ticket = $this->mapper->findById(id: $raw_data['id']);
 
         $ticket->setDateOfSale(date_of_sale: $raw_data['date_of_sale']);
         $ticket->setTimeOfSale(time_of_sale: $raw_data['time_of_sale']);
@@ -96,10 +102,13 @@ final class CliController
     /**
      * @param int $ticket_id
      * @return void
+     * @throws \Exception
      */
     public function delete(int $ticket_id): void
     {
-        $this->mapper->delete(ticket_id: $ticket_id);
+        $existed_ticket = $this->mapper->findById(id: $ticket_id);
+
+        $this->mapper->delete(ticket: $existed_ticket);
 
         fwrite(stream: STDOUT ,data: 'Данные успешно удалены' . PHP_EOL);
     }

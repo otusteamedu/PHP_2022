@@ -53,7 +53,7 @@ final class Ticket
      * @param string $movie_name
      */
     public function __construct(
-        int $id,
+        int $id = self::FAKE_DB_ID,
         string $date_of_sale= '',
         string $time_of_sale = '',
         int $customer_id = self::FAKE_DB_ID,

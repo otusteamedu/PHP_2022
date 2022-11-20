@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Repository\Mappers;
 
+use App\Domain\Repository\IdentityMap;
 use App\Domain\Repository\Entities\Ticket;
 use App\Domain\Contracts\Database\DataBaseConnectionContract;
 
@@ -42,10 +43,17 @@ final class TicketMapper
     private \PDOStatement $delete;
 
     /**
+     * @var IdentityMap
+     */
+    private IdentityMap $identity_map;
+
+    /**
      * @param DataBaseConnectionContract $db_connector
      */
     public function __construct(DataBaseConnectionContract $db_connector)
     {
+        $this->identity_map = new IdentityMap();
+
         $this->db_connection = $db_connector->pdoConnector();
 
         $this->select = $this->db_connection->prepare(
@@ -71,10 +79,14 @@ final class TicketMapper
 
     /**
      * @param int $id
-     * @return Ticket
+     * @return object
      */
-    public function findById(int $id): Ticket
+    public function findById(int $id): object
     {
+        if ($this->identity_map->hasId($id)) {
+            return $this->identity_map->getObject(id: $id);
+        }
+
         $this->select->setFetchMode(mode: \PDO::FETCH_ASSOC);
         $this->select->execute(params:[$id]);
 
@@ -118,37 +130,54 @@ final class TicketMapper
     }
 
     /**
-     * @param array $raw_data
+     * @param Ticket $ticket
      * @return Ticket
+     * @throws \Exception
      */
-    public function insert(array $raw_data): Ticket
+    public function insert(Ticket $ticket): Ticket
     {
+        if ($this->identity_map->hasObject($ticket)) {
+            throw new \Exception(message: 'Ticket with this ID cannot be inserted');
+        }
+
+        $date_of_sale = $ticket->getDateOfSale();
+        $time_of_sale = $ticket->getTimeOfSale();
+        $customer_id = $ticket->getCustomerId();
+        $schedule_id = $ticket->getScheduleId();
+        $total_price = $ticket->getTotalPrice();
+        $movie_name = $ticket->getMovieName();
+
         $this->insert->execute(params: [
-            $raw_data['date_of_sale'],
-            $raw_data['time_of_sale'],
-            $raw_data['customer_id'],
-            $raw_data['schedule_id'],
-            $raw_data['total_price'],
-            $raw_data['movie_name'],
+            $date_of_sale,
+            $time_of_sale,
+            $customer_id,
+            $schedule_id,
+            $total_price,
+            $movie_name,
         ]);
 
         return new Ticket(
             id: (int) $this->db_connection->lastInsertId(),
-            date_of_sale: $raw_data['date_of_sale'],
-            time_of_sale: $raw_data['time_of_sale'],
-            customer_id: $raw_data['customer_id'],
-            schedule_id: $raw_data['schedule_id'],
-            total_price: $raw_data['total_price'],
-            movie_name: $raw_data['movie_name']
+            date_of_sale: $date_of_sale,
+            time_of_sale: $time_of_sale,
+            customer_id: $customer_id,
+            schedule_id: $schedule_id,
+            total_price: $total_price,
+            movie_name: $movie_name
         );
     }
 
     /**
-     * @param Ticket $ticket
+     * @param object $ticket
      * @return bool
+     * @throws \Exception
      */
-    public function update(Ticket $ticket): bool
+    public function update(object $ticket): bool
     {
+        if ($this->identity_map->hasObject($ticket)) {
+            throw new \Exception(message: 'Ticket with this ID cannot be updated');
+        }
+
         return $this->update->execute(params: [
             $ticket->getDateOfSale(),
             $ticket->getTimeOfSale(),
@@ -161,11 +190,16 @@ final class TicketMapper
     }
 
     /**
-     * @param int $ticket_id
+     * @param object $ticket
      * @return bool
+     * @throws \Exception
      */
-    public function delete(int $ticket_id): bool
+    public function delete(object $ticket): bool
     {
-        return $this->delete->execute(params: [$ticket_id]);
+        if ($this->identity_map->hasObject($ticket)) {
+            throw new \Exception(message: 'Ticket with this ID cannot be deleted');
+        }
+
+        return $this->delete->execute(params: [$ticket->getId()]);
     }
 }
