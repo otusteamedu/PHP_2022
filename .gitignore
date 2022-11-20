@@ -6,4 +6,4 @@
 
 #Project files
 vendor
-composer.lock
+.env
