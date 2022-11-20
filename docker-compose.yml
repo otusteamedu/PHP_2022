@@ -11,7 +11,7 @@ services:
       - ./:/app
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     ports:
-      - "80:80"
+      - "${HTTP_PORT}:80"
     networks:
       - external
 
@@ -29,6 +29,14 @@ services:
     networks:
       - sail
       - external
+
+  # Контейнер с memcached
+  memcached:
+    image: 'memcached:alpine'
+    ports:
+      - '${FORWARD_MEMCACHED_PORT:-11211}:${MEMCACHED_PORT}'
+    networks:
+      - sail
 
 
 # Docker networks
