@@ -12,5 +12,8 @@
             "email": "mihail.chernysh@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=7.4",
+        "chernysh/fish-text": "^1.0"
+    }
 }

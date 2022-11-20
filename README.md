@@ -20,9 +20,16 @@
 
 ## Запуск
 
+Сборка и запуск контейнера
+
 ```bash
 $ docker compose build
 $ docker compose up -d
-$ composer install
+```
+
+Для установки зависимостей версии PHP в контейнере
+
+```bash
+$ docker compose exec php composer install
 $ composer require chernysh/fish-text
 ```

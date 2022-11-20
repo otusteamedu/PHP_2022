@@ -2,6 +2,7 @@ FROM php:7.4-fpm
 
 # Ставим необходимые для работы модули
 RUN apt-get update && apt-get install -y \
+    git \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
@@ -16,5 +17,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install memcached \
     && docker-php-ext-enable memcached
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+WORKDIR /app
 
 CMD ["php-fpm"]
