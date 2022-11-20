@@ -39,7 +39,33 @@ services:
       - sail
 
   # Контейнер с php-fpm
-  php:
+  php1:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./:/app
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+    env_file:
+      - .env
+    networks:
+      - sail
+
+  php2:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./:/app
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+    env_file:
+      - .env
+    networks:
+      - sail
+
+  php3:
     build:
       context: ./docker/php
       dockerfile: Dockerfile
