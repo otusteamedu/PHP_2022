@@ -3,7 +3,7 @@ FROM php:8.1.5-fpm-alpine
 ENV COMPOSER_MEMORY_LIMIT='-1'
 
 ARG GD_PARAMS="--with-freetype=/usr --with-jpeg=/usr"
-ARG PHP_MOD_INSTALL="mysqli pdo_mysql intl curl soap exif zip sockets opcache bcmath gmp gd"
+ARG PHP_MOD_INSTALL="mysqli pdo_mysql pgsql pdo_pgsql intl curl soap exif zip sockets opcache bcmath gmp gd"
 
 RUN apk add --no-cache --virtual \
     .build-deps \
@@ -16,6 +16,7 @@ RUN apk add --no-cache -- \
     bash \
     autoconf \
     libtool \
+    libpq-dev \
     freetype-dev \
     imagemagick6-dev \
     libjpeg-turbo-dev \
