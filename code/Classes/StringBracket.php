@@ -7,14 +7,14 @@ use Classes\Exceptions\WrongBracketsException;
 
 class StringBracket
 {
-    private string $string;
+    private $string;
 
     /**
      * StringBracket constructor.
      *
-     * @param string $string
+     * @param $string
      */
-    public function __construct(string $string)
+    public function __construct($string)
     {
         $this->string = $string;
     }
@@ -40,7 +40,7 @@ class StringBracket
      */
     public function checkNotEmpty()
     {
-        if (empty($this->string)) {
+        if (!is_string($this->string) || empty($this->string)) {
             throw new EmptyStringException();
         }
     }

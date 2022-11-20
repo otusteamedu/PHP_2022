@@ -13,14 +13,12 @@ use Classes\Response;
 use Classes\StringBracket;
 
 $request = new Request();
-
-$string = $request->post('string');
-
-$stringBracket = new StringBracket($string);
-
 $response = new Response();
 
 try {
+    $string = $request->post('string');
+
+    $stringBracket = new StringBracket($string);
 
     $stringBracket->check();
 

@@ -12,7 +12,7 @@ class Response
      */
     public function ok(string $message)
     {
-        $this->send(200, 'OK', $message);
+        $this->send(200, $message);
     }
 
     /**
@@ -23,23 +23,20 @@ class Response
      */
     public function badRequest(string $message)
     {
-        $this->send(200, 'Bad request', $message);
+        $this->send(400, $message);
     }
 
     /**
      * Send request.
      *
      * @param int $statusCode
-     * @param string $statusText
      * @param string $message
      * @return void
      */
-    public function send(int $statusCode, string $statusText, string $message)
+    public function send(int $statusCode, string $message)
     {
-        header("HTTP/1.1 $statusCode $statusText");
+        http_response_code($statusCode);
 
-        print_r([
-            'message'=> $message,
-        ]);
+        echo $message;
     }
 }
