@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chernysh\Hw4\Service;
 
 class CheckStringService implements ServiceInterface
