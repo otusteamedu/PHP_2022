@@ -18,3 +18,10 @@ echo "Текущий контейнер: " . $_SERVER['HOSTNAME'];
 echo '<br>';
 echo '<br>';
 echo "Номер сессии: " . session_id();
+
+
+$_SESSION['random'] = $_SESSION['random'] ?? rand(1, 100);
+
+echo '<br>';
+echo '<br>';
+echo "random number: " . $_SESSION['random'];
