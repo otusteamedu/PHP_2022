@@ -20,9 +20,7 @@ RUN apt-get update \
     && docker-php-ext-enable redis \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY ./php.ini /usr/local/etc/php/conf.d/php.ini
-
-COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
 
 WORKDIR /var/www/application.local
 
