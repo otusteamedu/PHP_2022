@@ -6,8 +6,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 session_start();
 
-$service = new \Chernysh\Hw4\Service\CheckStringService();
-$app = new \Chernysh\Hw4\App($service);
+$app = new \Chernysh\Hw4\App();
 $app->run();
 
 

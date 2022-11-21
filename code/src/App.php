@@ -5,23 +5,16 @@ declare(strict_types=1);
 namespace Chernysh\Hw4;
 
 use Chernysh\Hw4\Service\ServiceException;
-use Chernysh\Hw4\Service\ServiceInterface;
 
 class App
 {
 
-    private ServiceInterface $service;
-
-
-    public function __construct(ServiceInterface $service)
-    {
-        $this->service = $service;
-    }
-
     public function run(): void
     {
+        $service = new \Chernysh\Hw4\Service\CheckStringService();
+
         try {
-            $this->service->check($_REQUEST ?? []);
+            $service->check($_REQUEST ?? []);
             http_response_code(200);
             echo "Всё хорошо";
         } catch (ServiceException $e) {
