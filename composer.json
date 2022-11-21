@@ -1,0 +1,5 @@
+{
+    "require": {
+        "andrey-cheburaev/package-otus-hw3": "^1.0"
+    }
+}
