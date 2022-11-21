@@ -7,7 +7,7 @@ require __DIR__ . '/vendor/autoload.php';
 session_start();
 
 $app = new \Chernysh\Hw4\App();
-$app->run();
+echo $app->run();
 
 
 echo '<br>';

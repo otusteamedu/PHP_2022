@@ -9,17 +9,16 @@ use Chernysh\Hw4\Service\ServiceException;
 class App
 {
 
-    public function run(): void
+    public function run(): string
     {
-        $service = new \Chernysh\Hw4\Service\CheckStringService();
-
         try {
+            $service = new \Chernysh\Hw4\Service\CheckStringService();
             $service->check($_REQUEST ?? []);
             http_response_code(200);
-            echo "Всё хорошо";
+            return "Всё хорошо";
         } catch (ServiceException $e) {
             http_response_code(400);
-            echo "Всё плохо: " . $e->getMessage();
+            return "Всё плохо: " . $e->getMessage();
         }
     }
 
