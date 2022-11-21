@@ -22,12 +22,12 @@ final class CliDialog
 
     /**
      * @return void
+     * @throws \Exception
      */
     public function startDialog(): void
     {
         line(
-            msg: '\'ПОИСК ДАННЫХ ИСПОЛЬЗУЯ РАЗНЫЕ ПАТТЕРНЫ\'' . PHP_EOL
-            . 'Используется паттерн: ' . $_ENV['DB_SEARCH_PATTERN'] . PHP_EOL
+            msg: '\'ПОИСК И ДОБАВЛЕНИЕ ДАННЫХ ИСПОЛЬЗУЯ Data Mapper\'' . PHP_EOL
             . 'Выберите что хотите сделать в таблице Ticket:'
         );
 

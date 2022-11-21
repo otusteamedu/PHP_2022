@@ -72,6 +72,11 @@ final class CliController
         $new_ticket = new Ticket();
 
         $new_ticket->setDateOfSale(date_of_sale: $raw_data['date_of_sale']);
+        $new_ticket->setTimeOfSale(time_of_sale: $raw_data['time_of_sale']);
+        $new_ticket->setCustomerId(customer_id: $raw_data['customer_id']);
+        $new_ticket->setScheduleId(schedule_id: $raw_data['schedule_id']);
+        $new_ticket->setTotalPrice(total_price: $raw_data['total_price']);
+        $new_ticket->setMovieName(movie_name: $raw_data['movie_name']);
 
         $this->mapper->insert(ticket: $new_ticket);
 

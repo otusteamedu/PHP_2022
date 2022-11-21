@@ -9,4 +9,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $cli_dialog = new CliDialog();
 
-$cli_dialog->startDialog();
+try {
+    $cli_dialog->startDialog();
+} catch (\Throwable $exception) {
+    fwrite(stream: STDOUT ,data: $exception->getMessage() . PHP_EOL);
+}
