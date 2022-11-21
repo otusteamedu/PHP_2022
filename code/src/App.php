@@ -4,29 +4,21 @@ declare(strict_types=1);
 
 namespace Chernysh\EmailVerification;
 
-use Chernysh\EmailVerification\Service\ServiceException;
-use Chernysh\EmailVerification\Service\ServiceInterface;
+use Chernysh\EmailVerification\Service\{EmailVerification, ServiceException};
 
 class App
 {
 
-    private ServiceInterface $service;
-
-
-    public function __construct(ServiceInterface $service)
-    {
-        $this->service = $service;
-    }
-
-    public function run(): void
+    public function run(): string
     {
         try {
-            $this->service->check($_REQUEST ?? []);
+            $service = new EmailVerification();
+            $service->check($_REQUEST ?? []);
             http_response_code(200);
-            echo 'ОК';
+            return 'ОК';
         } catch (ServiceException $e) {
             http_response_code(400);
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 

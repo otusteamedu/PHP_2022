@@ -65,7 +65,7 @@ class EmailVerification implements ServiceInterface
     {
         getmxrr($domain, $res);
         if (!$res) {
-            throw new ServiceException('Domain «%s» not found', $domain);
+            throw new ServiceException(sprintf('Domain «%s» not found', $domain));
         }
     }
 }
