@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1e3dddf2a641c32848c2f070d271eaaf",
+    "packages": [
+        {
+            "name": "andrey-cheburaev/package-otus-hw3",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AndreyCheburaev/package-otus-hw3.git",
+                "reference": "a7bb58ac1ad8972a941d87006b8ec60fdd5940c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AndreyCheburaev/package-otus-hw3/zipball/a7bb58ac1ad8972a941d87006b8ec60fdd5940c5",
+                "reference": "a7bb58ac1ad8972a941d87006b8ec60fdd5940c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AndreyCheburaev\\PackageOtusHw3\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "andrey",
+                    "email": "andruxa1992a@yandex.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/AndreyCheburaev/package-otus-hw3/issues",
+                "source": "https://github.com/AndreyCheburaev/package-otus-hw3/tree/v1.0.1"
+            },
+            "time": "2022-11-21T21:25:44+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
