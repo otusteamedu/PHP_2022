@@ -4,6 +4,13 @@ declare(strict_types = 1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-$service = new Veraadzhieva\Hw5\Service\EmailValidator();
-$app = new Veraadzhieva\Hw5\Emails($service);
-$app->run();
+$emails = [
+    'v.adzhieva@mail.ru',
+    'vvv.vvv.@vvv.vv',
+    'otus@otus.otus',
+    'rose@gmail.com',
+    'yandex123@yandex.ru'
+];
+
+$email_verification = new Veraadzhieva\Hw5\Emails();
+$email_verification->getEmails($emails);
