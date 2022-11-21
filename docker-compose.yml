@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile
     image: myapp/nginx
     volumes:
-      - ./:/app
+      - ./code:/app
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - sail
@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
     image: myapp/nginx
     volumes:
-      - ./:/app
+      - ./code:/app
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - sail
@@ -45,7 +45,7 @@ services:
       dockerfile: Dockerfile
     image: myapp/php
     volumes:
-      - ./:/app
+      - ./code:/app
       - ./docker/php/conf.d:/usr/local/etc/php/conf.d
     env_file:
       - .env
@@ -58,7 +58,7 @@ services:
       dockerfile: Dockerfile
     image: myapp/php
     volumes:
-      - ./:/app
+      - ./code:/app
       - ./docker/php/conf.d:/usr/local/etc/php/conf.d
     env_file:
       - .env
@@ -71,7 +71,7 @@ services:
       dockerfile: Dockerfile
     image: myapp/php
     volumes:
-      - ./:/app
+      - ./code:/app
       - ./docker/php/conf.d:/usr/local/etc/php/conf.d
     env_file:
       - .env
