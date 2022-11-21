@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - ./:/var/www/application.local
+    networks:
+      - network
+  php-fpm:
+    build: ./docker/php-fpm
+    volumes:
+      - ./:/var/www/application.local
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
