@@ -1,0 +1,25 @@
+{
+    "name": "otus/hw11",
+    "description": "HW11 Redis",
+    "type": "project",
+    "authors": [
+        {
+            "name": "I.Tsyganok",
+            "email": "ciganokigor@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "ext-memcached": "*",
+        "league/route": "^5.1",
+        "laminas/laminas-diactoros": "^2.9",
+        "laminas/laminas-httphandlerrunner": "^2.1",
+        "predis/predis": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\App\\": "src/"
+        }
+    }
+}
