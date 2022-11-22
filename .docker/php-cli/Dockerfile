@@ -4,4 +4,6 @@ FROM php:${PHP_VERSION}-cli-alpine
 
 COPY ./php-cli/conf.d /usr/local/etc/php/conf.d
 
+RUN docker-php-ext-install sockets
+
 WORKDIR /app
