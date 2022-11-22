@@ -1,6 +1,6 @@
-/.idea
-/.vscode
-/vendor
-/node_modules
+.idea
 .env
-*.log
+db/
+data/
+socket/
+/vendor/
