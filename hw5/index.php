@@ -13,4 +13,4 @@ $emails = [
 ];
 
 $email_verification = new Veraadzhieva\Hw5\Emails();
-$email_verification->getEmails($emails);
+print_r($email_verification->getEmails($emails));

@@ -23,6 +23,6 @@ class Emails
                 array_push($newEmails, $email);
             }
         }
-        print_r($newEmails);
+        return $newEmails;
     }
 }
