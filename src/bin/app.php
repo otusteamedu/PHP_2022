@@ -5,4 +5,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->run();
+try {
+    $app->run();
+} catch (Exception $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
