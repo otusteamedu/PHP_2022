@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Otus\App\Entity;
 
+use Otus\App\Core\BookDTO;
+
 class Book
 {
     private string $sku;
@@ -13,12 +15,12 @@ class Book
 
     private array $stocks;
 
-    public function __construct(string $sku, string $title, string $category, int $price)
+    public function __construct(BookDTO $book_dto)
     {
-        $this->sku = $sku;
-        $this->title = $title;
-        $this->category = $category;
-        $this->price = $price;
+        $this->sku = $book_dto->sku;
+        $this->title = $book_dto->title;
+        $this->category = $book_dto->category;
+        $this->price = $book_dto->price;
     }
 
     public function addStock(Stock $stock): void

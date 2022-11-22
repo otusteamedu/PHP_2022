@@ -32,10 +32,12 @@ class ElasticClient implements RepositoryInterface
         $preparedResult = [];
         foreach ($result as $bookInfo) {
             $book = new Book(
-                $bookInfo['_source']['sku'],
-                $bookInfo['_source']['title'],
-                $bookInfo['_source']['category'],
-                $bookInfo['_source']['price']
+                book_dto: new BookDTO(
+                    sku: $bookInfo['_source']['sku'],
+                    title: $bookInfo['_source']['title'],
+                    category: $bookInfo['_source']['category'],
+                    price: $bookInfo['_source']['price']
+                )
             );
             foreach ($bookInfo['_source']['stock'] as $stockInfo) {
                 $book->addStock(new Stock($stockInfo['shop'], $stockInfo['stock']));
