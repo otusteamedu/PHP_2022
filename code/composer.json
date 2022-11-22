@@ -1,0 +1,16 @@
+{
+    "name": "nikcrazy37/hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nikcrazy37\\Hw5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nikcrazy37",
+            "email": "nik_crazy@bk.ru"
+        }
+    ],
+    "require": {}
+}
