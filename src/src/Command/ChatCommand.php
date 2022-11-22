@@ -59,9 +59,9 @@ class ChatCommand implements CommandInterface
             $message = readline($this->mode . ": ");
 
             if ($message && $message !== 'exit')
-                ChatSocket::sendMessage($socket, $message, $this->socketFullPath);
+                ChatSocket::sendMessage($socket, $message, $this->getOtherSideFullPath());
 
-            $answer = ChatSocket::getMessage($socket, $this->getOtherSideFullPath());
+            $answer = ChatSocket::getMessage($socket);
 
             if ($answer)
                 echo $this->getOtherSide() . ': ' . $answer . PHP_EOL;
