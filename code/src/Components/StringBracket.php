@@ -1,9 +1,9 @@
 <?php
 
-namespace Classes;
+namespace Kopte\Code\Components;
 
-use Classes\Exceptions\EmptyStringException;
-use Classes\Exceptions\WrongBracketsException;
+use Kopte\Code\Exceptions\EmptyStringException;
+use Kopte\Code\Exceptions\WrongBracketsException;
 
 class StringBracket
 {

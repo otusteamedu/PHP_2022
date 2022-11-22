@@ -1,11 +1,12 @@
 <?php
 
-namespace Classes;
+namespace Kopte\Code\Components;
 
 class Request
 {
     private array $get;
     private array $post;
+    private array $server;
 
     /**
      * Request constructor
@@ -14,6 +15,7 @@ class Request
     {
         $this->get = $this->cleanInput($_GET);
         $this->post = $this->cleanInput($_POST);
+        $this->server = $this->cleanInput($_SERVER);
     }
 
     /**
@@ -43,6 +45,19 @@ class Request
     }
 
     /**
+     * Get one SERVER parameter or all POST parameters.
+     *
+     * @param string|null $name
+     * @return array|mixed|string|null
+     */
+    public function server(?string $name)
+    {
+        return empty($name)
+            ? $this->server
+            : ($this->server[$name] ?? null);
+    }
+
+    /**
      * Clean input params.
      *
      * @param mixed $data
@@ -61,5 +76,21 @@ class Request
         }
 
         return trim(htmlspecialchars($data, ENT_QUOTES));
+    }
+
+    /**
+     * @return string
+     */
+    public function method(): string
+    {
+        return $this->server('REQUEST_METHOD');
+    }
+
+    /**
+     * @return string
+     */
+    public function uri(): string
+    {
+        return $this->server('REQUEST_URI');
     }
 }

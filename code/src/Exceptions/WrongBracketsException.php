@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes\Exceptions;
+namespace Kopte\Code\Exceptions;
 
 use Exception;
 
