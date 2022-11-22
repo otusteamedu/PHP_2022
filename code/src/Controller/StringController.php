@@ -8,16 +8,23 @@ use Nikcrazy37\Hw4\Model\Stringer;
 
 class StringController
 {
+    /**
+     * @return void
+     */
     public function index()
     {
-        require_once "src/view/string/index.php";
+        require_once ROOT . "/src/view/string/index.php";
     }
 
+    /**
+     * @return void
+     * @throws \Exception
+     */
     public function check()
     {
         if ($string = $_POST["string"]) {
             try {
-                Stringer::isCorrect($string);
+                Stringer::validate($string);
             } catch (\Exception $e) {
                 http_response_code($e->getCode());
                 print_r($e->getMessage());

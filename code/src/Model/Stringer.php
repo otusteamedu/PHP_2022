@@ -13,7 +13,7 @@ class Stringer
      * @return mixed
      * @throws Exception
      */
-    public static function isCorrect($string)
+    public static function validate($string)
     {
         if (empty($string)) {
             throw new Exception('[ERROR] Empty string. Enter string value!', 400);

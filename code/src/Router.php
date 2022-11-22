@@ -11,19 +11,7 @@ class Router
 
     public function __construct()
     {
-        $routesPath = ROOT . '/config/routes.php';
-        $this->routes = include($routesPath);
-    }
-
-    private function getUri()
-    {
-        if (!empty($_SERVER['REQUEST_URI'])) {
-            return trim($_SERVER['REQUEST_URI'], '/');
-        }
-    }
-
-    public function run()
-    {
+        $this->includeRoutes();
         $uri = $this->getUri();
 
         foreach ($this->routes as $uriPattern => $path) {
@@ -44,6 +32,25 @@ class Router
                     break;
                 }
             }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function includeRoutes()
+    {
+        $routesPath = ROOT . '/config/routes.php';
+        $this->routes = include($routesPath);
+    }
+
+    /**
+     * @return string|void
+     */
+    private function getUri()
+    {
+        if (!empty($_SERVER['REQUEST_URI'])) {
+            return trim($_SERVER['REQUEST_URI'], '/');
         }
     }
 }
