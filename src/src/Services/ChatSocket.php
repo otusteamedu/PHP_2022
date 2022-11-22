@@ -26,7 +26,7 @@ class ChatSocket
     /**
      * @throws Exception
      */
-    public static function getMessage(Socket $socket, $from): ?string
+    public static function getMessage(Socket $socket): ?string
     {
         if (!socket_set_block($socket))
             throw new Exception('Unable to set blocking mode for socket');
