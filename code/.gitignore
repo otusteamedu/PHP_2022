@@ -1,2 +1,9 @@
-/vendor/
+# PHPStorm files
+*.iml
+.idea
+/out/
+/import/
+
+#Project files
+vendor
 .env

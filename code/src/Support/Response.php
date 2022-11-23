@@ -20,7 +20,7 @@ class Response
      * @param mixed $data
      * @return void
      */
-    public function ok($data)
+    public function ok($data = null)
     {
         $this->statusCode = 200;
 
@@ -33,9 +33,22 @@ class Response
      * @param mixed $data
      * @return void
      */
-    public function badRequest($data)
+    public function badRequest($data = null)
     {
         $this->statusCode = 400;
+
+        $this->data = $data;
+    }
+
+    /**
+     * Send "Unprocessable" response.
+     *
+     * @param mixed $data
+     * @return void
+     */
+    public function unprocessable($data = null)
+    {
+        $this->statusCode = 422;
 
         $this->data = $data;
     }
@@ -52,6 +65,8 @@ class Response
 
     public function __toString(): ?string
     {
+        header('Content-Type', 'application/json');
+
         http_response_code($this->statusCode);
 
         return is_array($this->data) || is_object($this->data)

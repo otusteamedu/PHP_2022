@@ -1,6 +1,6 @@
 <?php
 
+use Koptev\Controllers\VerificationController;
 use Koptev\Support\Route;
-use Koptev\Controllers\StringController;
 
-Route::post('/', [StringController::class, 'verify']);
+Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);

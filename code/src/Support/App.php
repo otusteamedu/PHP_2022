@@ -3,6 +3,7 @@
 namespace Koptev\Support;
 
 use Koptev\Exceptions\NotFoundException;
+use Throwable;
 
 class App
 {
@@ -32,6 +33,8 @@ class App
             $response->notFound();
 
             return $response;
+        } catch (Throwable $e) {
+//            echo get_cla$e;
         }
     }
 }
