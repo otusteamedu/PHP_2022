@@ -18,11 +18,13 @@ class EmailController
         if ($email = $_POST["email"]) {
             try {
                 $validator = new EmailValidator($email);
-                $validator->validate();
+                $result = $validator->validate();
             } catch (\Exception $e) {
                 http_response_code($e->getCode());
-                print_r($e->getMessage());
+                $result = $e->getMessage();
             }
+
+            require_once ROOT . "/src/view/email/result.php";
         }
 
     }

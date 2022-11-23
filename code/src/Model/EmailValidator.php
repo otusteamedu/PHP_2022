@@ -32,7 +32,7 @@ class EmailValidator
             throw new Exception('[ERROR] Incorrect email mx record!');
         }
 
-        throw new Exception('[SUCCESS] Correct email!');
+        return "[SUCCESS] Correct email!";
     }
 
     /**
