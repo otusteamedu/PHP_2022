@@ -65,19 +65,44 @@ create table "order"
 alter table "order"
     owner to "user";
 
+create table seat
+(
+    id      serial
+        constraint seat_pk
+            primary key,
+    row     integer not null,
+    number  integer not null,
+    hall_id integer not null
+        constraint seat_hall_id_fk
+            references hall
+);
+
+alter table seat
+    owner to "user";
+
 create table ticket
 (
     id         serial
         constraint ticket_pk
             primary key,
-    order_id   integer not null
+    order_id   integer          not null
         constraint ticket_order_id_fk
             references "order",
-    session_id integer not null
+    session_id integer          not null
         constraint ticket_session_id_fk
-            references session
+            references session,
+    price      double precision not null,
+    seat_id    integer          not null
+        constraint ticket_seat_id_fk
+            references seat
 );
 
 alter table ticket
     owner to "user";
+
+create unique index ticket_session_id_seat_id_uindex
+    on ticket (session_id, seat_id);
+
+create unique index seat_row_number_hall_id_uindex
+    on seat (row, number, hall_id);
 
