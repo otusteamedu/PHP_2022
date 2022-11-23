@@ -16,3 +16,9 @@ composer-install:
 
 composer-update:
 	${DOCKER_COMPOSE} run --rm composer composer update
+
+start-server:
+	${DOCKER_COMPOSE} run --rm php-cli php bin/app.php server
+
+start-client:
+	${DOCKER_COMPOSE} run --rm php-cli php bin/app.php client
