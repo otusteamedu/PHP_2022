@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Command\ClientCommand;
 use App\Command\CommandInterface;
 use App\Command\ListCommand;
-use App\Command\ChatCommand;
+use App\Command\ServerCommand;
 use Exception;
 
 class Application
@@ -53,8 +54,8 @@ class Application
     private function findCommand(string $commandName): CommandInterface
     {
         return match ($commandName) {
-            'server' => new ChatCommand(ChatCommand::MODE_SERVER, $this->socketDir),
-            'client' => new ChatCommand(ChatCommand::MODE_CLIENT, $this->socketDir),
+            'server' => new ServerCommand($this->socketDir),
+            'client' => new ClientCommand($this->socketDir),
             default => new ListCommand(),
         };
     }
