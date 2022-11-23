@@ -20,7 +20,7 @@ class ChatSocket
         $bytes_sent = socket_sendto($socket, $message, mb_strlen($message), 0, $to);
 
         if ($bytes_sent == -1)
-            throw new Exception('An error occured while sending to the socket');
+            throw new Exception('An error occurred while sending to the socket');
     }
 
     /**
@@ -36,7 +36,7 @@ class ChatSocket
         $bytes_received = socket_recvfrom($socket, $message, 65536, 0, $from);
 
         if ($bytes_received == -1)
-            throw new Exception('An error occured while receiving from the socket');
+            throw new Exception('An error occurred while receiving from the socket');
 
         return $message;
     }
