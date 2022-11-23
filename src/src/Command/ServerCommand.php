@@ -33,6 +33,8 @@ class ServerCommand implements CommandInterface
     {
         $socket = SocketFactory::create($this->socketFullPath);
 
+        echo "Waiting for messages..." . PHP_EOL;
+
         do {
             $message = ChatSocket::getMessage($socket);
 
