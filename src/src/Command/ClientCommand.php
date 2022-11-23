@@ -34,19 +34,21 @@ class ClientCommand implements CommandInterface
         $socket = SocketFactory::create($this->socketFullPath);
 
         echo "Type 'exit' to stop server & exit" . PHP_EOL;
+        if (!socket_connect($socket, $this->getOtherSideFullPath()))
+            echo 'First start the server' . PHP_EOL;
+        else
+            do {
+                $message = readline(self::SOCKET_NAME . ": ");
 
-        do {
-            $message = readline(self::SOCKET_NAME . ": ");
+                if ($message)
+                    ChatSocket::sendMessage($socket, $message, $this->getOtherSideFullPath());
 
-            if ($message)
-                ChatSocket::sendMessage($socket, $message, $this->getOtherSideFullPath());
+                $answer = ChatSocket::getMessage($socket);
 
-            $answer = ChatSocket::getMessage($socket);
+                if ($answer)
+                    echo ServerCommand::SOCKET_NAME . ': ' . $answer . PHP_EOL;
 
-            if ($answer)
-                echo ServerCommand::SOCKET_NAME . ': ' . $answer . PHP_EOL;
-
-        } while ($message !== 'exit');
+            } while ($message !== 'exit');
 
         socket_close($socket);
     }
