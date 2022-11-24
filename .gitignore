@@ -1,0 +1,6 @@
+.idea/
+.env
+.git
+/vendor/
+code/vendor/
+
