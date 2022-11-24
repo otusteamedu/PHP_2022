@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-require "./Services/EmailValidator.php";
+use Services\EmailValidator;
+
+require "../src/Services/EmailValidator.php";
 
 $emails = [
     'bobby@notexistsdomainqwerty.com',

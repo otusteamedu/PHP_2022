@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Services;
+
 class EmailValidator
 {
     public static function validate(string $email): bool
