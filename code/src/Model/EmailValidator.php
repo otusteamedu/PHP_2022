@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw5\Model;
 
-use \Exception;
+use Nikcrazy37\Hw5\Exception\EmailValidateException;
 
 class EmailValidator
 {
@@ -17,19 +17,19 @@ class EmailValidator
     }
 
     /**
-     * @return mixed
-     * @throws Exception
+     * @return string
+     * @throws EmailValidateException
      */
-    public function validate()
+    public function validate(): string
     {
         $this->prepareParam();
 
         if (!$this->validateName()) {
-            throw new Exception('[ERROR] Incorrect email name!');
+            throw new EmailValidateException('[ERROR] Incorrect email name!');
         }
 
         if (!$this->validateMx()) {
-            throw new Exception('[ERROR] Incorrect email mx record!');
+            throw new EmailValidateException('[ERROR] Incorrect email mx record!');
         }
 
         return "[SUCCESS] Correct email!";
@@ -37,7 +37,7 @@ class EmailValidator
 
     /**
      * @return void
-     * @throws Exception
+     * @throws EmailValidateException
      */
     private function prepareParam()
     {
@@ -48,14 +48,14 @@ class EmailValidator
 
     /**
      * @return array
-     * @throws Exception
+     * @throws EmailValidateException
      */
     private function getDomain(): array
     {
         $arExpEmail = $domain = array();
         foreach ($this->email as $email) {
             if (stripos($email, "@") === false) {
-                throw new Exception('[ERROR] One of the values is not email!');
+                throw new EmailValidateException('[ERROR] One of the values is not email!');
             }
 
             $arExpEmail[] = explode("@", $email);

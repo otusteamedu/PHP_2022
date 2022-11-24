@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw5;
 
+use Nikcrazy37\Hw5\Exception\AppException;
+use Nikcrazy37\Hw5\Exception\ControllerException;
+use Nikcrazy37\Hw5\Exception\FileNotFoundException;
+
 class Router
 {
     private $routes;
     const controllerNamespace = 'Nikcrazy37\Hw5\Controller\\';
 
+    /**
+     * @throws FileNotFoundException
+     * @throws AppException
+     */
     public function __construct()
     {
         $this->includeRoutes();
@@ -24,12 +32,15 @@ class Router
 
                 $controllerObjectPath = self::controllerNamespace . $controllerName;
 
-                $controllerObject = new $controllerObjectPath;
+                try {
+                    $controllerObject = new $controllerObjectPath;
+                    $result = $controllerObject->$actionName();
 
-                $result = $controllerObject->$actionName();
-
-                if ($result != null) {
-                    break;
+                    if ($result != null) {
+                        break;
+                    }
+                } catch (ControllerException $e) {
+                    throw new AppException($e->getMessage(), 400, $e);
                 }
             }
         }
@@ -37,10 +48,15 @@ class Router
 
     /**
      * @return void
+     * @throws FileNotFoundException
      */
     private function includeRoutes()
     {
         $routesPath = ROOT . '/config/routes.php';
+        if (!file_exists($routesPath)) {
+            throw new FileNotFoundException();
+        }
+
         $this->routes = include($routesPath);
     }
 

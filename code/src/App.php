@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw5;
 
-use Nikcrazy37\Hw5\Router;
+use Nikcrazy37\Hw5\Exception\AppException;
 
 class App
 {
@@ -15,7 +15,7 @@ class App
     {
         try {
             new Router();
-        } catch (\Exception $e) {
+        } catch (AppException $e) {
             http_response_code($e->getCode());
             print_r($e->getMessage());
         }
