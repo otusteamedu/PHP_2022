@@ -36,6 +36,16 @@ services:
     networks:
       - app-network
 
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    restart: always
+    command: -m 128
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
