@@ -1,0 +1,10 @@
+{
+    "name": "a-tolmachev/my-app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "ATolmachev\\MyApp\\": "src/"
+        }
+    },
+    "require": {}
+}
