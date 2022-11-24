@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: webserver
+    image: balance/server
+    volumes:
+      - "./src:/src"
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  fpm-1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: fpm-1
+    image: balance/fpm
+    volumes:
+      - "./src:/src"
+    networks:
+      - app-network
+
+  fpm-2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: fpm-2
+    image: balance/fpm
+    volumes:
+      - "./src:/src"
+    networks:
+      - app-network
+
+  fpm-3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: fpm-3
+    image: balance/fpm
+    volumes:
+      - "./src:/src"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
