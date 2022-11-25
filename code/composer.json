@@ -1,0 +1,17 @@
+{
+    "name": "pinguk/chat",
+    "description": "My chat on sockets",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Pinguk\\Chat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "pingachguk",
+            "email": "imayakimov@gmail.com"
+        }
+    ],
+    "require": {}
+}

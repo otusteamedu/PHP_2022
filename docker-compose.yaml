@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  server:
+    image: php:8.1-cli
+    build:
+      context: ./code
+      dockerfile: Dockerfile
+    container_name: server-chat
+    command: php app.php server
+    volumes:
+      - "./code:/code"
+
+  client:
+    image: php:8.1-cli
+    build:
+      context: ./code
+      dockerfile: Dockerfile
+    container_name: client-chat
+    command: php app.php client
+    volumes:
+      - "./code:/code"
+    depends_on:
+      - server
