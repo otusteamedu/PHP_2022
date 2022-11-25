@@ -7,22 +7,30 @@ CREATE TABLE films
     PRIMARY KEY (`id`),
 );
 
+CREATE TABLE `halls`
+(
+    `id`     INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `number` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `places`
 (
-    `id`          INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
-    `number`      INT UNSIGNED NOT NULL,
-    `hall_number` INT UNSIGNED NOT NULL,
-    `markup`      DECIMAL(8, 2) NOT NULL,
-    PRIMARY KEY (`id`)
+    `id`      INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `number`  INT UNSIGNED NOT NULL,
+    `hall_id` INT UNSIGNED NOT NULL,
+    `markup`  DECIMAL(8, 2) NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `place_session_place_id_foreign`
+        FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
 );
 
 CREATE TABLE `sessions`
 (
-    `id`     INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
-    `from`   TIMESTAMP     NOT NULL,
-    `to`     TIMESTAMP     NOT NULL,
-    `markup` DECIMAL(8, 2) NOT NULL,
+    `id`         INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `from`       TIMESTAMP     NOT NULL,
+    `to`         TIMESTAMP     NOT NULL,
+    `markup`     DECIMAL(8, 2) NOT NULL,
     `deleted_at` TIMESTAMP,
     PRIMARY KEY (`id`)
 );
@@ -38,14 +46,14 @@ CREATE TABLE `film_session`
         FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE `place_session`
+CREATE TABLE `hall_session`
 (
-    `place_id`   INT UNSIGNED NOT NULL,
+    `hall_id`   INT UNSIGNED NOT NULL,
     `session_id` INT UNSIGNED NOT NULL,
-    PRIMARY KEY (`place_id`, `session_id`),
-    CONSTRAINT `place_session_place_id_foreign`
-        FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT `place_session_session_id_foreign`
+    PRIMARY KEY (`hall_id`, `session_id`),
+    CONSTRAINT `hall_session_hall_id_foreign`
+        FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `hall_session_session_id_foreign`
         FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -64,7 +72,7 @@ CREATE TABLE `orders`
     `place_id`    INT UNSIGNED,
     `user_id`     INT UNSIGNED,
     `final_price` DECIMAL UNSIGNED NOT NULL,
-    `refund_at` TIMESTAMP,
+    `refund_at`   TIMESTAMP,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`film_id`) REFERENCES `films` (`id`) ON UPDATE CASCADE ON DELETE SET NULL,
     FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON UPDATE CASCADE ON DELETE SET NULL,
