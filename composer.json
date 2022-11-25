@@ -1,0 +1,16 @@
+{
+    "name": "pinguk/validator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Pinguk\\Validator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "pingachguk",
+            "email": "imayakimov@gmail.com"
+        }
+    ],
+    "require": {}
+}

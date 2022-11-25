@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types=1);
+require '../vendor/autoload.php';
 
-use Services\EmailValidator;
+use Pinguk\Validator\Services\EmailValidator;
 
-require "../src/Services/EmailValidator.php";
+const BAD_STRING = 'Эл. почта некорректная. Пример корректной: andrew@mail.ru';
+const BAD_MX_RECORD = 'Некорректная MX-запись';
 
 $emails = [
     'bobby@notexistsdomainqwerty.com',
@@ -13,5 +14,17 @@ $emails = [
 ];
 
 foreach ($emails as $email) {
-    echo EmailValidator::validate($email) ? '[OK] '.$email.PHP_EOL : '[BAD] '.$email.PHP_EOL;
+    $isValidString = EmailValidator::validateString($email);
+    if (!$isValidString) {
+        echo '[BAD] '.$email.'. Причина: '.BAD_STRING.PHP_EOL;
+        continue;
+    }
+
+    $isValidMXRecord = EmailValidator::validateMXRecord($email);
+    if (!$isValidMXRecord) {
+        echo '[BAD] '.$email.'. Причина: '.BAD_MX_RECORD.PHP_EOL;
+        continue;
+    }
+
+    echo '[OK] '.$email.PHP_EOL;
 }

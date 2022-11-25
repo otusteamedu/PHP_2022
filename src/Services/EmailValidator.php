@@ -2,23 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Services;
+namespace Pinguk\Validator\Services;
 
 class EmailValidator
 {
-    public static function validate(string $email): bool
+    public static function validateString(string $email): bool
     {
-        $isValidString = preg_match('/^([A-Za-z0-9]+\@[A-Za-z]+\.[A-Za-z]+)$/', $email);
+        return !!preg_match('/^([A-Za-z0-9]+@[A-Za-z]+\.[A-Za-z]+)$/', $email);
+    }
 
-        if ($isValidString) {
-            $hostname = explode('@', $email)[1];
-            getmxrr($hostname, $hosts, $weights);
+    public static function validateMXRecord(string $email): bool
+    {
+        $hostname = explode('@', $email)[1];
+        getmxrr($hostname, $hosts, $weights);
 
-            if (isset($hosts) && !empty($hosts)) {
-                return true;
-            }
-        }
-
-        return false;
+        return isset($hosts) && !empty($hosts);
     }
 }
