@@ -20,14 +20,13 @@ class App
         }
     }
 
-    public function run(): void
+    public function run(): string
     {
         try {
             $response = (new ParenthesesCheckerController($this->components))->actionIndex();
+            return $this->components['response']->reply($response);
         } catch (HttpException $e) {
-            $this->components['response']->handleHttpError($e);
-            exit();
+            return $this->components['response']->handleHttpError($e);
         }
-        $this->components['response']->reply($response);
     }
 }

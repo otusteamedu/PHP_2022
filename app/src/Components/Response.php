@@ -10,14 +10,14 @@ use ATolmachev\MyApp\Base\HttpException;
 
 class Response
 {
-    public function handleHttpError(HttpException $exception): void
+    public function handleHttpError(HttpException $exception): string
     {
         \http_response_code($exception->statusCode);
-        echo "Ошибка! {$exception->getMessage()}";
+        return "Ошибка! {$exception->getMessage()}";
     }
 
-    public function reply(string $response): void
+    public function reply(string $response): string
     {
-        echo $response;
+        return $response;
     }
 }

@@ -1,8 +1,6 @@
 FROM nginx:latest
 
-COPY ./hosts/application.local.conf /etc/nginx/conf.d/application.local.conf
-
-WORKDIR /data  
+WORKDIR /data
 
 VOLUME /data  
 

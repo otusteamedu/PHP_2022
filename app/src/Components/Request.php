@@ -15,7 +15,7 @@ class Request
 
     public function post(string $name)
     {
-        if ($_POST && isset($_POST[$name])) {
+        if (isset($_POST[$name])) {
             return $_POST[$name];
         }
         return null;
