@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp
+    container_name: server
+    volumes:
+      - ./src:/data
+    networks:
+      - app-network
+    command: "php app.php server"
+
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp
+    container_name: client
+    volumes:
+      - ./src:/data
+    networks:
+      - app-network
+    command: "php app.php client"
+    stdin_open: true
+
+
+networks:
+  app-network:
+    driver: bridge
