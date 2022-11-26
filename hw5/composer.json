@@ -1,0 +1,16 @@
+{
+    "name": "veraadzhieva/hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Veraadzhieva\\Hw5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vera Adzhieva",
+            "email": "vera.adzhieva3003@mail.ru"
+        }
+    ],
+    "require": {}
+}
