@@ -1,0 +1,69 @@
+version: '3'
+
+networks:
+  internal:
+
+services:
+  nginx:
+    image: nginx:latest
+    environment:
+      - VIRTUAL_HOST=site.local
+    volumes:
+      - ./:/var/www
+      - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - '8181:80'
+    depends_on:
+      - app
+    container_name: php_2022_nginx
+    networks:
+      - internal
+
+  app:
+    build:
+      context: .
+      dockerfile: _docker/app/Dockerfile
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+      - redis
+      - memcache
+    container_name: php_2022_app
+    networks:
+      - internal
+
+  db:
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '8122:3306'
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    container_name: php_2022_db
+    networks:
+      - internal
+
+  redis:
+    image: redis:alpine
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - internal
+
+  memcache:
+    image: memcached:alpine
+    restart: always
+    ports:
+      - '11211:11211'
+    networks:
+      - internal
