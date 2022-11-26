@@ -14,6 +14,6 @@ foreach ($emails as $email) {
     $validation = EmailValidator::validate($email);
 
     if (!$validation->isValid) {
-        echo 'Некорректная эл. почта: '.$email;
+        echo 'Некорректная эл. почта: '.$email.PHP_EOL;
     }
 }
