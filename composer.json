@@ -9,6 +9,9 @@
     "require": {
         "psr/http-message": "^1.0",
         "psr/http-factory": "^1.0",
-        "psr/http-server-middleware": "^1.0"
+        "psr/http-server-middleware": "^1.0",
+      "ext-pdo": "*",
+        "ext-redis": "*",
+        "ext-memcache": "*"
     }
 }
