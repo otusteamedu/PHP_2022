@@ -1,38 +1,13 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hello page</title>
-</head>
-<body>
-    <h2>Hi, user!</h2>
 <?php
-echo '<p>PHP works</p>';
-echo '<p>Кириллица выводится корректно</p>';
-echo '<p>Тест БД</p>';
-// проверка подключения к БД
-$dsn = 'pgsql:dbname=app;host=db';
-$user = 'app';
-$password = 'app';
 
-$dbh = new PDO($dsn, $user, $password);
-$x = $dbh->query('SELECT datname FROM pg_database;')->fetchAll();
-echo '<pre>';
-var_dump($x);
-echo '</pre>';
+declare(strict_types=1);
 
-// проверка подключения к Redis
-$redis = new Redis();
-$redis->connect('redis');
-echo '<p>Redis сервер работает: ' . $redis->ping() . '</p>';
+require_once '../vendor/autoload.php';
 
-$memcache = new Memcache;
-$memcache->connect('memcache', 11211) or die ('Не удается подключиться к Memcache');
-$version = $memcache->getVersion();
-echo "<p>Подключение к Memcache успешно. Версия " . $version . "</p>";
-?>
-</body>
-</html>
+$app = new \App\App();
+
+// Добавляем миддлвару, которая проверяет корректность поля со скобками
+$app->add(new \App\App\Middleware\ValidateStringFieldMiddleware());
+
+$request = \App\Infrastructure\Http\ServerRequest::createFromGlobals();
+$app->run($request);
