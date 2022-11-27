@@ -300,7 +300,7 @@ class AbstractMessage implements MessageInterface
                 );
             }
 
-            if (!preg_match('/^[\x09\x20-\x7e\x80-\xff]+$/', $value)) {
+            if (!preg_match('/^[\x09\x20-\x7e\x80-\xff]*$/', $value)) {
                 throw new \InvalidArgumentException(
                     sprintf(
                         'Header "%s" contains invalid value "%s".',
