@@ -18,10 +18,12 @@ class StorageController
     {
         $config = App::getConfig();
 
+        if ($config == false) {
+            throw new \RuntimeException('File config.php not found');
+        }
+
         if (!isset($config['repository']['storage'])) {
-            throw new \RuntimeException(
-                'No storage was chosen. Check config.php.'
-            );
+            throw new \RuntimeException('No storage was chosen. Check config.php.');
         }
 
         switch ($config['repository']['storage']) {

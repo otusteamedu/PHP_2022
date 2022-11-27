@@ -8,13 +8,14 @@ use Laminas\Diactoros\Response;
 use Otus\App\Viewer\Result;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Otus\App\App;
 
 class DeleteEventsController
 {
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $repository = new RepositoryController();
-        $response   = new Response();
+        $repository = App::getRepositoryController();
+        $response   = App::getResponse();
 
         if ($repository->deleteEvents()) {
             $response->getBody()->write(Result::EVENTS_DELETED_MESSAGE);

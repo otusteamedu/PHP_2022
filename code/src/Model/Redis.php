@@ -8,6 +8,7 @@ use JsonException;
 use Otus\App\App;
 use Otus\App\Interfaces\StorageInterface;
 use Predis\Client;
+use Otus\App\Model\MyExceptions;
 
 class Redis implements StorageInterface
 {
@@ -23,6 +24,7 @@ class Redis implements StorageInterface
             'port'     => $config['repository']['redis_port'],
             'password' => $config['repository']['redis_pass']
         ]);
+
     }
 
     public function saveEvent(Event $event): bool

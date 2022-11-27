@@ -9,8 +9,6 @@ use Otus\App\App;
 use Memcached as Client;
 use Otus\App\Interfaces\StorageInterface;
 
-
-
 class Memcached implements StorageInterface
 {
     protected Client $memcached;

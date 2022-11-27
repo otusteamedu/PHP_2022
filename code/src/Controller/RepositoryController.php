@@ -7,7 +7,6 @@ namespace Otus\App\Controller;
 use JsonException;
 use Otus\App\Model\Repository;
 
-
 class RepositoryController
 {
     protected Repository $repository;

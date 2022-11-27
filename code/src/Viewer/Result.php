@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Otus\App\Viewer;
 
+use Otus\App\Model\MyExceptions;
+
 class Result
 {
     public const EVENT_ADDED_MESSAGE        = 'Event successfully saved.';
@@ -29,10 +31,8 @@ class Result
 
     protected static function showMessage(string $message = ''): void
     {
-        if ($message) {
-            header(self::JSON_HEADER_NAME . ': ' . self::JSON_HEADER_VALUE);
-            echo $message;
-        }
+        header(self::JSON_HEADER_NAME . ': ' . self::JSON_HEADER_VALUE);
+        echo $message;
     }
 
     protected static function failureResponseCode(): void

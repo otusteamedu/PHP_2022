@@ -9,13 +9,14 @@ use Laminas\Diactoros\Response;
 use Otus\App\Viewer\Result;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Otus\App\App;
 
 class AddEventController
 {
     public function __invoke(ServerRequestInterface $request, array $args): ResponseInterface
     {
-        $repository = new RepositoryController();
-        $response   = new Response();
+        $repository = App::getRepositoryController();
+        $response   = App::getResponse();
 
         if ($repository->saveEvent($args['event'])) {
             $response->getBody()->write(Result::EVENT_ADDED_MESSAGE);

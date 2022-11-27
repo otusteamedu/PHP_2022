@@ -75,9 +75,4 @@ class Event
         ]);
     }
 
-    public function getConditionsForMemcached(): string
-    {
-        return json_encode(value: ['conditions' => $this->conditions]);
-    }
-
 }

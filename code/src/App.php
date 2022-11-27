@@ -11,6 +11,9 @@ use Otus\App\Controller\AddEventController;
 use Otus\App\Controller\DeleteEventsController;
 use Otus\App\Controller\GetEventsController;
 use Otus\App\Viewer\Result;
+use Laminas\Diactoros\Response;
+use Otus\App\Controller\RepositoryController;
+use JsonException;
 
 class App
 {
@@ -34,6 +37,23 @@ class App
 
     public static function getConfig()
     {
-        return include('Config/config.php');
+        $file = __DIR__ . '/Config/config.php';
+
+        if (!file_exists($file)) {
+            return false;
+        } else {
+            return include('Config/config.php');
+        }
     }
+
+    public static function getResponse(): Response
+    {
+        return new Response();
+    }
+
+    public static function getRepositoryController(): RepositoryController
+    {
+        return new RepositoryController();
+    }
+
 }
