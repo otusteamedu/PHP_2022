@@ -4,6 +4,8 @@ use App\App;
 
 require_once('vendor/autoload.php');
 
+const APP_DIR = __DIR__;
+
 try {
     $app = new App();
     $app->run($argv);

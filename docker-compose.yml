@@ -1,17 +1,21 @@
 version: '3'
 services:
   php-server:
-    image: 'php:cli'
+    tty: true
+    image: 'php:8.1-alpine'
     container_name: amarkhay_server
     volumes:
       - .:/var/www/app
-    command: 'php /var/www/app/app.php server'
+    working_dir: /var/www/app/
+#    command: 'php /var/www/app/app.php server'
 
   php-client:
-    image: 'php:cli'
+    tty: true
+    image: 'php:8.1-alpine'
     container_name: amarkhay_client
     volumes:
       - .:/var/www/app
-    command: 'php /var/www/app/app.php client'
+    working_dir: /var/www/app/
+#    command: 'php /var/www/app/app.php client'
     depends_on:
       - php-server
