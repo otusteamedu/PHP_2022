@@ -7,6 +7,7 @@ class Request
     private array $get;
     private array $post;
     private array $server;
+    private Route $route;
 
     /**
      * Request constructor
@@ -16,6 +17,8 @@ class Request
         $this->get = $this->cleanInput($_GET);
         $this->post = $this->cleanInput($_POST);
         $this->server = $this->cleanInput($_SERVER);
+
+        $this->route = Route::instance();
     }
 
     /**
@@ -92,5 +95,29 @@ class Request
     public function uri(): string
     {
         return $this->server('REQUEST_URI');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMethodGet(): bool
+    {
+        return $this->method() === 'GET';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMethodPost(): bool
+    {
+        return $this->method() === 'POST';
+    }
+
+    /**
+     * @return Route
+     */
+    public function route(): Route
+    {
+        return $this->route;
     }
 }

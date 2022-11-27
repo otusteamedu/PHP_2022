@@ -2,12 +2,30 @@
 
 namespace Koptev\Support;
 
+use Koptev\Exceptions\MethodNotAllowedException;
 use Koptev\Exceptions\NotFoundException;
 
 class Route
 {
-    private static array $get = [];
-    private static array $post = [];
+    protected array $get = [];
+    protected array $post = [];
+    private static Route $instance;
+
+    private function __construct()
+    {
+    }
+
+    /**
+     * @return Route
+     */
+    public static function instance(): Route
+    {
+        if (empty(self::$instance)) {
+            self::$instance = new static;
+        }
+
+        return self::$instance;
+    }
 
     /**
      * @param $uri
@@ -16,7 +34,8 @@ class Route
      */
     public static function get($uri, $action)
     {
-        self::$get[$uri] = $action;
+        $route = static::instance();
+        $route->get[$uri] = $action;
     }
 
     /**
@@ -26,13 +45,14 @@ class Route
      */
     public static function post($uri, $action)
     {
-        self::$post[$uri] = $action;
+        $route = static::instance();
+        $route->post[$uri] = $action;
     }
 
     /**
      * @return void
      */
-    public static function load()
+    public function load()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/routes.php';
     }
@@ -40,21 +60,34 @@ class Route
     /**
      * @param Request $request
      * @return array
-     * @throws NotFoundException
+     * @throws NotFoundException|MethodNotAllowedException
      */
-    public static function getAction(Request $request): array
+    public function getAction(Request $request): array
     {
-        $method = strtolower($request->method());
         $uri = $request->uri();
 
-        if ($method === 'post' && isset(self::$post[$uri])) {
-            return self::$post[$uri];
+        if ($request->isMethodGet()) {
+            if (isset($this->get[$uri])) {
+                return $this->get[$uri];
+            }
+
+            if (isset($this->post[$uri])) {
+                throw new MethodNotAllowedException('Method POST is not supported for this url.');
+            }
+
+            throw new NotFoundException('Url not found.');
+        } elseif ($request->isMethodPost()) {
+            if (isset($this->post[$uri])) {
+                return $this->post[$uri];
+            }
+
+            if (isset($this->get[$uri])) {
+                throw new MethodNotAllowedException('Method GET is not supported for this url.');
+            }
+
+            throw new NotFoundException('Url not found.');
         }
 
-        if ($method === 'get' && isset(self::$get[$uri])) {
-            return self::$get[$uri];
-        }
-
-        throw new NotFoundException();
+        throw new MethodNotAllowedException('Method ' . $request->method() . ' is not supported.');
     }
 }

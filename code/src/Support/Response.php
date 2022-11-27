@@ -2,6 +2,8 @@
 
 namespace Koptev\Support;
 
+use Throwable;
+
 class Response
 {
     /**
@@ -15,7 +17,7 @@ class Response
     private $data = null;
 
     /**
-     * Send "ok" response.
+     * Set status "OK" for response.
      *
      * @param mixed $data
      * @return void
@@ -28,7 +30,7 @@ class Response
     }
 
     /**
-     * Send "Bad request" response.
+     * Set status "Bad request" for response.
      *
      * @param mixed $data
      * @return void
@@ -41,7 +43,7 @@ class Response
     }
 
     /**
-     * Send "Unprocessable" response.
+     * Set status "Unprocessable" for response.
      *
      * @param mixed $data
      * @return void
@@ -54,18 +56,47 @@ class Response
     }
 
     /**
-     * Send "Not found" response.
+     * Set status "Not found" for response.
      *
      * @return void
      */
-    public function notFound()
+    public function notFound(Throwable $e)
     {
         $this->statusCode = 404;
+
+        $this->data = 'Error:' . $e->getMessage();
     }
 
+    /**
+     * Set status "Method not allowed" for response.
+     *
+     * @return void
+     */
+    public function methodNotAllowed()
+    {
+        $this->statusCode = 405;
+    }
+
+    /**
+     * Set status "Server error" for response.
+     *
+     * @param Throwable|null $e
+     * @return void
+     */
+    public function serverError(?Throwable $e = null)
+    {
+        $this->statusCode = 500;
+
+        $this->data = $e->getTrace();
+    }
+
+    /**
+     * @return string|null
+     */
     public function __toString(): ?string
     {
         header('Content-Type', 'application/json');
+        header('Accept', 'application/json');
 
         http_response_code($this->statusCode);
 

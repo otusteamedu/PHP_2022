@@ -100,10 +100,10 @@ class Validator
     /**
      * Validate by rule 'email'.
      *
-     * @param string $value
+     * @param string|null $value
      * @return bool
      */
-    private function validation_email(string $value): bool
+    private function validation_email(?string $value): bool
     {
         $emailValidator = new EmailValidator();
 
