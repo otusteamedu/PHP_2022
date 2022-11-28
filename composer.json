@@ -1,0 +1,19 @@
+{
+    "name": "koptev/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Koptev\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "koptev",
+            "email": "koptev19@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "ext-sockets": "*"
+    }
+}
