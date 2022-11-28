@@ -21,7 +21,7 @@ class Server extends Socket
 
             $this->setBlock();
 
-            $clientMessage = "Received {$received->bytes} bytes";
+            $clientMessage = "Received $received->bytes bytes";
 
             $this->send($clientMessage, $received->address);
         }

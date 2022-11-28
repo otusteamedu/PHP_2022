@@ -41,7 +41,7 @@ class Client extends Socket
 
             $received = $this->receive();
 
-            echo $received->text . PHP_EOL;
+            fwrite($handle, $received->text . PHP_EOL);
         }
     }
 }
