@@ -28,7 +28,7 @@ class Client extends Socket
      * @return void
      * @throws Exception
      */
-    public function run()
+    public function run(): void
     {
         $handle = fopen ("php://stdin","r");
 

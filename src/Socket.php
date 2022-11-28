@@ -31,7 +31,7 @@ class Socket
      * @return void
      * @throws Exception
      */
-    protected function bind(string $filename)
+    protected function bind(string $filename): void
     {
         if (!socket_bind($this->socket, $filename)) {
             throw new Exception("Unable to bind to $filename");
@@ -60,7 +60,7 @@ class Socket
      * @return void
      * @throws Exception
      */
-    protected function setBlock()
+    protected function setBlock(): void
     {
         if (!socket_set_block($this->socket)) {
             throw new Exception('Unable to set blocking mode for socket');
@@ -71,7 +71,7 @@ class Socket
      * @return void
      * @throws Exception
      */
-    protected function setNonBlock()
+    protected function setNonBlock(): void
     {
         if (!socket_set_nonblock($this->socket)) {
             throw new Exception("Unable to set nonblocking mode for socket");
@@ -103,7 +103,7 @@ class Socket
     /**
      * @param string $filename
      * @param bool $isOldRemove
-     * @return void
+     * @return string
      */
     protected function getFile(string $filename, bool $isOldRemove = true): string
     {

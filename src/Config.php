@@ -13,7 +13,7 @@ class Config
      * @return void
      * @throws Exception
      */
-    public function load(string $name)
+    public function load(string $name): void
     {
         $filename = 'config/' . $name . '.php';
 
@@ -37,7 +37,7 @@ class Config
      * @param $name
      * @return mixed
      */
-    public function get($name)
+    public function get($name): mixed
     {
         if (strpos($name, '.')) {
             $names = explode('.', $name);

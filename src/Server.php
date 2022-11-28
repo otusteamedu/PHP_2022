@@ -10,7 +10,7 @@ class Server extends Socket
      * @return void
      * @throws Exception
      */
-    public function run()
+    public function run(): void
     {
         $handle = fopen ("php://stdout","w");
 
