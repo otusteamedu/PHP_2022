@@ -16,10 +16,10 @@ RUN docker-php-ext-install sockets
 #	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
 #        && docker-php-ext-install -j$(nproc) gd \
 
-COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+# COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
-WORKDIR /data/hw6
+WORKDIR /data
 
-VOLUME /data/hw6
+VOLUME /data
 
 CMD ["php-fpm"]
