@@ -16,14 +16,8 @@ $emails = [
     'test@mail.ru2313124%'
 ];
 
-if (EmailValidator::hasValidInArray($emails)) {
-    foreach (EmailValidator::validateArray($emails) as $email => $valid) {
-        if ($valid) {
-            continue;
-        }
+$validator = new EmailValidator($emails);
 
-        echo '<strong>' . $email . '</strong> не валидный<br>';
-    }
-} else {
-    echo 'В массиве нет валидных e-mail';
+foreach ($validator->getInvalid() as $invalid) {
+    echo '<strong>' . $invalid . '</strong> не действителен<br>';
 }
