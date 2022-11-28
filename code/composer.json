@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Study\\EmailValidator\\": "src/"
+            "Study\\Chat\\": "src/"
         }
     },
     "authors": [
@@ -13,6 +13,6 @@
         }
     ],
     "require": {
-        "albinamkh/month-translator": "^1.0"
+        "ext-sockets": "*"
     }
 }

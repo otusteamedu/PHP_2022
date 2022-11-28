@@ -2,44 +2,45 @@
 
 declare(strict_types=1);
 
-namespace Study\EmailValidator;
+namespace Study\Chat;
 
-use Study\EmailValidator\Service\EmailValidator;
-use Study\EmailValidator\Response\Response;
+use Study\Chat\Service\Client;
+use Study\Chat\Service\Server;
+use Exception;
+
 
 class App
 {
-    private EmailValidator $emailValidator;
-    private Response $response;
+    private string $socket_type;
 
     public function __construct()
     {
-        $this->emailValidator = new EmailValidator();
-        $this->response = new Response();
+        $this->socket_type = $_SERVER['argv'][1] ?? '';
     }
 
-    public function run()
+    /**
+     * @throws Exception
+     */
+    public function run(): void
     {
-
-        if (!isset( $_POST['emails'] )) {
-
-            $this->response->setStatusCode( Response::HTTP_CODE_BAD_REQUEST, "Email не передан" );
-            return $this->response->getResponse();
-        } else {
-            $emails = explode( ';', $_POST['emails'] );
+       /* if(extension_loaded('sockets')){
+            echo "Расширение sockets не установлено.";
+            return;
         }
-
-        $valid_emails = $this->emailValidator->validate( $emails );
-
-        if (!empty( $valid_emails )) {
-            $this->response->setStatusCode( Response::HTTP_CODE_OK, json_encode( $valid_emails ) );
-
-        } else {
-            $this->response->setStatusCode( Response::HTTP_CODE_BAD_REQUEST, "Нет корректных email." );
-
+       */
+        if($this->socket_type == 'server' ) {
+            (new Server())->run();
         }
-
-        return $this->response->getResponse();
+        elseif($this->socket_type == 'client' ) {
+            (new Client())->run();
+        }
+        elseif($this->socket_type == 'stop' ) {
+            (new Client())->close();
+        }
+        else
+        {
+            throw new Exception( 'Неизвестный флаг. Укажите server или client.' );
+        }
 
     }
 }
