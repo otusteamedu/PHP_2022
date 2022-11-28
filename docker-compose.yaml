@@ -1,0 +1,53 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+
+  php1:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php1
+    volumes:
+      - ./code:/data/mysite.local
+      - socket:/data/mysite.local/socket
+    networks:
+      - app-network
+
+  php2:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php2
+    volumes:
+      - ./code:/data/mysite.local
+      - socket:/data/mysite.local/socket
+    networks:
+      - app-network
+
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  socket:
