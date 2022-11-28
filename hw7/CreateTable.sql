@@ -1,8 +1,8 @@
 // Создание таблицы фильмов.
 CREATE TABLE films
 (
-    id integer NOT NULL INCREMENT, -- Идентификатор фильма
-    name character varying(200), -- Название фильма
+    id integer NOT NULL INCREMENT,      -- Идентификатор фильма
+    name character varying(200),        -- Название фильма
     description character varying(400), -- Описание фильмы
     CONSTRAINT film_pkey PRIMARY KEY (id)
 )
@@ -11,29 +11,24 @@ CREATE TABLE films
 CREATE TABLE pricelist
 (
     id integer NOT NULL INCREMENT, -- Идентификатор цены
-    id_film integer NOT NULL, -- Идентификатор фильма
     price integer, -- Цена
     CONSTRAINT price_pkey PRIMARY KEY (id)
-    CONSTRAINT film_fkey FOREIGN KEY (id_film)
-      REFERENCES films (id)
 )
 
 // Создание таблицы залов.
 CREATE TABLE hall
 (
     id integer NOT NULL INCREMENT, -- Идентификатор зала
-    id_film integer NOT NULL, -- Идентификатор фильма
+    count_place integer NOT NULL,  -- Количество мест
     CONSTRAINT hall_pkey PRIMARY KEY (id)
-    CONSTRAINT film_fkey FOREIGN KEY (id_film)
-      REFERENCES films (id)
 )
 
 // Создание таблицы клиентов.
 CREATE TABLE clients
 (
     id integer NOT NULL INCREMENT, -- Идентификатор клиента
-    name character varying(200), -- Имя клиента
-    number_phone integer, -- Номер телефона
+    name character varying(200),   -- Имя клиента
+    number_phone integer,          -- Номер телефона
     CONSTRAINT client_pkey PRIMARY KEY (id)
 )
 
@@ -41,9 +36,11 @@ CREATE TABLE clients
 CREATE TABLE tickets
 (
     id integer NOT NULL INCREMENT, -- Идентификатор цены
-    id_client integer NOT NULL, -- Идентификатор клиента
-    id_film integer NOT NULL, -- Идентификатор фильма
-    id_hall integer NOT NULL, -- Идентификатор зала
+    id_client integer NOT NULL,    -- Идентификатор клиента
+    id_film integer NOT NULL,      -- Идентификатор фильма
+    id_hall integer NOT NULL,      -- Идентификатор зала
+    id_price integer NOT NULL,     -- Идентификатор цены
+    place integer NOT NULL,        -- Место
     CONSTRAINT ticket_pkey PRIMARY KEY (id)
     CONSTRAINT client_pkey FOREIGN KEY (id_client)
       REFERENCES clients (id)
@@ -51,4 +48,6 @@ CREATE TABLE tickets
       REFERENCES films (id)
     CONSTRAINT hall_fkey FOREIGN KEY (id_hall)
       REFERENCES hall (id)
+    CONSTRAINT price_fkey FOREIGN KEY (id_hall)
+      REFERENCES pricelist (id)
 )
