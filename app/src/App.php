@@ -18,7 +18,7 @@ class App
             throw new Exception('Не передан параметр запуска');
         }
 
-        $className = 'AleksandrOrlov\Php2022\Service\\' . ucfirst($_SERVER['argv'][1]);
+        $className = __NAMESPACE__ . '\Service\\' . ucfirst($_SERVER['argv'][1]);
 
         if (class_exists($className) && ($networkService = new $className()) instanceof NetworkInterface) {
             $networkService->run();
