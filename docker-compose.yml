@@ -32,9 +32,11 @@ services:
     container_name: webserver_1
     depends_on:
       - fpm_1
+    environment:
+      - FPM_CONTAINER=fpm_1
     volumes:
       - ./app:/data/application.local
-      - ./docker/nginx/hosts/nginx_1.conf:/etc/nginx/conf.d/application.local.conf
+      - ./docker/nginx/hosts/application.local.conf.template:/etc/nginx/templates/application.local.conf.template
     networks:
       - app-network
 
@@ -46,9 +48,11 @@ services:
     container_name: webserver_2
     depends_on:
       - fpm_2
+    environment:
+      - FPM_CONTAINER=fpm_2
     volumes:
       - ./app:/data/application.local
-      - ./docker/nginx/hosts/nginx_2.conf:/etc/nginx/conf.d/application.local.conf
+      - ./docker/nginx/hosts/application.local.conf.template:/etc/nginx/templates/application.local.conf.template
     networks:
       - app-network
 
