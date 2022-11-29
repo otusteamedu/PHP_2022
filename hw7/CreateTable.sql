@@ -18,8 +18,10 @@ CREATE TABLE pricelist
 // Создание таблицы залов.
 CREATE TABLE hall
 (
-    id integer NOT NULL INCREMENT, -- Идентификатор зала
-    count_place integer NOT NULL,  -- Количество мест
+    id integer NOT NULL INCREMENT,       -- Идентификатор зала
+    count_place integer NOT NULL,        -- Количество мест
+    count_row integer NOT NULL,          -- Количество рядов
+    count_place_in_row integer NOT NULL, -- Количество мест в ряду
     CONSTRAINT hall_pkey PRIMARY KEY (id)
 )
 
