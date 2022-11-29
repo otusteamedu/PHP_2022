@@ -14,3 +14,6 @@
 */
 
 $router->get('/', 'ApiController@root');
+$router->post('/api/v1/add', 'ApiController@add');
+$router->post('/api/v1/find', 'ApiController@find');
+$router->get('/api/v1/clear', 'ApiController@clear');
