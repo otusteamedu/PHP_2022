@@ -43,6 +43,7 @@ CREATE TABLE tickets
     id_hall integer NOT NULL,      -- Идентификатор зала
     id_price integer NOT NULL,     -- Идентификатор цены
     place integer NOT NULL,        -- Место
+    row integer NOT NULL,          -- Ряд
     CONSTRAINT ticket_pkey PRIMARY KEY (id)
     CONSTRAINT client_pkey FOREIGN KEY (id_client)
       REFERENCES clients (id)
