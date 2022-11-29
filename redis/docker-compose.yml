@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  otus_redis-proxy:
+    container_name: otus_redis-proxy
+    image: nginx:alpine
+    depends_on:
+      - otus_redis-php_fpm
+    ports:
+      - 6080:6080
+    volumes:
+      - ./docker-res/nginx:/etc/nginx/conf.d
+      - ./backend/app:/app/code
+    networks:
+      - otus_redis-network
+
+  otus_redis-php_fpm:
+    container_name: otus_redis-php_fpm
+    image: webdevops/php:$PHP_VERSION-alpine
+    depends_on:
+      - otus_redis-redis
+    volumes:
+      - ./backend/app:/app/code
+    networks:
+      - otus_redis-network
+
+  otus_redis-redis:
+    container_name: otus-redis-redis
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - otus_redis-network
+
+  otus_redis-redisinsight:
+    container_name: otus_redis-redisinsight
+    image: redislabs/redisinsight:latest
+    depends_on:
+      - otus_redis-redis
+    ports:
+      - 8001:8001
+    networks:
+      - otus_redis-network
+
+networks:
+  otus_redis-network:
+    driver: bridge
