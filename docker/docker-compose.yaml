@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: server
+    volumes:
+      - ../code:/data/mysite.local/
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: client
+    volumes:
+      - ../code:/data/mysite.local/
+    networks:
+      - app-network
+    depends_on:
+      - server
+
+networks:
+  app-network:
+    driver: bridge
