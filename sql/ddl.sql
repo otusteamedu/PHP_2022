@@ -1,108 +1,67 @@
-create table hall
-(
-    id              integer default nextval('cinema_id_seq'::regclass) not null
-        constraint cinema_pk
-            primary key,
-    name            varchar,
-    number_of_seats integer default 100                                not null
-);
-
-alter table hall
-    owner to "user";
-
 create table movie
 (
     id   serial
         constraint movie_pk
             primary key,
-    name varchar not null
+    name varchar(255) not null
 );
 
 alter table movie
     owner to "user";
 
-create table session
+create unique index movie_name_uindex
+    on movie (name);
+
+create table movie_attribute_type
 (
-    id         serial
-        constraint session_pk
+    type          varchar(20)          not null
+        constraint movie_attribute_type_pk
             primary key,
-    hall_id    integer          not null
-        constraint session_hall_id_fk
-            references hall,
-    movie_id   integer          not null
-        constraint session_movie_id_fk
+    use_in_filter boolean default true not null
+);
+
+comment on column movie_attribute_type.use_in_filter is 'Показывать аттрибуты этого типа в фильтре по фильмам';
+
+alter table movie_attribute_type
+    owner to "user";
+
+create table movie_attribute
+(
+    id   serial
+        constraint movie_attribute_pk
+            primary key,
+    name varchar(255) not null,
+    type varchar(20)
+        constraint movie_attribute_movie_attribute_type_type_fk
+            references movie_attribute_type
+);
+
+alter table movie_attribute
+    owner to "user";
+
+create unique index movie_attribute_name_uindex
+    on movie_attribute (name);
+
+create table movie_attribute_value
+(
+    attribute_id   integer not null
+        constraint movie_attribute_value_movie_attribute_id_fk
+            references movie_attribute,
+    movie_id       integer not null
+        constraint movie_attribute_value_movie_id_fk
             references movie,
-    start_time timestamp        not null,
-    price      double precision not null
-);
-
-alter table session
-    owner to "user";
-
-create table viewer
-(
-    id      serial
-        constraint viewer_pk
+    value_int      integer,
+    value_numeric  numeric,
+    value_date     date,
+    value_datetime timestamp with time zone,
+    value_boolean  boolean,
+    value_text     text,
+    id             serial
+        constraint movie_attribute_value_pk
             primary key,
-    name    varchar,
-    surname varchar
+    value_float    double precision
 );
 
-alter table viewer
+alter table movie_attribute_value
     owner to "user";
-
-create table "order"
-(
-    id         serial
-        constraint order_pk
-            primary key,
-    viewer_id  integer not null
-        constraint order_viewer_id_fk
-            references viewer,
-    created_at timestamp default now()
-);
-
-alter table "order"
-    owner to "user";
-
-create table seat
-(
-    id      serial
-        constraint seat_pk
-            primary key,
-    row     integer not null,
-    number  integer not null,
-    hall_id integer not null
-        constraint seat_hall_id_fk
-            references hall
-);
-
-alter table seat
-    owner to "user";
-
-create table ticket
-(
-    id         serial
-        constraint ticket_pk
-            primary key,
-    order_id   integer          not null
-        constraint ticket_order_id_fk
-            references "order",
-    session_id integer          not null
-        constraint ticket_session_id_fk
-            references session,
-    price      double precision not null,
-    seat_id    integer          not null
-        constraint ticket_seat_id_fk
-            references seat
-);
-
-alter table ticket
-    owner to "user";
-
-create unique index ticket_session_id_seat_id_uindex
-    on ticket (session_id, seat_id);
-
-create unique index seat_row_number_hall_id_uindex
-    on seat (row, number, hall_id);
 
