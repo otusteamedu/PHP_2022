@@ -1,0 +1,30 @@
+{
+    "name": "nikolai/php",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nikolai\\Php\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikolai Timakov",
+            "email": "ntimakov@mail.ru"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": "^3.4",
+        "symfony/http-foundation": "^5.4",
+        "php-di/php-di": "^6.4",
+        "symfony/dotenv": "^5.4",
+        "symfony/yaml": "^5.4",
+        "symfony/form": "^6.1",
+        "symfony/validator": "^6.1",
+        "twig/twig": "^3.0",
+        "symfony/security-csrf": "^6.1",
+        "symfony/twig-bridge": "^6.1",
+        "symfony/translation": "^6.1",
+        "doctrine/annotations": "^1.13",
+        "phpmailer/phpmailer": "^6.6"
+    }
+}

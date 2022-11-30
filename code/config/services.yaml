@@ -1,0 +1,11 @@
+parameters:
+
+services:
+
+routes:
+  GET:
+    /report-form:
+      Nikolai\Php\Infrastructure\Controller\GetReportFormController
+  POST:
+    /report-form:
+      Nikolai\Php\Infrastructure\Controller\PostReportFormController
