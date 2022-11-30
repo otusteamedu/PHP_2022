@@ -1,0 +1,103 @@
+version: '3'
+
+services:
+  #контейнер с Nginx
+  nginx-balancer:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-balance
+    image: myapp/nginx
+    container_name: nginx-balancer
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx/hosts/balancer.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+
+  #контейнер с Nginx
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx1
+    ports:
+      - "8082:80"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+
+
+  #контейнер с Nginx
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx2
+    ports:
+      - "8083:80"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app1
+    hostname: app1
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  #Контейнер с PHP-FPM
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app2
+    hostname: app2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  #контейнер с postgreSQL
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  #контейнер с memcached
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
