@@ -10,10 +10,9 @@ $emails = [
     'amanbs@mail.ru',
 ];
 
-foreach ($emails as $email) {
-    $validation = EmailValidator::validate($email);
+$emailValidator = new EmailValidator();
+$validations = $emailValidator->validateEmails($emails);
 
-    if (!$validation->isValid) {
-        echo 'Некорректная эл. почта: '.$email.PHP_EOL;
-    }
+foreach ($validations as $validation) {
+    echo $validation->getResult();
 }

@@ -16,4 +16,13 @@ class Validation
     {
         $this->value = $value;
     }
+
+    public function getResult(): string
+    {
+        if (empty($this->errors)) {
+            return '[OK] '.$this->value.PHP_EOL;
+        } else {
+            return '[BAD] '.$this->value.PHP_EOL.'Причины: '.implode('; ', $this->errors).PHP_EOL;
+        }
+    }
 }
