@@ -34,6 +34,14 @@ CREATE TABLE clients
     CONSTRAINT client_pkey PRIMARY KEY (id)
 )
 
+// Создание таблицы сеансов.
+CREATE TABLE session
+(
+    id integer NOT NULL INCREMENT, -- Идентификатор сеанса
+    datetime_session datetime,     -- Время и дата
+    CONSTRAINT session_pkey PRIMARY KEY (id)
+)
+
 // Создание таблицы билетов.
 CREATE TABLE tickets
 (
@@ -42,6 +50,7 @@ CREATE TABLE tickets
     id_film integer NOT NULL,      -- Идентификатор фильма
     id_hall integer NOT NULL,      -- Идентификатор зала
     id_price integer NOT NULL,     -- Идентификатор цены
+    id_session integer NOT NULL,   -- Идентификатор сеанса
     place integer NOT NULL,        -- Место
     row integer NOT NULL,          -- Ряд
     CONSTRAINT ticket_pkey PRIMARY KEY (id)
