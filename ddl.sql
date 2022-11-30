@@ -31,7 +31,7 @@ CREATE TABLE attribute_film
     `val_text`     TEXT,
     `val_int`      INT,
     `val_bool`     BOOL,
-    `val_date`     TIMESTAMP,
+    `val_date`     DATE,
     `val_float`    FLOAT,
     PRIMARY KEY (`film_id`, `attribute_id`),
     CONSTRAINT `attribute_film_film_id_foreign`
