@@ -12,7 +12,8 @@ class EmptyAppNameException extends AppException
 
     public function __construct($message = "", $code = 0, \Throwable $previous = null)
     {
-        $message = "Пустое имя приложение. Введите один из вариантов:\nphp app.php [" . Config::getAppNameString() . "]";
+        $appName = Config::getStringFromArray("APP_NAME");
+        $message = "Пустое имя приложение. Введите один из вариантов:\nphp app.php [" . $appName . "]";
 
         parent::__construct($message, $code, $previous);
     }

@@ -6,12 +6,24 @@ namespace Nikcrazy37\Hw6\App;
 
 class Config
 {
-    const SOCK_FILE_NAME = "chat.sock";
-    const APP_NAMESPACE = "Nikcrazy37\Hw6\App\\";
-    const APP_NAME = array('server', 'client');
+    const CONFIG_PATH = ROOT . "/config.ini";
 
-    public static function getAppNameString()
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public static function getOption($key)
     {
-        return implode("|", self::APP_NAME);
+        $config = parse_ini_file(self::CONFIG_PATH);
+
+        return $config[$key];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getStringFromArray($key): string
+    {
+        return implode("|", self::getOption($key));
     }
 }

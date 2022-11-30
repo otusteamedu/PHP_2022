@@ -25,11 +25,11 @@ class App
             throw new EmptyAppNameException();
         }
 
-        if (!in_array($appName, Config::APP_NAME)) {
+        if (!in_array($appName, Config::getOption("APP_NAME"))) {
             throw new IncorrectAppNameException();
         }
 
-        $this->appName = Config::APP_NAMESPACE . ucfirst($appName);
+        $this->appName = Config::getOption("APP_NAMESPACE") . ucfirst($appName);
 
         if (!class_exists($this->appName)) {
             throw new ClassNotFoundException();

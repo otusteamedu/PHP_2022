@@ -1,8 +1,8 @@
 <?php
 
 declare(strict_types=1);
-
-require __DIR__ . "/vendor/autoload.php";
+const ROOT = __DIR__;
+require ROOT . "/vendor/autoload.php";
 
 use Nikcrazy37\Hw6\App;
 use Nikcrazy37\Hw6\Exception\AppException;

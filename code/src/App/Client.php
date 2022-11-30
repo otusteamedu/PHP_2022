@@ -13,7 +13,7 @@ class Client
 
     public function __construct()
     {
-        $this->sock = new Socket(Config::SOCK_FILE_NAME);
+        $this->sock = new Socket(Config::getOption("SOCK_FILE_NAME"));
     }
 
     /**
