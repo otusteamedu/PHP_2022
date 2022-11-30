@@ -1,9 +1,9 @@
 create table if not exists users
 (
-    name  varchar(255) not null,
     id    integer      not null
     constraint users_pk
     primary key,
+    name  varchar(255) not null,
     email varchar(255),
     constraint users_name_email_unique
     unique (name, email)
@@ -56,6 +56,36 @@ create table if not exists sessions
 alter table sessions
     owner to postgres;
 
+create table if not exists hall_rows_category
+(
+    id    integer     not null
+    constraint hall_rows_category_pk
+    primary key,
+    name  varchar(20) not null,
+    price integer     not null
+);
+
+alter table hall_rows_category
+    owner to postgres;
+
+create table if not exists hall_rows
+(
+    id       integer not null
+    constraint hall_rows_pk
+    primary key,
+    hall_id  integer not null
+    constraint hall_rows_halls_null_fk
+    references halls,
+    number   integer not null,
+    capacity integer not null,
+    category integer
+    constraint hall_rows_hall_rows_category_null_fk
+    references hall_rows_category
+);
+
+alter table hall_rows
+    owner to postgres;
+
 create table if not exists tickets
 (
     id         integer not null
@@ -67,9 +97,12 @@ create table if not exists tickets
     session_id integer not null
     constraint tickets_sessions_null_fk
     references sessions,
-    price      integer,
-    constraint tickets_user_session_unique
-    unique (user_id, session_id)
+    row_id     integer
+    constraint tickets_hall_rows_null_fk
+    references hall_rows,
+    seat       integer,
+    constraint tickets_session_row_seat_unique
+    unique (session_id, row_id, seat)
 );
 
 alter table tickets
