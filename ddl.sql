@@ -9,7 +9,7 @@ CREATE TABLE attribute_types
 (
     `id`    INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `field` VARCHAR(255) NOT NULL,
-    `name`  VARCHAR(255) NOT NULL UNIQUE
+    `name`  VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (`id`)
 );
 
@@ -18,7 +18,6 @@ CREATE TABLE attributes
     `id`                INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `attribute_type_id` INT UNSIGNED NOT NULL,
     `name`              VARCHAR(255) NOT NULL UNIQUE,
-    `slug`              VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (`id`),
     CONSTRAINT `attribute_type_id_foreign`
         FOREIGN KEY (`attribute_type_id`) REFERENCES `attribute_types` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
