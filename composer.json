@@ -1,0 +1,19 @@
+{
+    "name": "ermolaevalexandr/otus-composer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ErmolaevAlexandr",
+            "email": "coolbase@rambler.ru"
+        }
+    ],
+    "require": {
+        "psr/container": "^2.0",
+        "a-ermolaev/string-composer-package": "^1.1"
+    }
+}
