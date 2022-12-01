@@ -1,0 +1,16 @@
+{
+    "name": "tema_go/post_request_validator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "TemaGo\\PostRequestValidator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artem",
+            "email": "artem@agsys.ru"
+        }
+    ],
+    "require": {}
+}

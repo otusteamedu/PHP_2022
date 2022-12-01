@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  balancer:
+    build:
+      context: ./docker/balancer
+      dockerfile: Dockerfile
+    image: balance/balancer
+    container_name: balancer
+    volumes:
+      - ./src:/data/mysite.local
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  nginx1:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx1
+    ports:
+      - "81:80"
+    volumes:
+       - ./src:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: ./docker/nginx2
+      dockerfile: Dockerfile
+    image: balance/nginx2
+    container_name: nginx2
+    ports:
+      - "82:80"
+    volumes:
+       - ./src:/data/mysite.local
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+       - ./src:/data/mysite.local
+    networks:
+      - app-network
+
+
+  app2:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./src:/data/mysite.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:alpine
+    container_name: memcached
+    restart: always
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
