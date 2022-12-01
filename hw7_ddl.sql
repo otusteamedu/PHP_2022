@@ -49,23 +49,12 @@ create table if not exists sessions
     references films,
     datatime_begin timestamp with time zone not null,
     datetime_end   timestamp with time zone not null,
+    price integer     not null
     constraint sessions_unique
     unique (hall_id, datetime_end, datatime_begin, film_id)
 );
 
 alter table sessions
-    owner to postgres;
-
-create table if not exists hall_rows_category
-(
-    id    integer     not null
-    constraint hall_rows_category_pk
-    primary key,
-    name  varchar(20) not null,
-    price integer     not null
-);
-
-alter table hall_rows_category
     owner to postgres;
 
 create table if not exists hall_rows
@@ -77,10 +66,7 @@ create table if not exists hall_rows
     constraint hall_rows_halls_null_fk
     references halls,
     number   integer not null,
-    capacity integer not null,
-    category integer
-    constraint hall_rows_hall_rows_category_null_fk
-    references hall_rows_category
+    capacity integer not null
 );
 
 alter table hall_rows
