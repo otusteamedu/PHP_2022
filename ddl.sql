@@ -25,14 +25,14 @@ CREATE TABLE attributes
 
 CREATE TABLE attribute_film
 (
-    `film_id`      INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `film_id`      INT UNSIGNED NOT NULL,
     `attribute_id` INT UNSIGNED NOT NULL,
     `val_string`   VARCHAR(255),
     `val_text`     TEXT,
     `val_int`      INT,
-    `val_bool`     BOOL,
+    `val_bool`     BOOLEAN,
     `val_date`     DATE,
-    `val_float`    FLOAT,
+    `val_float`    DECIMAL,
     PRIMARY KEY (`film_id`, `attribute_id`),
     CONSTRAINT `attribute_film_film_id_foreign`
         FOREIGN KEY (`film_id`) REFERENCES `films` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
