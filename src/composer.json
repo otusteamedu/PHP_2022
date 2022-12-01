@@ -1,0 +1,16 @@
+{
+    "name": "tema_go/command_chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "TemaGo\\CommandChat\\": "source/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artem",
+            "email": "artem@agsys.ru"
+        }
+    ],
+    "require": {}
+}

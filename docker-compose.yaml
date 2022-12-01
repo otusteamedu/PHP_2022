@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: chat/server
+    container_name: server
+    volumes:
+       - ./src:/data
+    networks:
+      - app-network
+
+
+  client:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: chat/client
+    container_name: client
+    volumes:
+      - ./src:/data
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
