@@ -87,6 +87,7 @@ create table if not exists tickets
     constraint tickets_hall_rows_null_fk
     references hall_rows,
     seat       integer,
+    price      integer not null,
     constraint tickets_session_row_seat_unique
     unique (session_id, row_id, seat)
 );
