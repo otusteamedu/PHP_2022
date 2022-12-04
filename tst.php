@@ -1,5 +1,6 @@
 <?php
 
-function fnmae(){ 
+function fnmae()
+{
     echo 123; 
 }
