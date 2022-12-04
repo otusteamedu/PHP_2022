@@ -2,5 +2,6 @@
 
 function fnmae()
 {
-    echo 123; 
+    echo 123;
+    var_dump($name);
 }
