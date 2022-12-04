@@ -2,38 +2,49 @@
 
 namespace Octopus\Php2022\Service;
 
-use hbattat\VerifyEmail;
-
 class EmailValidator
 {
-    private const VERIFIER_EMAIL = 'leheted875@edinel.com';
-    private VerifyEmail $validator;
+    private const EMAIL_REG = "/^[a-z_.0-9]+@[a-z]+\.[a-z]+/i";
+    private const DNS_REG = "/(?<=@).+/i";
+    private array $mails;
+    private array $validMails;
+    private array $invalidMails;
 
-    public function __construct()
+    public function __construct(array $mails)
     {
-        $this->validator = new VerifyEmail();
-        $this->setVerifierEmail(self::VERIFIER_EMAIL);
+        $this->mails = $mails;
     }
 
-    public function setVerifierEmail(string $email): void
+    public function validate(): array
     {
-        $this->validator->set_verifier_email($email);
+        if (empty($this->mails)) {
+            throw new \Exception('Mails empty');
+        }
+
+        foreach ($this->mails as $mail) {
+            if ($this->isValid($mail)) {
+                $this->validMails[] = $mail;
+            } else {
+                $this->invalidMails[] = $mail;
+            }
+        }
+
+        return [
+          'valid' => $this->validMails,
+          'invalid' => $this->invalidMails
+        ];
     }
 
-    public function setEmail(string $email): void
+    private function isValid(string $email): bool
     {
-        $this->validator->set_email($email);
+        return preg_match(self::EMAIL_REG, $email)
+            && $this->isValidDNS($email);
     }
 
-    public function getErrors(): array
+    private function isValidDNS(string $email): bool
     {
-        return $this->validator->get_errors();
-    }
+        preg_match(self::DNS_REG, $email, $match);
 
-    public function verify($email): bool
-    {
-        $this->setEmail($email);
-
-        return $this->validator->verify();
+        return !empty($match) && checkdnsrr($match[0]);
     }
 }

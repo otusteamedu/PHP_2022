@@ -1,8 +1,5 @@
 {
     "name": "octopus/hw5",
-    "require": {
-        "hbattat/verifyemail": "^1.0"
-    },
     "autoload": {
         "psr-4": {
             "Octopus\\Php2022\\": "src/"
