@@ -2,13 +2,13 @@
 
 namespace Waisee\SocketChat;
 
-class ClientApp
+class ClientApp extends App
 {
     public function run()
     {
         while (true) {
             $message = trim(fgets(STDIN)) . PHP_EOL;
-            $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+            $socket = $socket = $this->createSocket();
             socket_connect($socket, Config::SOCKET);
             socket_write($socket, $message);
         }

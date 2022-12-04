@@ -2,14 +2,12 @@
 
 namespace Waisee\SocketChat;
 
-class ServerApp
+class ServerApp extends App
 {
     public function run()
     {
-        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-
+        $socket = $this->createSocket();
         socket_bind($socket, Config::SOCKET);
-
         socket_listen($socket, 5);
 
         while (true) {
