@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: hw6-server
+    volumes:
+      - ".:/var/www/application.local"
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: hw6-client
+    volumes:
+      - ".:/var/www/application.local"
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
