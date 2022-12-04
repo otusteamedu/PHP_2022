@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  php-client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: php
+    container_name: php-client
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - network
+  php-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: php
+    container_name: php-server
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
