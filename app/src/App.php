@@ -10,26 +10,25 @@ class App
 {
     public function run(): string
     {
-        // correct
-        $emailsList[] = 'carabidaee@gmail.com';
-        $emailsList[] = 'carabidee@yandex.com';
-
-        // incorrect
-        $emailsList[] = '.12@gmail.com';
-        $emailsList[] = 'русский_язык@mail.ru';
-        $emailsList[] = 'unknown@unknows.com';
+        $emailsList = $_GET['emails'] ?? null;
+        if (empty($emailsList)) {
+            return 'Ошибка! Вы не передали аргумент emails или передали его пустым.';
+        }
+        if (!\is_array($emailsList)) {
+            return 'Ошика! Аргумент emails должен быть массивом.';
+        }
 
         $response = '';
 
         $emailValidator = new EmailValidator();
         if (!$emailValidator->validate($emailsList)) {
             foreach ($emailValidator->getErrors() as $error) {
-                $response .= "Email {$error['email']} incorrect: {$error['errorText']}\n";
+                $response .= "Email {$error['email']} incorrect: {$error['errorText']}<br>";
             }
         }
 
-        foreach ((array) $emailValidator->getCorrectEmails() as $email) {
-            $response .= "Email {$email} correct\n";
+        foreach ((array)$emailValidator->getCorrectEmails() as $email) {
+            $response .= "Email {$email} correct<br>";
         }
 
         return $response;
