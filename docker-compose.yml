@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     image: myapp/nginx
     volumes:
-      - ./code:/app
+      - ./code:/code
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     ports:
       - "${HTTP_PORT_EXTERNAL}:${HTTP_PORT_INTERNAL}"
@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     image: myapp/php
     volumes:
-      - ./code:/app
+      - ./code:/code
       - ./docker/php/conf.d:/usr/local/etc/php/conf.d
     env_file:
       - .env

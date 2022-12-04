@@ -4,30 +4,28 @@ declare(strict_types=1);
 
 namespace Chernysh\EmailVerification\Service;
 
-class EmailVerification implements ServiceInterface
+class EmailVerification
 {
 
 
     /**
      * @throws ServiceException
      */
-    public function check(array $params): bool
+    public function check(string $email): bool
     {
 
-        if (!isset($params['emails'])) {
-            throw new ServiceException('Необходимо указать параметр $emails');
+        if (!$email) {
+            throw new ServiceException('Необходимо указать параметр $email');
         }
 
-        $emails = trim($params['emails']);
-        if (!$emails) {
-            throw new ServiceException('Параметр $emails не может быть пустым');
+        $email = trim($email);
+        if (!$email) {
+            throw new ServiceException('Параметр $email не может быть пустым');
         }
 
-        foreach (explode(',', $emails) as $email) {
-            $email = $this->validate($email);
-            $domain = $this->getDomainName($email);
-            $this->checkMx($domain);
-        }
+        $email = $this->validate($email);
+        $domain = $this->getDomainName($email);
+        $this->checkMx($domain);
 
         return true;
     }

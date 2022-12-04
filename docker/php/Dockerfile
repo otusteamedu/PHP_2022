@@ -20,6 +20,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-WORKDIR /app
+WORKDIR /code
 
 CMD ["php-fpm"]
