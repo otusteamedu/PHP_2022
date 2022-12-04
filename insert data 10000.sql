@@ -38,8 +38,3 @@ INSERT INTO values("attribute_id", "film_id", "v_int", "v_float", "v_boolean", "
     FROM
         "attributes",
         "films";
-
---
--- SELECT "id", "name" FROM "films";
---
-Seq Scan on films  (cost=0.00..178.00 rows=10000 width=30)
