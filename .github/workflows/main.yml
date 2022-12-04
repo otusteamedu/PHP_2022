@@ -27,8 +27,12 @@ jobs:
           phpcs_path: php phpcs.phar
           standard: phpcs.xml
           
-  phplint:
+  psalm:
+    name: Psalm
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v1
-        - uses: michaelw90/PHP-Lint@master
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Psalm
+        uses: docker://vimeo/psalm-github-actions
