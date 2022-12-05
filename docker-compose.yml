@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+
+  # Контейнер с php
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./code:/code
