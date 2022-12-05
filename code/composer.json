@@ -1,0 +1,9 @@
+{
+    "name": "ppro/hw7",
+    "autoload": {
+        "psr-4": {
+            "Ppro\\Hw7\\": "src/"
+        }
+    },
+    "require": {}
+}
