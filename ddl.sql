@@ -39,13 +39,15 @@ create table if not exists eav.values
     id           integer not null
     constraint values_pk
     primary key,
-    entity_id    integer not null
+    entity_id    integer
     constraint values_films_entity_null_fk
     references eav.films_entity,
-    attribute_id integer not null
+    attribute_id integer
     constraint values_attributes_null_fk
     references eav.attributes,
-    value        text
+    v_text       text,
+    v_date       date,
+    v_bool       boolean
 );
 
 alter table eav.values
