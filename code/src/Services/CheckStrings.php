@@ -15,6 +15,10 @@ final class CheckStrings
         $oneBracket = 0;
         $twoBracket = 0;
 
+        if ($arrStr[0] == '(') {
+            return false;
+        }
+
         foreach ($arrStr as $str)
         {
             switch ($str) {
