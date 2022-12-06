@@ -1,0 +1,519 @@
+Первые планы запросов сделаны с количеством записей  29 510 в ticket. Вторые и дальее 439 730.
+
+1. /*Общее количество билетов*/
+explain  select count(*) from ticket;
+
+                            QUERY PLAN    1                        
+------------------------------------------------------------------
+
+ Aggregate  (cost=585.88..585.88 rows=1 width=8)
+   ->  Seq Scan on ticket  (cost=0.00..512.10 rows=29510 width=4)
+(2 rows)
+
+                           QUERY PLAN 2 after data augmentation                                        
+-----------------------------------------------------------------------------------------
+
+ Finalize Aggregate  (cost=6524.48..6524.49 rows=1 width=8)
+
+   ->  Gather  (cost=6524.26..6524.47 rows=2 width=8)
+
+         Workers Planned: 2
+
+         ->  Partial Aggregate  (cost=5524.26..5524.27 rows=1 width=8)
+
+               ->  Parallel Seq Scan on ticket  (cost=0.00..5066.21 rows=183221 width=4)
+
+(5 rows)
+--------------------------------------------------------------------------------------
+
+Индекс здесь не поможет мотому что нужно пробегать всю таблицу.
+Может быть сделать так, для оптимизации.
+
+SELECT reltuples::bigint
+FROM pg_catalog.pg_class
+WHERE relname = 'ticket';
+
+
+
+
+2./* session  самый дорогой сеанс */
+explain select session_id, movie_id from session where price = (select max(price) from session);
+ 
+                                    QUERY PLAN   1                                   
+
+-----------------------------------------------------------------------------------
+
+ Seq Scan on session  (cost=25.01..50.01 rows=2 width=8)
+
+   Filter: (price = $0)
+
+   InitPlan 1 (returns $0)
+
+     ->  Aggregate  (cost=25.00..25.01 rows=1 width=32)
+
+           ->  Seq Scan on session session_1  (cost=0.00..22.20 rows=1120 width=6)
+(5 rows)
+
+                                    QUERY PLAN   2                                  
+
+------------------------------------------------------------------------------------
+
+ Seq Scan on session  (cost=170.01..340.01 rows=10 width=8)
+
+   Filter: (price = $0)
+
+   InitPlan 1 (returns $0)
+
+     ->  Aggregate  (cost=170.00..170.01 rows=1 width=32)
+
+           ->  Seq Scan on session session_1  (cost=0.00..150.60 rows=7760 width=6)
+
+(5 rows)
+			Создание индекса
+-----------------------------------------------------------------------------------------------------------------------------------
+
+CREATE INDEX inx__session__price ON session(price);
+
+                      QUERY PLAN  после создания индекса                                                            
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+ Bitmap Heap Scan on session  (cost=4.72..33.74 rows=10 width=8)
+
+   Recheck Cond: (price = $1)
+
+   InitPlan 2 (returns $1)
+
+     ->  Result  (cost=0.35..0.36 rows=1 width=32)
+
+           InitPlan 1 (returns $0)
+
+             ->  Limit  (cost=0.28..0.35 rows=1 width=6)
+
+                   ->  Index Only Scan Backward using inx__session__price on session session_1  (cost=0.28..523.94 rows=7760 width=6)
+
+                         Index Cond: (price IS NOT NULL)
+
+   ->  Bitmap Index Scan on inx__session__price  (cost=0.00..4.36 rows=10 width=0)
+
+         Index Cond: (price = $1)
+
+(10 rows)
+
+
+
+3./*прибыль за период*/
+
+explain
+select sum(s.price)
+from ticket t
+inner join session s on s.session_id = t.session_id
+where started_at between '2023-12-01' and '2023-12-31';
+
+
+                                                                               QUERY PLAN   1                                                                           
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                                                                               QUERY PLAN  2                                                                                 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Finalize Aggregate  (cost=6780.33..6780.34 rows=1 width=32)
+
+   ->  Gather  (cost=6780.11..6780.32 rows=2 width=32)
+
+         Workers Planned: 2
+
+         ->  Partial Aggregate  (cost=5780.11..5780.12 rows=1 width=32)
+
+               ->  Hash Join  (cost=196.96..5744.39 rows=14285 width=6)
+
+                     Hash Cond: (t.session_id = s.session_id)
+
+                     ->  Parallel Seq Scan on ticket t  (cost=0.00..5066.21 rows=183221 width=4)
+
+                     ->  Hash  (cost=189.40..189.40 rows=605 width=10)
+
+                           ->  Seq Scan on session s  (cost=0.00..189.40 rows=605 width=10)
+
+                                 Filter: ((started_at >= '2023-12-01 00:00:00'::timestamp without time zone) AND (started_at <= '2023-12-31 00:00:00'::timestamp without time zone))
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE INDEX inx__ticket__session_place_id ON ticket (session_id);
+CREATE INDEX inx__session__session_started_at ON session(started_at);
+
+                                                                              QUERY PLAN  3 after create indexes                                                                             
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Aggregate  (cost=5589.58..5589.59 rows=1 width=32)
+
+   ->  Nested Loop  (cost=0.70..5503.73 rows=34340 width=6)
+
+         ->  Index Scan using inx__session__session_started_at on session s  (cost=0.28..29.41 rows=606 width=10)
+
+               Index Cond: ((started_at >= '2023-12-01 00:00:00'::timestamp without time zone) AND (started_at <= '2023-12-31 00:00:00'::timestamp without time zone))
+
+         ->  Index Only Scan using inx__ticket__session_id on ticket t  (cost=0.42..8.44 rows=59 width=4)
+
+               Index Cond: (session_id = s.session_id)
+
+
+
+
+
+
+
+
+4./*прибыль за период по каждому фильму*/
+explain select m.name, ROUND(sum(s.price) :: numeric, 2)
+
+from ticket t
+
+          inner join session s on s.session_id = t.session_id
+
+         inner join movie m on m.movie_id = s.movie_id
+
+where started_at between '2022-12-01' and '2022-12-31'
+
+group by m.name
+
+order by sum(s.price) desc;
+
+                                                                                     QUERY PLAN 1                                                                                   
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Sort  (cost=776.77..777.09 rows=130 width=580)
+
+   Sort Key: (sum(s.price)) DESC
+
+   ->  HashAggregate  (cost=769.93..772.20 rows=130 width=580)
+
+         Group Key: m.name
+
+         ->  Hash Join  (cost=46.91..672.11 rows=13042 width=522)
+
+               Hash Cond: (s.movie_id = m.movie_id)
+
+               ->  Hash Join  (cost=33.99..623.84 rows=13042 width=10)
+
+                     Hash Cond: (t.session_id = s.session_id)
+
+                     ->  Seq Scan on ticket t  (cost=0.00..512.10 rows=29510 width=4)
+
+                     ->  Hash  (cost=27.80..27.80 rows=495 width=14)
+
+                           ->  Seq Scan on session s  (cost=0.00..27.80 rows=495 width=14)
+
+                                 Filter: ((started_at >= '2022-12-01 00:00:00'::timestamp without time zone) AND (started_at <= '2022-12-31 00:00:00'::timestamp without time zone))
+
+               ->  Hash  (cost=11.30..11.30 rows=130 width=520)
+
+                     ->  Seq Scan on movie m  (cost=0.00..11.30 rows=130 width=520)
+
+
+                                                                                         QUERY PLAN  2                                                                                             
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Sort  (cost=6892.11..6892.44 rows=130 width=580)
+
+   Sort Key: (sum(s.price)) DESC
+
+   ->  Finalize GroupAggregate  (cost=6851.69..6887.55 rows=130 width=580)
+
+         Group Key: m.name
+
+         ->  Gather Merge  (cost=6851.69..6882.02 rows=260 width=548)
+
+               Workers Planned: 2
+
+               ->  Sort  (cost=5851.66..5851.99 rows=130 width=548)
+
+                     Sort Key: m.name
+
+                     ->  Partial HashAggregate  (cost=5845.48..5847.10 rows=130 width=548)
+
+                           Group Key: m.name
+
+                           ->  Hash Join  (cost=208.47..5787.39 rows=11617 width=522)
+
+                                 Hash Cond: (s.movie_id = m.movie_id)
+
+                                 ->  Hash Join  (cost=195.55..5742.98 rows=11617 width=10)
+
+                                       Hash Cond: (t.session_id = s.session_id)
+
+                                       ->  Parallel Seq Scan on ticket t  (cost=0.00..5066.21 rows=183221 width=4)
+
+                                       ->  Hash  (cost=189.40..189.40 rows=492 width=14)
+
+                                             ->  Seq Scan on session s  (cost=0.00..189.40 rows=492 width=14)
+
+                                                   Filter: ((started_at >= '2022-12-01 00:00:00'::timestamp without time zone) AND (started_at <= '2022-12-31 00:00:00'::timestamp without time zone))
+
+                                 ->  Hash  (cost=11.30..11.30 rows=130 width=520)
+
+                                       ->  Seq Scan on movie m  (cost=0.00..11.30 rows=130 width=520)
+
+(20 rows)
+
+                                                                                   QUERY PLAN   - после создания индексов                                                                                  
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Sort  (cost=4790.94..4790.99 rows=20 width=580)
+
+   Sort Key: (sum(s.price)) DESC
+
+   ->  HashAggregate  (cost=4790.16..4790.51 rows=20 width=580)
+
+         Group Key: m.name
+
+         ->  Nested Loop  (cost=2.15..4581.06 rows=27880 width=522)
+
+               ->  Hash Join  (cost=1.73..29.15 rows=492 width=526)
+
+                     Hash Cond: (s.movie_id = m.movie_id)
+
+                     ->  Index Scan using inx__session__started_at on session s  (cost=0.28..26.13 rows=492 width=14)
+
+                           Index Cond: ((started_at >= '2022-12-01 00:00:00'::timestamp without time zone) AND (started_at <= '2022-12-31 00:00:00'::timestamp without time zone))
+
+                     ->  Hash  (cost=1.20..1.20 rows=20 width=520)
+
+                           ->  Seq Scan on movie m  (cost=0.00..1.20 rows=20 width=520)
+
+               ->  Index Only Scan using inx__ticket__session_id on ticket t  (cost=0.42..8.66 rows=59 width=4)
+
+                     Index Cond: (session_id = s.session_id)
+
+(13 rows)
+
+
+
+
+
+5./*сколько билетов продано  на каждый сеанс, цены */
+explain
+
+select s.session_id, count(t.ticket_id), min(s.price), max(s.price), avg(s.price) from ticket t
+
+inner join session s on s.session_id = t.session_id
+
+where started_at between '2022-12-01' and '2022-12-31'
+
+group by s.session_id
+
+order by count(t.ticket_id) desc;
+                                                                                         QUERY PLAN                                                                                            
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Sort  (cost=7074.08..7075.31 rows=492 width=108)
+
+   Sort Key: (count(t.ticket_id)) DESC
+
+   ->  Finalize GroupAggregate  (cost=6916.37..7052.08 rows=492 width=108)
+
+         Group Key: s.session_id
+
+         ->  Gather Merge  (cost=6916.37..7031.17 rows=984 width=108)
+
+               Workers Planned: 2
+
+               ->  Sort  (cost=5916.34..5917.57 rows=492 width=108)
+
+                     Sort Key: s.session_id
+
+                     ->  Partial HashAggregate  (cost=5888.19..5894.34 rows=492 width=108)
+
+                           Group Key: s.session_id
+
+                           ->  Hash Join  (cost=195.55..5742.98 rows=11617 width=14)
+
+                                 Hash Cond: (t.session_id = s.session_id)
+
+                                 ->  Parallel Seq Scan on ticket t  (cost=0.00..5066.21 rows=183221 width=8)
+
+                                 ->  Hash  (cost=189.40..189.40 rows=492 width=10)
+
+                                       ->  Seq Scan on session s  (cost=0.00..189.40 rows=492 width=10)
+
+                                             Filter: ((started_at >= '2022-12-01 00:00:00'::timestamp without time zone) AND (started_at <= '2022-12-31 00:00:00'::timestamp without time zone))
+
+(16 rows)
+							Создание индексов			
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE INDEX inx__ticket__session_place_id3 ON ticket (session_id);
+CREATE INDEX inx__session__session_started_at ON session(started_at);
+
+                                                                                 QUERY PLAN     после создания индексов                                                                              
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Sort  (cost=4954.69..4955.92 rows=492 width=108)
+
+   Sort Key: (count(t.ticket_id)) DESC
+
+   ->  HashAggregate  (cost=4926.54..4932.69 rows=492 width=108)
+
+         Group Key: s.session_id
+
+         ->  Nested Loop  (cost=0.70..4578.04 rows=27880 width=14)
+
+               ->  Index Scan using inx__session__started_at on session s  (cost=0.28..26.13 rows=492 width=10)
+
+                     Index Cond: ((started_at >= '2022-12-01 00:00:00'::timestamp without time zone) AND (started_at <= '2022-12-31 00:00:00'::timestamp without time zone))
+
+               ->  Index Scan using inx__ticket__session_id on ticket t  (cost=0.42..8.66 rows=59 width=8)
+
+                     Index Cond: (session_id = s.session_id)
+
+
+
+
+
+
+
+
+6./* какие зоны продаются чаще всего*/
+explain                                                   
+
+select  z.name, count(t.ticket_id)
+
+from ticket t
+
+         inner join place p on p.place_id = t.place_id
+
+         inner join zone z on z.zone_id = p.zone_id
+
+group by z.name
+
+order by count(t.ticket_id) desc;
+
+                                                    QUERY PLAN                                                     
+
+-------------------------------------------------------------------------------------------------------------------
+
+ Sort  (cost=8058.18..8058.68 rows=200 width=66)
+
+   Sort Key: (count(t.ticket_id)) DESC
+
+   ->  Finalize GroupAggregate  (cost=7999.86..8050.53 rows=200 width=66)
+
+         Group Key: z.name
+
+         ->  Gather Merge  (cost=7999.86..8046.53 rows=400 width=66)
+
+               Workers Planned: 2
+
+               ->  Sort  (cost=6999.84..7000.34 rows=200 width=66)
+
+                     Sort Key: z.name
+
+                     ->  Partial HashAggregate  (cost=6990.20..6992.20 rows=200 width=66)
+
+                           Group Key: z.name
+
+                           ->  Hash Join  (cost=33.64..6074.09 rows=183221 width=62)
+
+                                 Hash Cond: (p.zone_id = z.zone_id)
+
+                                 ->  Hash Join  (cost=6.77..5563.55 rows=183221 width=6)
+
+                                       Hash Cond: (t.place_id = p.place_id)
+
+                                       ->  Parallel Seq Scan on ticket t  (cost=0.00..5066.21 rows=183221 width=8)
+
+                                       ->  Hash  (cost=4.12..4.12 rows=212 width=6)
+
+                                             ->  Seq Scan on place p  (cost=0.00..4.12 rows=212 width=6)
+
+                                 ->  Hash  (cost=17.50..17.50 rows=750 width=60)
+
+                             
+В таком варианте запроса не нашла как оптимизировать его.
+Если берем все данные без фильтров, то индексы не использует, все равно бежит сканированием таблицы. Все равно всю таблицу обходить.
+Или как можно этот запрос оптимизировать? 
+
+
+7./* топ 10 самых прибыльных фильмов*/
+
+explain
+select distinct m.name, sum(s.price)
+from ticket t
+inner join session s on s.session_id = t.session_id
+inner join movie m on m.movie_id = s.movie_id
+group by m.name
+order by sum(s.price) desc
+limit 10;
+
+                                                          QUERY PLAN 2                                                          
+-------------------------------------------------------------------------------------------------------------------------------
+
+ Limit  (cost=8301.81..8301.89 rows=10 width=548)
+
+   ->  Unique  (cost=8301.81..8301.96 rows=20 width=548)
+
+         ->  Sort  (cost=8301.81..8301.86 rows=20 width=548)
+
+               Sort Key: (sum(s.price)) DESC, m.name
+
+               ->  Finalize GroupAggregate  (cost=8296.16..8301.38 rows=20 width=548)
+
+                     Group Key: m.name
+
+                     ->  Gather Merge  (cost=8296.16..8300.83 rows=40 width=548)
+
+                           Workers Planned: 2
+
+                           ->  Sort  (cost=7296.14..7296.19 rows=20 width=548)
+
+                                 Sort Key: m.name
+
+                                 ->  Partial HashAggregate  (cost=7295.46..7295.71 rows=20 width=548)
+
+                                       Group Key: m.name
+
+                                       ->  Hash Join  (cost=249.05..6379.35 rows=183221 width=522)
+
+                                             Hash Cond: (s.movie_id = m.movie_id)
+
+                                             ->  Hash Join  (cost=247.60..5795.03 rows=183221 width=10)
+
+                                                   Hash Cond: (t.session_id = s.session_id)
+
+                                                   ->  Parallel Seq Scan on ticket t  (cost=0.00..5066.21 rows=183221 width=4)
+
+                                                   ->  Hash  (cost=150.60..150.60 rows=7760 width=14)
+
+                                                         ->  Seq Scan on session s  (cost=0.00..150.60 rows=7760 width=14)
+
+                                             ->  Hash  (cost=1.20..1.20 rows=20 width=520)
+
+                                                   ->  Seq Scan on movie m  (cost=0.00..1.20 rows=20 width=520)
+
+(21 rows)
+
+В этом запросе тоже не смогла уйти от скана таблиц.
+
+В итоге создано только три индекса
+
+CREATE INDEX inx__ticket__session_id  ON ticket (session_id);
+CREATE INDEX inx__session__started_at ON session(started_at);
+
+CREATE INDEX inx__session__price ON session(price);
+
+
+
+
+
+
+
+
