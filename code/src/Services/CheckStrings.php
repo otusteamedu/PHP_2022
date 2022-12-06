@@ -15,8 +15,17 @@ final class CheckStrings
         $oneBracket = 0;
         $twoBracket = 0;
 
-        if ($arrStr[0] == '(') {
+        if ($arrStr[0] == ')') {
             return false;
+        }
+
+        for ($i=0; $i<count($arrStr); $i++)
+        {
+            if ($i < count($arrStr) - 1) {
+                if ($arrStr[$i] == ')' && $arrStr[$i + 1] == '(') {
+                    return false;
+                }
+            }
         }
 
         foreach ($arrStr as $str)
