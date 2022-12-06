@@ -21,8 +21,8 @@ final class CheckStrings
 
         for ($i=0; $i<count($arrStr); $i++)
         {
-            if ($i < count($arrStr) - 1) {
-                if ($arrStr[$i] == ')' && $arrStr[$i + 1] == '(') {
+            if ($i < count($arrStr) - 2) {
+                if ($arrStr[$i] != '(' && $arrStr[$i + 1] == ')' && $arrStr[$i + 2] == '(') {
                     return false;
                 }
             }
