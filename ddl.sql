@@ -47,7 +47,9 @@ create table if not exists eav.values
     references eav.attributes,
     v_text       text,
     v_date       date,
-    v_bool       boolean
+    v_bool       boolean,
+    v_int        integer,
+    v_float      numeric
 );
 
 alter table eav.values
