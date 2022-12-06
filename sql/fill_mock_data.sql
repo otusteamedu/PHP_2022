@@ -1,6 +1,6 @@
 do $$
     declare
-        rows_num integer := 10000; -- Суммарное кол-во записей с текстовым полем в hall, movie и movie_attribute_value
+        rows_num integer := 10000000; -- Суммарное кол-во записей с текстовым полем в hall, movie и movie_attribute_value
         movie_id integer := 0;
         hall_id integer := 0;
         reviews_attr_id integer := 0;
