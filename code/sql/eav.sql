@@ -32,6 +32,7 @@ insert into attribute(name, attribute_type_id, created_at, updated_at) values ('
 insert into attribute(name, attribute_type_id, created_at, updated_at) values ('Дата старта рекламы', 5, now(), now());
 insert into attribute(name, attribute_type_id, created_at, updated_at) values ('Минимальный возраст', 1, now(), now());
 insert into attribute(name, attribute_type_id, created_at, updated_at) values ('Наличии премии', 4, now(), now());
+insert into attribute(name, attribute_type_id, created_at, updated_at) values ('Рейтинг iMDb', 2, now(), now());
 
 
 insert into attribute_value(movie_id, attribute_id, v_text,   created_at, updated_at) values (1, 1, 'Резенция для фильма 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',  now(), now());

@@ -16,6 +16,9 @@ services:
     volumes:
       - ./code:/data/mysite.local
       - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    depends_on:
+      - php
+      - postgres
     networks:
       - app-network
 
@@ -31,6 +34,8 @@ services:
       - ./code:/data/mysite.local
     networks:
       - app-network
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:12
@@ -46,11 +51,15 @@ services:
     volumes:
       - dump:/data/mysite.local
       - postgresql:/var/lib/postgresql/data
+    networks:
+      - app-network
   redis:
     container_name: 'redis'
     image: redis
     ports:
       - 6379:6379
+
+
   rabbitmq:
     image: rabbitmq:3.7.5-management
     working_dir: /app
