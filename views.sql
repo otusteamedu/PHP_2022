@@ -14,7 +14,6 @@ SELECT films.title AS "title",
        attributes.name AS "attr_name",
        CASE
            WHEN attribute_types.field = "val_string" THEN attribute_film.val_string
-           WHEN attribute_types.field = "val_text" THEN attribute_film.val_text
            WHEN attribute_types.field = "val_int" THEN attribute_film.val_int
            WHEN attribute_types.field = "val_bool" THEN attribute_film.val_bool
            WHEN attribute_types.field = "val_date" THEN attribute_film.val_date

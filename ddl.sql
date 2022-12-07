@@ -27,8 +27,7 @@ CREATE TABLE attribute_film
 (
     `film_id`      INT UNSIGNED NOT NULL,
     `attribute_id` INT UNSIGNED NOT NULL,
-    `val_string`   VARCHAR(255),
-    `val_text`     TEXT,
+    `val_string`   TEXT,
     `val_int`      INT,
     `val_bool`     BOOLEAN,
     `val_date`     DATE,

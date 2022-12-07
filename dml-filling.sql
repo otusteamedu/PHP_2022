@@ -5,7 +5,6 @@ INSERT INTO `films` (`id`, `title`) VALUES(4, 'Back to the Future');
 
 insert into `attribute_types` (`id`, `name`, `field`) values (1, 'дата', 'val_date');
 insert into `attribute_types` (`id`, `name`, `field`) values (2, 'строка', 'val_string');
-insert into `attribute_types` (`id`, `name`, `field`) values (3, 'текст', 'val_text');
 insert into `attribute_types` (`id`, `name`, `field`) values (4, 'целое', 'val_int');
 insert into `attribute_types` (`id`, `name`, `field`) values (5, 'с плавающей точкой', 'val_float');
 insert into `attribute_types` (`id`, `name`, `field`) values (6, 'логическое', 'val_bool');
@@ -13,7 +12,7 @@ insert into `attribute_types` (`id`, `name`, `field`) values (6, 'логичес
 insert into `attributes` (`id`, `attribute_type_id`, `name`) values (1, 1, 'Дата премьеры в Мире');
 insert into `attributes` (`id`, `attribute_type_id`, `name`) values (2, 1, 'Дата премьеры в России');
 insert into `attributes` (`id`, `attribute_type_id`, `name`) values (3, 2, 'Режисер');
-insert into `attributes` (`id`, `attribute_type_id`, `name`) values (4, 3, 'Краткое описание');
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (4, 2, 'Краткое описание');
 insert into `attributes` (`id`, `attribute_type_id`, `name`) values (5, 4, 'Возраст');
 insert into `attributes` (`id`, `attribute_type_id`, `name`) values (6, 6, 'Оскар');
 insert into `attributes` (`id`, `attribute_type_id`, `name`) values (7, 1, 'Запуск рекламы');
@@ -33,10 +32,10 @@ insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (2
 insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (3, 3, 'Роберт Земекис');
 insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (4, 3, 'Роберт Земекис');
 
-insert into `attribute_film` (`film_id`, `attribute_id`, `val_text`) values (1, 4, 'Пол Эджкомб — начальник блока смертников...');
-insert into `attribute_film` (`film_id`, `attribute_id`, `val_text`) values (2, 4, 'Бухгалтер Энди Дюфрейн обвинён в...');
-insert into `attribute_film` (`film_id`, `attribute_id`, `val_text`) values (3, 4, 'Сидя на автобусной остановке, Форрест Гамп...');
-insert into `attribute_film` (`film_id`, `attribute_id`, `val_text`) values (4, 4, '1999-05-07');
+insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (1, 4, 'Пол Эджкомб — начальник блока смертников...');
+insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (2, 4, 'Бухгалтер Энди Дюфрейн обвинён в...');
+insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (3, 4, 'Сидя на автобусной остановке, Форрест Гамп...');
+insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (4, 4, '1999-05-07');
 
 insert into `attribute_film` (`film_id`, `attribute_id`, `val_int`) values (1, 5, 16);
 insert into `attribute_film` (`film_id`, `attribute_id`, `val_int`) values (2, 5, 16);
