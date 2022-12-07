@@ -32,4 +32,4 @@ INSERT INTO film_values (film_id, attribute_id, value_date) VALUES (1, 6, now() 
 INSERT INTO film_values (film_id, attribute_id, value_date) VALUES (1, 7, now());
 INSERT INTO film_values (film_id, attribute_id, value_date) VALUES (1, 8, now());
 INSERT INTO film_values (film_id, attribute_id, value_date) VALUES (1, 9, now() + interval '20 days');
-INSERT INTO film_values (film_id, attribute_id, value_num) VALUES (1, 10, 121111111.5922);
+INSERT INTO film_values (film_id, attribute_id, value_flot) VALUES (1, 10, 121111111.5922);
