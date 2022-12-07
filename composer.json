@@ -1,0 +1,17 @@
+{
+    "name": "dkozlov/app",
+    "autoload": {
+        "psr-4": {
+            "Dkozlov\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dmitry Kozlov",
+            "email": "d.kozlov@intensa.ru"
+        }
+    ],
+    "require": {
+      "ext-sockets": "*"
+    }
+}

@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  client:
+    build: ./docker
+    container_name: client
+    volumes:
+      - .:/data
+    networks:
+      - app-socket
+
+  server:
+    build: ./docker
+    container_name: server
+    volumes:
+      - .:/data
+    networks:
+      - app-socket
+
+networks:
+  app-socket:
+    driver: bridge
