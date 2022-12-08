@@ -19,7 +19,11 @@
         "wp-cli/php-cli-tools": "^0.11.15",
         "bramus/router": "^1.6",
         "ext-redis": "*",
-        "ext-memcached": "*"
+        "ext-memcached": "*",
+        "ext-dom": "*",
+        "phpunit/phpunit": "^9.5",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"

@@ -1,4 +1,4 @@
-# Курс OTUS PHP_2022, ДЗ к Уроку №13: Redis  
+# Курс OTUS PHP_2022, ДЗ к Уроку №13: "Redis"  
 
 ## Автор
 Mikhail Ikonnikov , mishaikon@gmail.com
@@ -50,11 +50,22 @@ Mikhail Ikonnikov , mishaikon@gmail.com
 ``` 
 git clone https://github.com/otusteamedu/PHP_2022.git
 cd PHP_2022
-git checkout MIkonnikov/hw13
+git checkout MIkonnikov_hw13
 
 # setup redis/memcached extesions (if required)
 apt-get install php-redis
 apt-get install php-memcached
+
+# setup for tests
+apt install php-xml
+apt install phpunit
+apt install php-curl
+
+# enable php extensions:
+# uncomment in php.ini (in my case: /etc/php/8.1/cli/php.ini)
+extension = curl 
+extension = memcached
+extension = redis
 
 # download/update vendor libs
 composer update
@@ -71,6 +82,15 @@ composer update
 - Доступна работа с двумя NoSQL БД - ```Memcached``` и ```Redis```. 
 - Переключение осуществляется путем изменения значения параметра ```repository``` 
 - в конфиг. файле ```app\src\config\common.php```  
+
+### Автотесты
+Перейдите в папку /test и запустите авто-тесты API:
+```
+cd test
+phpunit Apptest.php
+```
+Все тесты должны успешно отработать. 
+Ниже - описание как выполнить тестирование вручную. 
 
 ### Взаимодействие с системой через консоль  
 - Работа с системой возможна через ```HTTP API``` и ```Cli API```
