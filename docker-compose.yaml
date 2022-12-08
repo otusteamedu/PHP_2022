@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  #Контейнер с PHP-FPM
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: es/php
+    container_name: app
+    volumes:
+      - ./code:/data
+    networks:
+      - app-network
+
+  #Контейнер Elasticsearch
+  es01:
+    image: elasticsearch:8.5.2
+    container_name: es01
+    volumes:
+      - ./data01:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    networks:
+      - app-network
+
+  #Kibana
+  kibana:
+    container_name: kb-container
+    image: kibana:8.5.2
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+    networks:
+      - app-network
+    depends_on:
+      - es01
+    ports:
+      - "5601:5601"
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+

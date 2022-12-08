@@ -1,0 +1,12 @@
+{
+  "name": "ppro/hw12",
+  "autoload": {
+    "psr-4": {
+      "Ppro\\Hw12\\": "src/"
+    }
+  },
+  "require": {
+    "elasticsearch/elasticsearch": "^8.5",
+    "pear/console_table": "^1.3"
+  }
+}
