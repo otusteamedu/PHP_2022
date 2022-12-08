@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE FUNCTION GenerateFilmTitle()
+CREATE FUNCTION GenerateString()
     RETURNS VARCHAR(255)
 
 BEGIN

@@ -1,62 +1,21 @@
 DELIMITER $$
-CREATE PROCEDURE films(IN count INT)
+CREATE PROCEDURE FillBase(IN count INT)
 
 BEGIN
 
-    DECLARE i INT DEFAULT 0;
+    DECLARE i INT DEFAULT 1;
 
-    WHILE i < count
+    WHILE i < (count+1)
         DO
-            INSERT INTO films (title, base_price) VALUES (GenerateFilmTitle(), CEILING(RAND() * (300 - 100) + 100));
+            INSERT INTO `films` (`id`, `title`) VALUES(i, GenerateString());
+            insert into `attribute_film` (`film_id`, `attribute_id`, `val_date`) values (i, 1, DATE(GenerateDate()));
+            insert into `attribute_film` (`film_id`, `attribute_id`, `val_date`) values (i, 2, DATE(GenerateDate()));
+            insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (i, 3, GenerateString());
+            insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (i, 4, GenerateString());
+            insert into `attribute_film` (`film_id`, `attribute_id`, `val_int`) values (i, 5, RAND()*18);
+            insert into `attribute_film` (`film_id`, `attribute_id`, `val_bool`) values (i, 6, RAND()*1);
+            insert into `attribute_film` (`film_id`, `attribute_id`, `val_date`) values (i, 7, DATE(GenerateDate()));
             SET i = i + 1;
         END WHILE;
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE sessions(IN count INT)
-
-BEGIN
-
-    DECLARE i INT DEFAULT 0;
-    DECLARE start timestamp;
-    DECLARE end timestamp;
-
-    WHILE i < count
-        DO
-            SET start = GenerateDate();
-            SET end = DATE_ADD(start, INTERVAL 2 HOUR) ;
-            IF (end < start) THEN INSERT INTO sessions (`from`, `to`, markup) VALUES (end, start, CEILING(RAND() * (50 - 25) + 25));
-            else INSERT INTO sessions (`from`, `to`, markup) VALUES (start, end, CEILING(RAND() * (50 - 25) + 25));
-            end if;
-
-            SET i = i + 1;
-        END WHILE;
-
-
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE film_session(IN count INT)
-
-BEGIN
-
-    DECLARE i INT DEFAULT 0;
-    DECLARE start timestamp;
-    DECLARE end timestamp;
-
-    WHILE i < count
-        DO
-            SET start = GenerateDate();
-            SET end = DATE_ADD(start, INTERVAL 2 HOUR) ;
-            IF (end < start) THEN INSERT INTO sessions (`from`, `to`, markup) VALUES (end, start, CEILING(RAND() * (50 - 25) + 25));
-            else INSERT INTO sessions (`from`, `to`, markup) VALUES (start, end, CEILING(RAND() * (50 - 25) + 25));
-            end if;
-
-            SET i = i + 1;
-        END WHILE;
-
-
-END$$
+    END$$
 DELIMITER ;
