@@ -25,7 +25,31 @@ BEGIN
     WHILE i < count
         DO
             SET start = GenerateDate();
-            SET end = dateadd(HH, 2, DATE (start)) ;
+            SET end = DATE_ADD(start, INTERVAL 2 HOUR) ;
+            IF (end < start) THEN INSERT INTO sessions (`from`, `to`, markup) VALUES (end, start, CEILING(RAND() * (50 - 25) + 25));
+            else INSERT INTO sessions (`from`, `to`, markup) VALUES (start, end, CEILING(RAND() * (50 - 25) + 25));
+            end if;
+
+            SET i = i + 1;
+        END WHILE;
+
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE film_session(IN count INT)
+
+BEGIN
+
+    DECLARE i INT DEFAULT 0;
+    DECLARE start timestamp;
+    DECLARE end timestamp;
+
+    WHILE i < count
+        DO
+            SET start = GenerateDate();
+            SET end = DATE_ADD(start, INTERVAL 2 HOUR) ;
             IF (end < start) THEN INSERT INTO sessions (`from`, `to`, markup) VALUES (end, start, CEILING(RAND() * (50 - 25) + 25));
             else INSERT INTO sessions (`from`, `to`, markup) VALUES (start, end, CEILING(RAND() * (50 - 25) + 25));
             end if;
