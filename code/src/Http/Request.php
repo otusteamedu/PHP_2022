@@ -6,11 +6,10 @@ namespace Sveta\Code\Http;
 
 final class Request
 {
-    private const REQUEST = 'POST';
-
     private array $data;
 
-    public function __construct(array $data) {
+    public function __construct(array $data)
+    {
         $this->data = $data;
     }
 

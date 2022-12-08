@@ -14,10 +14,10 @@ final class App
     private CheckStrings $checkStrings;
     private RequestStatus $requestStatus;
 
-    public function __construct(CheckStrings $checkStrings, RequestStatus $requestStatus)
+    public function __construct()
     {
-        $this->checkStrings = $checkStrings;
-        $this->requestStatus = $requestStatus;
+        $this->checkStrings = new CheckStrings();
+        $this->requestStatus = new RequestStatus();
     }
 
     /**

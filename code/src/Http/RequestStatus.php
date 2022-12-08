@@ -10,8 +10,7 @@ final class RequestStatus
 
     public function checkPost(array $server): bool
     {
-        if ($server['REQUEST_METHOD'] != self::REQUEST)
-        {
+        if ($server['REQUEST_METHOD'] != self::REQUEST) {
             return false;
         }
 

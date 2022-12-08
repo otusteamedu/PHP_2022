@@ -19,8 +19,7 @@ final class CheckStrings
             return false;
         }
 
-        for ($i=0; $i<count($arrStr); $i++)
-        {
+        for ($i = 0; $i < count($arrStr); $i++) {
             if ($i < count($arrStr) - 2) {
                 if ($arrStr[$i] != '(' && $arrStr[$i + 1] == ')' && $arrStr[$i + 2] == '(') {
                     return false;
@@ -28,8 +27,7 @@ final class CheckStrings
             }
         }
 
-        foreach ($arrStr as $str)
-        {
+        foreach ($arrStr as $str) {
             switch ($str) {
                 case ')':
                     $oneBracket++;
