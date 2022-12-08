@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    image: otus-homework11
+    container_name: otus-hw11
+    env_file:
+      - .env
+    restart: unless-stopped
+    working_dir: /project
+    volumes:
+      - ./:/project
+      - ./docker-settings/php/app.ini:/usr/local/etc/php/conf.d/app.ini
+    networks:
+      - otus
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-hw11
+    restart: unless-stopped
+    ports:
+      - '8005:80'
+    volumes:
+      - ./:/project
+      - ./docker-settings/nginx/site:/etc/nginx/conf.d/
+    networks:
+      - otus
+
+  redis:
+    image: redis:6.2.3
+    container_name: redis-hw11
+    ports:
+      - "6385:6379"
+    volumes:
+      - ./docker-settings/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./volumes/redis:/data
+    networks:
+      - otus
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached-hw11
+    environment:
+      - MEMCACHED_CACHE_SIZE=${ENV_MEMCACHED_CACHE_SIZE}
+      - MEMCACHED_MAX_CONNECTIONS=${ENV_MEMCACHED_MAX_CONNECTIONS}
+      - MEMCACHED_THREADS=${ENV_MEMCACHED_THREADS}
+      - MEMCACHED_MAX_ITEM_SIZE=${ENV_MEMCACHED_MAX_ITEM_SIZE}
+      - MEMCACHED_USERNAME=${ENV_MEMCACHED_USERNAME}
+      - MEMCACHED_PASSWORD=${ENV_MEMCACHED_PASSWORD}
+    ports:
+      - "11211:11211"
+    volumes:
+      - ./volumes/memcached:/data
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge
