@@ -40,4 +40,6 @@ SELECT films.title AS "title",
 FROM films
          JOIN attribute_film ON films.id = attribute_film.film_id
          JOIN attributes ON attribute_film.attribute_id = attributes.id
-         JOIN attribute_types ON attributes.attribute_type_id = attribute_types.id;
+         JOIN attribute_types ON attributes.attribute_type_id = attribute_types.id
+ORDER BY films.id DESC
+LIMIT 15;
