@@ -39,7 +39,7 @@ class Apptests extends TestCase
             'data' => [
                 "key" => "event",
                 "score" => 1000,
-                "conditions" => "param=1",
+                "conditions" => "param1=1",
                 "event_description" => "event1"
             ],
             'result' => 'Event added',
@@ -50,10 +50,10 @@ class Apptests extends TestCase
             'data' => [
                 "key" => "event",
                 "score" => 2000,
-                "conditions" => "param=1,param2",
+                "conditions" => "param1=1,param2=2",
                 "event_description" => "event2"
             ],
-            'result' => 'Event added',  // all is fine
+            'result' => 'Event added',
         ],
         [
             'action' => 'api/event/add/',                   // add
@@ -61,10 +61,10 @@ class Apptests extends TestCase
             'data' => [
                 "key" => "event",
                 "score" => 3000,
-                "conditions" => "param=1,param2",
+                "conditions" => "param1=1,param2=2",
                 "event_description" => "event3"
             ],
-            'result' => 'Event added',  // all is fine
+            'result' => 'Event added',
         ],
         [
             'action' => 'api/event/get_all/',               // get_all
@@ -73,10 +73,19 @@ class Apptests extends TestCase
                 "key" => "event",
             ],
             'result' => [
-                '{"conditions":"param=1","event":"event1"}',
-                '{"conditions":"param=1,param2","event":"event2"}',
-                '{"conditions":"param=1,param2","event":"event3"}'
+                '{"conditions":"param1=1","event":"event1"}',
+                '{"conditions":"param1=1,param2=2","event":"event2"}',
+                '{"conditions":"param1=1,param2=2","event":"event3"}'
             ],
+        ],
+        [
+            'action' => 'api/event/get/',                   // get single
+            'method' => 'POST',
+            'data' => [
+                "key" => "event",
+                "conditions" => "param1=1,param2=2"
+            ],
+            'result' => ['{"conditions":"param1=1,param2=2","event":"event3"}' => 3000],
         ],
         [
             'action' => 'api/event/delete/',               // delete single
@@ -84,24 +93,13 @@ class Apptests extends TestCase
             'data' => [
                 "key" => "event",
                 "score" => 2000,
-                "conditions" => "param=1,param2",
+                "conditions" => "param=1,param2=2",
                 "event_description" => "event2"
             ],
             'result' => "Event event2 deleted",
         ],
         [
-            'action' => 'api/event/get_all/',               // get_all
-            'method' => 'POST',
-            'data' => [
-                "key" => "event",
-            ],
-            'result' => [
-                '{"conditions":"param=1","event":"event1"}',
-                '{"conditions":"param=1,param2","event":"event3"}'
-            ],
-        ],
-        [
-            'action' => 'api/event/delete_all/',               // delete all
+            'action' => 'api/event/delete_all/',            // delete all
             'method' => 'POST',
             'data' => [
                 "key" => "event",
@@ -109,7 +107,7 @@ class Apptests extends TestCase
             'result' => ["Storage cleared"],
         ],
         [
-            'action' => 'api/event/get_all/',                   // get_all (empty)
+            'action' => 'api/event/get_all/',               // get_all (empty)
             'method' => 'POST',
             'data' => [
                 "key" => "event",
@@ -163,9 +161,15 @@ class Apptests extends TestCase
         echo "Result: " . PHP_EOL;
         var_dump($res);
 
-        $this->assertEquals($data['result'], $res);
-
         $success = boolval($res == $data['result']);
+
+        if(!$success) {
+            echo "\033[31mTEST FAILED\033[0m" . PHP_EOL;
+            echo "Excpected:" . var_export($data['result'], 1) . PHP_EOL;
+            echo "Result:" . var_export($res, 1) . PHP_EOL;
+        }
+
+        $this->assertEquals($data['result'], $res);
 
         return $success;
     }
@@ -186,6 +190,7 @@ class Apptests extends TestCase
             } else {
                 echo "\033[31m- FAIL\033[0m" . PHP_EOL;
             }
+            //sleep(1);
         }
 
         echo PHP_EOL . "FINISH test" . PHP_EOL;
