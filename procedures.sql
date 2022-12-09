@@ -7,7 +7,7 @@ BEGIN
 
     WHILE i < (count+1)
         DO
-            INSERT INTO `films` (`id`, `title`) VALUES(i, GenerateString());
+            INSERT INTO `films` (`id`, `title`) VALUES(i, CONCAT(i,'_', GenerateString()));
             insert into `attribute_film` (`film_id`, `attribute_id`, `val_date`) values (i, 1, DATE(GenerateDate()));
             insert into `attribute_film` (`film_id`, `attribute_id`, `val_date`) values (i, 2, DATE(GenerateDate()));
             insert into `attribute_film` (`film_id`, `attribute_id`, `val_string`) values (i, 3, GenerateString());
