@@ -60,7 +60,9 @@ final class ApiController
      */
     public function deleteAllEvents(): void
     {
-        if (!$this->validate(validation_method: 'validateDeleteAllEvents')) return;
+        if (!$this->validate(validation_method: 'validateDeleteAllEvents')) {
+            return;
+        }
 
         $this->repository->deleteAll();
 
@@ -72,7 +74,9 @@ final class ApiController
      */
     public function deleteConcreteEvent(): void
     {
-        if (!$this->validate(validation_method: 'validateDeleteConcreteEvent')) return;
+        if (!$this->validate(validation_method: 'validateDeleteConcreteEvent')) {
+            return;
+        }
 
         $this->repository->deleteConcreteEvent(
             event: new Event(
@@ -93,7 +97,9 @@ final class ApiController
      */
     public function getAllEvents(): void
     {
-        if (!$this->validate(validation_method: 'validateGetAllEvents')) return;
+        if (!$this->validate(validation_method: 'validateGetAllEvents')) {
+            return;
+        }
 
         $events = $this->repository->getAllEvents(
             event: new Event(

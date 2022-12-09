@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Src\Controllers;
 
 use function cli\line;
+
 use App\Src\Event\Event;
 use App\Src\Kernel\Kernel;
 use App\Src\Repositories\RepositoryDTO;
@@ -32,7 +33,9 @@ final class CliController
      */
     public function addEvent(RepositoryDTO $repository_dto): void
     {
-        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateAddEventRequest')) return;
+        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateAddEventRequest')) {
+            return;
+        }
 
         $event = new Event(repository_dto: $repository_dto);
 
@@ -54,8 +57,9 @@ final class CliController
      */
     public function deleteConcreteEvent(RepositoryDTO $repository_dto): void
     {
-        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateDeleteConcreteEvent'))
+        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateDeleteConcreteEvent')) {
             return;
+        }
 
         $event = new Event(repository_dto: $repository_dto);
 
@@ -68,7 +72,9 @@ final class CliController
      */
     public function getAllEvents(RepositoryDTO $repository_dto): void
     {
-        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateGetAllEvents')) return;
+        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateGetAllEvents')) {
+            return;
+        }
 
         $event = new Event(repository_dto: $repository_dto);
 
@@ -81,7 +87,9 @@ final class CliController
      */
     public function getConcreteEvent(RepositoryDTO $repository_dto): void
     {
-        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateGetConcreteEvent')) return;
+        if (!$this->validate(request: (array)$repository_dto, validation_method: 'validateGetConcreteEvent')) {
+            return;
+        }
 
         $event = new Event(repository_dto: $repository_dto);
 

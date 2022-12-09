@@ -1,16 +1,14 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Test app's restAPI
  */
-
 class Apptests extends TestCase
 {
     const API_URL = 'http://90.156.203.124:8005/';
@@ -135,15 +133,15 @@ class Apptests extends TestCase
     }
 
     /**
-     * @return void
+     * @return bool
      */
     private function testApi($data)
     {
-        if(!is_array($data) || !count($data)) {
+        if (!is_array($data) || !count($data)) {
             return false;
         }
 
-        switch($data['method']) {
+        switch ($data['method']) {
             case 'POST':
                 $res = $this->sendPostRequest($data['action'], $data['data']);
                 break;
@@ -163,7 +161,7 @@ class Apptests extends TestCase
 
         $success = boolval($res == $data['result']);
 
-        if(!$success) {
+        if (!$success) {
             echo "\033[31mTEST FAILED\033[0m" . PHP_EOL;
             echo "Excpected:" . var_export($data['result'], 1) . PHP_EOL;
             echo "Result:" . var_export($res, 1) . PHP_EOL;
@@ -190,7 +188,6 @@ class Apptests extends TestCase
             } else {
                 echo "\033[31m- FAIL\033[0m" . PHP_EOL;
             }
-            //sleep(1);
         }
 
         echo PHP_EOL . "FINISH test" . PHP_EOL;

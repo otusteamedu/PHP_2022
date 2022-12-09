@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Src\Infrastructure\Cli;
 
 use function cli\{line, menu, prompt};
+
 use App\Src\Controllers\CliController;
 use App\Src\Repositories\RepositoryDTO;
 
