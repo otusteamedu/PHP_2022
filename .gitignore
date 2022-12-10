@@ -1,0 +1,4 @@
+/vendor/
+/elastic_search/.env
+/elastic_search/ca.rt
+/elastic_search/code/vendor/

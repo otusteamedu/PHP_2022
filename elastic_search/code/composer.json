@@ -1,0 +1,19 @@
+{
+  "name": "anty/elastic_search_app",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Mapaxa\\ElasticSearchApp\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "elasticsearch/elasticsearch": "^8.4"
+  },
+  "authors": [
+    {
+      "name": "mapaxa",
+      "email": "alexeybespalov86@gmail.com"
+    }
+  ]
+}

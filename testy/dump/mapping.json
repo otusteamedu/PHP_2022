@@ -1,0 +1,21 @@
+{
+  "mappings": {
+    "books": {
+      "properties": {
+        "category": {"type": "keyword"},
+        "price": {"type": "long"},
+        "sku": {"type": "keyword"},
+        "stock": {
+          "type": "nested",
+          "properties": {
+            "shop": {"type": "keyword"},
+            "stock": {"type": "long"}
+          }
+        },
+        "title": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
