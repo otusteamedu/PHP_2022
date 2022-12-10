@@ -1,10 +1,11 @@
 <?php
 
+namespace Test;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Test app's restAPI

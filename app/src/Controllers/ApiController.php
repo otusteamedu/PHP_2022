@@ -115,7 +115,9 @@ final class ApiController
      */
     public function getConcreteEvent(): void
     {
-        if (!$this->validate(validation_method: 'validateGetConcreteEvent')) return;
+        if (!$this->validate(validation_method: 'validateGetConcreteEvent')) {
+            return;
+        }
 
         $event = $this->repository->getConcreteEvent(
             event: new Event(

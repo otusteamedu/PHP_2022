@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Src\Controllers;
 
 use function cli\line;
-
 use App\Src\Event\Event;
 use App\Src\Kernel\Kernel;
 use App\Src\Repositories\RepositoryDTO;
