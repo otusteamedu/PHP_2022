@@ -7,13 +7,9 @@ namespace App\Src\Controllers;
 use function cli\line;
 
 use App\Src\Event\Event;
-
 use App\Src\Repositories\RepositoryDTO;
-
 use App\Src\Repositories\Contracts\Repository;
-
 use App\Src\Controllers\Validators\ControllerRequestValidator;
-
 use App\Src\Kernel\Kernel;
 
 final class CliController
