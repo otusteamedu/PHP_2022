@@ -24,7 +24,8 @@ CREATE TABLE "attribute_type_value"
     "text"     varchar,
     "decimal"  decimal,
     "int"      int4,
-    "date"     date
+    "date"     date,
+    "bool"     boolean
 );
 
 ALTER TABLE "movie_attributes"
