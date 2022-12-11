@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-final class App
+namespace Sveta\Php2022;
+class App
 {
     public function __construct(
         private EmailChecker $emailChecker

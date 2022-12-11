@@ -1,7 +1,9 @@
 <?php
 
 declare(strict_types=1);
-final class EmailChecker
+
+namespace Sveta\Php2022;
+class EmailChecker
 {
     private function isIP(string $ip, int $type = null): bool
     {
