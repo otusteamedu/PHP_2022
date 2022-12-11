@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Src\Infrastructure\Cli;
 
-use function cli\{line, menu, prompt};
-
 use App\Src\Controllers\CliController;
 use App\Src\Repositories\RepositoryDTO;
+
+use function cli\{line, menu, prompt};
 
 final class CliDialog
 {
@@ -72,8 +72,7 @@ final class CliDialog
                     )
                 ),
                 3 => $this->controller->getAllEvents(
-                    repository_dto: new RepositoryDTO(key: prompt(question: 'Введите ключ')
-                    )
+                    repository_dto: new RepositoryDTO(key: prompt(question: 'Введите ключ'))
                 ),
                 4 => $this->controller->deleteAllEvents(),
                 5 => $this->controller->deleteConcreteEvent(
