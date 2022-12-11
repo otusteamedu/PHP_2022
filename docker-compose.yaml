@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: app/nginx
+    container_name: nginx_hw10
+    ports:
+      - "8080:80"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./tmp/log/nginx:/var/log/nginx
+    depends_on:
+      - php-fpm
+      - elasticsearch
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: app/fpm
+    container_name: php-fpm_hw10
+    volumes:
+        - ./code:/data/mysite.local
+    depends_on:
+        - elasticsearch
+    networks:
+        - app-network
+
+
+  elasticsearch:
+    image: elasticsearch:8.4.2
+    container_name: elasticsearch_hw10
+    restart: always
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - app-network
+
+volumes:
+  elasticsearch-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

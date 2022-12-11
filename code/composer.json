@@ -1,0 +1,22 @@
+{
+  "name": "otus/app",
+  "description": "HW10 (12) Elasticsearch",
+  "type": "project",
+  "license": "Freeware",
+  "authors": [
+    {
+      "name": "MIkonnikov",
+      "email": "mishaikon@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "elasticsearch/elasticsearch": "^8.4",
+    "phplucidframe/console-table": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otus\\App\\": "src/"
+    }
+  }
+}

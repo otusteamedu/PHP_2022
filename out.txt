@@ -1,0 +1,22 @@
+ Том в устройстве E имеет метку DATA
+ Серийный номер тома: 77DE-0E69
+
+ Содержимое папки E:\OpenServer\domains\codexamps\src\mishaikon\phpexp\Courses\otus_php_pro\PHP_2022
+
+11.12.2022  20:02    <DIR>          .
+11.12.2022  20:02    <DIR>          ..
+11.12.2022  20:01               197 .env.example
+11.12.2022  20:01                84 .gitignore
+11.12.2022  20:01               215 analytics_panel.php
+11.12.2022  20:01    <DIR>          app
+11.12.2022  20:01               747 composer.json
+11.12.2022  20:01            37 730 composer.lock
+11.12.2022  20:01             1 482 docker-compose.yml
+11.12.2022  20:01    <DIR>          docker-settings
+11.12.2022  20:01             1 269 Dockerfile
+11.12.2022  20:02                 0 out.txt
+11.12.2022  20:01             9 251 README.md
+11.12.2022  20:01    <DIR>          readme_img
+11.12.2022  20:01    <DIR>          test
+               9 файлов         50 975 байт
+               6 папок  58 132 652 032 байт свободно
