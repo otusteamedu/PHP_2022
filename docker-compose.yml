@@ -1,0 +1,71 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    ports:
+      - "8080:80"
+    container_name: webserver
+    volumes:
+      - ./code:/data/mysite.local
+      - "phpsocket:/var/run"
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+      - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - "phpsocket:/var/run"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7.0.5-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --appendonly yes
+    networks:
+      - app-network
+
+  memcached:
+      image: memcached:1.6.17-alpine
+      container_name: memcached
+      restart: always
+      ports:
+        - "11211:11211"
+      networks:
+        - app-network
+
+  postgres:
+    image: postgres:15.1
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_USER: "db_user"
+      POSTGRES_PASSWORD: "pgpwd4db"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - .:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+    driver: local
+  phpsocket:
+
+networks:
+  app-network:
+    driver: bridge
