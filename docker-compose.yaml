@@ -1,0 +1,66 @@
+# версия синтаксиса
+version: '3'
+
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM
+  fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: fpm
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/redis-data:/var/lib/redis
+    hostname: redis
+    networks:
+      - app-network
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+  memcached:
+    container_name: memcached
+    command: memcached -m 512
+    image: memcached
+    restart: always
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
