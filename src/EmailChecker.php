@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Sveta\Php2022;
+
 class EmailChecker
 {
     private function isIP(string $ip, int $type = null): bool
@@ -58,11 +59,11 @@ class EmailChecker
                 if (preg_match('/^220/i', $out = fgets($connect, 1024))) {
                     fputs($connect, "HELO $ip\r\n");
                     $out = fgets($connect, 1024);
-                    $details .= $out."\n";
+                    $details .= $out . "\n";
 
                     fputs($connect, "MAIL FROM: <$to>\r\n");
                     $from = fgets($connect, 1024);
-                    $details .= $to."\n";
+                    $details .= $to . "\n";
 
                     fputs($connect, "RCPT TO: <$to>\r\n");
                     $to = fgets($connect, 1024);

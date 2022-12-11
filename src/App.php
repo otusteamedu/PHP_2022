@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Sveta\Php2022;
+
 class App
 {
     public function __construct(
