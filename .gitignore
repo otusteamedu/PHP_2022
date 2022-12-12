@@ -1,5 +1,6 @@
 .idea
 .DS_Store
-/db/postgres
+/db
+/esdata
 /logs/*
 .env
