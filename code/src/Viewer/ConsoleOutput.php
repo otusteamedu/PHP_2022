@@ -8,6 +8,11 @@ use LucidFrame\Console\ConsoleTable;
 
 class ConsoleOutput implements OutputInterface
 {
+    /**
+     * Build books table
+     * @param array $books
+     * @return void
+     */
     public function echo(array $books): void
     {
         $table = new ConsoleTable();
@@ -36,6 +41,10 @@ class ConsoleOutput implements OutputInterface
         $table->display();
     }
 
+    /**
+     * @param array $stock
+     * @return array
+     */
     private function getStockInfo(array $stock): array
     {
         $stockInfo = [];

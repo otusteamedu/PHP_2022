@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Otus PHP Pro HW10 console app
+ * @see README.MD
+ */
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
