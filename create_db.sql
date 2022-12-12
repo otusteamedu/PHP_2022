@@ -1,0 +1,54 @@
+CREATE TABLE films
+(
+    `id`    INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `title` VARCHAR(255) NOT NULL UNIQUE,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE attribute_types
+(
+    `id`    INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `field` VARCHAR(255) NOT NULL,
+    `name`  VARCHAR(255) NOT NULL UNIQUE,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE attributes
+(
+    `id`                INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `attribute_type_id` INT UNSIGNED NOT NULL,
+    `name`              VARCHAR(255) NOT NULL UNIQUE,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `attribute_type_id_foreign`
+        FOREIGN KEY (`attribute_type_id`) REFERENCES `attribute_types` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE attribute_film
+(
+    `film_id`      INT UNSIGNED NOT NULL,
+    `attribute_id` INT UNSIGNED NOT NULL,
+    `val_string`   TEXT,
+    `val_int`      INT,
+    `val_bool`     BOOLEAN,
+    `val_date`     DATE,
+    `val_float`    DECIMAL,
+    PRIMARY KEY (`film_id`, `attribute_id`),
+    CONSTRAINT `attribute_film_film_id_foreign`
+        FOREIGN KEY (`film_id`) REFERENCES `films` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `attribute_film_attribute_id_foreign`
+        FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+insert into `attribute_types` (`id`, `name`, `field`) values (1, 'дата', 'val_date');
+insert into `attribute_types` (`id`, `name`, `field`) values (2, 'строка', 'val_string');
+insert into `attribute_types` (`id`, `name`, `field`) values (4, 'целое', 'val_int');
+insert into `attribute_types` (`id`, `name`, `field`) values (5, 'с плавающей точкой', 'val_float');
+insert into `attribute_types` (`id`, `name`, `field`) values (6, 'логическое', 'val_bool');
+
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (1, 1, 'Дата премьеры в Мире');
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (2, 1, 'Дата премьеры в России');
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (3, 2, 'Режисер');
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (4, 2, 'Краткое описание');
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (5, 4, 'Возраст');
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (6, 6, 'Оскар');
+insert into `attributes` (`id`, `attribute_type_id`, `name`) values (7, 1, 'Запуск рекламы');
