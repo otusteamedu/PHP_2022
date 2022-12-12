@@ -6,9 +6,11 @@ namespace Sveta\Php2022;
 
 class App
 {
-    public function __construct(
-        private EmailChecker $emailChecker
-    ) {
+    private EmailChecker $emailChecker;
+
+    public function __construct()
+    {
+        $this->emailChecker = new EmailChecker();
     }
 
     public function run(array $emails): array

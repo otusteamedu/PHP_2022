@@ -6,7 +6,6 @@ for ($i = 0; $i < 4; $i++) {
     $emails[] = readline('Введите почту: ');
 }
 
-$service = new \Sveta\Php2022\EmailChecker();
-$app = new \Sveta\Php2022\App($service);
+$app = new \Sveta\Php2022\App();
 $result = $app->run($emails);
 print_r($result);

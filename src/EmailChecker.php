@@ -51,7 +51,7 @@ class EmailChecker
         if ($this->getRecords($ip, $domain, $mxhosts)) {
             $details = '';
             $ip = $this->getRecords($ip, $domain, $mxhosts);
-            $connect = @fsockopen($ip, 25);
+            $connect = fsockopen($ip, 25);
 
             if ($connect) {
                 $to = $email;
