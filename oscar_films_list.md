@@ -60,3 +60,17 @@ WHERE attributes.name = "Оскар"
 ```
 
 ![explain analyze](./images/oscar_films_list/analyze_10000.png)
+
+### 1 000 000 записей
+
+![explain analyze](./images/oscar_films_list/analyze_1000000.png)
+
+Создан индекс
+```sql
+CREATE INDEX idx_val_bool
+ON attribute_film (val_bool);
+```
+
+![explain analyze](./images/oscar_films_list/analyze_with_index.png)
+
+Итоговое время выполнения уменьшилось.

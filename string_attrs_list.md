@@ -44,3 +44,9 @@ WHERE attribute_type_id = 2;
 ```
 
 ![explain analyze](./images/string_attrs_list/analyze_10000.png)
+
+### 1 000 000 записей
+
+![explain analyze](./images/string_attrs_list/analyze_1000000.png)
+
+Оптимизация не требуется.

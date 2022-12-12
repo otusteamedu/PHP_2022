@@ -41,3 +41,11 @@ FROM films;
 ```
 
 ![explain analyze](./images/total_films_num/analyze_10000.png)
+
+### 1 000 000 записей
+
+EXPLAIN ANALYZE:
+
+![explain analyze](./images/total_films_num/analyze_1000000.png)
+
+Оптимизация не требуется.
