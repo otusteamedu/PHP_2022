@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\App\Middleware;
 
 use App\App\Service\EmailVerifier;
+use App\App\Service\EmailVerifierMode;
 use App\Infrastructure\Http\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,7 +32,7 @@ class ValidateEmailFieldMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
-        if (!EmailVerifier::verify($body['email'])) {
+        if (!EmailVerifier::verify($body['email'], EmailVerifierMode::WITH_MX_CHECKING)) {
             return new Response(\htmlspecialchars($body['email']) . ' не является корректным email адресом', 400);
         }
 

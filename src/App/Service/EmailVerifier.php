@@ -16,7 +16,16 @@ class EmailVerifier
     /**
      * Возвращает true, если переданный email - корректный
      */
-    public static function verify(string $email): bool
+    public static function verify(string $email, EmailVerifierMode $mode): bool
+    {
+        if ($mode === EmailVerifierMode::REGEXP_ONLY) {
+            return self::checkRegExp($email);
+        }
+
+        return self::checkRegExp($email) && self::checkMXRecord($email);
+    }
+
+    private static function checkRegExp(string $email): bool
     {
         $result = \preg_match(self::PATTERN, $email);
 
@@ -26,5 +35,13 @@ class EmailVerifier
         }
 
         return (bool) $result;
+    }
+
+    private static function checkMXRecord(string $email): bool
+    {
+        [$username, $domain] = \explode('@', $email);
+        getmxrr($domain, $hosts);
+
+        return \count($hosts) !== 0;
     }
 }
