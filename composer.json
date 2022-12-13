@@ -1,0 +1,17 @@
+{
+    "name": "dkozlov/otus",
+    "autoload": {
+        "psr-4": {
+            "Dkozlov\\Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dmitry Kozlov",
+            "email": "d.kozlov@intensa.ru"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*"
+    }
+}
