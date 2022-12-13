@@ -1,4 +1,4 @@
 .idea/
 .env
 /vendor/
-/sockets/
+/**/*.sock
