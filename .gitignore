@@ -4,3 +4,4 @@
 /esdata
 /logs/*
 .env
+http_ca.crt

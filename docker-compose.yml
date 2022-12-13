@@ -14,7 +14,7 @@ services:
     container_name: es
     environment:
       - discovery.type=single-node
-      - ELASTIC_PASSWORD=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     volumes:
       - ./esdata:/usr/share/elasticsearch/data
     ports:
