@@ -2,7 +2,7 @@
 
 use Dkozlov\App\App;
 
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 try {
     $app = new App($argv[1]);

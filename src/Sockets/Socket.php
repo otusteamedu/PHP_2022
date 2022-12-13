@@ -5,6 +5,7 @@ namespace Dkozlov\App\Sockets;
 use Dkozlov\App\Sockets\Exceptions\BindFailedException;
 use Dkozlov\App\Sockets\Exceptions\CreateFailedException;
 use Dkozlov\App\Sockets\Exceptions\SendFailedException;
+use Generator;
 
 abstract class Socket
 {
@@ -29,7 +30,7 @@ abstract class Socket
         $this->bind();
     }
 
-    public abstract function run(): void;
+    public abstract function run(): Generator;
 
     /**
      * @throws CreateFailedException

@@ -2,16 +2,18 @@
 
 namespace Dkozlov\App\Sockets;
 
+use Generator;
+
 class Server extends Socket
 {
-    public function run(): void
+    public function run(): Generator
     {
         while (true) {
             $received = $this->receive();
 
-            echo 'Received message: ' . $received['text'] . PHP_EOL;
-
             $this->send('Received ' . $received['bytes'] . ' bytes', $received['address']);
+
+            yield 'Received message: ' . $received['text'];
         }
     }
 }

@@ -13,6 +13,10 @@ use Dkozlov\App\Sockets\Socket;
 class App
 {
 
+    public const SERVER = 'server';
+
+    public const CLIENT = 'client';
+
     private Config $config;
 
     private string $mode;
@@ -35,7 +39,9 @@ class App
     {
         $socket = $this->buildSocket();
 
-        $socket->run();
+        foreach ($socket->run() as $message) {
+            echo $message . PHP_EOL;
+        }
     }
 
     /**
@@ -46,9 +52,9 @@ class App
     protected function buildSocket(): Socket
     {
         switch ($this->mode) {
-            case Mode::CLIENT:
+            case self::CLIENT:
                 return new Client($this->config->get('client'), $this->config->get('server'));
-            case Mode::SERVER:
+            case self::SERVER:
                 return new Server($this->config->get('server'));
             default:
                 throw new ModeUndefinedException('Undefined app mode: ' . $this->mode);

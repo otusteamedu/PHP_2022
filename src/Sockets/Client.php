@@ -2,6 +2,8 @@
 
 namespace Dkozlov\App\Sockets;
 
+use Generator;
+
 class Client extends Socket
 {
 
@@ -14,7 +16,7 @@ class Client extends Socket
         $this->server = $server;
     }
 
-    public function run(): void
+    public function run(): Generator
     {
         while (true) {
             $message = trim(fgets(STDIN));
@@ -23,7 +25,7 @@ class Client extends Socket
 
             $response = $this->receive();
             
-            echo $response['text'] . PHP_EOL;
+            yield $response['text'];
         }
     }
 }
