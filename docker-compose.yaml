@@ -24,11 +24,11 @@ services:
     volumes:
       - "/mysql/data:/var/lib/mysql"
     environment:
-      - "MYSQL_DATABASE=db"
-      - "MYSQL_ROOT_PASSWORD=password"
-      - "MYSQL_USER=user"
-      - "MYSQL_PASSWORD=password"
-      - "TZ=Europe/Moscow"
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: ${TZ}
     networks:
       - app-network
   phpmyadmin:
