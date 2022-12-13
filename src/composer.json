@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "elasticsearch/elasticsearch": "^8.5"
+        "elasticsearch/elasticsearch": "^8.5",
+        "phplucidframe/console-table": "^1.2"
     }
 }

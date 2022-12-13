@@ -10,19 +10,20 @@ class App
 
     private array $inputParams;
 
-    private $render;
+    private $renderHandler;
 
 
     public function __construct()
     {
+        $this->inputParams = InputHandler::getParams();
         $this->client = new ElasticsearchClient();
-        $this->inputParams = (new InputParams())->getParams();
-        $this->renderer = new Renderer();
+        $this->renderHandler = new RenderHandler();
     }
 
     public function run(): void
     {
         $result = $this->client->search($this->inputParams);
-        $this->renderer->render($result);
+        $this->renderHandler->setRows($result);
+        $this->renderHandler->render();
     }
 }

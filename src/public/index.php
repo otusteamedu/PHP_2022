@@ -3,11 +3,14 @@
 declare(strict_types=1);
 
 use Elastic\Elasticsearch\ClientBuilder;
-use Eliasjump\Elasticsearch\InputClient;
+use Eliasjump\Elasticsearch\InputHandler;
+use LucidFrame\Console\ConsoleTable;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
-new InputClient();
+$params = InputHandler::getParams();
+
+
 
 
 //$client = ClientBuilder::create()

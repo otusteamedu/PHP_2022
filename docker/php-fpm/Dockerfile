@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
 	libonig-dev \
 	libzip-dev \
 	libmcrypt-dev \
-    libmemcached-tools \
-    libmemcached-dev \
+    #libmemcached-tools \
+    #libmemcached-dev \
         && pecl install mcrypt-1.0.5 && docker-php-ext-enable mcrypt \
         #&& pecl install redis && docker-php-ext-enable redis \
         #&& pecl install memcached && docker-php-ext-enable memcached \
