@@ -12,5 +12,8 @@
             "email": "albinamkh@mail.ru"
         }
     ],
-    "require": {}
+    "require": {
+        "elasticsearch/elasticsearch": "^8.5",
+        "pear/console_table": "^1.3"
+    }
 }
