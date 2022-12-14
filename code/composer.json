@@ -1,0 +1,18 @@
+{
+    "name": "kopte/code",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Kopte\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "koptev",
+            "email": "koptev@alfa.im"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    }
+}
