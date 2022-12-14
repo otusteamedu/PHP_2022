@@ -3,10 +3,11 @@
 namespace app\actions;
 
 use app\EsSearcher;
+use app\helpers\Prettier;
 
 class SearchAction extends Action {
     private array $preparedParams = [];
-    private const ALLOWED_PARAMS = ['minPrice', 'maxPrice', 'category', 'title'];
+    private const ALLOWED_PARAMS = ['minStock', 'minPrice', 'maxPrice', 'category', 'title'];
 
     public function execute()
     {
@@ -24,30 +25,28 @@ class SearchAction extends Action {
             if (!isset($paramArr[1])) throw new \Exception('Неверный формат параметра: ' . $param . '. Используйте формат param:value.');
             if (!in_array($paramArr[0], self::ALLOWED_PARAMS)) throw new \Exception('Неизвестный параметр: ' . $paramArr[0] . '. Разрешенные параметры: ' . implode(', ', self::ALLOWED_PARAMS));
 
-            $this->preparedParams = [
-                'bool' => [
-                    'filter' => [
-                        0 => [
-                            'nested' => [
-                                'path' => "stock",
-                                'query' => [
-                                    'bool' => [
-                                        'filter' => [
-                                            0 => [
-                                                'range' => [
-                                                    'stock.stock' => [ "gte" => 1 ]
-                                                ]
-                                            ],
-                                        ]
+            $this->preparedParams = [];
+
+            switch ($paramArr[0]) {
+                case 'minStock':
+                    $filter = [
+                        'nested' => [
+                            'path' => "stock",
+                            'query' => [
+                                'bool' => [
+                                    'filter' => [
+                                        0 => [
+                                            'range' => [
+                                                'stock.stock' => [ "gte" => $paramArr[1] ]
+                                            ]
+                                        ],
                                     ]
                                 ]
                             ]
                         ]
-                    ]
-                ]
-            ];
-
-            switch ($paramArr[0]) {
+                    ];
+                    $this->preparedParams['bool']['filter'][] = $filter;
+                    break;
                 case 'minPrice':
                     $p = ['range' => ['price' => ['gte' => $paramArr[1]]]];
                     $priceParam = array_merge_recursive($priceParam, $p);
@@ -71,22 +70,10 @@ class SearchAction extends Action {
     }
     public function pretty($result): string
     {
-
         if (!isset($result['hits']) || !isset($result['hits']['hits']) || count($result['hits']['hits']) == 0) {
             return 'Ничего не найдено. Попробуйте расширить фильтры.'.PHP_EOL;
         }
 
-        $return = 'sku | title | category | price | stock'.PHP_EOL;
-        foreach ($result['hits']['hits'] as $hit) {
-            $s = $hit['_source'];
-            $stock = '';
-            foreach ($s['stock'] as $sInfo) {
-                $stock.= 'Магазин на '.$sInfo['shop'].': '.$sInfo['stock'].'. ';
-            }
-            $return .= $s['sku'].' | '.$s['title'].' | '.$s['category'].' | '.$s['price'].' | '.$stock.PHP_EOL;
-        }
-
-
-        return $return;
+        return Prettier::showBooksTable($result['hits']['hits']);
     }
 }

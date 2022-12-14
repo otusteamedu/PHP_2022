@@ -12,7 +12,7 @@ class StatsAction extends Action {
         return $this->pretty($searcher->stats());
     }
 
-    public function pretty($result)
+    public function pretty($result): string
     {
         return 'В индексе '.$result['count'].' документов.'.PHP_EOL;
     }
