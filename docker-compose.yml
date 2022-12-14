@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres-otus-hw8
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB_NAME}"
+      POSTGRES_USER: "${POSTGRES_DB_LOGIN}"
+      POSTGRES_PASSWORD: "${POSTGRES_DB_PASSWORD}"
+      PGDATA: "${PG_DATA}"
+    volumes:
+      - ./docker-settings/postgresql/:/docker-entrypoint-initdb.d
+      - ./db_data:/var/lib/postgresql/data
+      - ./docker-settings/postgresql/conf/custom.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+    networks:
+      - otus
+
+  pgadmin:
+    container_name: pgadmin-otus-hw8
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+      PGADMIN_CONFIG_SERVER_MODE: "${PGADMIN_CONFIG_SERVER_MODE}"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5051:80"
+    restart: unless-stopped
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge
