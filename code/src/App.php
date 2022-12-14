@@ -10,13 +10,13 @@ use Otus\App\Viewer\View;
 class App
 {
 //TODO удалить про Linux
-    protected static $routes = [
-        'lessons/linux-specialization' => ['Lessons','linux'],
-        'linux-spec' => ['Lessons','linux']
-    ];
+    protected static $routes = [];
 
     public static function run()
     {
+        $controller_name = "Otus\\App\\Controllers\\IndexController";
+        $action_name = "index";
+
         $path = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
         if(array_key_exists($path,self::$routes))
         {

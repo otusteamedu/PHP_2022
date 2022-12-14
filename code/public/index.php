@@ -6,15 +6,9 @@ use Otus\App\Viewer\View;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$app = new App();
-$app->run();
-
-
-/*
 try {
     $app = new App();
     $app->run();
 } catch(Exception $e){
     View::render('404');
 }
-*/
