@@ -1,0 +1,42 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "title": {
+              "query":"рыцОрm",
+              "fuzziness": "auto"
+            }
+          }
+        },
+        {
+          "match": {
+            "category": "Исторический роман"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "lte": 2000
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "stock",
+            "query": [
+              {
+                "range": {
+                  "stock.stock": {"gte":1}
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
