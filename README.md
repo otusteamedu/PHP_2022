@@ -3,13 +3,15 @@
 
 #### Комманды
 ```
-Поиск - # php app.php -f #index_name# -t #title# -c #category# -p #price# -a
+Поиск - # php app.php -f #index_name# -t #title# -c #category# -pfrom #priceFrom# -pto #priceTo# -a #amount#
     -f - фильтрация
-    -a - наличие
+    -a - наличие (по умолчанию 1)
+    --pfrom - цена от
+    --pto - цена до
 Добавление индекса _bulk - # php app.php -b #index_name#
 Удаление индекса - # php app.php -rm #index_name#
 
-# php app.php -f otus-shop -t рыцОрь -c Детская литература -p 1100 -a
+# php app.php -f otus-shop -t рыцОрь -c 'Детская литература' -pto 1100 -a 12
 ```
 
 ###### Задание

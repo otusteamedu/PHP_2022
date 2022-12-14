@@ -19,38 +19,29 @@ class Request
     }
 
     /** Формирование параметров для фильтрации из консольной команды
-     * @param array $filterParams
      * @return array
      */
-    private static function getParamsFromResponse(array $filterParams)
+    private static function getParamsFromConsole()
     {
-        $filterParams = array_slice($filterParams,3);
-        $arSubCmd = ['-t','-c','-p','-a'];
-        //объединение раздельных слов в строки за исключением команд
-        foreach($filterParams as $k => $v){
-            if(!in_array($v,$arSubCmd) && !empty($filterParams[$k+1]) && !in_array($filterParams[$k+1],$arSubCmd)) {
-                $filterParams[$k + 1] = $v . " " . $filterParams[$k + 1];
-                unset($filterParams[$k]);
-            }
-        }
-
-        $t = array_search('-t',$filterParams);
-        $c = array_search('-c',$filterParams);
-        $p = array_search('-p',$filterParams);
-        $title = $t !== false && isset($filterParams[$t+1]) && !in_array($filterParams[$t+1],$arSubCmd) ? $filterParams[$t+1] : "";
-        $category = $c !== false && isset($filterParams[$c+1]) && !in_array($filterParams[$c+1],$arSubCmd) ? $filterParams[$c+1] : "";
-        $toPrice = $p !== false && isset($filterParams[$p+1]) && !in_array($filterParams[$p+1],$arSubCmd) ? (int)$filterParams[$p+1] : 0;
-        $available = array_search('-a',$filterParams);
-        return [$title,$category,$toPrice,$available];
+        $consoleParam = \getopt('f:t:c:a:', ['pfrom:', 'pto:']);
+        return [
+          $consoleParam['t'] ?: "",
+          $consoleParam['c'] ?: "",
+          $consoleParam['pfrom'] ?? null,
+          $consoleParam['pto'] ?? null,
+          $consoleParam['a'] ?? null
+        ];
     }
 
     /**  Формирование тела запроса для фильтрации
      * @param array $filterParams
      * @return \array[][][]
      */
-    public static function getBodyForFilter(array $filterParams): array
+    public static function getBodyForFilter(): array
     {
-        list($title,$category,$toPrice,$available) = self::getParamsFromResponse($filterParams);
+        list($title,$category,$fromPrice,$toPrice,$available) = self::getParamsFromConsole();
+
+        //поиск по category
         $match = [];
         $filter = [];
         if (!empty($category))
@@ -59,6 +50,8 @@ class Request
                 "category" => (string)$category
               ]
             ];
+
+        //поиск по title
         if (!empty($title))
             $match[] = [
               "match" => [
@@ -68,15 +61,21 @@ class Request
                 ]
               ]
             ];
-        if (!empty($toPrice))
+
+        //фильтр по цене
+        if(isset($toPrice))
+            $priceRange['lte'] = (int)$toPrice;
+        if(isset($fromPrice))
+            $priceRange['gt'] = (int)$fromPrice;
+        if (!empty($priceRange))
             $filter[] = [
               'range' => [
-                'price' => [
-                  'lte' => (int)$toPrice
-                ]
+                'price' => $priceRange
               ]
             ];
-        if (!empty($available))
+
+        //фильтр по доступности
+        if (isset($available))
             $filter[] = [
               'nested' => [
                 'path' => 'stock',
@@ -84,7 +83,7 @@ class Request
                   [
                     'range' => [
                       'stock.stock' => [
-                        'gte' => 1
+                        'gte' => (int)$available ?: 1
                       ]
                     ]
                   ]

@@ -18,7 +18,7 @@ class FilterCommand extends Command
         if(empty($_SERVER['argv'][2]))
             throw new \Exception("Index not defined");
         $params['index'] = $_SERVER['argv'][2];
-        $params['body'] = Request::getBodyForFilter($_SERVER['argv']);
+        $params['body'] = Request::getBodyForFilter();
         $client = new Client($context);
         $client->filterIndex($params);
     }
