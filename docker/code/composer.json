@@ -1,0 +1,16 @@
+{
+    "name": "waisee/string-verificator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Waisee\\StringVerificator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Danil",
+            "email": "danil.baluev@rt.ru"
+        }
+    ],
+    "require": {}
+}
