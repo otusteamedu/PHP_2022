@@ -10,5 +10,9 @@ try {
     $app = new App();
     $app->run();
 } catch(Exception $e){
-    View::render('404');
+    View::render('error', [
+        'title' => 'Ошибка 404',
+        'error_code' => '404 - Not Found',
+        'result' => 'Нет такой страницы'
+    ]);
 }

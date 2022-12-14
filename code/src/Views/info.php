@@ -3,13 +3,8 @@
 <head>
     <title><?php echo $title; ?></title>
     <style>
-        body {
-            text-align: center;
-        }
-
-        h1 {
-            margin-top: 20%;
-        }
+        body {text-align: center;}
+        h1 {margin-top: 20%;}
     </style>
 </head>
 <body>

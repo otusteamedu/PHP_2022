@@ -2,32 +2,40 @@
 namespace Otus\App\Models;
 
 use Otus\App\App;
+use Otus\App\Viewer\View;
 use PDO;
 
 abstract class ActiveRecordEntity
 {
-   // private static array $config;
-
     private static $connectionInstance;
 
     private static function getInstance()
     {
-        $config = App::getConfig();
-        if(self::$connectionInstance === null) {
-            self::$connectionInstance = new PDO(sprintf("%s:host=%s;dbname=%s",
-                $config['repository']['type'],
-                $config['repository']['host'],
-                $config['repository']['db']),
-                $config['repository']['user'],
-                $config['repository']['password'],
-                [
-                    // При возврате результатов запроса - возвращать в виде ассоциативного массива
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES   => false,
-                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION
-                ]);
+        try {
+            $config = App::getConfig();
+
+            if(self::$connectionInstance === null) {
+                self::$connectionInstance = new PDO(sprintf("%s:host=%s;dbname=%s",
+                    $config['repository']['type'],
+                    $config['repository']['host'],
+                    $config['repository']['db']),
+                    $config['repository']['user'],
+                    $config['repository']['password'],
+                    [
+                        // При возврате результатов запроса - возвращать в виде ассоциативного массива
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        PDO::ATTR_EMULATE_PREPARES   => false,
+                        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION
+                    ]);
+            }
+            return self::$connectionInstance;
+        } catch (\Exception $e) {
+            View::render('error', [
+                'title' => '503 - Service Unavailable',
+                'error_code' => '503 - Service Unavailable',
+                'result' => 'Cервер временно не имеет возможности обрабатывать запросы по техническим причинам'
+            ]);
         }
-        return self::$connectionInstance;
     }
 
     public function Model()

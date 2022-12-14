@@ -24,7 +24,7 @@ services:
     container_name: fpm_hw_12
     volumes:
        - ./code:/data/mysite.local
-       - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+       - ./docker/fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     environment:
       XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
       PHP_IDE_CONFIG: "serverName=Docker"

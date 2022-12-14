@@ -12,5 +12,4 @@ class IndexController
             'title' => 'Главная страница',
         ]);
     }
-
 }

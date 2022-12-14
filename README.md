@@ -1,6 +1,6 @@
 # PHP_2022
 
-## Instructions (HW12)
+## Instructions (HW13)
 
 ### Run app
 
@@ -11,4 +11,4 @@
 4. "docker compose --env-file .env up --build -d"
 ```
 
-
+### UPDATE: HW13 SOLID

@@ -9,7 +9,6 @@ use Otus\App\Viewer\View;
 
 class App
 {
-//TODO удалить про Linux
     protected static $routes = [];
 
     public static function run()
@@ -39,12 +38,20 @@ class App
         // Check controller exists.
         if(!class_exists($controller_name,true)) {
             //redirect to 404
-            View::render('404');
+            View::render('error', [
+                'title' => 'Ошибка 404',
+                'error_code' => '404 - Not Found',
+                'result' => 'Нет такой страницы'
+            ]);
         }
 
         if(!method_exists($controller_name, $action_name)) {
             //redirect to 404
-            View::render('404');
+            View::render('error', [
+                'title' => 'Ошибка 404',
+                'error_code' => '404 - Not Found',
+                'result' => 'Нет такой страницы'
+            ]);
         }
 
         $controller = new $controller_name();
