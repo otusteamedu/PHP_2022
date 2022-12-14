@@ -1,0 +1,19 @@
+{
+    "name": "koptev/hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Koptev\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "koptev",
+            "email": "koptev19@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "egulias/email-validator": "*"
+    }
+}
