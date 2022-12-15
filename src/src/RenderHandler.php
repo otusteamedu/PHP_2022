@@ -11,22 +11,19 @@ class RenderHandler
     private const HEADERS = ['title', 'sku', 'category', 'price', 'stock'];
     private ConsoleTable $table;
 
-    public function _construct(): void
+    public function __construct()
     {
         $this->table = new ConsoleTable();
         $this->table->setHeaders(self::HEADERS);
     }
 
-    public function setRows(array $rows ): void
+    public function setRows(array $rows): void
     {
         foreach ($rows as $row) {
-            $this->setRow($row);
+            $row['stock'] = array_map(fn($item) => $item['stock'] . ' экз. на ' . $item['shop'], $row['stock']);
+            $row['stock'] = implode(', ', $row['stock']);
+            $this->table->addRow($row);
         }
-    }
-
-    public function setRow(array $row): void
-    {
-        $this->table->addRow($row);
     }
 
     public function render(): void

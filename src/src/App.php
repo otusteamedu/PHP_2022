@@ -4,25 +4,30 @@ declare(strict_types=1);
 
 namespace Eliasjump\Elasticsearch;
 
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
+
 class App
 {
-    private ElasticsearchClient $elasticClient;
-
     private array $inputParams;
-
-    private $renderHandler;
+    private ElasticsearchClient $elsClient;
+    private RenderHandler $renderHandler;
 
 
     public function __construct()
     {
         $this->inputParams = InputHandler::getParams();
-        $this->client = new ElasticsearchClient();
+        $this->elsClient = new ElasticsearchClient();
         $this->renderHandler = new RenderHandler();
     }
 
+    /**
+     * @throws ServerResponseException
+     * @throws ClientResponseException
+     */
     public function run(): void
     {
-        $result = $this->client->search($this->inputParams);
+        $result = $this->elsClient->search($this->inputParams);
         $this->renderHandler->setRows($result);
         $this->renderHandler->render();
     }
