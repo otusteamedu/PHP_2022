@@ -3,7 +3,6 @@
 namespace app\actions;
 
 use app\EsSearcher;
-use app\helpers\Prettier;
 
 class SearchAction extends Action {
     private array $preparedParams = [];
@@ -74,6 +73,6 @@ class SearchAction extends Action {
             return 'Ничего не найдено. Попробуйте расширить фильтры.'.PHP_EOL;
         }
 
-        return Prettier::showBooksTable($result['hits']['hits']);
+        return $this->model->showHitsTable($result['hits']['hits']);
     }
 }

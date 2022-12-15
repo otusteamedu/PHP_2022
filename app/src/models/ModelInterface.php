@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-interface ModelInterface
-{
-
+interface ModelInterface {
+    public function showHitsTable(array $hits):string;
 }

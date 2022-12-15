@@ -2,6 +2,8 @@
 
 namespace app;
 
+use app\models\Book;
+
 class Controller {
     private string $index;
     private string $action;
@@ -13,8 +15,9 @@ class Controller {
 
     public function run(): string {
         $className = 'app\\actions\\'.ucfirst(strtolower($this->action)).'Action';
+        $model = new Book();
         try {
-            $action = new $className($this->index, $this->params);
+            $action = new $className($this->index, $model, $this->params);
         } catch (\Throwable $e) {
             if (preg_match('/^Class .+ not found$/', $e->getMessage())) {
                 return 'Действие '.$this->action.' не поддерживается.'.PHP_EOL;

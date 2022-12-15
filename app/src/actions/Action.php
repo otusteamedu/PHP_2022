@@ -2,17 +2,18 @@
 
 namespace app\actions;
 
+use app\models\ModelInterface;
+
 abstract class Action {
     public string $index;
     public array $params;
+    public ModelInterface $model;
 
-    public function __construct($index, $params = []) {
+    public function __construct(string $index, ModelInterface $model, $params = []) {
         $this->params = $params;
         $this->index = $index;
+        $this->model = $model;
     }
 
     public function execute() {}
-    public function pretty($result):string {
-        return var_export($result, 1);
-    }
 }
