@@ -1,1 +1,6 @@
+/code/api/var/
+/code/api/vendor/
+/code/ui/var/
+/code/ui/vendor/
+/code/.env
 /.idea/

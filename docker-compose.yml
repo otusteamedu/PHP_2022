@@ -1,0 +1,143 @@
+version: '3'
+
+services:
+  proxy-nginx:
+    build:
+      context: ./proxy-nginx
+      dockerfile: Dockerfile
+    image: myapp/proxy-nginx
+    container_name: proxy-nginx
+    depends_on:
+      - ui-nginx
+      - api-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code/ui:/data/application.local
+    networks:
+      - app-network
+
+  ui-fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/ui-fpm
+    container_name: ui-fpm
+    volumes:
+      - ./code/ui:/data/application.local
+    networks:
+      - app-network
+
+  ui-nginx:
+    build:
+      context: ./ui-nginx
+      dockerfile: Dockerfile
+    image: myapp/ui-nginx
+    container_name: ui-nginx
+    volumes:
+      - ./code/ui:/data/application.local
+    networks:
+      - app-network
+
+  api-fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/api-fpm
+    container_name: api-fpm
+    volumes:
+      - ./code/api:/data/application.local
+    networks:
+      - app-network
+
+  api-nginx:
+    build:
+      context: ./api-nginx
+      dockerfile: Dockerfile
+    image: myapp/api-nginx
+    container_name: api-nginx
+    volumes:
+      - ./code/api:/data/application.local
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    container_name: ${RABBITMQ_HOST}
+    ports:
+      - "15672:15672"
+      - "${RABBITMQ_PORT}:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    networks:
+      - app-network
+
+  #elasticsearch:
+  #  image: bitnami/elasticsearch:7.9.2
+  #  container_name: ${ELASTICSEARCH_HOST}
+  #  environment:
+  #    - cluster.name=docker-cluster
+  #    - bootstrap.memory_lock=true
+  #    - discovery.type=single-node
+  #    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #  ulimits:
+  #    memlock:
+  #      soft: -1
+  #      hard: -1
+  #  ports:
+  #    - "${ELASTICSEARCH_PORT}:9200"
+  #    - "9300:9300"
+  #  networks:
+  #    - app-network
+
+  #kibana:
+  #  image: bitnami/kibana:7.9.2
+  #  container_name: 'kibana'
+  #  depends_on:
+  #    - elasticsearch
+  #  ports:
+  #    - 5601:5601
+  #  networks:
+  #    - app-network
+
+  postgresql:
+    image: postgres:13
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    container_name: ${DB_HOST}
+    working_dir: /data/application.local
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  redis:
+    container_name: ${REDIS_HOST}
+    image: redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    networks:
+      - app-network
+
+  #memcached:
+  #  image: memcached:latest
+  #  container_name: 'memcached'
+  #  restart: always
+  #  ports:
+  #    - "11211:11211"
+  #  networks:
+  #    - app-network
+
+volumes:
+  postgresql:
+
+networks:
+  app-network:
+    driver: bridge
