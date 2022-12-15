@@ -38,7 +38,10 @@ CREATE TABLE values (
     id             integer CONSTRAINT value_pkey PRIMARY KEY,
     id_attribute   integer REFERENCES attributes (id),
     id_film        integer REFERENCES films (id),
-    value          varchar(200) NOT NULL
+    value_string   string
+    value_bool     bool
+    value_date     date
+    value_float    float
 );
 
 -- Заполнение Фильмы.
@@ -49,9 +52,10 @@ INSERT INTO films (id, title, description) VALUES
 
 -- Заполнение Типы аттрибутов.
 INSERT INTO type_attribute (id, name_type) VALUES
-('1', 'Текстовые значения'),
-('2', 'Логические значения'),
-('3', 'Дата');
+('1', 'string'),
+('2', 'bool'),
+('3', 'date');
+('4', 'float');
 
 -- Заполнение Аттрибуты.
 INSERT INTO attributes (id, id_type, name_attribute) VALUES
@@ -61,17 +65,17 @@ INSERT INTO attributes (id, id_type, name_attribute) VALUES
 (4, 3, 'Служебные даты');
 
 -- Заполнение Значения.
-INSERT INTO values (id, id_attribute, id_film, value) VALUES
-(1, 1, 1, 'Хороший фильм. Немного скучноват.'),
-(2, 2, 1, false),
-(3, 3, 1, '2022-10-10'),
-(4, 3, 1, '2022-03-03')
-(5, 2, 2, true),
-(6, 4, 2, '2022-03-03'),
-(7, 4, 2, '2022-12-14'),
-(8, 3, 3, '2022-12-15'),
-(9, 3, 3, '2023-01-03'),
-(10, 4, 2, '2023-03-03');
+INSERT INTO values (id, id_attribute, id_film, value_string, value_bool, value_date, value_float) VALUES
+(1, 1, 1, 'Хороший фильм.', null, null, null),
+(2, 2, 1, null, false, null, null),
+(3, 3, 1, null, null, '2022-10-10', null),
+(4, 3, 1, null, null, '2022-03-03', null)
+(5, 2, 2, null, true, null, null),
+(6, 4, 2, null, null, '2022-03-03', null),
+(7, 4, 2, null, null, '2022-12-14', null),
+(8, 3, 3, null, null, '2022-12-15', null),
+(9, 3, 3, null, null, '2023-01-03', null),
+(10, 4, 2, null, null, '2023-03-03', null);
 
 CREATE VIEW view1 AS
 SELECT * FROM values
