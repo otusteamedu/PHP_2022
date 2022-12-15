@@ -1,0 +1,19 @@
+{
+    "name": "maxim/app",
+    "autoload": {
+        "psr-4": {
+            "app\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "m.smerdov",
+            "email": "zdraff@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "elasticsearch/elasticsearch": "^8.5",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

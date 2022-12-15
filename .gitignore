@@ -1,0 +1,7 @@
+.idea
+.DS_Store
+/db
+/esdata
+/logs/*
+.env
+http_ca.crt
