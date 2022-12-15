@@ -35,6 +35,13 @@ services:
     networks:
       - app-network
 
+  redisinsight:
+    image: redislabs/redisinsight
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./redisinsight:/db
+
 networks:
   app-network:
     driver: bridge
