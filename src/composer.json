@@ -1,0 +1,22 @@
+{
+    "name": "eliasjump/elasticsearch",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eliasjump\\Elasticsearch\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ilya"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "elasticsearch/elasticsearch": "^8.5",
+        "phplucidframe/console-table": "^1.2"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
+}

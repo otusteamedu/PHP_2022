@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "c0b28560-89db-4f28-b005-1517a90e97ca",
+		"name": "hw10-elastic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12114546"
+	},
+	"item": [
+		{
+			"name": "create-index",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"settings\": {\r\n    \"analysis\": {\r\n      \"filter\": {\r\n        \"ru_stop\": {\r\n          \"type\": \"stop\",\r\n          \"stopwords\": \"_russian\"\r\n        },\r\n        \"ru_stemmer\": {\r\n          \"type\": \"stemmer\",\r\n          \"language\": \"russian\"\r\n        }\r\n      },\r\n      \"analyzer\": {\r\n        \"my_russian\": {\r\n          \"tokenizer\": \"standard\",\r\n          \"filter\": [\r\n            \"lowercase\",\r\n            \"ru_stop\",\r\n            \"ru_stemmer\"\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  },\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"category\": {\r\n        \"type\": \"text\",\r\n        \"analyzer\": \"my_russian\",\r\n        \"fields\": {\r\n          \"keyword\": {\r\n            \"type\": \"keyword\",\r\n            \"ignore_above\": 256\r\n          }\r\n        }\r\n      },\r\n      \"price\": {\r\n        \"type\": \"short\"\r\n      },\r\n      \"sku\": {\r\n        \"type\": \"keyword\"\r\n      },\r\n      \"stock\": {\r\n        \"type\": \"nested\",\r\n        \"properties\": {\r\n          \"shop\": {\r\n            \"type\": \"text\",\r\n            \"fields\": {\r\n              \"keyword\": {\r\n                \"type\": \"keyword\",\r\n                \"ignore_above\": 256\r\n              }\r\n            }\r\n          },\r\n          \"stock\": {\r\n            \"type\": \"short\"\r\n          }\r\n        }\r\n      },\r\n      \"title\": {\r\n        \"type\": \"text\",\r\n        \"analyzer\": \"my_russian\",\r\n        \"fields\": {\r\n          \"keyword\": {\r\n            \"type\": \"keyword\",\r\n            \"ignore_above\": 256\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dev.site:9200/otus-shop",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"port": "9200",
+					"path": [
+						"otus-shop"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bulk",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Users/deadie/Documents/books.json"
+					}
+				},
+				"url": {
+					"raw": "http://dev.site:9200/_bulk",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"port": "9200",
+					"path": [
+						"_bulk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sort\": [\r\n        {\"price\": \"desc\"}\r\n    ],\r\n    \"query\":{\r\n        \"match_all\": {}\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dev.site:9200/otus-shop/_search",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"port": "9200",
+					"path": [
+						"otus-shop",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mapping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://dev.site:9200/otus-shop/_mapping",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"port": "9200",
+					"path": [
+						"otus-shop",
+						"_mapping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search by",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\":{\r\n            \"bool\": {\r\n                \"must\": [\r\n                    {\"match\": {\"title\": {\"query\": \"рыцОри\",  \"fuzziness\": \"auto\"}}},\r\n                    {\"match\": {\"category\": {\"query\": \"Исторический рома\",  \"fuzziness\": \"auto\"}}}\r\n                    ],\r\n                \"filter\": [\r\n                    {\"range\": {\"price\": {\"lt\":2000}}},\r\n                    {\r\n                        \"nested\": {\r\n                            \"path\" : \"stock\",\r\n                            \"query\": {\"range\": {\"stock.stock\": {\"gte\" : 1}}}\r\n                        }\r\n                    }\r\n                ]\r\n            }\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dev.site:9200/otus-shop/_search",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"port": "9200",
+					"path": [
+						"otus-shop",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-index",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://dev.site:9200/otus-shop",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"port": "9200",
+					"path": [
+						"otus-shop"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

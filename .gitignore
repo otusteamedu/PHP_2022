@@ -1,0 +1,4 @@
+.idea
+/docker/nginx/logs/
+/src/vendor/
+/docker/phpsocket/
