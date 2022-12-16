@@ -1,0 +1,39 @@
+#created with quickdatabasediagrams.com
+
+Movie
+-
+id PK int
+Name varchar
+
+MovieAttributeValue
+-
+id PK int
+Movie int FK -< Movie.id
+MovieAttribute int FK - MovieAttribute.id
+ValueId int
+
+MovieAttributeType
+-
+id PK int
+Type varchar
+
+MovieAttribute
+-
+id PK int
+MovieAttributeType int FK - MovieAttributeType.id
+Name varchar
+
+AttributeValueText
+-
+id PK int
+Value text
+
+AttributeValueBool
+-
+id PK int
+Value boolean
+
+AttributeValueDate
+-
+id PK int
+Value date
