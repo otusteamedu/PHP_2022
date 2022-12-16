@@ -13,6 +13,8 @@
         }
     ],
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "predis/predis": "^2.0",
+        "vlucas/phpdotenv": "^5.5"
     }
 }
