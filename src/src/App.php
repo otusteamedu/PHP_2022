@@ -27,7 +27,8 @@ class App
      */
     public function run(): void
     {
-        $result = $this->elsClient->search($this->inputParams);
+        $preparedParams = ParamsHandler::prepareParams($this->inputParams);
+        $result = $this->elsClient->search($preparedParams);
         $this->renderHandler->setRows($result);
         $this->renderHandler->render();
     }
