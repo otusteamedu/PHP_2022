@@ -20,7 +20,7 @@ class EventController {
             if (!$model->validate()) {
                 throw new \Exception('Неверное событие: '.json_encode($event).PHP_EOL.var_export($model->errors, 1), 400);
             }
-            $models = $model;
+            $models[] = $model;
         }
 
         foreach ($models as $model) $model->save();

@@ -2,14 +2,16 @@
 
 namespace app\models\Event;
 
+use app\models\Event\StoragesAdapters\EventElasticAdapter;
 use app\models\Event\StoragesAdapters\EventRedisAdapter;
+use app\models\Event\StoragesAdapters\EventStorageAdapter;
 use app\models\Model;
 
 class EventModel extends Model {
     public $priority; // не указан тип, чтобы не приводилось к инту при ошибке
     public array $conditions;
     public array $event;
-    public EventRedisAdapter $storageAdapter;
+    public EventStorageAdapter $storageAdapter;
 
     public function __construct(array $from = [])
     {
@@ -18,7 +20,7 @@ class EventModel extends Model {
     }
 
     public function validate(): bool {
-        if (!$this->priority || !is_int($this->priority)) $this->errors[] = 'Отсутствует параметр priority';
+        if (!$this->priority || !is_int($this->priority)) $this->errors[] = 'Параметр priority отсутствует или не является целым числом';
         if (empty($this->conditions)) $this->errors[] = 'Отсутствует параметр conditions';
         if (!$this->event || !$this->event['payload']) $this->errors[] = 'Отсутствует параметр event или его payload';
         return empty($this->errors);
@@ -28,8 +30,12 @@ class EventModel extends Model {
         $this->storageAdapter->save();
     }
 
+    /**
+     * Место переключения адаптера
+     */
     public function setStorageAdapter() {
         $this->storageAdapter = new EventRedisAdapter($this);
+//        $this->storageAdapter = new EventElasticAdapter($this);
     }
 
     private function validateFindQuery($conditions) {
@@ -44,17 +50,10 @@ class EventModel extends Model {
     }
 
     public function findPriorityOne($conditions) {
-        $items = $this->find($conditions);
-        if (count($items) === 0) return [];
-        elseif (count($items) === 1) return $items[0];
-
-        usort($items, function ($a, $b){
-            if ($a['priority'] === $b['priority']) return 0;
-            return ($a['priority'] > $b['priority']) ? -1 : 1;
-        });
-
-        return $items;
+        $this->validateFindQuery($conditions);
+        return $this->storageAdapter->findPriorityOne($conditions);
     }
+
 
     public function deleteAll() {
         return $this->storageAdapter->deleteAll();

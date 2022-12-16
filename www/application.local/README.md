@@ -12,3 +12,5 @@
 # Удаление всех событий
 > POST http://application.local?route=event/delete_all
 
+# Переключение хранилищ здесь
+> app\models\Event\EventModel->setStorageAdapter()

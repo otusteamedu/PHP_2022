@@ -14,7 +14,8 @@ abstract class EventStorageAdapter {
     }
 
     public function save(): bool { return false; }
-    public function deleteAll(): int { return 0; }
+    public function deleteAll(): bool { return false; }
     public function find(array $conditions): array { return []; }
+    public function findPriorityOne(array $conditions): array { return []; }
     public function setStorageClient(): void {}
 }
