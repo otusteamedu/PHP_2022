@@ -31,6 +31,7 @@ CREATE TABLE "Hall"
 CREATE TABLE "Place"
 (
     "id"            int      NOT NULL,
+    "Row"           smallint NOT NULL,
     "Number"        smallint NOT NULL,
     "Hall"          int      NOT NULL,
     "PriceModifier" smallint NOT NULL,

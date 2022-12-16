@@ -44,27 +44,21 @@ $$;
 DO
 $$
     DECLARE
-        place_id integer = 1;
+        place_id       integer = 1;
+        price_modifier integer;
     BEGIN
         FOR hall_id IN 1..15
             LOOP
-                FOR place_number IN 1..10
+                price_modifier = 500;
+                FOR row IN 1..5
                     LOOP
-                        INSERT INTO "Place"(id, "Number", "Hall", "PriceModifier")
-                        VALUES (place_id, place_number, hall_id, 300);
-                        place_id = place_id + 1;
-                    END LOOP;
-                FOR place_number IN 11..20
-                    LOOP
-                        INSERT INTO "Place"(id, "Number", "Hall", "PriceModifier")
-                        VALUES (place_id, place_number, hall_id, 200);
-                        place_id = place_id + 1;
-                    END LOOP;
-                FOR place_number IN 21..30
-                    LOOP
-                        INSERT INTO "Place"(id, "Number", "Hall", "PriceModifier")
-                        VALUES (place_id, place_number, hall_id, 100);
-                        place_id = place_id + 1;
+                        FOR place_number IN 1..10
+                            LOOP
+                                INSERT INTO "Place"(id, "Row", "Number", "Hall", "PriceModifier")
+                                VALUES (place_id, row, place_number, hall_id, price_modifier);
+                                place_id = place_id + 1;
+                            END LOOP;
+                        price_modifier = price_modifier - 100;
                     END LOOP;
             END LOOP;
     END;
