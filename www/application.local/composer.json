@@ -1,0 +1,26 @@
+{
+    "name": "maxim/application.local",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "app\\": "."
+        }
+    },
+    "authors": [
+        {
+            "name": "m.smerdov",
+            "email": "zdraff@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "predis/predis": "^2.0",
+        "vlucas/phpdotenv": "^5.5",
+        "elasticsearch/elasticsearch": "^8.5"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    }
+}
