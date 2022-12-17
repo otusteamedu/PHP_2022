@@ -20,42 +20,48 @@ class EventModel extends Model {
     }
 
     public function validate(): bool {
-        if (!$this->priority || !is_int($this->priority)) $this->errors[] = 'Параметр priority отсутствует или не является целым числом';
-        if (empty($this->conditions)) $this->errors[] = 'Отсутствует параметр conditions';
-        if (!$this->event || !$this->event['payload']) $this->errors[] = 'Отсутствует параметр event или его payload';
+        if (!$this->priority || !is_int($this->priority)) {
+            $this->errors[] = 'Параметр priority отсутствует или не является целым числом';
+        }
+        if (empty($this->conditions)) {
+            $this->errors[] = 'Отсутствует параметр conditions';
+        }
+        if (!$this->event || !$this->event['payload']) {
+            $this->errors[] = 'Отсутствует параметр event или его payload';
+        }
         return empty($this->errors);
     }
 
-    public function save() {
-        $this->storageAdapter->save();
+    public function save(): bool {
+        return $this->storageAdapter->save();
     }
 
     /**
      * Место переключения адаптера
      */
-    public function setStorageAdapter() {
+    public function setStorageAdapter(): void {
         $this->storageAdapter = new EventRedisAdapter($this);
 //        $this->storageAdapter = new EventElasticAdapter($this);
     }
 
-    private function validateFindQuery($conditions) {
+    private function validateFindQuery($conditions): void {
         if (!is_array($conditions)) {
             throw new \Exception('Запрос должен быть массивом', 400);
         }
     }
 
-    public function find($conditions) {
+    public function find($conditions): array {
         $this->validateFindQuery($conditions);
         return $this->storageAdapter->find($conditions);
     }
 
-    public function findPriorityOne($conditions) {
+    public function findPriorityOne($conditions): array {
         $this->validateFindQuery($conditions);
         return $this->storageAdapter->findPriorityOne($conditions);
     }
 
 
-    public function deleteAll() {
+    public function deleteAll(): bool {
         return $this->storageAdapter->deleteAll();
     }
 
