@@ -10,7 +10,6 @@ FROM movie_attribute_value mav
 ORDER BY movie, mat.id;
 
 
-
 CREATE VIEW service AS
 SELECT m.name  AS movie,
        ma.name AS now,

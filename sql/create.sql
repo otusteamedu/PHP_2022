@@ -28,6 +28,8 @@ CREATE TABLE movie_attribute_value
     value_text         TEXT,
     value_bool         BOOLEAN,
     value_date         DATE,
+    value_string       VARCHAR(255),
+    value_float        FLOAT,
     FOREIGN KEY (movie_id) REFERENCES movie (id),
     FOREIGN KEY (movie_attribute_id) REFERENCES movie_attribute (id)
 );

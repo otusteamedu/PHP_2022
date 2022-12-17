@@ -4,10 +4,10 @@ VALUES ('Avengers'),
        ('Iron Man');
 
 INSERT INTO movie_attribute_type (name, type)
-VALUES ('Рецензии', 'value_text'),
-       ('Премии', 'value_bool'),
-       ('Важные даты', 'value_date'),
-       ('Служебные даты', 'value_date');
+VALUES ('Рецензии', 'text'),
+       ('Премии', 'bool'),
+       ('Важные даты', 'date'),
+       ('Служебные даты', 'date');
 
 INSERT INTO movie_attribute (name, movie_attribute_type_id)
 VALUES ('Рецензии критиков', 1), ('Отзыв неизвестной киноакадемии', 1),
@@ -35,3 +35,6 @@ VALUES (1, 7, CURRENT_DATE), (1, 8, CURRENT_DATE + INTERVAL '20 days'),
        (2, 7, CURRENT_DATE + INTERVAL '20 days'), (2, 8, CURRENT_DATE),
        (3, 7, CURRENT_DATE), (3, 8, CURRENT_DATE);
 
+CREATE INDEX movie_attribute_movie_attribute_type_id ON movie_attribute(movie_attribute_type_id);
+CREATE INDEX movie_attribute_value_movie_id ON movie_attribute_value(movie_id);
+CREATE INDEX movie_attribute_value_movie_attribute_id ON movie_attribute_value(movie_attribute_id);
