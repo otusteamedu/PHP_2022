@@ -2,7 +2,7 @@ CREATE VIEW marketing AS
 SELECT m.name                                                 AS movie,
        mat.name                                               AS type_name,
        ma.name                                                AS attribute_name,
-       CONCAT(mav.value_text, mav.value_bool, mav.value_date) AS value
+       CONCAT(mav.value_string, mav.value_bool, mav.value_date) AS value
 FROM movie_attribute_value mav
          JOIN movie m ON m.id = mav.movie_id
          JOIN movie_attribute ma ON mav.movie_attribute_id = ma.id

@@ -4,7 +4,7 @@ VALUES ('Avengers'),
        ('Iron Man');
 
 INSERT INTO movie_attribute_type (name, type)
-VALUES ('Рецензии', 'text'),
+VALUES ('Рецензии', 'string'),
        ('Премии', 'bool'),
        ('Важные даты', 'date'),
        ('Служебные даты', 'date');
@@ -15,7 +15,7 @@ VALUES ('Рецензии критиков', 1), ('Отзыв неизвестн
        ('Мировая премьера', 3), ('Премьера в РФ', 3),
        ('Начало продажи билетов', 4), ('Запуск рекламы на ТВ', 4);
 
-INSERT INTO movie_attribute_value (movie_id, movie_attribute_id, value_text)
+INSERT INTO movie_attribute_value (movie_id, movie_attribute_id, value_string)
 VALUES (1, 1, 'Рандомный текст рецензии критиков'), (1, 2, 'Рандомный текст отзыва неизвестной киноакадемии'),
        (2, 1, 'Рандомный текст рецензии критиков 2'),
        (3, 2, 'Рандомный текст отзыва неизвестной киноакадемии 2');
