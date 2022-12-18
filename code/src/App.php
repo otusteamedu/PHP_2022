@@ -15,12 +15,8 @@ class App
     }
     public function run()
     {
+
         $argsCreator = new ArgumentCreator();
-        if(!$argsCreator->validate())
-        {
-           echo $argsCreator->getMessage();
-           return;
-        }
 
         $queryCreator = new QueryCreator($argsCreator);
         $params = $queryCreator->getParam();

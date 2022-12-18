@@ -1,66 +1,77 @@
 <?php
 
 namespace Study\Cinema\Service;
-
+use Exception;
+use Study\Cinema\Service\Response;
 
 class ArgumentCreator
 {
-    private string|null $title;
-    private string|null $category;
-    private string|null $price;
+
     private bool|null $help;
     private string|null $message;
-    const OPTION_STRING = "t:c::p::h";
+    public array $options;
+
     const OPTION_ARRAY = array(
         "title:",
         "category::",
         "price::",
         "help",
     );
+    const INDEX_FIELDS = [
+        "title" => ["type" => "text", "section"=>"must", "short" => "t"],
+        "category" => ["type" => "phrase", "section"=>"filter", "short" => "c" ],
+
+    ];
+    const SERVICE_ARGUMENTS = [
+        "help", "h"
+    ];
 
     public function __construct()
     {
-        $options = getopt(self::OPTION_STRING, self::OPTION_ARRAY);
-
-        $this->setTitle($options);
-        $this->setCategory($options);
-        $this->setHelp($options);
-        $this->setPrice($options);
+        $options = getopt('', self::OPTION_ARRAY);
+        $this->setArguments($options);
 
     }
 
-    public function validate(): bool
+    public function validateServiceArguments(): bool
     {
         if($this->help) {
-            $this->setMessage('Используйте ключи для поиска: --title(-t) - по имени, --category(-c) - по категории. \n   '.PHP_EOL);
-            return false;
+            throw new Exception('Используйте ключи для поиска: --title(-t) - по имени, --category(-c) - по категории. \n   '.PHP_EOL );
         }
-        else if(!$this->title) {
-            $this->setMessage( 'Параметр --title(-t) обязательный.'.PHP_EOL);
-            return false;
+       return true;
+    }
+    /*
+     * Проверяет агрументы на допустимость и соответсвие типу.Создает массив валидных аргументов
+     */
+    public function setArguments($options): ?array
+    {
+        $values = [];
+
+        foreach($options as $key => $value)
+        {
+            if (in_array($key, self::SERVICE_ARGUMENTS)) {
+
+                $this->setHelp($options);
+                $this->validateServiceArguments();
+                return null;
+
+            }
+            elseif (array_key_exists($key, self::INDEX_FIELDS)) {
+
+               $type = self::INDEX_FIELDS[$key]["type"];
+               $method = 'check'.ucfirst($type);
+               if($this->$method($value)){
+                   $values[$key] = $value;
+               }
+
+           }
+           else {
+               throw new Exception('Недопустимое имя аргумента: ' .$key);
+           }
+
         }
-
-        if($this->price && !$this->isFloat($this->price)){
-            $this->setMessage( 'Параметр --price(-p) должен быть числом.'.PHP_EOL);
-            return false;
-        }
-
-        return true;
-
-    }
-
-    private function setCategory($options)
-    {
-        $this->category = $options['c'] ?? $options['category'] ?? null;
-    }
-
-    private function setTitle($options)
-    {
-        $this->title =  $options['t'] ?? $options['title'] ?? null;
-    }
-    private function setMessage($text)
-    {
-        $this->message = $text;
+        $this->options = $values;
+        return $values;
     }
 
     private function setHelp($options)
@@ -72,15 +83,6 @@ class ArgumentCreator
             $this->help = false;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
     public function getHelp(): bool
     {
         return $this->help;
@@ -88,15 +90,6 @@ class ArgumentCreator
     public function getMessage(): ?string
     {
         return $this->message;
-    }
-
-    public function setPrice($options): void
-    {
-        $this->price = $options['p'] ?? $options['price'] ?? null;
-    }
-    public function getPrice()
-    {
-        return $this->price;
     }
 
     public function isFloat($value)
@@ -108,7 +101,22 @@ class ArgumentCreator
             return false;
         }
     }
+    public function checkText($value): bool
+    {
+        if (mb_strlen($value) < 3) {
+            throw new Exception('Недопустимое значение текстового аргумента: ' .$value. ' Должна быть строка не менее 3х символов');
 
+        }
+        return true;
 
+    }
+    public function checkPhrase($value): bool
+    {
+        if (mb_strlen($value) < 5 ) {
+            throw new Exception('Недопустимое значение фразы: ' .$value.' Должна быть строка не менее 5х символов');
+        }
+        return true;
+
+    }
 
 }

@@ -28,4 +28,5 @@ class Response
         }
         echo $tbl->getTable();
     }
+
 }
