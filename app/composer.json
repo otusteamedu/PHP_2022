@@ -1,0 +1,20 @@
+{
+    "name": "octopus/app",
+    "description": "home work 10",
+    "autoload": {
+        "psr-4": {
+            "HW10\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gakhramanov Samir",
+            "email": "samirtula@mail.ru"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.5",
+        "phplucidframe/console-table": "^1.2",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
