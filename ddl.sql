@@ -6,9 +6,15 @@ create table movies
 
 create table halls
 (
-    id     serial primary key,
-    places integer
+    id    serial primary key,
+    title varchar(20) -- название зала
+);
 
+create table places
+(
+    id      serial primary key,
+    title   varchar(20), -- название места, пример: Кресло №21
+    hall_id integer references halls (id)
 );
 
 create table sessions
@@ -17,11 +23,13 @@ create table sessions
     movie_id integer references movies (id),
     hall_id  integer references halls (id),
     start_at timestamp,
-    cost     decimal(5, 2)
+    cost     decimal(5, 2) -- стоимость одного билета
 );
 
 create table tickets
 (
     id         serial primary key,
-    session_id integer references sessions (id)
+    total_cost decimal(5, 2), -- итоговая стоимость билета с учетом примененных скидок
+    session_id integer references sessions (id),
+    place_id   integer references places (id)
 );
