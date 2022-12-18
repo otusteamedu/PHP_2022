@@ -42,6 +42,7 @@ CREATE TABLE values (
     value_bool     bool
     value_date     date
     value_float    float
+    value_int      int
 );
 
 -- Заполнение Фильмы.
@@ -54,8 +55,9 @@ INSERT INTO films (id, title, description) VALUES
 INSERT INTO type_attribute (id, name_type) VALUES
 ('1', 'string'),
 ('2', 'bool'),
-('3', 'date');
-('4', 'float');
+('3', 'date'),
+('4', 'float'),
+('5', 'int');
 
 -- Заполнение Аттрибуты.
 INSERT INTO attributes (id, id_type, name_attribute) VALUES
@@ -65,17 +67,17 @@ INSERT INTO attributes (id, id_type, name_attribute) VALUES
 (4, 3, 'Служебные даты');
 
 -- Заполнение Значения.
-INSERT INTO values (id, id_attribute, id_film, value_string, value_bool, value_date, value_float) VALUES
-(1, 1, 1, 'Хороший фильм.', null, null, null),
-(2, 2, 1, null, false, null, null),
-(3, 3, 1, null, null, '2022-10-10', null),
-(4, 3, 1, null, null, '2022-03-03', null)
-(5, 2, 2, null, true, null, null),
-(6, 4, 2, null, null, '2022-03-03', null),
-(7, 4, 2, null, null, '2022-12-14', null),
-(8, 3, 3, null, null, '2022-12-15', null),
-(9, 3, 3, null, null, '2023-01-03', null),
-(10, 4, 2, null, null, '2023-03-03', null);
+INSERT INTO values (id, id_attribute, id_film, value_string, value_bool, value_date, value_float, value_int) VALUES
+(1, 1, 1, 'Хороший фильм.', null, null, null, null),
+(2, 2, 1, null, false, null, null, null),
+(3, 3, 1, null, null, '2022-10-10', null, null),
+(4, 3, 1, null, null, '2022-03-03', null, null)
+(5, 2, 2, null, true, null, null, null),
+(6, 4, 2, null, null, '2022-03-03', null, null),
+(7, 4, 2, null, null, '2022-12-14', null, null),
+(8, 3, 3, null, null, '2022-12-15', null, null),
+(9, 3, 3, null, null, '2023-01-03', null, null),
+(10, 4, 2, null, null, '2023-03-03', null, null);
 
 CREATE VIEW view1 AS
 SELECT * FROM values
@@ -85,7 +87,15 @@ WHERE (type_attribute.id = 3 OR type_attribute.id = 4)
   AND (values.value::date = NOW() OR  values.value::date > (NOW() + '20 day'::interval));
 
 CREATE VIEW view2 AS
-SELECT films.title, values.value, attributes.name_attribute, type_attribute.name_type FROM values
-         LEFT JOIN attributes ON attributes.id = values.id_attribute
-         LEFT JOIN films ON films.id = values.id_film
-         LEFT JOIN type_attribute ON type_attribute.id = attributes.id_type
+SELECT films.title, attributes.name_attribute, type_attribute.name_type
+    CASE
+        WHEN values.string IS NOT NULL THEN values.string::text
+        WHEN values.bool IS NOT NULL THEN values.bool::text
+        WHEN values.date IS NOT NULL THEN values.date::text
+        WHEN values.float IS NOT NULL THEN values.float::text
+        WHEN values.int IS NOT NULL THEN values.int::text
+    END "value_attribute"
+    FROM values
+        LEFT JOIN attributes ON attributes.id = values.id_attribute
+        LEFT JOIN films ON films.id = values.id_film
+        LEFT JOIN type_attribute ON type_attribute.id = attributes.id_type
