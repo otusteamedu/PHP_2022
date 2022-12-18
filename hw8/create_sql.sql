@@ -89,11 +89,11 @@ WHERE (type_attribute.id = 3 OR type_attribute.id = 4)
 CREATE VIEW view2 AS
 SELECT films.title, attributes.name_attribute, type_attribute.name_type
     CASE
-        WHEN values.string IS NOT NULL THEN values.string::text
-        WHEN values.bool IS NOT NULL THEN values.bool::text
-        WHEN values.date IS NOT NULL THEN values.date::text
-        WHEN values.float IS NOT NULL THEN values.float::text
-        WHEN values.int IS NOT NULL THEN values.int::text
+        WHEN values.value_string IS NOT NULL THEN values.value_string::text
+        WHEN values.value_bool IS NOT NULL THEN values.value_bool::text
+        WHEN values.value_date IS NOT NULL THEN values.value_date::text
+        WHEN values.value_float IS NOT NULL THEN values.value_float::text
+        WHEN values.value_int IS NOT NULL THEN values.value_int::text
     END "value_attribute"
     FROM values
         LEFT JOIN attributes ON attributes.id = values.id_attribute
