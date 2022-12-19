@@ -1,0 +1,19 @@
+{
+    "name": "study/cinema",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Study\\Cinema\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Albina Mukhamediyeva",
+            "email": "albinamkh@mail.ru"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.5",
+        "pear/console_table": "^1.3"
+    }
+}
