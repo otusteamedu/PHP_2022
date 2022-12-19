@@ -1,1 +1,3 @@
-verificator/vendor/
+/.idea
+/.github
+/.phpcs.xml
