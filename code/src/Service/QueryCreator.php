@@ -27,7 +27,7 @@ class QueryCreator
      * Создает итоговую строку запроса, добавляя все секуции
      * @return string
      */
-    private function getQueryString()
+    private function getQueryString() : string
     {
         $this->addParamsToSection();
         $this->query ='{
@@ -52,7 +52,7 @@ class QueryCreator
     /**
      * Проходит по списку всех аргуметов и добавляет их в соответсвующую секцию поиска
      **/
-    public function addParamsToSection()
+    public function addParamsToSection(): void
     {
         foreach($this->argumentCreator->options as $argument => $value)
         {
@@ -65,7 +65,7 @@ class QueryCreator
     /**
      * Создает строку условия поиска по определенному параметру
     **/
-    private function addParam($name, $type, $value)
+    private function addParam(string $name, string $type, string $value): string
     {
         $res = '';
         if($type == self::TYPE_TEXT) {
@@ -89,7 +89,7 @@ class QueryCreator
         return $res;
     }
 
-    public function addSection($section): ?string
+    public function addSection(string $section): ?string
     {
         $elCount = count($this->$section);
         if(!$elCount)
@@ -105,7 +105,7 @@ class QueryCreator
         return $section_string;
     }
 
-    public function getParam()
+    public function getParam(): array
     {
 
         $params = [

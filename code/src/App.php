@@ -7,6 +7,7 @@ use Study\Cinema\Elasticsearch\ElasticsearchClientBuilder;
 use Study\Cinema\Service\ArgumentCreator;
 use Study\Cinema\Service\QueryCreator;
 use Study\Cinema\Service\Response;
+use Study\Cinema\Exception\ArgumentException;
 
 class App
 {
@@ -16,16 +17,26 @@ class App
     public function run()
     {
 
-        $argsCreator = new ArgumentCreator();
+        try {
 
-        $queryCreator = new QueryCreator($argsCreator);
-        $params = $queryCreator->getParam();
+            $argsCreator = new ArgumentCreator();
 
-        $client = ElasticsearchClientBuilder::create();
-        $data = $client->search($params);
+            $queryCreator = new QueryCreator($argsCreator);
+            $params = $queryCreator->getParam();
 
-        $response = new Response();
-        $response->getTableWithResult($data);
+            $client = ElasticsearchClientBuilder::create();
+            $data = $client->search($params);
+
+            $response = new Response();
+            $headers = array('Title', 'Category', 'Price','Stock');
+            $columns = array('title', 'category', 'price', ['stock' => ['shop', 'stock']]);
+            $response->getTableWithResult($headers, $columns, $data);
+
+        }
+        catch(ArgumentException $e) {
+            echo $e->getMessage();
+        }
+
 
     }
 

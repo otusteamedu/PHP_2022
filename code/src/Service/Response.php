@@ -2,29 +2,43 @@
 
 
 namespace Study\Cinema\Service;
+use Study\Cinema\Exception\ArgumentException;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Console_Table;
 
 class Response
 {
-    public function getTableWithResult($response)
+    public function getTableWithResult(array $headers,array $columns,  Elasticsearch $response)
     {
         if(empty($response['hits']['hits'])){
-            echo 'Данных по этому запросу нет'.PHP_EOL;
-            return ;
+            throw new ArgumentException('Данных по этому запросу нет'.PHP_EOL);
         }
         $tbl = new Console_Table();
         $tbl->setHeaders(
-            array('Title', 'Category', 'Price','Stock')
+            $headers
         );
         foreach ($response['hits']['hits'] as $row)
         {
-            $stocks = '';
-            foreach ($row['_source']['stock'] as $stock)
-            {
-                $stocks.= $stock['shop'].' - '.$stock['stock'].PHP_EOL;
+            $rowColumns = [];
+            foreach($columns as $column) {
+                if(is_array($column)) {
+                   $columnName = array_keys($column)[0];
+                   $arrayColumnResult = '';
+                   foreach ($row['_source'][$columnName] as $arrayColumn)
+                   {
+                       $count = count($column[$columnName]);
+                       for( $i=0; $i < $count; $i++ ){
+                           if($i) $arrayColumnResult.= '-';
+                           $arrayColumnResult.= $arrayColumn[$column[$columnName][$i]];
+                       }
+                       $arrayColumnResult .= PHP_EOL;
+                   }
+                   array_push($rowColumns,$arrayColumnResult);
+                }
+                else
+                    array_push($rowColumns,$row['_source'][$column]);
             }
-            $tbl->addRow(array($row['_source']['title'], $row['_source']['category'], $row['_source']['price'], $stocks));
-
+            $tbl->addRow($rowColumns);
         }
         echo $tbl->getTable();
     }

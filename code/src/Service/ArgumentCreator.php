@@ -1,7 +1,7 @@
 <?php
 
 namespace Study\Cinema\Service;
-use Exception;
+use Study\Cinema\Exception\ArgumentException;
 use Study\Cinema\Service\Response;
 
 class ArgumentCreator
@@ -36,14 +36,14 @@ class ArgumentCreator
     public function validateServiceArguments(): bool
     {
         if($this->help) {
-            throw new Exception('Используйте ключи для поиска: --title(-t) - по имени, --category(-c) - по категории. \n   '.PHP_EOL );
+            throw new ArgumentException('Используйте ключи для поиска: --title(-t) - по имени, --category(-c) - по категории. \n   '.PHP_EOL );
         }
        return true;
     }
     /*
      * Проверяет агрументы на допустимость и соответсвие типу.Создает массив валидных аргументов
      */
-    public function setArguments($options): ?array
+    public function setArguments(array $options): ?array
     {
         $values = [];
 
@@ -60,13 +60,13 @@ class ArgumentCreator
 
                $type = self::INDEX_FIELDS[$key]["type"];
                $method = 'check'.ucfirst($type);
-               if($this->$method($value)){
+               if($this->$method($key, $value)){
                    $values[$key] = $value;
                }
 
            }
            else {
-               throw new Exception('Недопустимое имя аргумента: ' .$key);
+               throw new ArgumentException('Недопустимое имя аргумента: ' .$key);
            }
 
         }
@@ -74,7 +74,7 @@ class ArgumentCreator
         return $values;
     }
 
-    private function setHelp($options)
+    private function setHelp(array $options):bool
     {
         if(array_key_exists('h', $options) || array_key_exists('help', $options)){
             $this->help = true;
@@ -92,7 +92,7 @@ class ArgumentCreator
         return $this->message;
     }
 
-    public function isFloat($value)
+    public function isFloat(string $value): bool
     {
         $float_value = (float) $value;
         if ( strval($float_value) == $value ) {
@@ -101,22 +101,21 @@ class ArgumentCreator
             return false;
         }
     }
-    public function checkText($value): bool
+    public function checkText(string $name,  string $value): bool
     {
         if (mb_strlen($value) < 3) {
-            throw new Exception('Недопустимое значение текстового аргумента: ' .$value. ' Должна быть строка не менее 3х символов');
+            throw new ArgumentException('Недопустимое значение текстового аргумента: ' .$name. ' Должна быть строка не менее 3х символов'.PHP_EOL);
 
         }
         return true;
 
     }
-    public function checkPhrase($value): bool
+    public function checkPhrase(string $name, string $value): bool
     {
         if (mb_strlen($value) < 5 ) {
-            throw new Exception('Недопустимое значение фразы: ' .$value.' Должна быть строка не менее 5х символов');
+            throw new ArgumentException('Недопустимое значение фразы: ' .$name.' Должна быть строка не менее 5х символов'.PHP_EOL);
         }
         return true;
-
     }
 
 }
