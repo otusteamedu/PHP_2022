@@ -1,7 +1,10 @@
 <?php
 
-use app\controllers\AppController;
+use app\controllers\SandboxController;
 
 require '../vendor/autoload.php';
 
-echo (new AppController())->run();
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
+
+echo (new SandboxController())->run();
