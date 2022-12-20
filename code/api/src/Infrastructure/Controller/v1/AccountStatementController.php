@@ -5,13 +5,20 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller\v1;
 
 use App\Application\Contract\AccountStatementManagerInterface;
-use App\Application\Dto\Input\AccountStatementDto;
+use App\Application\Dto\Input\SaveAccountStatementDto;
+use App\Application\Dto\Output\AccountStatementIdDto;
+use App\Infrastructure\Consumer\CreateAccountStatement\Input\Message;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Uid\Uuid;
+
+use App\Application\Dto\Output\AccountStatementDto;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 class AccountStatementController extends AbstractFOSRestController
 {
@@ -21,36 +28,92 @@ class AccountStatementController extends AbstractFOSRestController
     ) {}
 
     /**
-     * @Rest\Post("/v1/account-statements")
-     * @ParamConverter("accountStatementDto", converter="fos_rest.request_body")
-     * @param  AccountStatementDto $accountStatementDto
+     * @Rest\Post("/api/v1/account-statements")
+     * @ParamConverter("saveAccountStatementDto", converter="fos_rest.request_body")
+     *
+     * @OA\Post(
+     *     operationId="addAccountStatement",
+     *     tags={"Выписки"},
+     *     @OA\RequestBody(
+     *         description="Input data format",
+     *         @OA\JsonContent(ref=@Model(type=SaveAccountStatementDto::class))
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(ref=@Model(type=AccountStatementIdDto::class))
+     *     )
+     * )
+     *
+     * @param  SaveAccountStatementDto $saveAccountStatementDto
      * @return Response
      */
-    public function createAsyncAccountStatementAction(AccountStatementDto $accountStatementDto): Response
+    public function createAccountStatementAction(SaveAccountStatementDto $saveAccountStatementDto): Response
     {
-        $accountStatementDto->id = Uuid::v4();
-        $this->producer->publish(json_encode($accountStatementDto, JSON_UNESCAPED_UNICODE));
+        $id = Uuid::v4();
+        if ($saveAccountStatementDto->isSync) {
+            $this->accountStatementManager->create($id, $saveAccountStatementDto);
+        } else {
+            $message = Message::createFromDto($id, $saveAccountStatementDto);
+            $this->producer->publish($message->toAMQPMessage());
+        }
 
-        return new Response(json_encode(['id' => $accountStatementDto->id], JSON_UNESCAPED_UNICODE), Response::HTTP_CREATED);
+        $accountStatementIdDto = AccountStatementIdDto::create($id);
+        return new Response(json_encode($accountStatementIdDto, JSON_UNESCAPED_UNICODE), Response::HTTP_CREATED);
     }
 
     /**
-     * @Rest\Put("/v1/account-statements/{id}")
-     * @ParamConverter("accountStatementDto", converter="fos_rest.request_body")
+     * @Rest\Put("/api/v1/account-statements/{id}")
+     * @ParamConverter("saveAccountStatementDto", converter="fos_rest.request_body")
+     *
+     * @OA\Put(
+     *     operationId="updateAccountStatement",
+     *     tags={"Выписки"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Uuid account statement",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         description="Input data format",
+     *         @OA\JsonContent(ref=@Model(type=SaveAccountStatementDto::class))
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success"
+     *     )
+     * )
+     *
      * @param Uuid $id
-     * @param  AccountStatementDto $accountStatementDto
+     * @param  SaveAccountStatementDto $saveAccountStatementDto
      * @return Response
      */
-    public function updateAccountStatementAction(Uuid $id, AccountStatementDto  $accountStatementDto): Response
+    public function updateAccountStatementAction(Uuid $id, SaveAccountStatementDto  $saveAccountStatementDto): Response
     {
-        $accountStatementDto->id = $id;
-        $this->accountStatementManager->update($accountStatementDto);
+        $this->accountStatementManager->update($id, $saveAccountStatementDto);
 
         return new Response('', Response::HTTP_OK);
     }
 
     /**
-     * @Rest\Delete("/v1/account-statements/{id}")
+     * @Rest\Delete("/api/v1/account-statements/{id}")
+     *
+     * @OA\Delete(
+     *     operationId="deleteAccountStatement",
+     *     tags={"Выписки"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Uuid account statement",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success"
+     *     )
+     * )
+     *
      * @param Uuid $id
      * @return Response
      */
@@ -62,7 +125,24 @@ class AccountStatementController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/v1/account-statements/{id}")
+     * @Rest\Get("/api/v1/account-statements/{id}")
+     *
+     * @OA\Get(
+     *     operationId="getAccountStatement",
+     *     tags={"Выписки"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Uuid account statement",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(ref=@Model(type=AccountStatementDto::class))
+     *     )
+     * )
+     *
      * @param Uuid $id
      * @return Response
      */
@@ -74,7 +154,21 @@ class AccountStatementController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/v1/account-statements")
+     * @Rest\Get("/api/v1/account-statements")
+     *
+     * @OA\Get(
+     *     operationId="getAccountStatements",
+     *     tags={"Выписки"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref=@Model(type=AccountStatementDto::class))
+     *         )
+     *     )
+     * )
+     *
      * @return Response
      */
     public function findAllAccountStatementAction(): Response

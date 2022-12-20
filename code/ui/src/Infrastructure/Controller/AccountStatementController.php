@@ -50,8 +50,9 @@ class AccountStatementController extends AbstractController
 
             $options['json'] = [
                 'name' => $accountStatementFormDto->name,
-                'date_beginning' => $accountStatementFormDto->dateBeginning->format('d.m.Y'),
-                'date_ending' => $accountStatementFormDto->dateEnding->format('d.m.Y'),
+                'dateBeginning' => $accountStatementFormDto->dateBeginning->format('d.m.Y'),
+                'dateEnding' => $accountStatementFormDto->dateEnding->format('d.m.Y'),
+                'isSync' => false
             ];
 
             $response = $this->apiClient->request(self::METHOD, self::API_URL, $options);

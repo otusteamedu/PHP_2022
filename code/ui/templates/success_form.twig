@@ -31,8 +31,9 @@
             method: 'get',
             success: function (response) {
                 $('#header-account-statement').html('Выписка, полученная от ' + url + ':');
-                console.log(response.text);
-                $('#account-statement').html('id: ' + response.id + '<br>text: ' + response.text);
+                console.log(response);
+                $('#account-statement').html(response);
+//                $('#account-statement').html('id: ' + response.id + '<br>text: ' + response.text);
             },
             statusCode: {
                 404: function () {

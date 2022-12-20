@@ -8,7 +8,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use OpenApi\Annotations as OA;
 
-class AccountStatementDto
+class AccountStatementIdDto
 {
     /**
      * @Assert\Uuid()
@@ -16,10 +16,11 @@ class AccountStatementDto
      */
     public ?Uuid $id = null;
 
-    /**
-     * @Assert\Type("string")
-     * @Assert\Length(max="140")
-     * @OA\Property(property="text", example="Выписка по счету (Маша) за период с 11.06.2018 по 07.12.2022")
-     */
-    public ?string $text = null;
+    public static function create(Uuid $id): self
+    {
+        $accountStatementIdDto = new self();
+        $accountStatementIdDto->id = $id;
+
+        return $accountStatementIdDto;
+    }
 }

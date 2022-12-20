@@ -6,7 +6,7 @@ fos_rest:
     serialize_null: true
   #       validate: true
   #       validation_errors_argument: validationErrors # This is the default value
-  param_fetcher_listener: true
+  param_fetcher_listener: force
   #    allowed_methods_listener:  true
   #    routing_loader: true
   #    view:

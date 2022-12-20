@@ -30,3 +30,9 @@ services:
     App\Infrastructure\Controller\v1\AccountStatementController:
         arguments:
             $producer: '@old_sound_rabbit_mq.create_account_statement_producer'
+
+    nelmio_api_doc.controller.swagger_ui:
+        class: App\Infrastructure\Controller\SwaggerUiController
+        public: true
+        arguments:
+            $renderOpenApi: '@nelmio_api_doc.render_docs'

@@ -6,7 +6,7 @@ namespace App\Application\Manager;
 
 use App\Api\Domain\Exception\EntityNotFoundException;
 use App\Application\Contract\AccountStatementManagerInterface;
-use App\Application\Dto\Input\AccountStatementDto;
+use App\Application\Dto\Input\SaveAccountStatementDto;
 use App\Application\Dto\Output\AccountStatementDto as OutputAccountStatementDto;
 use App\Domain\Contract\AccountStatementDaoInterface;
 use App\Domain\Contract\AccountStatementRepositoryInterface;
@@ -20,25 +20,25 @@ class AccountStatementManager implements AccountStatementManagerInterface
         private AccountStatementRepositoryInterface $accountStatementRepository
     ) {}
 
-    public function create(AccountStatementDto $accountStatementDto): Uuid
+    public function create(Uuid $id, SaveAccountStatementDto $saveAccountStatementDto): void
     {
         $accountStatement = new AccountStatement();
-        $accountStatement->setId($accountStatementDto->id);
+        $accountStatement->setId($id);
         $accountStatement->setTextFromFields(
-            $accountStatementDto->name,
-            $accountStatementDto->dateBeginning,
-            $accountStatementDto->dateEnding
+            $saveAccountStatementDto->name,
+            $saveAccountStatementDto->dateBeginning,
+            $saveAccountStatementDto->dateEnding
         );
-        return $this->accountStatementDao->create($accountStatement);
+        $this->accountStatementDao->create($accountStatement);
     }
 
-    public function update(AccountStatementDto $accountStatementDto): void
+    public function update(Uuid $id, SaveAccountStatementDto $saveAccountStatementDto): void
     {
-        $accountStatement =  $this->findEntity($accountStatementDto->id);
+        $accountStatement =  $this->findEntity($id);
         $accountStatement->setTextFromFields(
-            $accountStatementDto->name,
-            $accountStatementDto->dateBeginning,
-            $accountStatementDto->dateEnding
+            $saveAccountStatementDto->name,
+            $saveAccountStatementDto->dateBeginning,
+            $saveAccountStatementDto->dateEnding
         );
         $this->accountStatementDao->update($accountStatement);
     }
@@ -51,7 +51,7 @@ class AccountStatementManager implements AccountStatementManagerInterface
 
     public function find(Uuid $id): OutputAccountStatementDto
     {
-        $accountStatement =  $this->findEntity($id);
+        $accountStatement = $this->findEntity($id);
 
         return $this->mapAccountStatementToDto($accountStatement);
     }
