@@ -36,6 +36,17 @@ class Output
         $table->display();
     }
 
+    public function echoMessage(string $message): void
+    {
+        $table = new ConsoleTable();
+        $table
+            ->addHeader('Информационное сообщение');
+        $table->addRow()
+            ->addColumn($message);
+
+        $table->display();
+    }
+
     private function getStoreInfo(array $stores): array
     {
         $storeInfo = [];

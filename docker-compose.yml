@@ -38,6 +38,7 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
     cap_add:
       - IPC_LOCK
     volumes:
