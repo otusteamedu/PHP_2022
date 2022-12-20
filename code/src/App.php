@@ -10,12 +10,13 @@ use Otus\App\Application\Strategies\Cook;
 use Otus\App\Domain\AdditionalIngredientsInterface;
 use Otus\App\Application\Observer\ObserverMailer;
 use Otus\App\Application\Controllers\Product;
+use Otus\App\Application\AbstractFactory\AbstractFactory;
 
 class App
 {
     public function run()
     {
-        //Для Паттерна Наблюдатель.
+        //Для паттерна НАБЛЮДАТЕЛЬ
         $observer = new ObserverMailer;
         //Блюдо
         $products = [];
@@ -37,7 +38,7 @@ class App
         ];
 
 
-        //Что нужно приготовить? Паттерн СТРАТЕГИЯ и привязка к Наблюдателю
+        //Что нужно приготовить? Паттерн СТРАТЕГИЯ и привязка к НАБЛЮДАТЕЛЮ (делаем привязку ObserverMailer к Product)
         foreach ($order as $item) {
             $products[] = (new Cook())->Prepare($item[0], $item[1])->attach($observer);
         }
@@ -45,11 +46,21 @@ class App
         //Проверить еду на соответствие стандарту. Паттерн ПРОКСИ
         foreach ($products as $i=>$product) {
             if (!(new TasterProducts($product))->standardsCompliance()) {
-                echo $product->getName()." - ОПАСНО ДЛЯ ЖИЗНИ! НЕ ЕШЬ МЕНЯ.".PHP_EOL;
                 unset($products[$i]);
+                throw new \DomainException('Приготовили что то не то!');
             } else {
                 $product->changeReadyStatus(Product::READY_STATUS);
             }
+        }
+    }
+
+
+    public static function getConfig()
+    {
+        if (!file_exists('/data/mysite.local/src/Config/config.php')) {
+            return false;
+        } else {
+            return include('Config/config.php');
         }
     }
 }

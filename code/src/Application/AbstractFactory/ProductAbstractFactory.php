@@ -10,17 +10,19 @@ use Otus\App\Application\AbstractFactory\SandwichFactory;
 use Otus\App\Application\AbstractFactory\HotDogFactory;
 use Otus\App\Domain\ProductInterface;
 
-class ProductAbstractFactory
+class ProductAbstractFactory extends AbstractFactory
 {
-    public function create($type) : ProductFactoryInterface
+    public function create($type): ProductFactoryInterface
     {
-        if ($type == ProductInterface::TYPE_BURGER) {
-            return new BurgerFactory();
-        } else if ($type == ProductInterface::TYPE_SANDWICH) {
-            return new SandwichFactory();
-        } else if ($type == ProductInterface::TYPE_HOTDOG) {
-            return new HotDogFactory();
-        } else
-            throw new \InvalidArgumentException('Wrong product type!');
+        switch ($type) {
+            case ProductInterface::TYPE_BURGER:
+                return new BurgerFactory();
+            case ProductInterface::TYPE_SANDWICH:
+                return new SandwichFactory();
+            case ProductInterface::TYPE_HOTDOG:
+                return new HotDogFactory();
+        }
+        throw new \InvalidArgumentException('Продукт не из меню!');
+
     }
 }

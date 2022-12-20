@@ -6,12 +6,13 @@ use Otus\App\Application\Controllers\Product;
 use Otus\App\Application\AbstractFactory\ProductAbstractFactory;
 use Otus\App\Domain\AdditionalIngredientsInterface;
 use Otus\App\Application\Decorators;
+use Otus\App\Application\AbstractFactory\AbstractFactory;
 
 class Cook
 {
     public function Prepare(int $productType, array $additions) : Product
     {
-        $chef = new ProductAbstractFactory();
+        $chef = AbstractFactory::getFactory();
         $product = $chef->create($productType)->create();
 
         //Добавляем дополнительные ингредиенты. Паттерн ДЕКОРАТОР

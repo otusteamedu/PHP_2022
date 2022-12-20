@@ -4,32 +4,35 @@ declare(strict_types=1);
 namespace Otus\App\Application\Controllers;
 
 use Otus\App\Domain\ProductInterface;
-use Otus\App\Application\Observer\ObservableInterface;
-use Otus\App\Application\Observer\ObserverInterface;
+use SplSubject;
+use SplObserver;
+use SplObjectStorage;
 
-class Product implements ObservableInterface
+class Product implements SplSubject
 {
-    //Для паттерна Наблюдатель
-    private array $observers;
+    //Для паттерна НАБЛЮДАТЕЛЬ
+    protected SplObjectStorage $observers;
     private $status = 0;
     const READY_STATUS = 1;
 
+    //Помещаем создание НАБЛЮДАТЕЛЯ прямо в конструктор, чтобы не забыть его создавать для класса PRODUCT (для DI)
+    //В данном случае сюда прилетает ObserverMailer
     public function __construct()
     {
-        $this->observers = array();
+        $this->observers = new SplObjectStorage();
     }
     public function getStatus()
     {
         return $this->status;
     }
     //attach detach notify для паттерна Наблюдатель
-    public function attach(ObserverInterface $observer): Product
+    public function attach(SplObserver $observer): Product
     {
         $this->observers[] = $observer;
         return $this;
     }
 
-    public function detach(ObserverInterface $observer): Product
+    public function detach(SplObserver $observer): Product
     {
         foreach ($this->observers as &$search) {
             if($search == $observer) {
