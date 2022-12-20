@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Eliasjump\HwRedis\Controllers;
 
+use Eliasjump\HwRedis\Storages\MemcachedStorage;
 use Eliasjump\HwRedis\Storages\RedisStorage;
+use Eliasjump\HwRedis\Storages\StorageInterface;
 
 class EventsController extends BaseController
 {
-    private RedisStorage $storage;
+    private StorageInterface $storage;
 
     public function __construct()
     {
@@ -16,9 +18,6 @@ class EventsController extends BaseController
         $this->storage = new RedisStorage();
     }
 
-    /**
-     * @throws \RedisException
-     */
     public function create(): string
     {
         $event = $this->request->getPostParameter('event');

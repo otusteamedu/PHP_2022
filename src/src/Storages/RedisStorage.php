@@ -42,7 +42,7 @@ class RedisStorage implements StorageInterface
 
         foreach ($hEvents as $key => $value) {
             if (str_contains($value, $preparedConditions)) {
-                $this->redis->zAdd('zEventsTemp',  0, $key);
+                $this->redis->zAdd('zEventsTemp', 0, $key);
             }
         }
 
