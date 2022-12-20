@@ -9,7 +9,6 @@ services:
       - ./hosts:/etc/nginx/conf.d
       - ./www:/var/www
       - ./logs/nginx:/var/log/nginx
-      - ./sock:/var/run
     restart: always
     networks:
       - app-network
@@ -21,20 +20,9 @@ services:
     volumes:
       - ./www:/var/www
       - ./logs/php:/var/log
-      - ./sock:/var/run
     networks:
       - app-network
-  redis:
-    image: redis:6.2
-#    ports:
-#      - '6379:6379'
-    restart: always
-    networks:
-      - app-network
-  memcached:
-    image: memcached:1.6.17
-    networks:
-      - app-network
+
   db:
     image: postgres:14.5
     environment:
