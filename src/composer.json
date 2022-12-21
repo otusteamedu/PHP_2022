@@ -1,0 +1,21 @@
+{
+    "name": "eliasjump/hw_redis",
+    "description": "Homework",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eliasjump\\HwRedis\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Prigunov"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
+}
