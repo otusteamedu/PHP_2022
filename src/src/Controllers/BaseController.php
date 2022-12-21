@@ -14,18 +14,4 @@ abstract class BaseController
     {
         $this->request = Request::getInstance();
     }
-
-    protected function response(int $code, array $res = []): string
-    {
-        try {
-            http_response_code($code);
-            return match ($code) {
-                400 => '400 Bad Request',
-                default =>  !$res ? '200 OK' : json_encode($res),
-            };
-        } catch (\Exception $exception) {
-            http_response_code(500);
-            return '500 Server error';
-        }
-    }
 }
