@@ -10,6 +10,8 @@ class UserMapper {
     private \PDOStatement $selectStmt;
     private \PDOStatement $insertStmt;
     private \PDOStatement $updateStmt;
+    private \PDOStatement $updateNameStmt;
+    private \PDOStatement $updateSurnameStmt;
     private \PDOStatement $deleteStmt;
 
     public function __construct()
@@ -24,6 +26,12 @@ class UserMapper {
         );
         $this->updateStmt = $this->pdo->prepare(
             "update users set name = ?, surname = ? where id = ?"
+        );
+        $this->updateNameStmt = $this->pdo->prepare(
+            "update users set name = ? where id = ?"
+        );
+        $this->updateSurnameStmt = $this->pdo->prepare(
+            "update users set surname = ? where id = ?"
         );
         $this->deleteStmt = $this->pdo->prepare("delete from users where id = ?");
     }
@@ -60,6 +68,22 @@ class UserMapper {
     {
         return $this->updateStmt->execute([
             $user->getName(),
+            $user->getSurname(),
+            $user->getId(),
+        ]);
+    }
+
+    public function updateName(User $user): bool
+    {
+        return $this->updateNameStmt->execute([
+            $user->getName(),
+            $user->getId(),
+        ]);
+    }
+
+    public function updateSurnameName(User $user): bool
+    {
+        return $this->updateNameStmt->execute([
             $user->getSurname(),
             $user->getId(),
         ]);
