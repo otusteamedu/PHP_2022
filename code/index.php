@@ -2,6 +2,6 @@
 
 echo "Привет, Otus!<br>".date("Y-m-d H:i:s") ."<br><br>";
 
-echo "Homework 1";
+echo "Homework #1";
 
 phpinfo();
