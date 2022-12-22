@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Otus\App\Application\AbstractFactory;
 
-use Otus\App\Application\AbstractFactory\ProductFactoryInterface;
-use Otus\App\Domain\SandwichInterface;
-use Otus\App\Application\Controllers\Sandwich;
+use Otus\App\Domain\Model\Controllers\Sandwich;
+use Otus\App\Domain\Model\Interface\SandwichInterface;
 
 class SandwichFactory implements ProductFactoryInterface
 {

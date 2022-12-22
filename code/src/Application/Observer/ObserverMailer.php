@@ -2,9 +2,9 @@
 
 namespace Otus\App\Application\Observer;
 
-use Otus\App\Application\Controllers\Product;
-use SplSubject;
+use Otus\App\Domain\Model\Controllers\Product;
 use SplObserver;
+use SplSubject;
 
 class ObserverMailer implements SplObserver
 {

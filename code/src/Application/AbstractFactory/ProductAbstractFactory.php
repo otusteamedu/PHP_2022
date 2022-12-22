@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Otus\App\Application\AbstractFactory;
 
-use Otus\App\Application\AbstractFactory\ProductFactoryInterface;
-use Otus\App\Application\AbstractFactory\BurgerFactory;
-use Otus\App\Application\AbstractFactory\SandwichFactory;
-use Otus\App\Application\AbstractFactory\HotDogFactory;
-use Otus\App\Domain\ProductInterface;
+use Otus\App\Domain\Model\Interface\ProductInterface;
 
 class ProductAbstractFactory extends AbstractFactory
 {

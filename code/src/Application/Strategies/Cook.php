@@ -2,11 +2,10 @@
 
 namespace Otus\App\Application\Strategies;
 
-use Otus\App\Application\Controllers\Product;
-use Otus\App\Application\AbstractFactory\ProductAbstractFactory;
-use Otus\App\Domain\AdditionalIngredientsInterface;
-use Otus\App\Application\Decorators;
 use Otus\App\Application\AbstractFactory\AbstractFactory;
+use Otus\App\Application\Decorators;
+use Otus\App\Domain\Model\Controllers\Product;
+use Otus\App\Domain\Model\Interface\AdditionalIngredientsInterface;
 
 class Cook
 {

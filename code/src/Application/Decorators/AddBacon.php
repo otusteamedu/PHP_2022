@@ -2,8 +2,8 @@
 
 namespace Otus\App\Application\Decorators;
 
-use Otus\App\Application\Controllers\Product;
-use Otus\App\Domain\ProductInterface;
+use Otus\App\Domain\Model\Controllers\Product;
+use Otus\App\Domain\Model\Interface\ProductInterface;
 
 class AddBacon extends Product implements ProductInterface
 {

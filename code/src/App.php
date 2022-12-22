@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Otus\App;
 
-use Otus\App\Domain\ProductInterface;
+use Otus\App\Application\Observer\ObserverMailer;
 use Otus\App\Application\Proxy\TasterProducts;
 use Otus\App\Application\Strategies\Cook;
-use Otus\App\Domain\AdditionalIngredientsInterface;
-use Otus\App\Application\Observer\ObserverMailer;
-use Otus\App\Application\Controllers\Product;
-use Otus\App\Application\AbstractFactory\AbstractFactory;
+use Otus\App\Domain\Model\Controllers\Product;
+use Otus\App\Domain\Model\Interface\AdditionalIngredientsInterface;
+use Otus\App\Domain\Model\Interface\ProductInterface;
 
 class App
 {
