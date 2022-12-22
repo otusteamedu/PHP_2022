@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Dto\Output;
 
+use App\Domain\Entity\AccountStatement;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use OpenApi\Annotations as OA;
@@ -22,4 +23,6 @@ class AccountStatementDto
      * @OA\Property(property="text", example="Выписка по счету (Маша) за период с 11.06.2018 по 07.12.2022")
      */
     public ?string $text = null;
+
+    public ?bool $cache = null;
 }

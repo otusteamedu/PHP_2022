@@ -27,12 +27,33 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    App\Application\Contract\AccountStatementManagerInterface:
+        class: 'App\Application\Manager\AccountStatementManager'
+
     App\Infrastructure\Controller\v1\AccountStatementController:
         arguments:
+            $accountStatementManager: '@App\Infrastructure\Decorator\AccountStatementManagerRedisCacheDecorator'
             $producer: '@old_sound_rabbit_mq.create_account_statement_producer'
+
+    App\Infrastructure\Consumer\CreateAccountStatement\Consumer:
+        arguments:
+            $accountStatementManager: '@App\Infrastructure\Decorator\AccountStatementManagerRedisCacheDecorator'
 
     nelmio_api_doc.controller.swagger_ui:
         class: App\Infrastructure\Controller\SwaggerUiController
         public: true
         arguments:
             $renderOpenApi: '@nelmio_api_doc.render_docs'
+
+    redis_client:
+        class: Redis
+        factory: Symfony\Component\Cache\Adapter\RedisAdapter::createConnection
+        arguments:
+            - '%env(REDIS_DSN)%'
+
+    redis_adapter:
+        class: Symfony\Component\Cache\Adapter\RedisTagAwareAdapter
+        arguments:
+            - '@redis_client'
+            - 'my_app'
+

@@ -7,7 +7,7 @@ namespace App\Application\Manager;
 use App\Api\Domain\Exception\EntityNotFoundException;
 use App\Application\Contract\AccountStatementManagerInterface;
 use App\Application\Dto\Input\SaveAccountStatementDto;
-use App\Application\Dto\Output\AccountStatementDto as OutputAccountStatementDto;
+use App\Application\Dto\Output\AccountStatementDto;
 use App\Domain\Contract\AccountStatementDaoInterface;
 use App\Domain\Contract\AccountStatementRepositoryInterface;
 use App\Domain\Entity\AccountStatement;
@@ -49,7 +49,7 @@ class AccountStatementManager implements AccountStatementManagerInterface
         $this->accountStatementDao->delete($accountStatement);
     }
 
-    public function find(Uuid $id): OutputAccountStatementDto
+    public function find(Uuid $id): AccountStatementDto
     {
         $accountStatement = $this->findEntity($id);
 
@@ -58,12 +58,12 @@ class AccountStatementManager implements AccountStatementManagerInterface
 
     public function findAll(): iterable
     {
-        $outputAccountStatementsDto = [];
+        $accountStatementsDto = [];
         $accountStatements = $this->accountStatementRepository->findAll();
         foreach ($accountStatements as $accountStatement) {
-            $outputAccountStatementsDto[] = $this->mapAccountStatementToDto($accountStatement);
+            $accountStatementsDto[] = $this->mapAccountStatementToDto($accountStatement);
         }
-        return $outputAccountStatementsDto;
+        return $accountStatementsDto;
     }
 
     private function findEntity(Uuid $id): AccountStatement
@@ -76,12 +76,13 @@ class AccountStatementManager implements AccountStatementManagerInterface
         return $accountStatement;
     }
 
-    private function mapAccountStatementToDto(AccountStatement $accountStatement): OutputAccountStatementDto
+    private function mapAccountStatementToDto(AccountStatement $accountStatement): AccountStatementDto
     {
-        $outputAccountStatementDto = new OutputAccountStatementDto();
-        $outputAccountStatementDto->id = $accountStatement->getId();
-        $outputAccountStatementDto->text = $accountStatement->getText();
+        $accountStatementDto = new AccountStatementDto();
+        $accountStatementDto->id = $accountStatement->getId();
+        $accountStatementDto->text = $accountStatement->getText();
+        $accountStatementDto->cache = false;
 
-        return $outputAccountStatementDto;
+        return $accountStatementDto;
     }
 }
