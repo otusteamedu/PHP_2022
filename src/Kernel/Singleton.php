@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwRedis\Kernel;
+namespace Eliasjump\HwStoragePatterns\Kernel;
 
 use Exception;
 

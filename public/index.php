@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Eliasjump\HwRedis\App;
+use Eliasjump\HwStoragePatterns\App;
 
 require __DIR__ . '/../vendor/autoload.php';
 

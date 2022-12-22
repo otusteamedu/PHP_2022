@@ -1,5 +1,6 @@
 .idea
 /docker/nginx/logs/
-/src/vendor/
 /docker/phpsocket/
-/docker/redis/
+/.env
+/docker/mysql/data/
+/vendor/

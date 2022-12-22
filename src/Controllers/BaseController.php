@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwRedis\Controllers;
+namespace Eliasjump\HwStoragePatterns\Controllers;
 
-use Eliasjump\HwRedis\Kernel\Request;
+use Eliasjump\HwStoragePatterns\Kernel\Request;
 
 abstract class BaseController
 {

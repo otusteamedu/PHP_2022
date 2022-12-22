@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwRedis\Controllers;
+namespace Eliasjump\HwStoragePatterns\Controllers;
 
-use Eliasjump\HwRedis\Kernel\Response;
+use Eliasjump\HwStoragePatterns\Kernel\Response;
 
 class MainPageController extends BaseController
 {

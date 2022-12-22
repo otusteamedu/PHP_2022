@@ -8,8 +8,10 @@ services:
     container_name: php-app
     restart: always
     volumes:
-      - ./src:/var/www/dev.site
+      - ./:/var/www/dev.site
       - ./docker/phpsocket:/var/run
+    depends_on:
+      - db
     networks:
       - app-network
 
@@ -22,26 +24,45 @@ services:
     volumes:
       - ./docker/nginx/hosts:/etc/nginx/conf.d
       - ./docker/nginx/logs:/var/log/nginx
-      - ./src:/var/www/dev.site
+      - ./:/var/www/dev.site
       - ./docker/phpsocket:/var/run
     depends_on:
       - app
     networks:
       - app-network
 
-  redis:
-    image: redis:latest
+  db:
+    image: mysql:8.0
     restart: always
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - 3306:3306
     volumes:
-      - ./docker/redis:/var/lib/redis
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/dump:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
-  memcached:
-    image: memcached:latest
-    container_name: memcached
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8080:80
     networks:
       - app-network
+
 networks:
   app-network:
     driver: bridge
