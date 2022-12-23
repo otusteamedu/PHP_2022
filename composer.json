@@ -1,7 +1,8 @@
 {
     "name": "akhakhanova/hw3",
+    "version": "1.0.0",
     "description": "homework",
-    "type": "project",
+    "type": "library",
     "autoload": {
         "psr-4": {
             "AKhakhanova\\Hw3\\": "src/"
