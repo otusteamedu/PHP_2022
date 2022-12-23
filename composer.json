@@ -1,0 +1,23 @@
+{
+    "name": "ashvedov/otus-hw13",
+    "description": "homework 13",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shvedov"
+        }
+    ],
+    "require": {
+        "php-di/php-di": "^6.4",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
+}
