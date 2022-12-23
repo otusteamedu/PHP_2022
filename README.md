@@ -16,4 +16,4 @@
 - Добавлять удалить email для проверки можно также в файле ```index.php```.
 
 ### UML-диаграмма:
-![img_2.png](Readme-img/img_2.png)
+![img_2.png](Readme-img/Otus-hw13.png)
