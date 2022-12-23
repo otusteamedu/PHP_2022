@@ -1,0 +1,17 @@
+{
+    "name": "maldoshina/php_2022",
+    "autoload": {
+        "psr-4": {
+            "Maldoshina\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Marina Aldoshina",
+            "email": "aldmarinka@yandex.ru"
+        }
+    ],
+    "require": {
+        "aldmarinka/num_words": "^1.0"
+    }
+}
