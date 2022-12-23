@@ -1,32 +1,32 @@
 version: "3.8"
 
 services:
-  app-hw5:
+  app-pev:
     build:
       dockerfile: Dockerfile
       context: ./
-    image: otus-hw5
-    container_name: app
+    image: refactored-email-verificator
+    container_name: app-hw13
     restart: unless-stopped
     working_dir: /project
     volumes:
       - ./:/project
       - ./docker-settings/php/app.ini:/usr/local/etc/php/conf.d/app.ini
     networks:
-      - otus
+      - email-verificator
 
-  nginx-hw5:
+  nginx-pev:
     image: nginx:alpine
-    container_name: app-nginx
+    container_name: nginx-hw13
     restart: unless-stopped
     ports:
-      - '8011:80'
+      - '8010:80'
     volumes:
       - ./:/project
       - ./docker-settings/nginx:/etc/nginx/conf.d/
     networks:
-      - otus
+      - email-verificator
 
 networks:
-  otus:
+  email-verificator:
     driver: bridge
