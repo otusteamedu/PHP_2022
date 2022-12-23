@@ -1,0 +1,23 @@
+{
+    "name": "eliasjump/hw_storage_patterns",
+    "description": "Homework",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eliasjump\\HwStoragePatterns\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Prigunov"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "vlucas/phpdotenv": "^5.5",
+      "ext-pdo": "*"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
+}
