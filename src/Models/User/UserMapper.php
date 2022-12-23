@@ -17,7 +17,7 @@ class UserMapper
     private PDOStatement $getByEmail;
     private PDOStatement $getAll;
     private PDOStatement $insert;
-    private PDOStatement $updateById;
+//    private PDOStatement $updateById;
     private PDOStatement $delete;
 
     /**
@@ -43,10 +43,6 @@ class UserMapper
             "insert into users (name, email) values (?,?)"
         );
 
-        $this->updateById = $this->pdo->prepare(
-            "update users set name = ?, email = ? where id = ?"
-        );
-
         $this->delete = $this->pdo->prepare(
             "delete from users where id = ?"
         );
@@ -60,7 +56,7 @@ class UserMapper
 
         $users = [];
         foreach ($res as $item)
-            $users[] = new User((int) $item['id'], $item['name'], $item['email']);
+            $users[] = new User((int)$item['id'], $item['name'], $item['email']);
         return $users;
     }
 
@@ -71,7 +67,7 @@ class UserMapper
         $res = $this->getById->fetch();
 
         return new User(
-            (int) $id,
+            (int)$id,
             $res['name'],
             $res['email'],
         );
@@ -84,7 +80,7 @@ class UserMapper
         $res = $this->getByEmail->fetch();
 
         return new User(
-            (int) $res['id'],
+            (int)$res['id'],
             $res['name'],
             $email,
         );
@@ -102,16 +98,33 @@ class UserMapper
 
     public function update(User $user): User
     {
-        $this->updateById->execute([
-            $user->name,
-            $user->email,
-            $user->id,
-        ]);
-        return $user;
+        $this->updateQueryConstructor($user)->execute();
+        return $this->findById((string)$user->id);
     }
 
     public function destroy(string $id): bool
     {
         return $this->delete->execute([$id]);
+    }
+
+    private function updateQueryConstructor(User $user): PDOStatement
+    {
+        $query = ["update users set"];
+
+        $queryParams = [];
+        if ($user->name !== '') {
+            $queryParams[] = "name = '{$user->name}'";
+        }
+        if ($user->email !== '') {
+            $queryParams[] = "email = '{$user->email}'";
+        }
+
+        $query[] = implode(', ', $queryParams);
+        $query[] = "where id = $user->id";
+
+        $query = implode(' ', $query);
+
+        return $this->pdo->prepare($query);
+
     }
 }

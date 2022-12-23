@@ -62,12 +62,13 @@ class UsersController extends BaseController
         $name = $this->request->getPostParameter('name');
         $email = $this->request->getPostParameter('email');
 
-        $user = $this->userIdentityMap->getUser($userId);
-        if ($user->id !== 0) {
-            $user->name=$name;
-            $user->email=$email;
-        } else {
-            $user = new User((int) $userId, $name, $email);
+        $user = new User(id: (int)$userId);
+
+        if (!is_null($name)) {
+            $user->name = $name;
+        }
+        if (!is_null($email)) {
+            $user->email = $email;
         }
 
         $user = $this->userMapper->update($user);
