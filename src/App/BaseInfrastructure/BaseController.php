@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Controllers;
+namespace Eliasjump\HwStoragePatterns\App\BaseInfrastructure;
 
-use Eliasjump\HwStoragePatterns\Kernel\Request;
+use Eliasjump\HwStoragePatterns\App\Kernel\Request;
 
 abstract class BaseController
 {

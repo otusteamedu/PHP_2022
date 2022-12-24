@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Kernel;
+namespace Eliasjump\HwStoragePatterns\App\Kernel;
 
 final class Router
 {

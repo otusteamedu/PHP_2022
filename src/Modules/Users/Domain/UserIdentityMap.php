@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Models\User;
+namespace Eliasjump\HwStoragePatterns\Modules\Users\Domain;
 
-use Eliasjump\HwStoragePatterns\Kernel\Singleton;
+use Eliasjump\HwStoragePatterns\App\Kernel\Singleton;
 
 class UserIdentityMap
 {

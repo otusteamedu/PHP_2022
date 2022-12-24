@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Exceptions;
+namespace Eliasjump\HwStoragePatterns\App\Exceptions;
 
 use Throwable;
 

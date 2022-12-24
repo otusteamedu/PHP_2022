@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Eliasjump\HwStoragePatterns;
 
-use Eliasjump\HwStoragePatterns\Controllers\MainPageController;
-use Eliasjump\HwStoragePatterns\Controllers\UsersController;
-use Eliasjump\HwStoragePatterns\Kernel\Config;
-use Eliasjump\HwStoragePatterns\Kernel\Router;
+use Eliasjump\HwStoragePatterns\App\Kernel\Config;
+use Eliasjump\HwStoragePatterns\App\Kernel\Router;
+use Eliasjump\HwStoragePatterns\Modules\Pages\Infrastructure\Controllers\MainPageController;
+use Eliasjump\HwStoragePatterns\Modules\Users\Infrastructure\Contollers\UsersController;
 
 class App
 {

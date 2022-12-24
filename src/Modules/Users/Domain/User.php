@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Models\User;
+namespace Eliasjump\HwStoragePatterns\Modules\Users\Domain;
 
-use Eliasjump\HwStoragePatterns\Exceptions\NoAttributeException;
+use Eliasjump\HwStoragePatterns\App\Exceptions\NoAttributeException;
 use Exception;
 
 /**

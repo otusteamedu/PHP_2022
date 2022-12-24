@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Kernel;
+namespace Eliasjump\HwStoragePatterns\App\Kernel;
 
 use Dotenv\Dotenv;
-use Eliasjump\HwStoragePatterns\Exceptions\NoAttributeException;
+use Eliasjump\HwStoragePatterns\App\Exceptions\NoAttributeException;
 
 /**
  * @property string $db_host
@@ -24,7 +24,7 @@ class Config
 
     public function load(): void
     {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
         $dotenv->load();
 
         $this->db_name = $_ENV['MYSQL_DATABASE'];

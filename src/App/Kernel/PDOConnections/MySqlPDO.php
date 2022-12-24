@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Kernel\PDOConnections;
+namespace Eliasjump\HwStoragePatterns\App\Kernel\PDOConnections;
 
-use Eliasjump\HwStoragePatterns\Kernel\Config;
+use Eliasjump\HwStoragePatterns\App\Kernel\Config;
 use Exception;
 use PDO;
 

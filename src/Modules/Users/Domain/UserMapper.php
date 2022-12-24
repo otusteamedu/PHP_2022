@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Models\User;
+namespace Eliasjump\HwStoragePatterns\Modules\Users\Domain;
 
+use Eliasjump\HwStoragePatterns\App\Kernel\PDOConnections\MySqlPDO;
 use Exception;
-use Eliasjump\HwStoragePatterns\Kernel\PDOConnections\MySqlPDO;
 use PDO;
 use PDOStatement;
 

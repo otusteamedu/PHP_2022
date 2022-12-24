@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Eliasjump\HwStoragePatterns\Controllers;
+namespace Eliasjump\HwStoragePatterns\Modules\Pages\Infrastructure\Controllers;
 
-use Eliasjump\HwStoragePatterns\Kernel\Response;
+use Eliasjump\HwStoragePatterns\App\BaseInfrastructure\BaseController;
+use Eliasjump\HwStoragePatterns\App\Kernel\Response;
 
 class MainPageController extends BaseController
 {
