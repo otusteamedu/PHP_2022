@@ -2,8 +2,11 @@
 
 namespace HW10\App\DTO;
 
-class Book
+use HW10\App\Interfaces\DTOInterface;
+
+class Book implements DTOInterface
 {
+    public readonly array $map;
     private string $sku;
 
     private string $title;
@@ -23,6 +26,12 @@ class Book
      */
     public function __construct(string $sku, string $title, string $category, int $price)
     {
+        $this->map = [
+            'sku' => 'SKU',
+            'title' => 'Заголовок',
+            'category' => 'Категория',
+            'price' => 'Цена',
+        ];
         $this->sku = $sku;
         $this->title = $title;
         $this->category = $category;
@@ -52,6 +61,16 @@ class Book
     public function getPrice(): int
     {
         return $this->price;
+    }
+
+    public function getData(): array
+    {
+        return [
+            $this->sku,
+            $this->title,
+            $this->category,
+            $this->price
+        ];
     }
 
     public function getStores(): array

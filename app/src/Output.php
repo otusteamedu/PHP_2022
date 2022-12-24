@@ -8,27 +8,31 @@ use LucidFrame\Console\ConsoleTable;
 
 class Output
 {
-    public function echo(array $books): void
+    public function echo(array $outputObjs): void
     {
+
+        $firstElemKey = array_key_first($outputObjs);
+        $firstElem = $outputObjs[$firstElemKey];
+
         $table = new ConsoleTable();
         $table
-            ->addHeader('#')
-            ->addHeader('SKU')
-            ->addHeader('Заголовок')
-            ->addHeader('Категория')
-            ->addHeader('Цена')
-            ->addHeader('Наличие');
+            ->addHeader('#');
+
+        foreach ($firstElem->map as $field) {
+            $table->addHeader($field);
+        }
+        $table->addHeader('Наличие');
 
         $lineNumber = 1;
-        foreach ($books as $book) {
+        foreach ($outputObjs as $outputObj) {
             $table->addRow()
-                ->addColumn($lineNumber)
-                ->addColumn($book->getSku())
-                ->addColumn($book->getTitle())
-                ->addColumn($book->getCategory())
-                ->addColumn($book->getPrice());
+                ->addColumn($lineNumber);
 
-            $stockInfo = $this->getStoreInfo($book->getStores());
+            foreach ($outputObj->getData() as $data) {
+                $table->addColumn($data);
+            }
+
+            $stockInfo = $this->getStoreInfo($outputObj->getStores());
             $table->addColumn(\implode(', ', $stockInfo));
             $lineNumber++;
         }

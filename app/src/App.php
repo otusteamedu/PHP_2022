@@ -6,6 +6,7 @@ namespace HW10\App;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
+use HW10\App\DTO\Book;
 use HW10\App\QueryParams;
 
 class App
@@ -28,7 +29,7 @@ class App
         $response = $this->client->search($queryParams);
 
         $result = $response->asArray()['hits']['hits'];
-        $this->output->echo(QueryParams::prepareResponse($result));
+        $this->output->echo(QueryParams::prepareResponse($result, Book::class));
     }
 
     public function makeIndex(): void

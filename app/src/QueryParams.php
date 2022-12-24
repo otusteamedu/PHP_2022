@@ -4,22 +4,29 @@ declare(strict_types=1);
 
 namespace HW10\App;
 
-use HW10\App\DTO\Book;
 use HW10\App\DTO\Store;
 
 class QueryParams
 {
     private const FIELDS = [
-                'title:',
-                'sku:',
-                'category:',
-                'in_stock:',
-                'price_from:',
-                'price_to:',
-                'limit:',
-                'offset:',
-            ];
-    private const ELEMS_LIMIT = 25;
+        'title:',
+        'sku:',
+        'category:',
+        'in_stock:',
+        'price_from:',
+        'price_to:',
+        'limit:',
+        'offset:',
+    ];
+    private const RESPONSE_SOURCE_FIELDS = [
+        'sku' => 'sku',
+        'title' => 'title',
+        'category' => 'category',
+        'price' => 'price',
+        'stock' => 'stock'
+    ];
+    private const ELEMENTS_LIMIT = 25;
+
     private function getParams(): array
     {
         return \getopt(
@@ -27,27 +34,29 @@ class QueryParams
             self::FIELDS
         );
     }
+
     public function getPreparedParams(): array
     {
         $params = $this->getParams();
         return $this->prepare($params);
     }
 
-    public static function prepareResponse(array $response): array
+    public static function prepareResponse(array $response, $DTO): array
     {
         $preparedResult = [];
-        foreach ($response as $bookInfo) {
-            $book = new Book(
-                $bookInfo['_source']['sku'],
-                $bookInfo['_source']['title'],
-                $bookInfo['_source']['category'],
-                $bookInfo['_source']['price']
+        foreach ($response as $responseElement) {
+            $dtoObj = new $DTO(
+                $responseElement['_source'][self::RESPONSE_SOURCE_FIELDS['sku']],
+                $responseElement['_source'][self::RESPONSE_SOURCE_FIELDS['title']],
+                $responseElement['_source'][self::RESPONSE_SOURCE_FIELDS['category']],
+                $responseElement['_source'][self::RESPONSE_SOURCE_FIELDS['price']]
             );
-            foreach ($bookInfo['_source']['stock'] as $stockInfo) {
-                $book->addStores(new Store($stockInfo['shop'], $stockInfo['stock']));
+            foreach ($responseElement['_source'][self::RESPONSE_SOURCE_FIELDS['stock']] as $stockInfo) {
+                $dtoObj->addStores(new Store($stockInfo['shop'], $stockInfo['stock']));
             }
-            $preparedResult[] = $book;
+            $preparedResult[] = $dtoObj;
         }
+
         return $preparedResult;
     }
 
@@ -122,7 +131,7 @@ class QueryParams
         return [
             'index' => $_ENV['ELASTIC_INDEX'],
             'body' => [
-                'size' => $limit ?? self::ELEMS_LIMIT,
+                'size' => $limit ?? self::ELEMENTS_LIMIT,
                 'from' => $offset ?? 0,
                 'query' => $conditions,
             ],
