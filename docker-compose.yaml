@@ -1,0 +1,108 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #nginx балансер
+  nginx-balancer:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balancer/nginx
+    container_name: nginx-balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/hosts/nginx_balancer.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #контейнеры с Nginx
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balancer/nginx
+    container_name: nginx1
+    ports:
+      - "81:80"
+    volumes:
+      - ./nginx/hosts/nginx1.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balancer/nginx
+    container_name: nginx2
+    ports:
+      - "82:80"
+    volumes:
+      - ./nginx/hosts/nginx2.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx3:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balancer/nginx
+    container_name: nginx3
+    ports:
+      - "83:80"
+    volumes:
+      - ./nginx/hosts/nginx3.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнеры с PHP-FPM
+  fpm1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balancer/php
+    container_name: fpm1
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+  fpm2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balancer/php
+    container_name: fpm2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  fpm3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balancer/php
+    container_name: fpm3
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
