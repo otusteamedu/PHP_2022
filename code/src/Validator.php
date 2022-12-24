@@ -13,21 +13,21 @@ class Validator
      */
     public function validateBrackets(?string $string): bool
     {
-        if (!$string){
+        if (!$string) {
             return false;
         }
 
         $counter = 0;
-        foreach (str_split($string) as $symbol){
-            if ($symbol == '('){
+        foreach (str_split($string) as $symbol) {
+            if ($symbol == '(') {
                 $counter++;
             }
 
-            if ($symbol == ')'){
+            if ($symbol == ')') {
                 $counter--;
             }
 
-            if ($counter < 0){
+            if ($counter < 0) {
                 return false;
             }
         }
