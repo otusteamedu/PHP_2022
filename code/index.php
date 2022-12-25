@@ -18,7 +18,7 @@ $emails = [
 
 $validator = new EmailValidator();
 
-foreach ($emails as $email){
+foreach ($emails as $email) {
     if ($validator->validate($email)) {
         echo $email . " - валиден<br>";
         continue;
@@ -26,4 +26,3 @@ foreach ($emails as $email){
 
     echo $email . " - не валиден<br>";
 }
-
