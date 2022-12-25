@@ -10,11 +10,13 @@ class RedisStorage
 {
     private Redis $redis;
 
+    private const HOST = 'redis';
+
     public function __construct()
     {
         try {
             $this->redis = new Redis();
-            $this->redis->connect('redis');
+            $this->redis->connect(self::HOST);
         } catch (\RedisException $e) {
         }
     }

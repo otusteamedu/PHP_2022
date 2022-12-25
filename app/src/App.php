@@ -21,6 +21,8 @@ class App
                 return $response->withStatus(403);
             });
             $app->post('/create', [EventsController::class, 'create']);
+            $app->post('/truncate', [EventsController::class, 'truncate']);
+            $app->post('/show', [EventsController::class, 'show']);
             $app->run();
 
         } catch (\Exception $exception) {

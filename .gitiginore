@@ -1,4 +1,4 @@
 .idea/
 .env
 /vendor/
-app/vendor/ 
+app/vendor/
