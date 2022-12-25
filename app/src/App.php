@@ -12,6 +12,16 @@ use HW10\App\QueryParams;
 class App
 {
     private const INDEX_FILE = __DIR__ . '/../index/books.json';
+    private const OPTIONS = [
+        'title:',
+        'sku:',
+        'category:',
+        'in_stock:',
+        'price_from:',
+        'price_to:',
+        'limit:',
+        'offset:',
+    ];
     private Client $client;
     private Output $output;
 
@@ -25,7 +35,7 @@ class App
 
     public function run(): void
     {
-        $queryParams = (new QueryParams())->getPreparedParams();
+        $queryParams = (new QueryParams())->getPreparedParams(self::OPTIONS);
         $response = $this->client->search($queryParams);
 
         $result = $response->asArray()['hits']['hits'];

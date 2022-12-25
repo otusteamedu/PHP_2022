@@ -8,16 +8,6 @@ use HW10\App\DTO\Store;
 
 class QueryParams
 {
-    private const FIELDS = [
-        'title:',
-        'sku:',
-        'category:',
-        'in_stock:',
-        'price_from:',
-        'price_to:',
-        'limit:',
-        'offset:',
-    ];
     private const RESPONSE_SOURCE_FIELDS = [
         'sku' => 'sku',
         'title' => 'title',
@@ -27,17 +17,17 @@ class QueryParams
     ];
     private const ELEMENTS_LIMIT = 25;
 
-    private function getParams(): array
+    private function getParams(array $options): array
     {
         return \getopt(
             '',
-            self::FIELDS
+            $options
         );
     }
 
-    public function getPreparedParams(): array
+    public function getPreparedParams(array $options): array
     {
-        $params = $this->getParams();
+        $params = $this->getParams($options);
         return $this->prepare($params);
     }
 
