@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Otus\Task07\App\Chat;
+namespace Otus\Task06\App\Chat;
 
-use Otus\Task07\App\Chat\Contracts\SocketManagerContract;
-use Otus\Task07\Core\Socket\Contracts\DomainSocketContract;
-use Otus\Task07\Core\Socket\ServerUNIXSocket;
+use Otus\Task06\App\Chat\Contracts\SocketManagerContract;
+use Otus\Task06\Core\Socket\Contracts\DomainSocketContract;
+use Otus\Task06\Core\Socket\ServerUNIXSocket;
 
 class ChatServerManager implements SocketManagerContract
 {

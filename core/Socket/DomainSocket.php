@@ -1,7 +1,7 @@
 <?php
-namespace Otus\Task07\Core\Socket;
+namespace Otus\Task06\Core\Socket;
 
-use Otus\Task07\Core\Socket\Contracts\DomainSocketContract;
+use Otus\Task06\Core\Socket\Contracts\DomainSocketContract;
 
 class DomainSocket implements DomainSocketContract {
 

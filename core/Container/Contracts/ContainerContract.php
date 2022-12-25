@@ -1,6 +1,6 @@
 <?php
 
-namespace Otus\Task07\Core\Container\Contracts;
+namespace Otus\Task06\Core\Container\Contracts;
 
 interface ContainerContract
 {

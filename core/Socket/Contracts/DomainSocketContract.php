@@ -1,5 +1,5 @@
 <?php
-namespace Otus\Task07\Core\Socket\Contracts;
+namespace Otus\Task06\Core\Socket\Contracts;
 
 interface DomainSocketContract {
     public function getHost();

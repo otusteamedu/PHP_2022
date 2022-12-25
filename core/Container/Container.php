@@ -1,26 +1,45 @@
 <?php
+namespace Otus\Task06\Core\Container;
 
-
-namespace Otus\Task07\Core\Container;
-
-
-use Otus\Task07\Core\Container\Contracts\ContainerContract;
+use Otus\Task06\Core\Container\Contracts\ContainerContract;
+use Otus\Task06\Core\Http\Request;
 
 class Container implements ContainerContract, \ArrayAccess
 {
+    private static ?ContainerContract $instance = null;
     private array $containers = [];
 
+    private function __construct(){}
+
+    public static function instance(): self
+    {
+        if (is_null(self::$instance)){
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     public function get(mixed $id){
-        return isset($this->containers[$id]) ? $this->containers[$id] : null;
+        return $this->containers[$id] ?? null;
     }
 
     public function getContainer(mixed $id){
-        return isset($this->containers[$id]) ? $this->containers[$id] : null;
+        return $this->containers[$id] ?? null;
     }
 
     public function set(mixed $id, mixed $value)
     {
         $this->containers[$id] = $value;
+    }
+
+    public function getRequest(): Request
+    {
+       return $this->get('request');
+    }
+
+    public function setRequest(Request $request)
+    {
+        $this->set('request', $request);
     }
 
     public function has(mixed $id): bool

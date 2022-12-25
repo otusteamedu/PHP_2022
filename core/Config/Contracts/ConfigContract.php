@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Otus\Task07\Core\Config\Contracts;
+namespace Otus\Task06\Core\Config\Contracts;
 
 interface ConfigContract
 {

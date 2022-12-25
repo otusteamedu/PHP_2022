@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Otus\Task07\Core\Config;
+namespace Otus\Task06\Core\Config;
 
-use Otus\Task07\Core\Config\Contracts\ConfigContract;
+use Otus\Task06\Core\Config\Contracts\ConfigContract;
 
 
 class Config implements ConfigContract, \ArrayAccess
@@ -12,6 +12,7 @@ class Config implements ConfigContract, \ArrayAccess
 
     public function __construct($path)
     {
+
         $this->container = require $path;
     }
 
@@ -22,7 +23,7 @@ class Config implements ConfigContract, \ArrayAccess
 
     public function has(mixed $id): bool
     {
-        return isset($this->container[$id]);
+        return isset($this->containers[$id]);
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
@@ -37,7 +38,7 @@ class Config implements ConfigContract, \ArrayAccess
 
     public function offsetUnset(mixed $offset): void
     {
-        unset($this->container[$offset]);
+        unset($this->containers[$offset]);
     }
 
     public function offsetGet(mixed $offset): mixed

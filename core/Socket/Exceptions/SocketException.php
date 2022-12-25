@@ -1,5 +1,5 @@
 <?php
-namespace Otus\Task07\Core\Socket\Exceptions;
+namespace Otus\Task06\Core\Socket\Exceptions;
 
 class SocketException extends \Exception
 {

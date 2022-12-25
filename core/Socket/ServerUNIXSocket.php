@@ -1,10 +1,10 @@
 <?php
-namespace Otus\Task07\Core\Socket;
+namespace Otus\Task06\Core\Socket;
 
 
-use Otus\Task07\Core\Socket\Contracts\DomainSocketContract;
-use Otus\Task07\Core\Socket\Contracts\ServerUNIXSocketContract;
-use Otus\Task07\Core\Socket\Exceptions\SocketException;
+use Otus\Task06\Core\Socket\Contracts\DomainSocketContract;
+use Otus\Task06\Core\Socket\Contracts\ServerUNIXSocketContract;
+use Otus\Task06\Core\Socket\Exceptions\SocketException;
 
 class ServerUNIXSocket implements ServerUNIXSocketContract {
 

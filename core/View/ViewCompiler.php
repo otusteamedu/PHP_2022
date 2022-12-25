@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Otus\Task07\Core\View;
+namespace Otus\Task06\Core\View;
 
-use Otus\Task07\Core\View\Contracts\ViewCompilerContract;
+use Otus\Task06\Core\View\Contracts\ViewCompilerContract;
 use Stringable;
 
 class ViewCompiler implements ViewCompilerContract, Stringable

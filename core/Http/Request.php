@@ -1,26 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Otus\Task07\Core\Http;
+namespace Otus\Task06\Core\Http;
 
-use Otus\Task07\Core\Http\Parameters\PostParameter;
-
-class Request
+abstract class Request
 {
-    public ?PostParameter $post = null;
+    protected string $path = '/';
 
-    protected function __construct(array $post){
-        $this->post = new PostParameter($post);
-    }
-
-    public static function create(): static
+    public function __construct()
     {
-        return new static($_POST);
+        $this->initialize();
     }
 
-    public function isPost(): bool
-    {
-        return $_SERVER['REQUEST_METHOD'] === 'POST';
-    }
+    abstract public function initialize();
+
+    abstract public function getPath();
 
 }
