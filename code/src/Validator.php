@@ -35,4 +35,3 @@ class Validator
         return "Строка валидна";
     }
 }
-
