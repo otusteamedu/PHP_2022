@@ -7,20 +7,21 @@ namespace Maldoshina\Php2022;
 class EmailValidator
 {
     /**
-     * @param string|null $email
+     * @param string $email
      *
      * @return bool
+     * @throws \Exception
      */
-    public function validate(?string $email): bool
+    public function validate(string $email): bool
     {
         if (!$email) {
-            return false;
+            throw new \Exception("Передан пустой email");
         }
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && checkdnsrr(explode('@', $email)[1])) {
             return true;
         }
 
-        return false;
+        throw new \Exception("email " . $email . " не валиден");
     }
 }

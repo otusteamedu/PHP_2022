@@ -8,6 +8,7 @@ use Maldoshina\Php2022\EmailValidator;
 
 $emails = [
     "test@yandex.ru",
+    "",
     "qwer.ty@yandex.ru",
     "email@q1w2e3r4t5y6.ru",
     "email",
@@ -19,10 +20,9 @@ $emails = [
 $validator = new EmailValidator();
 
 foreach ($emails as $email) {
-    if ($validator->validate($email)) {
-        echo $email . " - валиден<br>";
-        continue;
+    try {
+        $validator->validate($email);
+    } catch (Exception $e) {
+        echo $e->getMessage() . "<br>";
     }
-
-    echo $email . " - не валиден<br>";
 }
