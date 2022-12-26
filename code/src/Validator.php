@@ -7,14 +7,14 @@ namespace Maldoshina\StringValidator;
 class Validator
 {
     /**
-     * @param string|null $string
+     * @param $string
      *
-     * @return bool
+     * @return string
      */
-    public function validateBrackets(?string $string): bool
+    public function validateBrackets($string): string
     {
         if (!$string) {
-            return false;
+            throw new \Exception('Строка пуста', 400);
         }
 
         $counter = 0;
@@ -28,10 +28,11 @@ class Validator
             }
 
             if ($counter < 0) {
-                return false;
+                throw new \Exception('Строка не валидна', 400);
             }
         }
 
-        return true;
+        return "Строка валидна";
     }
 }
+

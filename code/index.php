@@ -6,17 +6,12 @@ require_once "./vendor/autoload.php";
 
 use Maldoshina\StringValidator\Validator;
 
-echo "Привет, Otus!<br>" . date("Y-m-d H:i:s") . "<br><br>";
-
-echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'] . "<br><br>";
-
-$string         = $_POST['string'];
-$validateResult = (new Validator())->validateBrackets($string);
-
-if ($validateResult) {
-    http_response_code(200);
-    echo "Строка " . $string . " валидна";
-} else {
-    http_response_code(400);
-    echo "Строка " . $string . " не валидна";
+try {
+    echo (new Validator())->validateBrackets($_POST['string']);
+} catch (Exception $e) {
+    http_response_code($e->getCode());
+    echo $e->getMessage();
 }
+
+echo "<br><br>Привет, Otus!<br>" . date("Y-m-d H:i:s");
+echo "<br><br>Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];
