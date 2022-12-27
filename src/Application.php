@@ -19,30 +19,43 @@ class Application
 
     public function run(): void
     {
-        $film = $this->getProfitableFilm();
-
-        if ($film) {
-            $result = 'Самый прибыльный фильм &laquo;' . $film['title'] . '&raquo; собрал ' . $film['sum'] . ' рублей';
-        } else {
-            $result = 'Самый прибыльный фильм не найден';
-        }
-
-        echo $result;
+        $this->printTasks();
+        $this->printMovies();
     }
 
-    protected function getProfitableFilm(): mixed
+    protected function printTasks(): void
     {
-        $query = "SELECT films.id, films.title, sum(tickets.cost) FROM films
-            JOIN sessions on films.id = sessions.film_id
-            JOIN tickets on sessions.id = tickets.session_id
-            GROUP BY films.id, films.title 
-            ORDER BY sum(tickets.cost) DESC
-            LIMIT 1";
+        $statement = $this->pdo->prepare('SELECT * FROM movies_tasks');
 
-        $sth = $this->pdo->prepare($query);
-        $sth->execute();
+        $statement->execute();
 
-        return $sth->fetch(PDO::FETCH_ASSOC);
+        echo '<table border="1" width="1000" style="text-align: center; margin-bottom: 20px">';
+        echo '<tr><th>Название фильма</th><th>Событие</th><th>Дата</th></tr>';
+        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $movie) {
+            echo '<tr>';
+            echo '<td>'. $movie['title'] .'</td>';
+            echo '<td>'. $movie['name'] .'</td>';
+            echo '<td>'. $movie['value'] .'</td>';
+            echo '<tr>';
+        }
+    }
+
+    protected function printMovies(): void
+    {
+        $statement = $this->pdo->prepare('SELECT * FROM movies');
+
+        $statement->execute();
+
+        echo '<table border="1" width="1000" style="text-align: center">';
+        echo '<tr><th>Название фильма</th><th>Тип атрибута</th><th>Название атрибута</th><th>Значение</th></tr>';
+        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $movie) {
+            echo '<tr>';
+            echo '<td>'. $movie['title'] .'</td>';
+            echo '<td>'. $movie['type'] .'</td>';
+            echo '<td>'. $movie['name'] .'</td>';
+            echo '<td>'. $movie['value'] .'</td>';
+            echo '<tr>';
+        }
     }
 
     protected function constructPDO(): PDO

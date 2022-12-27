@@ -1,109 +1,84 @@
 CREATE DATABASE app;
 
-CREATE TABLE halls
+CREATE TABLE films
 (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE seats
+CREATE TABLE attribute_types
 (
     id SERIAL PRIMARY KEY,
-    row INT,
-    number INT,
-    hall_id INT REFERENCES halls(id) ON DELETE CASCADE
+    type VARCHAR(255)
 );
 
-CREATE table films
+CREATE TABLE attributes
 (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    name VARCHAR(255),
+    type_id INT REFERENCES attribute_types(id)
 );
 
-CREATE TABLE sessions
+CREATE TABLE attribute_film
 (
     id SERIAL PRIMARY KEY,
-    start TIMESTAMP,
-    film_id INT REFERENCES films(id),
-    hall_id INT REFERENCES halls(id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    attribute_id INT REFERENCES attributes(id) ON DELETE CASCADE,
+    film_id INT REFERENCES films(id) ON DELETE CASCADE,
+    value TEXT
 );
-
-CREATE TABLE seat_session
-(
-    id SERIAL PRIMARY KEY,
-    seat_id INT REFERENCES seats(id),
-    session_id INT REFERENCES sessions(id),
-    cost FLOAT
-);
-
-CREATE TABLE clients
-(
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE tickets
-(
-    id SERIAL PRIMARY KEY,
-    session_id INT REFERENCES sessions(id),
-    seat_id INT REFERENCES seats(id),
-    client_id INT REFERENCES clients(id),
-    cost FLOAT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Залы
-INSERT INTO halls (title) VALUES ('Зал №1');
-INSERT INTO halls (title) VALUES ('Зал №2');
-INSERT INTO halls (title) VALUES ('Зал №3');
-
--- Места
-INSERT INTO seats (row, number, hall_id) VALUES (1, 1, 1);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 2, 1);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 3, 1);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 1, 2);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 2, 2);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 3, 2);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 1, 3);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 2, 3);
-INSERT INTO seats (row, number, hall_id) VALUES (1, 3, 3);
 
 -- Фильмы
-INSERT INTO films (title, description) VALUES ('Фильм №1', 'Описание фильма №1');
-INSERT INTO films (title, description) VALUES ('Фильм №2', 'Описание фильма №2');
-INSERT INTO films (title, description) VALUES ('Фильм №3', 'Описание фильма №3');
+INSERT INTO films (title) VALUES ('Фильм №1');
+INSERT INTO films (title) VALUES ('Фильм №2');
+INSERT INTO films (title) VALUES ('Фильм №3');
 
--- Сеансы
-INSERT INTO sessions (start, film_id, hall_id) VALUES ('2022-10-11 10:00:00', 1, 1);
-INSERT INTO sessions (start, film_id, hall_id) VALUES ('2022-10-11 15:00:00', 2, 2);
-INSERT INTO sessions (start, film_id, hall_id) VALUES ('2022-10-11 17:00:00', 3, 3);
+-- Типы атрибутов
+INSERT INTO attribute_types (type) VALUES ('string');
+INSERT INTO attribute_types (type) VALUES ('date');
+INSERT INTO attribute_types (type) VALUES ('bool');
 
--- Стоимость мест на сеансах
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (1, 1, 500);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (2, 1, 500);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (3, 1, 500);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (4, 2, 350);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (5, 2, 700);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (6, 2, 200);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (7, 3, 900);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (8, 3, 600);
-INSERT INTO seat_session (seat_id, session_id, cost) VALUES (9, 3, 750);
+-- Атрибуты
+INSERT INTO attributes (name, type_id) VALUES ('reviews', 1);
+INSERT INTO attributes (name, type_id) VALUES ('prize', 3);
+INSERT INTO attributes (name, type_id) VALUES ('world_premiere', 2);
+INSERT INTO attributes (name, type_id) VALUES ('russian_premiere', 2);
+INSERT INTO attributes (name, type_id) VALUES ('start_ticket_sale', 2);
 
--- Клиенты
-INSERT INTO clients (first_name, last_name) VALUES ('Иван', 'Иванов');
-INSERT INTO clients (first_name, last_name) VALUES ('Илья', 'Сидоров');
-INSERT INTO clients (first_name, last_name) VALUES ('Александр', 'Петров');
+-- Заполнение атрибутов
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (1, 1, 'Рецензия на фильм №1');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (1, 2, 'Рецензия на фильм №2');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (1, 3, 'Рецензия на фильм №3');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (2, 1, '1');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (3, 3, '2022-12-27');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (4, 3, '2023-01-16');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (5, 3, '2022-12-08');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (3, 1, '2022-12-27');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (4, 1, '2022-12-16');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (5, 2, '2022-01-16');
+INSERT INTO attribute_film (attribute_id, film_id, value) VALUES (3, 3, '2022-12-13');
 
--- Билеты
-INSERT INTO tickets (session_id, seat_id, client_id, cost) VALUES (1, 2, 1, 500);
-INSERT INTO tickets (session_id, seat_id, client_id, cost) VALUES (2, 4, 1, 350);
-INSERT INTO tickets (session_id, seat_id, client_id, cost) VALUES (1, 1, 2, 500);
-INSERT INTO tickets (session_id, seat_id, client_id, cost) VALUES (1, 3, 3, 500);
-INSERT INTO tickets (session_id, seat_id, client_id, cost) VALUES (3, 9, 1, 750);
-INSERT INTO tickets (session_id, seat_id, client_id, cost) VALUES (3, 8, 2, 600);
+-- Index
+CREATE index attribute_type ON attribute_types(type);
+
+-- View
+CREATE OR REPLACE VIEW movies_tasks AS
+    SELECT films.title, attributes.name, attribute_film.value
+    FROM films
+        INNER JOIN attribute_film on films.id = attribute_film.film_id
+        INNER JOIN attributes on attribute_film.attribute_id = attributes.id
+        INNER JOIN attribute_types on attributes.type_id = attribute_types.id
+    WHERE
+        CASE
+            WHEN attribute_types.type = 'date'
+                THEN CURRENT_DATE = (attribute_film.value::DATE) OR CURRENT_DATE + 20 = (attribute_film.value::DATE)
+            ELSE false
+        END
+    ORDER BY films.title, attribute_film.value::DATE;
+
+CREATE OR REPLACE VIEW movies AS
+    SELECT films.title, attribute_types.type, attributes.name, attribute_film.value
+    FROM attribute_film
+        INNER JOIN films on attribute_film.film_id = films.id
+        INNER JOIN attributes on attribute_film.attribute_id = attributes.id
+        INNER JOIN attribute_types on attributes.type_id = attribute_types.id
