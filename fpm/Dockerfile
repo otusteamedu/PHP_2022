@@ -25,14 +25,16 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip intl bcmath pdo_pgsql pcntl sockets \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && pecl install -o -f \
             redis \
             memcached \
-            #rdkafka \
         && rm -rf /tmp/pear \
         && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
         && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/memcached.ini
-        #&& echo "extension=rdkafka.so" > /usr/local/etc/php/conf.d/rdkafka.ini
+
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Locale
 RUN sed -i -e \

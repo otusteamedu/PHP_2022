@@ -24,6 +24,8 @@ services:
       dockerfile: Dockerfile
     image: myapp/ui-fpm
     container_name: ui-fpm
+    extra_hosts:
+      host.docker.internal: host-gateway
     volumes:
       - ./code/ui:/data/application.local
     networks:
@@ -46,6 +48,8 @@ services:
       dockerfile: Dockerfile
     image: myapp/api-fpm
     container_name: api-fpm
+    extra_hosts:
+      host.docker.internal: host-gateway
     volumes:
       - ./code/api:/data/application.local
     networks:
