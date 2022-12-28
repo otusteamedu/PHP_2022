@@ -22,7 +22,7 @@ class Application
         $film = $this->getProfitableFilm();
 
         if ($film) {
-            $result = 'Самый прибыльный фильм &laquo;' . $film['title'] . '&raquo; собрал ' . $film['sum'] . ' рублей';
+            $result = 'Самый прибыльный фильм &laquo;' . $film['title'] . '&raquo; собрал ' . $film['total'] . ' рублей';
         } else {
             $result = 'Самый прибыльный фильм не найден';
         }
@@ -32,12 +32,15 @@ class Application
 
     protected function getProfitableFilm(): mixed
     {
-        $query = "SELECT films.id, films.title, sum(tickets.cost) FROM films
-            JOIN sessions on films.id = sessions.film_id
-            JOIN tickets on sessions.id = tickets.session_id
-            GROUP BY films.id, films.title 
-            ORDER BY sum(tickets.cost) DESC
-            LIMIT 1";
+        $query = "SELECT title, total FROM (
+            SELECT t.*, rank() over (order by total desc) as r FROM (
+                SELECT sum(cost) as total, films.title as title FROM tickets
+                    JOIN sessions on tickets.session_id = sessions.id
+                    JOIN films on sessions.film_id = films.id
+                    GROUP BY films.id
+            ) as t
+        ) as t2
+        WHERE r = 1";
 
         $sth = $this->pdo->prepare($query);
         $sth->execute();
