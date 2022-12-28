@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Study\Cinema\Exception;
+namespace Study\Cinema\Infrastructure\Exception;
 
 use Exception;
 

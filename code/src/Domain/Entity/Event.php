@@ -1,6 +1,6 @@
 <?php
 
-namespace Study\Cinema\Model;
+namespace Study\Cinema\Domain\Entity;
 
 class Event
 {

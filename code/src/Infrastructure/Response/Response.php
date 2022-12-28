@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace Study\Cinema\Response;
+namespace Study\Cinema\Infrastructure\Response;
 
 class Response
 {
@@ -36,6 +36,11 @@ class Response
         http_response_code($status);
     }
 
+    public function send()
+    {
+        echo $this->message;
+        http_response_code($this->status);
+    }
 
 
 }

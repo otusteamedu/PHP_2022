@@ -1,8 +1,8 @@
 <?php
 
-namespace Study\Cinema\Redis;
+namespace Study\Cinema\Domain\Interface;
 
-use Study\Cinema\Model\Event;
+use Study\Cinema\Domain\Entity\Event;
 
 interface StorageInterface
 {

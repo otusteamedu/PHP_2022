@@ -1,8 +1,9 @@
 <?php
 
-namespace Study\Cinema\Redis;
+namespace Study\Cinema\Infrastructure\Redis;
 
-use Study\Cinema\Model\Event;
+use Study\Cinema\Domain\Entity\Event;
+use Study\Cinema\Domain\Interface\StorageInterface;
 use Predis\Client;
 
 class RedisClient implements StorageInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace Study\Cinema\Helper;
+namespace Study\Cinema\Application\Helper;
 
 class DotEnv
 {
@@ -10,7 +10,6 @@ class DotEnv
      * @var string
      */
     protected $path;
-
 
     public function __construct(string $path)
     {

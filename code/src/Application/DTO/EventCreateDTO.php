@@ -1,6 +1,6 @@
 <?php
 
-namespace Study\Cinema\DTO;
+namespace Study\Cinema\Application\DTO;
 
 class EventCreateDTO
 {

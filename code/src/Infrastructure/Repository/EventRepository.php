@@ -1,8 +1,9 @@
 <?php
 
-namespace Study\Cinema\Repository;
-use Study\Cinema\Redis\StorageInterface;
-use Study\Cinema\Model\Event;
+namespace Study\Cinema\Infrastructure\Repository;
+
+use Study\Cinema\Domain\Interface\StorageInterface;
+use Study\Cinema\Domain\Entity\Event;
 
 class EventRepository
 {
