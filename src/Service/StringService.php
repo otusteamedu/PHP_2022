@@ -9,8 +9,8 @@ class StringService
     public function convertString(string $s): string
     {
         $result = Stringy::create($s)
-            ->collapseWhitespace()
-            ->swapCase();
+                         ->collapseWhitespace()
+                         ->swapCase();
 
         return (string)$result;
     }
