@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+  #Контейнер с PHP-FPM
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: redis/php
+    container_name: app
+    volumes:
+      - ./code:/data
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./data:/data
+    networks:
+      - app-network
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - '8001:8001'
+    volumes:
+      - ./redisinsight:/db
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
