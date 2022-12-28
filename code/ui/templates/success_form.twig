@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма запроса выписки за период</title>
+    <meta charset="UTF-8">
+    {% block head_css %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/1.1.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    {% endblock %}
+</head>
+<body>
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+<div style="width:50%;margin-left:100px;margin-top:30px">
+    {{ form(form) }}
+
+    <p>Результат обработки формы:</p>
+    <p id="result">{{ message }}</p>
+    <p></p>
+    <p id="header-account-statement"></p>
+    <p id="account-statement"></p>
+</div>
+{% block head_js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% endblock %}
+<script>
+    function sendRequest(url, timeoutBetweenRequests)
+    {
+        $.ajax({
+            url: url,
+            method: 'get',
+            success: function (response) {
+                $('#header-account-statement').html('Выписка, полученная от ' + url + ':');
+                console.log(response);
+                $('#account-statement').html(response);
+//                $('#account-statement').html('id: ' + response.id + '<br>text: ' + response.text);
+            },
+            statusCode: {
+                404: function () {
+                    setTimeout(() => {sendRequest(url, timeoutBetweenRequests);}, timeoutBetweenRequests);
+                }
+            },
+        });
+    }
+
+    jQuery(document).ready(function ($)
+    {
+        let url = 'http://localhost/api/v1/account-statements/' + {{ id|json_encode|raw }};
+        let timeoutBetweenRequests = 1000;
+
+        sendRequest(url, timeoutBetweenRequests);
+    });
+</script>
+</body>
+</html>

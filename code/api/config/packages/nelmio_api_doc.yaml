@@ -1,0 +1,9 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Account Statement App
+            description: This is an Account Statement App!
+            version: 1.0.0
+    areas: # to filter documented areas
+        path_patterns: # an array of regexps (document only routes under /api, except /api/doc)
+            - ^/api/v1(?!/doc$)
