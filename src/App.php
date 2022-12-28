@@ -19,5 +19,4 @@ class App
 
         echo $this->stringService->convertString($string);
     }
-
 }
