@@ -13,29 +13,29 @@ VALUES
 DROP TABLE IF EXISTS halls_seat CASCADE;
 CREATE TABLE halls_seat
 (
-    id integer NOT NULL constraint pk_hall_seat_id primary key,
-    name smallint NOT NULL,
+    id integer PRIMARY KEY NOT NULL,
     hall_id integer NOT NULL,
+    row smallint NOT NULL,
+    seat smallint NOT NULL,
     CONSTRAINT fk_hall_id
-        FOREIGN KEY (hall_id) REFERENCES halls ON DELETE CASCADE
+        FOREIGN KEY (hall_id) REFERENCES halls ON DELETE CASCADE,
+    CONSTRAINT unique_hall_id_row_seat
+        UNIQUE (hall_id, row, seat)
 );
 INSERT INTO halls_seat
 VALUES
-    (1, 1, 1),
-    (2, 2, 1),
-    (3, 3, 1),
-    (4, 4, 1),
-    (5, 5, 1),
-    (6, 1, 2),
-    (7, 2, 2),
-    (8, 3, 2),
-    (9, 4, 2),
-    (10, 5, 2),
-    (11, 1, 3),
-    (12, 2, 3),
-    (13, 3, 3),
-    (14, 4, 3),
-    (15, 5, 3);
+    (1, 1, 1, 1),
+    (2, 1, 1, 2),
+    (3, 1, 1, 3),
+    (4, 1, 1, 4),
+    (5, 1, 2, 5),
+    (6, 1, 2, 6),
+    (7, 1, 2, 7),
+    (8, 1, 2, 8),
+    (9, 1, 3, 9),
+    (10, 1, 3, 10),
+    (11, 1, 3, 11),
+    (12, 1, 3, 12);
 
 DROP TABLE IF EXISTS films CASCADE;
 CREATE TABLE films
@@ -56,6 +56,7 @@ CREATE TABLE seance
     id integer NOT NULL constraint pk_seance_id primary key,
     hall_id integer NOT NULL,
     film_id integer NOT NULL,
+    price float NOT NULL,
     start timestamp NOT NULL,
     CONSTRAINT fk_hall_id
         FOREIGN KEY (hall_id) REFERENCES halls ON DELETE CASCADE,
@@ -64,39 +65,39 @@ CREATE TABLE seance
 );
 INSERT INTO seance
 VALUES
-    (1, 1, 1, '2022-12-25 10:00:00'),
-    (2, 2, 2, '2022-12-25 12:00:00'),
-    (3, 1, 1, '2022-12-25 21:00:00'),
-    (4, 2, 2, '2022-12-25 21:00:00'),
-    (5, 1, 1, '2022-12-26 10:00:00'),
-    (6, 2, 2, '2022-12-26 12:00:00'),
-    (7, 1, 1, '2022-12-27 10:00:00'),
-    (8, 2, 2, '2022-12-28 12:00:00');
+    (1, 1, 1, 15, '2022-12-25 10:00:00'),
+    (2, 2, 2, 15, '2022-12-25 12:00:00'),
+    (3, 1, 1, 15, '2022-12-25 21:00:00'),
+    (4, 2, 2, 22, '2022-12-25 21:00:00'),
+    (5, 1, 1, 20, '2022-12-26 10:00:00'),
+    (6, 2, 2, 10, '2022-12-26 12:00:00'),
+    (7, 1, 1, 12, '2022-12-27 10:00:00'),
+    (8, 2, 2, 25, '2022-12-28 12:00:00');
 
 DROP TABLE IF EXISTS orders CASCADE;
 CREATE TABLE orders
 (
     seance_id integer NOT NULL,
     seat_id integer NOT NULL,
-    price decimal NOT NULL,
+    date_of_sale timestamp default CURRENT_TIMESTAMP,
     CONSTRAINT fk_order_seance_id
-        foreign key (seance_id) references seance,
+        FOREIGN KEY (seance_id) references seance,
     CONSTRAINT fk_order_halls_seat_id
-        foreign key (seat_id) references halls_seat,
+        FOREIGN KEY (seat_id) references halls_seat,
     CONSTRAINT pk_seat_seance_id
-        primary key (seance_id, seat_id)
+        PRIMARY KEY (seance_id, seat_id)
 );
 INSERT INTO orders
 VALUES
-    (1, 1, 10),
-    (1, 2, 15),
-    (2, 3, 10),
-    (2, 4, 12),
-    (3, 5, 15),
-    (3, 6, 12),
-    (4, 1, 10),
-    (4, 2, 8),
-    (5, 3, 10),
-    (5, 4, 20),
-    (6, 5, 12),
-    (6, 6, 10);
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (2, 4),
+    (3, 5),
+    (3, 6),
+    (4, 1),
+    (4, 2),
+    (5, 3),
+    (5, 4),
+    (6, 5),
+    (6, 6);
