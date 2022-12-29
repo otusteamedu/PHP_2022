@@ -56,7 +56,7 @@ CREATE TABLE seance
     id integer NOT NULL constraint pk_seance_id primary key,
     hall_id integer NOT NULL,
     film_id integer NOT NULL,
-    price float NOT NULL,
+    price decimal NOT NULL,
     start timestamp NOT NULL,
     CONSTRAINT fk_hall_id
         FOREIGN KEY (hall_id) REFERENCES halls ON DELETE CASCADE,
@@ -79,6 +79,7 @@ CREATE TABLE orders
 (
     seance_id integer NOT NULL,
     seat_id integer NOT NULL,
+    price decimal NOT NULL,
     date_of_sale timestamp default CURRENT_TIMESTAMP,
     CONSTRAINT fk_order_seance_id
         FOREIGN KEY (seance_id) references seance,
@@ -89,15 +90,15 @@ CREATE TABLE orders
 );
 INSERT INTO orders
 VALUES
-    (1, 1),
-    (1, 2),
-    (2, 3),
-    (2, 4),
-    (3, 5),
-    (3, 6),
-    (4, 1),
-    (4, 2),
-    (5, 3),
-    (5, 4),
-    (6, 5),
-    (6, 6);
+    (1, 1, 15),
+    (1, 2, 15),
+    (2, 3, 15),
+    (2, 4, 22),
+    (3, 5, 20),
+    (3, 6, 10),
+    (4, 1, 12),
+    (4, 2, 25),
+    (5, 3, 10),
+    (5, 4, 15),
+    (6, 5, 20),
+    (6, 6, 17);
