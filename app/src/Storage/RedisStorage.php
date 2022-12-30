@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Octopus\App\Storage;
 
+use Octopus\App\Storage\Interfaces\StorageInterface;
 use Redis;
 
-class RedisStorage
+class RedisStorage implements StorageInterface
 {
     private Redis $redis;
 
@@ -21,17 +22,23 @@ class RedisStorage
         }
     }
 
-    public function add(array $conditions, string $event, int $priority): void
+    public function add(array $params): void
     {
+        $event = $params['event'] ?? null;
+        $priority = $params['priority'] ?? null;
+        $conditions = $params['conditions'] ?? null;
         $preparedConditions = $this->conditionsToString($conditions);
+
         $this->redis->hSet('hEvents', $event, $preparedConditions);
         $this->redis->zAdd('zEvents', $priority, $event);
     }
 
-    public function get(array $conditions): string|null
+    public function get(array $params): string|null
     {
+        $conditions = $params['conditions'] ?? null;
         $preparedConditions = $this->conditionsToString($conditions);
         $hEvents = $this->redis->hGetAll('hEvents');
+
         foreach ($hEvents as $key => $value) {
             if (str_contains($value, $preparedConditions)) {
                 $this->redis->zAdd('zEventsTemp', 0, $key);

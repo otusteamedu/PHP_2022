@@ -4,15 +4,29 @@ declare(strict_types=1);
 
 namespace Octopus\App;
 
+use Octopus\App\Storage\RedisStorage;
 use Slim\Factory\AppFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Octopus\App\Controllers\EventsController;
+use DI\ContainerBuilder;
+use Octopus\App\Storage\Interfaces\StorageInterface;
 
 class App
 {
     public function run(): void
     {
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions([
+            StorageInterface::class =>
+            \DI\create(RedisStorage::class)
+        ]);
+
+        try {
+            $container = $builder->build();
+            AppFactory::setContainer($container);
+        } catch (\Exception $e) {
+        }
 
         try {
             $app = AppFactory::create();

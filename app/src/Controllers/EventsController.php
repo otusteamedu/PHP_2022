@@ -2,30 +2,27 @@
 
 namespace Octopus\App\Controllers;
 
+use Octopus\App\Storage\Interfaces\StorageInterface;
 use Octopus\App\Traits\HttpResponseTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Octopus\App\Storage\RedisStorage;
 
 class EventsController
 {
     use HttpResponseTrait;
 
-    private RedisStorage $storage;
+    private StorageInterface $storage;
 
-    public function __construct()
+    public function __construct(StorageInterface $storage)
     {
-        $this->storage = new RedisStorage();
+        $this->storage = $storage;
     }
 
     public function create(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         try {
             $params = json_decode($request->getBody()->getContents(), true);
-            $event = $params['event'] ?? null;
-            $priority = $params['priority'] ?? null;
-            $conditions = $params['conditions'] ?? null;
-            $this->storage->add($conditions, $event, $priority);
+            $this->storage->add($params);
 
             return $this->successResponse($response);
         } catch (\Exception $e) {
@@ -56,8 +53,7 @@ class EventsController
     {
         try {
             $params = json_decode($request->getBody()->getContents(), true);
-            $conditions = $params['conditions'] ?? null;
-            $res = $this->storage->get($conditions);
+            $res = $this->storage->get($params);
 
             return $this->jsonResponse($response, $res);
         } catch (\Exception $e) {
