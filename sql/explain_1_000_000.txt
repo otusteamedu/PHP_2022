@@ -1,0 +1,82 @@
+-- Простые
+EXPLAIN
+SELECT id, title
+FROM films
+WHERE is_active;
+Seq Scan on films  (cost=0.00..2334.00 rows=9860 width=19)
+  Filter: is_active
+
+EXPLAIN
+SELECT *
+FROM halls
+WHERE capacity > 100;
+Seq Scan on halls  (cost=0.00..19853.00 rows=749731 width=31)
+  Filter: (capacity > 100)
+
+
+EXPLAIN
+SELECT id, title, release_data
+FROM films
+WHERE release_data BETWEEN now() AND now() + INTERVAL '2 month';
+Seq Scan on films  (cost=0.00..3584.00 rows=38960 width=27)
+  Filter: ((release_data >= now()) AND (release_data <= (now() + '2 mons'::interval)))
+
+
+-- Сложные
+EXPLAIN
+select *
+from film_sessions fs
+         join films f on fs.film_id = f.id
+where f.title = 'asdf';
+Nested Loop  (cost=4.51..2631.56 rows=10 width=113)
+  ->  Seq Scan on films f  (cost=0.00..2584.00 rows=1 width=73)
+        Filter: ((title)::text = 'asdf'::text)
+  ->  Bitmap Heap Scan on film_sessions fs  (cost=4.51..47.45 rows=11 width=40)
+        Recheck Cond: (film_id = f.id)
+        ->  Bitmap Index Scan on film_sessions_film_id_hall_id_time_start_key  (cost=0.00..4.51 rows=11 width=0)
+              Index Cond: (film_id = f.id)
+
+
+EXPLAIN
+select *
+from film_sessions fs
+         join halls h on fs.hall_id = h.id
+         join films f on fs.film_id = f.id
+where f.id = 1
+  and h.id = 1
+  and fs.time_start > '14:00';
+Nested Loop  (cost=1.14..25.22 rows=1 width=144)
+  ->  Nested Loop  (cost=0.85..16.90 rows=1 width=71)
+        ->  Index Scan using film_sessions_film_id_hall_id_time_start_key on film_sessions fs  (cost=0.42..8.45 rows=1 width=40)
+              Index Cond: ((film_id = 1) AND (hall_id = 1) AND (time_start > '14:00:00'::time without time zone))
+        ->  Index Scan using halls_pkey on halls h  (cost=0.42..8.44 rows=1 width=31)
+              Index Cond: (id = 1)
+  ->  Index Scan using films_pkey on films f  (cost=0.29..8.31 rows=1 width=73)
+        Index Cond: (id = 1)
+
+
+
+EXPLAIN select count(*)
+from films f
+         join film_sessions fs on f.id = fs.film_id
+         join halls h on fs.hall_id = h.id
+         join seats s on h.id = s.hall_id
+where f.id = 1;
+Finalize Aggregate  (cost=127226.24..127226.25 rows=1 width=8)
+  ->  Gather  (cost=127226.03..127226.24 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=126226.03..126226.04 rows=1 width=8)
+              ->  Nested Loop  (cost=9.63..126225.91 rows=46 width=0)
+                    Join Filter: (fs.hall_id = h.id)
+                    ->  Hash Join  (cost=9.20..126205.39 rows=45 width=16)
+                          Hash Cond: (s.hall_id = fs.hall_id)
+                          ->  Parallel Seq Scan on seats s  (cost=0.00..105362.15 rows=4166715 width=8)
+                          ->  Hash  (cost=9.07..9.07 rows=11 width=8)
+                                ->  Nested Loop  (cost=0.72..9.07 rows=11 width=8)
+                                      ->  Index Only Scan using film_sessions_film_id_hall_id_time_start_key on film_sessions fs  (cost=0.42..4.62 rows=11 width=16)
+                                            Index Cond: (film_id = 1)
+                                      ->  Materialize  (cost=0.29..4.31 rows=1 width=8)
+                                            ->  Index Only Scan using films_pkey on films f  (cost=0.29..4.31 rows=1 width=8)
+                                                  Index Cond: (id = 1)
+                    ->  Index Only Scan using halls_pkey on halls h  (cost=0.42..0.44 rows=1 width=8)
+                          Index Cond: (id = s.hall_id)

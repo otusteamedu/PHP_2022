@@ -69,11 +69,11 @@ $$ language plpgsql;
 -- Запросы для заполнения таблиц тестовыми данными
 INSERT INTO halls (title, capacity, created_at)
 select random_string(10), floor(random() * 400 + 1)::int, CURRENT_TIMESTAMP
-from generate_series(1, 10000);
+from generate_series(1, 1000000);
 
 INSERT INTO seats (row, number, hall_id)
-select floor(random() * 100 + 1)::int, floor(random() * 100 + 1)::int, floor(random() * 10000 + 1)::int
-from generate_series(1, 100000);
+select floor(random() * 100 + 1)::int, floor(random() * 100 + 1)::int, floor(random() * 1000000 + 1)::int
+from generate_series(1, 10000000);
 
 INSERT INTO films (title, director, stars, description, duration_min, release_data, is_active, created_at)
 select random_string(10),
@@ -84,14 +84,14 @@ select random_string(10),
        NOW() + (random() * (NOW() + '100 days' - NOW())) + '20 days',
        random() < 0.1,
        CURRENT_TIMESTAMP
-from generate_series(1, 1000);
+from generate_series(1, 100000);
 
 INSERT INTO film_sessions (film_id, hall_id, time_start, time_end)
-select floor(random() * 1000 + 1)::int,
-       floor(random() * 10000 + 1)::int,
+select floor(random() * 100000 + 1)::int,
+       floor(random() * 1000000 + 1)::int,
        NOW() + (random() * (NOW() + '100 days' - NOW())) + '20 days',
        NOW() + (random() * (NOW() + '100 days' - NOW())) + '20 days'
-from generate_series(1, 10000);
+from generate_series(1, 1000000);
 
 -- Запросы для анализа
 -- Простые

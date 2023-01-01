@@ -1,0 +1,140 @@
+1) Изменил настройки под свой компьютер, конфиг взял на https://pgtune.leopard.in.ua/:
+Было
+
+max_connections = 100
+shared_buffers = 128MB
+effective_cache_size = 4GB
+maintenance_work_mem = 64MB
+checkpoint_completion_target = 0.9
+wal_buffers = -1
+default_statistics_target = 100
+random_page_cost = 4.0
+work_mem = 4MB
+min_wal_size = 80MB
+max_wal_size = 1GB
+
+Стало:
+
+max_connections = 200
+shared_buffers = 4GB
+effective_cache_size = 12GB
+maintenance_work_mem = 1GB
+checkpoint_completion_target = 0.9
+wal_buffers = 16MB
+default_statistics_target = 100
+random_page_cost = 1.1
+work_mem = 10485kB
+min_wal_size = 1GB
+max_wal_size = 4GB
+
+После перезагрузи и запуска ANALYZE вывод EXPLAIN не изменился
+
+2) CREATE INDEX films_is_active ON films (is_active);
+Таблица фильмов была заполнена таким образом, что is_active=true примерно в 10% случаев
+Следовательно, индекс будет уместен
+
+
+3) Для halls.capacity индекс добавлять не стал, так как для запроса capacity > 100 (диапазон значений от 1 до 400) он
+не используется (проверял, остается также Seq Scan). Если бы была более узкая выборка, например, capacity > 399, то
+это бы имело смысл.
+
+4) Аналогично и с films_release_data (сорри, опечатку сделал при создании поля) индекс не изменил вывод планировщика.
+
+5) CREATE INDEX films_title ON films (title);
+Добавил для поля films.title. Seq Scan поменялся на Index Scan
+
+6) В таблице films_sessions уже есть индекс film_sessions_film_id_hall_id_time_start_key, благодаря которому в запросе
+select *
+from film_sessions fs
+         join halls h on fs.hall_id = h.id
+         join films f on fs.film_id = f.id
+where f.id = 1
+  and h.id = 1
+  and fs.time_start > '14:00';
+
+по всем условиям используется применяется Index Scan
+
+5) CREATE INDEX seats_hall_id ON seats (hall_id);
+Для последнего запроса добавил индекс для hall_id - в итоге, cost уменьшился более чем в 1000 раз, болше не показывает
+необходимость использовать несколько воркеров параллельно, также не используется seq scan
+
+6) Итоговые EXPLAIN'ы выглядят следующим образом:
+
+-- Простые
+EXPLAIN
+SELECT id, title
+FROM films
+WHERE is_active;
+Seq Scan on films  (cost=0.00..2334.00 rows=9860 width=19)
+  Filter: is_active
+
+EXPLAIN
+SELECT *
+FROM halls
+WHERE capacity > 100;
+Seq Scan on halls  (cost=0.00..19853.00 rows=749731 width=31)
+  Filter: (capacity > 100)
+
+
+EXPLAIN
+SELECT id, title, release_data
+FROM films
+WHERE release_data BETWEEN now() AND now() + INTERVAL '2 month';
+Seq Scan on films  (cost=0.00..3584.00 rows=38960 width=27)
+  Filter: ((release_data >= now()) AND (release_data <= (now() + '2 mons'::interval)))
+
+
+-- Сложные
+EXPLAIN
+select *
+from film_sessions fs
+         join films f on fs.film_id = f.id
+where f.title = 'asdf';
+Nested Loop  (cost=4.93..55.99 rows=10 width=113)
+  ->  Index Scan using films_title on films f  (cost=0.42..8.44 rows=1 width=73)
+        Index Cond: ((title)::text = 'asdf'::text)
+  ->  Bitmap Heap Scan on film_sessions fs  (cost=4.51..47.45 rows=11 width=40)
+        Recheck Cond: (film_id = f.id)
+        ->  Bitmap Index Scan on film_sessions_film_id_hall_id_time_start_key  (cost=0.00..4.51 rows=11 width=0)
+              Index Cond: (film_id = f.id)
+
+
+EXPLAIN
+select *
+from film_sessions fs
+         join halls h on fs.hall_id = h.id
+         join films f on fs.film_id = f.id
+where f.id = 1
+  and h.id = 1
+  and fs.time_start > '14:00';
+Nested Loop  (cost=1.14..25.22 rows=1 width=144)
+  ->  Nested Loop  (cost=0.85..16.90 rows=1 width=71)
+        ->  Index Scan using film_sessions_film_id_hall_id_time_start_key on film_sessions fs  (cost=0.42..8.45 rows=1 width=40)
+              Index Cond: ((film_id = 1) AND (hall_id = 1) AND (time_start > '14:00:00'::time without time zone))
+        ->  Index Scan using halls_pkey on halls h  (cost=0.42..8.44 rows=1 width=31)
+              Index Cond: (id = 1)
+  ->  Index Scan using films_pkey on films f  (cost=0.29..8.31 rows=1 width=73)
+        Index Cond: (id = 1)
+
+
+
+EXPLAIN select count(*)
+from films f
+         join film_sessions fs on f.id = fs.film_id
+         join halls h on fs.hall_id = h.id
+         join seats s on h.id = s.hall_id
+where f.id = 1;
+Aggregate  (cost=66.79..66.80 rows=1 width=8)
+  ->  Nested Loop  (cost=1.58..66.52 rows=110 width=0)
+        Join Filter: (fs.hall_id = s.hall_id)
+        ->  Nested Loop  (cost=1.14..57.94 rows=11 width=16)
+              ->  Nested Loop  (cost=0.72..9.07 rows=11 width=8)
+                    ->  Index Only Scan using film_sessions_film_id_hall_id_time_start_key on film_sessions fs  (cost=0.42..4.62 rows=11 width=16)
+                          Index Cond: (film_id = 1)
+                    ->  Materialize  (cost=0.29..4.31 rows=1 width=8)
+                          ->  Index Only Scan using films_pkey on films f  (cost=0.29..4.31 rows=1 width=8)
+                                Index Cond: (id = 1)
+              ->  Index Only Scan using halls_pkey on halls h  (cost=0.42..4.44 rows=1 width=8)
+                    Index Cond: (id = fs.hall_id)
+        ->  Index Only Scan using seats_hall_id on seats s  (cost=0.43..0.66 rows=10 width=8)
+              Index Cond: (hall_id = h.id)
