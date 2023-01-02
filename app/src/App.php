@@ -6,20 +6,22 @@ namespace HW10\App;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
+use HW10\App\Interfaces\OutputInterface;
 
 class App
 {
     private const INDEX_FILE = __DIR__ . '/../index/books.json';
 
     private Client $client;
-    private ProductsOutput $output;
 
-    public function __construct()
+    private OutputInterface $output;
+
+    public function __construct($output)
     {
         $this->client = ClientBuilder::create()
             ->setHosts([$_ENV['ELASTIC_HOST']])
             ->build();
-        $this->output = new ProductsOutput();
+        $this->output = new $output();
     }
 
     public function run($query, $bookDTO): void
