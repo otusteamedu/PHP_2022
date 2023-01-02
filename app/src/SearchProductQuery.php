@@ -11,16 +11,6 @@ class SearchProductQuery implements QueryInterface
 {
     protected const ELEMENTS_LIMIT = 25;
 
-    public final const OPTIONS = [
-        'title:',
-        'sku:',
-        'category:',
-        'in_stock:',
-        'price_from:',
-        'price_to:',
-        'limit:',
-        'offset:',
-    ];
     private const FIELDS = [
         'title:',
         'sku:',
@@ -39,7 +29,7 @@ class SearchProductQuery implements QueryInterface
         );
     }
 
-    public function getPreparedParams($options): array
+    public function getPreparedParams(): array
     {
         $params = $this->getParams();
         return $this->prepare($params);

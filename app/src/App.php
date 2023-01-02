@@ -26,7 +26,7 @@ class App
 
     public function run($query, $bookDTO): void
     {
-        $queryParams = (new $query())->getPreparedParams($query::OPTIONS);
+        $queryParams = (new $query())->getPreparedParams();
         $response = $this->client->search($queryParams);
 
         $result = $response->asArray()['hits']['hits'];

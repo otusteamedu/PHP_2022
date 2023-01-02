@@ -10,7 +10,7 @@ interface QueryInterface
 
     public static function prepareResponse(array $response, $DTO): array;
 
-    public function getPreparedParams($options);
+    public function getPreparedParams();
 
     public function getParams(): array;
 }
