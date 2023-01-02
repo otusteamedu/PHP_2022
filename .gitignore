@@ -1,2 +1,5 @@
-.idea
+.idea/
+.env
 /vendor/
+app/vendor/
+/**/*.sock
