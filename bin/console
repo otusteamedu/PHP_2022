@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$commands = require __DIR__ . '/../config/commands.php';
+
+$arguments = $argv;
+$fileName = \array_shift($arguments);
+$commandName = \array_shift($arguments);
+
+if ($commandName === 'list') {
+    foreach ($commands as $name => $class) {
+        print_r($name . ' => ' . $class::getDescription() . PHP_EOL);
+    }
+    return 0;
+}
+
+$commandClass = $commands[$commandName] ?? null;
+
+if (\is_null($commandClass)) {
+    throw new \RuntimeException('Команда ' . $commandName . ' не зарегистрирована');
+}
+
+if (
+    \class_exists($commandClass)
+    && \in_array(\App\Infrastructure\Command\CommandInterface::class, \class_implements($commandClass), true)
+) {
+    /** @var \App\Infrastructure\Command\CommandInterface $command */
+    $command = new $commandClass();
+    $command->execute();
+} else {
+    throw new \RuntimeException('Некорректный класс ' . $commandClass);
+}

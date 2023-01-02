@@ -13,3 +13,7 @@ docker/postgresql_data/
 
 # composer
 vendor/
+
+# Сертификаты
+/cert/
+!/cert/.gitkeep
