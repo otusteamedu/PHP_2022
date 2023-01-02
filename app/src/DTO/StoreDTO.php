@@ -2,7 +2,9 @@
 
 namespace HW10\App\DTO;
 
-class Store
+use HW10\App\Interfaces\StoreDTOInterface;
+
+class StoreDTO implements StoreDTOInterface
 {
     private string $name;
 

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace HW10\App;
 
+use HW10\App\Interfaces\OutputInterface;
 use LucidFrame\Console\ConsoleTable;
 
-class Output
+class ProductsOutput implements OutputInterface
 {
     public function echo(array $outputObjs): void
     {

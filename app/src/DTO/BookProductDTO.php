@@ -2,9 +2,9 @@
 
 namespace HW10\App\DTO;
 
-use HW10\App\Interfaces\DTOInterface;
+use HW10\App\Interfaces\ProductDTOInterface;
 
-class Book implements DTOInterface
+class BookProductDTO implements ProductDTOInterface
 {
     public readonly array $map;
     private string $sku;
@@ -15,15 +15,8 @@ class Book implements DTOInterface
 
     private int $price;
 
-    /** @var Store[] */
     private array $stores;
 
-    /**
-     * @param string $sku
-     * @param string $title
-     * @param string $category
-     * @param int $price
-     */
     public function __construct(string $sku, string $title, string $category, int $price)
     {
         $this->map = [
@@ -38,7 +31,7 @@ class Book implements DTOInterface
         $this->price = $price;
     }
 
-    public function addStores(Store $store): void
+    public function addStores(StoreDTO $store): void
     {
         $this->stores[] = $store;
     }
@@ -63,6 +56,11 @@ class Book implements DTOInterface
         return $this->price;
     }
 
+    public function getStores(): array
+    {
+        return $this->stores;
+    }
+
     public function getData(): array
     {
         return [
@@ -71,10 +69,5 @@ class Book implements DTOInterface
             $this->category,
             $this->price
         ];
-    }
-
-    public function getStores(): array
-    {
-        return $this->stores;
     }
 }

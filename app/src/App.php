@@ -6,40 +6,29 @@ namespace HW10\App;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
-use HW10\App\DTO\Book;
-use HW10\App\QueryParams;
 
 class App
 {
     private const INDEX_FILE = __DIR__ . '/../index/books.json';
-    private const OPTIONS = [
-        'title:',
-        'sku:',
-        'category:',
-        'in_stock:',
-        'price_from:',
-        'price_to:',
-        'limit:',
-        'offset:',
-    ];
+
     private Client $client;
-    private Output $output;
+    private ProductsOutput $output;
 
     public function __construct()
     {
         $this->client = ClientBuilder::create()
             ->setHosts([$_ENV['ELASTIC_HOST']])
             ->build();
-        $this->output = new Output();
+        $this->output = new ProductsOutput();
     }
 
-    public function run(): void
+    public function run($query, $bookDTO): void
     {
-        $queryParams = (new QueryParams())->getPreparedParams(self::OPTIONS);
+        $queryParams = (new $query())->getPreparedParams($query::OPTIONS);
         $response = $this->client->search($queryParams);
 
         $result = $response->asArray()['hits']['hits'];
-        $this->output->echo(QueryParams::prepareResponse($result, Book::class));
+        $this->output->echo($query::prepareResponse($result, $bookDTO));
     }
 
     public function makeIndex(): void

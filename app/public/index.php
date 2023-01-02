@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use HW10\App\SearchProductQuery;
+use HW10\App\DTO\BookProductDTO;
 
 try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
@@ -11,7 +13,7 @@ try {
 
     $app = new \HW10\App\App();
     //$app->makeIndex();
-    $app->run();
+    $app->run(SearchProductQuery::class, BookProductDTO::class);
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }
