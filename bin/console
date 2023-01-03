@@ -8,6 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $commands = require __DIR__ . '/../config/commands.php';
 
 $arguments = $argv;
+
 $fileName = \array_shift($arguments);
 $commandName = \array_shift($arguments);
 
@@ -35,7 +36,7 @@ if (
     }
     /** @var \App\Infrastructure\Command\CommandInterface $command */
     $command = $container->get($commandClass);
-    $command->execute();
+    $command->execute($arguments);
 } else {
     throw new \RuntimeException('Некорректный класс ' . $commandClass);
 }

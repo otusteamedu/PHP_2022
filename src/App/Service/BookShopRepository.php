@@ -4,19 +4,35 @@ declare(strict_types=1);
 
 namespace App\App\Service;
 
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientInterface;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 
 class BookShopRepository
 {
-    private ClientInterface $client;
+    private const INDEX_NAME = 'otus-shop';
 
-    public function __construct(ClientInterface $client)
+    private Client $client;
+
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
-    public function search()
+    /**
+     * @throws ServerResponseException
+     * @throws ClientResponseException
+     */
+    public function search(array $query)
     {
-        return $this->client->info();
+        $params = [
+            'index' => self::INDEX_NAME,
+            'body'  => [
+                'query' => $query,
+            ],
+        ];
+
+        return $this->client->search($params);
     }
 }

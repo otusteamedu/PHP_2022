@@ -5,11 +5,12 @@ use Elastic\Elasticsearch\ClientBuilder;
 
 // todo вынести креды в .env
 return [
-    \Elastic\Elasticsearch\ClientInterface::class => function () {
+    \Elastic\Elasticsearch\Client::class => function () {
         return ClientBuilder::create()
-            ->setHosts(['localhost:9200'])
-            ->setBasicAuthentication('elastic', '2tlgm369S5_rZHIQnqkU')
-            ->setCABundle(__DIR__ . '/../cert/elastic_http_ca.crt')
+//            ->setHosts(['https://elasticsearch:9200'])
+            ->setHosts(['https://localhost:9200'])
+            ->setBasicAuthentication('elastic', 'Gnu5PqDLyim0p0GcqfJk')
+            ->setSSLVerification(false)
             ->build();
     }
 ];
