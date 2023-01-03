@@ -13,6 +13,7 @@
       "ext-pdo": "*",
         "ext-redis": "*",
         "ext-memcache": "*",
-        "elasticsearch/elasticsearch": "^8.5"
+        "elasticsearch/elasticsearch": "^8.5",
+        "vlucas/phpdotenv": "^5.5"
     }
 }

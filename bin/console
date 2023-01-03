@@ -7,6 +7,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $commands = require __DIR__ . '/../config/commands.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../', '.env');
+$dotenv->load();
+
 $arguments = $argv;
 
 $fileName = \array_shift($arguments);
