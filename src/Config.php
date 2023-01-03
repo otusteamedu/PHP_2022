@@ -2,6 +2,8 @@
 
 namespace Otus\HW6;
 
+use Exception;
+
 class Config
 {
     private array $data = [];
@@ -19,7 +21,7 @@ class Config
     protected function load(string $path): void
     {
         if (!file_exists($path)) {
-            throw new \Exception('Не удалось найти конфигурацию по пути: ' . $path);
+            throw new Exception('Не удалось найти конфигурацию по пути: ' . $path);
         }
 
         $this->data = parse_ini_file($path);

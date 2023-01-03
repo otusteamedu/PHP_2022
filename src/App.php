@@ -5,6 +5,7 @@ namespace Otus\HW6;
 use Otus\HW6\Sockets\ClientSocket;
 use Otus\HW6\Sockets\ServerSocket;
 use Otus\HW6\Sockets\Socket;
+use Exception;
 
 class App
 {
@@ -31,7 +32,7 @@ class App
                 echo $message . PHP_EOL;
             }
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -40,7 +41,7 @@ class App
         return match ($this->mode) {
             self::CLIENT => new ClientSocket($this->config->get('client'), $this->config->get('server')),
             self::SERVER => new ServerSocket($this->config->get('server')),
-            default => throw new \Exception('Неопределенный режим приложения: ' . $this->mode),
+        default => throw new Exception('Неопределенный режим приложения: ' . $this->mode),
         };
     }
 }

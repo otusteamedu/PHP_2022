@@ -3,6 +3,7 @@
 namespace Otus\HW6\Sockets;
 
 use Generator;
+use Exception;
 
 class ClientSocket extends Socket
 {
@@ -12,7 +13,7 @@ class ClientSocket extends Socket
         try {
             parent::__construct($file);
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
 
         $this->server = $server;

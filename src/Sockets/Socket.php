@@ -3,6 +3,7 @@
 namespace Otus\HW6\Sockets;
 
 use Generator;
+use Exception;
 
 abstract class Socket
 {
@@ -17,7 +18,7 @@ abstract class Socket
             $this->create();
             $this->bind();
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -28,14 +29,14 @@ abstract class Socket
         $this->socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
 
         if (!$this->socket) {
-            throw new \Exception('Не удалось создать сокет');
+            throw new Exception('Не удалось создать сокет');
         }
     }
 
     protected function bind(): void
     {
         if (!socket_bind($this->socket, $this->file)) {
-            throw new \Exception('Не удалось привязать сокет');
+            throw new Exception('Не удалось привязать сокет');
         }
     }
 
@@ -53,7 +54,7 @@ abstract class Socket
     protected function send(string $message, string $address): void
     {
         if (!socket_sendto($this->socket, $message, strlen($message), 0, $address)) {
-            throw new \Exception('Не удалось отправить сообщение');
+            throw new Exception('Не удалось отправить сообщение');
         }
     }
 
