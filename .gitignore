@@ -17,3 +17,7 @@ vendor/
 # Сертификаты
 /cert/
 !/cert/.gitkeep
+
+# Данные elasticsearch
+/docker/elastic/data
+!/docker/elastic/data/.gitkeep
