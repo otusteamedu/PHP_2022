@@ -41,7 +41,7 @@ class App
         return match ($this->mode) {
             self::CLIENT => new ClientSocket($this->config->get('client'), $this->config->get('server')),
             self::SERVER => new ServerSocket($this->config->get('server')),
-        default => throw new Exception('Неопределенный режим приложения: ' . $this->mode),
+            default => throw new Exception('Неопределенный режим приложения: ' . $this->mode),
         };
     }
 }
