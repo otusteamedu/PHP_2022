@@ -8,7 +8,7 @@ interface QueryInterface
 {
     public function prepare(array $params): array;
 
-    public static function prepareResponse(array $response, $DTO): array;
+    public static function prepareResponse(array $response, $dto): array;
 
     public function getPreparedParams();
 

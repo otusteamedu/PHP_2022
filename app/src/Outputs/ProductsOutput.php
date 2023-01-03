@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace HW10\App;
+namespace HW10\App\Outputs;
 
-use HW10\App\Interfaces\OutputInterface;
 use LucidFrame\Console\ConsoleTable;
 
-class ProductsOutput implements OutputInterface
+class ProductsOutput extends Output
 {
     public function echo(array $outputObjs): void
     {
@@ -37,17 +36,6 @@ class ProductsOutput implements OutputInterface
             $table->addColumn(\implode(', ', $stockInfo));
             $lineNumber++;
         }
-
-        $table->display();
-    }
-
-    public function echoMessage(string $message): void
-    {
-        $table = new ConsoleTable();
-        $table
-            ->addHeader('Информационное сообщение');
-        $table->addRow()
-            ->addColumn($message);
 
         $table->display();
     }

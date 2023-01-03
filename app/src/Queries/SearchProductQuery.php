@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HW10\App;
+namespace HW10\App\Queries;
 
 use HW10\App\DTO\StoreDTO;
 use HW10\App\Interfaces\QueryInterface;
@@ -21,6 +21,7 @@ class SearchProductQuery implements QueryInterface
         'limit:',
         'offset:',
     ];
+
     public function getParams(): array
     {
         return \getopt(
@@ -35,11 +36,11 @@ class SearchProductQuery implements QueryInterface
         return $this->prepare($params);
     }
 
-    public static function prepareResponse(array $response, $DTO): array
+    public static function prepareResponse(array $response, $dto): array
     {
         $preparedResult = [];
         foreach ($response as $responseElement) {
-            $dtoObj = new $DTO(
+            $dtoObj = new $dto(
                 $responseElement['_source']['sku'],
                 $responseElement['_source']['title'],
                 $responseElement['_source']['category'],
