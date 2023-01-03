@@ -28,8 +28,13 @@ if (
     \class_exists($commandClass)
     && \in_array(\App\Infrastructure\Command\CommandInterface::class, \class_implements($commandClass), true)
 ) {
+    $bindings = require __DIR__ . '/../config/di.php';
+    $container = new \App\Infrastructure\DI\Container();
+    foreach ($bindings as $interface => $binding) {
+        $container->set($interface, $binding);
+    }
     /** @var \App\Infrastructure\Command\CommandInterface $command */
-    $command = new $commandClass();
+    $command = $container->get($commandClass);
     $command->execute();
 } else {
     throw new \RuntimeException('Некорректный класс ' . $commandClass);
