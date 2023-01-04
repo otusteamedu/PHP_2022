@@ -19,6 +19,6 @@ class App
             return new Response('Valid request');
         }
 
-        return new Response( 'Invalid parameter "string"',Response::HTTP_BAD_REQUEST);
+        return new Response('Invalid parameter "string"', Response::HTTP_BAD_REQUEST);
     }
 }
