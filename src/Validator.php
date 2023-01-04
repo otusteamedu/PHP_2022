@@ -1,6 +1,7 @@
 <?php
 
 namespace AKhakhanova\Hw4;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class Validator
@@ -31,7 +32,6 @@ class Validator
         }
 
         while (str_contains($value, $open) && str_contains($value, $closed)) {
-
             if (strpos($value, $closed) < strpos($value, $open)) {
                 return true;
             }

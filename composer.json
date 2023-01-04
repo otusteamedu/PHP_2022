@@ -17,5 +17,8 @@
     "require": {
         "php": "^7.4",
         "symfony/http-foundation": "^5.4"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
     }
 }
