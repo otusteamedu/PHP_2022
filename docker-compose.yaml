@@ -1,6 +1,5 @@
 # версия синтаксиса
 version: '3'
-
 services:
   nginx:
     build:
