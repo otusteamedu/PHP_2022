@@ -5,12 +5,51 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
+    image: balance/nginx
+    container_name: nginx
     ports:
       - "80:80"
     volumes:
-       - ./public:/data/mysite.local
+      - ./public:/data/mysite.local
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+      - ./public:/data/mysite.local
+      - ./vendor:/data/vendor
+      - ./src:/data/src
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./public:/data/mysite.local
+      - ./vendor:/data/vendor
+      - ./src:/data/src
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./public:/data/mysite.local
+      - ./vendor:/data/vendor
+      - ./src:/data/src
     networks:
       - app-network
 
@@ -22,19 +61,6 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - cache:/data
-
-  fpm:
-    build:
-      context: ./fpm
-      dockerfile: Dockerfile
-    image: myapp/php
-    container_name: app
-    volumes:
-       - ./public:/data/mysite.local
-       - ./vendor:/data/vendor
-       - ./src:/data/src
-    networks:
-      - app-network
 
 networks:
   app-network:
