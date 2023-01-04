@@ -1,7 +1,6 @@
 <?php
 
 namespace AKhakhanova\Hw4;
-
 use Symfony\Component\HttpFoundation\Request;
 
 class Validator
@@ -19,7 +18,6 @@ class Validator
         }
 
         return true;
-
     }
 
     public static function containsUnclosedParenthesis(string $value, string $open, string $closed): bool
@@ -40,7 +38,6 @@ class Validator
 
             self::deleteSymbol($value, strpos($value, $open));
             self::deleteSymbol($value, strpos($value, $closed));
-
         }
 
         if (str_contains($value, $open) || str_contains($value, $closed)) {
