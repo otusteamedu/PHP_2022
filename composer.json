@@ -1,0 +1,20 @@
+{
+    "name": "akhakhanova/hw3",
+    "version": "1.0.0",
+    "description": "homework",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "AKhakhanova\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AnastasiyaHahanova",
+            "email": "anastasiya.hahanova@mail.ru"
+        }
+    ],
+    "require": {
+        "symfony/http-foundation": "^6.2"
+    }
+}
