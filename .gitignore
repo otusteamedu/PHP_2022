@@ -1,0 +1,17 @@
+/*
+!/**/
+/**/.*
+
+/app/var/cache/*
+/app/var/run/*
+/app/var/log/*
+/app/public/*
+/app/vendor
+
+!/**/.gitkeep
+!/**/*.php
+!/**/*.dist
+!/**/.gitignore
+
+!docker-compose.yml
+!Makefile
