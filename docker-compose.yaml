@@ -13,7 +13,27 @@ services:
       - ./public:/data/mysite.local
     networks:
       - app-network
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx1
+    volumes:
+      - ./public:/data/mysite.local
+    networks:
+      - app-network
 
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx2
+    volumes:
+      - ./public:/data/mysite.local
+    networks:
+      - app-network
   app1:
     build:
       context: ./fpm
