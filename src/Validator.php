@@ -17,10 +17,10 @@ class Validator
 
         foreach ($emails as $email) {
             if (!self::checkEmail($email)) {
-                $errors[] = sprintf('Email %s has invalid format', $email);
+                $errors[] = sprintf('Email "%s" has invalid format', $email);
             }
             if (!self::checkDomain($email)) {
-                $errors[] = sprintf('Email %s has invalid server hostname', $email);
+                $errors[] = sprintf('Email "%s" has invalid server hostname', $email);
             }
         }
 
@@ -34,8 +34,8 @@ class Validator
 
     public static function checkDomain(string $email): bool
     {
-        $hostname = substr($email, strpos($email, '@'));
+        $hostname = substr($email, strpos($email, '@') + 1);
 
-        return is_array(dns_get_record($hostname));
+        return checkdnsrr($hostname);
     }
 }
