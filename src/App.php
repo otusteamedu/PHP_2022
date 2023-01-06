@@ -2,6 +2,7 @@
 
 namespace AKhakhanova\Hw4;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class App
@@ -15,10 +16,11 @@ class App
 
     public function run(): Response
     {
-        if ($this->validator->isValidRequest()) {
-            return new Response('Valid request');
+        $errors = $this->validator->checkRequestEmails();
+        if (empty($errors)) {
+            return new Response('Valid email');
         }
 
-        return new Response('Invalid parameter "string"', Response::HTTP_BAD_REQUEST);
+        return new JsonResponse(['errors' => $errors], Response::HTTP_BAD_REQUEST);
     }
 }

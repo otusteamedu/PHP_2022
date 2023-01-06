@@ -6,64 +6,36 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Validator
 {
-    public function isValidRequest(): bool
+    public function checkRequestEmails(): array
     {
+        $errors  = [];
         $request = Request::createFromGlobals();
-        $string  = $request->query->get('string');
-        if (empty($string)) {
-            return false;
+        $emails  = $request->query->all();
+        if (empty($emails)) {
+            return ['No user email found in request parameters'];
         }
 
-        if (self::containsUnclosedParenthesis($string, '(', ')')) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static function containsUnclosedParenthesis(string $value, string $open, string $closed): bool
-    {
-        if (!str_contains($value, $open) && !str_contains($value, $closed)) {
-            return false;
-        }
-
-        if (str_contains($value, $open) && !str_contains($value, $closed) || str_contains($value, $closed) && !str_contains($value, $open)) {
-            return true;
-        }
-
-        while (str_contains($value, $open) && str_contains($value, $closed)) {
-            if (strpos($value, $closed) < strpos($value, $open)) {
-                return true;
+        foreach ($emails as $email) {
+            if (!self::checkEmail($email)) {
+                $errors[] = sprintf('Email %s has invalid format', $email);
             }
-
-            self::deleteSymbol($value, strpos($value, $open));
-            self::deleteSymbol($value, strpos($value, $closed));
+            if (!self::checkDomain($email)) {
+                $errors[] = sprintf('Email %s has invalid server hostname', $email);
+            }
         }
 
-        if (str_contains($value, $open) || str_contains($value, $closed)) {
-            return true;
-        }
-
-        return false;
+        return $errors;
     }
 
-    public static function deleteSymbol(string &$str, int $position): void
+    public static function checkEmail(string $email): bool
     {
-        if ($position === 0) {
-            $str = substr($str, 1);
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
 
-            return;
-        }
+    public static function checkDomain(string $email): bool
+    {
+        $hostname = substr($email, strpos($email, '@'));
 
-        if ($position === strlen($str)) {
-            $str = substr($str, 0, strlen($str) - 1);
-
-            return;
-        }
-
-        $firstPart  = substr($str, 0, $position);
-        $secondPart = substr($str, $position + 1);
-
-        $str = $firstPart . $secondPart;
+        return is_array(dns_get_record($hostname));
     }
 }
