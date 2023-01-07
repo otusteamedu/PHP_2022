@@ -10,5 +10,12 @@ return [
             ->setBasicAuthentication($_ENV['ELASTIC_LOGIN'], $_ENV['ELASTIC_PASSWORD'])
             ->setSSLVerification(false)
             ->build();
+    },
+    \Predis\Client::class => function() {
+        return new \Predis\Client([
+            'scheme' => $_ENV['REDIS_SCHEME'],
+            'host'   => $_ENV['REDIS_HOST'],
+            'port'   => $_ENV['REDIS_PORT'],
+        ]);
     }
 ];

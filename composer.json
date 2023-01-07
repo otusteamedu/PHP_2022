@@ -14,6 +14,7 @@
         "ext-redis": "*",
         "ext-memcache": "*",
         "elasticsearch/elasticsearch": "^8.5",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "predis/predis": "^2.0"
     }
 }
