@@ -1,0 +1,53 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: php-app
+    restart: always
+    volumes:
+      - ./:/var/www/dev.site
+      - ./docker/phpsocket:/var/run
+#    depends_on:
+#      - db
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-webserver
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/hosts:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx
+      - ./:/var/www/dev.site
+      - ./docker/phpsocket:/var/run
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+#  db:
+#    image: mysql:8.0
+#    restart: always
+#    container_name: db
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_DATABASE: ${MYSQL_DATABASE}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#    ports:
+#      - 3306:3306
+#    volumes:
+#      - ./docker/mysql/data:/var/lib/mysql
+#      - ./docker/mysql/dump:/docker-entrypoint-initdb.d
+#    networks:
+#      - app-network
+
+networks:
+  app-network:
+    driver: bridge
