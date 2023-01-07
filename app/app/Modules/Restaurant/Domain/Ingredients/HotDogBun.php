@@ -8,6 +8,6 @@ class HotDogBun implements Bun
 {
     public function getName(): string
     {
-      return 'Булочка для хот-дога';
+        return 'Булочка для хот-дога';
     }
 }

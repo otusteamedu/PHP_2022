@@ -6,5 +6,4 @@ namespace App\Modules\Restaurant\Domain\Ingredients;
 
 interface Sauce extends IngredientInterface
 {
-
 }

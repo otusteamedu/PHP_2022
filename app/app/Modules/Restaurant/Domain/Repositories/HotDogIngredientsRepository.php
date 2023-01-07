@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Restaurant\Domain\Repositories;
 
-
 class HotDogIngredientsRepository implements IngredientsRepositoryInterface
 {
     public static function getBun(): int
@@ -31,5 +30,4 @@ class HotDogIngredientsRepository implements IngredientsRepositoryInterface
     {
         return rand(0, 1);
     }
-
 }

@@ -6,9 +6,8 @@ namespace App\Modules\Restaurant\Domain\Ingredients;
 
 class KetchupSauce implements Sauce
 {
-
     public function getName(): string
     {
-       return 'кетчуп';
+        return 'кетчуп';
     }
 }
