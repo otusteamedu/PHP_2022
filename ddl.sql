@@ -13,7 +13,8 @@ create table halls
 create table places
 (
     id      serial primary key,
-    title   varchar(20), -- название места, пример: Кресло №21
+    number  integer not null, -- номер кресла
+    row     integer not null, -- номер ряда
     hall_id integer references halls (id)
 );
 
