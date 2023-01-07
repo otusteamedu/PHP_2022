@@ -19,13 +19,14 @@ create table film_attributes
 
 create table film_attribute_values
 (
-    id       serial primary key,
-    attr     integer references film_attributes (id),
-    val_text varchar,
-    val_num  numeric(9),
-    val_date date,
-    val_bool boolean,
-    film     integer references films (id)
+    id        serial primary key,
+    attr      integer references film_attributes (id),
+    val_text  varchar,
+    val_int   integer,
+    val_float numeric(9),
+    val_date  date,
+    val_bool  boolean,
+    film      integer references films (id)
 );
 
 INSERT INTO films (title)
@@ -37,25 +38,30 @@ INSERT INTO film_attribute_types (title)
 VALUES ('string'),
        ('date'),
        ('boolean'),
-       ('numeric');
+       ('float'),
+       ('int');
 
 INSERT INTO film_attributes (title, type)
 VALUES ('Рецензии', 1),
        ('Оскар', 3),
        ('Мировая премьера', 2),
        ('Премьера в РФ', 2),
-       ('Запуск рекламной кампании', 2);
+       ('Запуск рекламной кампании', 2),
+       ('Количество актеров', 5);
 
-INSERT INTO film_attribute_values (film, attr, val_text, val_num, val_date, val_bool)
-VALUES (1, 1, 'Безупречно', null, null, null),
-       (2, 1, 'Прекрасно', null, null, null),
-       (3, 1, 'Шедевер', null, null, null),
-       (3, 2, null, null, null, true),
-       (1, 3, null, null, '2023-01-07', null),
-       (1, 4, null, null, '2023-01-14', null),
-       (2, 4, null, null, '2023-01-19', null),
-       (3, 4, null, null, '2023-01-15', null),
-       (1, 5, null, null, '2022-12-19', null);
+INSERT INTO film_attribute_values (film, attr, val_text, val_int, val_float, val_date, val_bool)
+VALUES (1, 1, 'Безупречно', null, null, null, null),
+       (2, 1, 'Прекрасно', null, null, null, null),
+       (3, 1, 'Шедевер', null, null, null, null),
+       (3, 2, null, null, null, null, true),
+       (1, 3, null, null, null, '2023-01-07', null),
+       (1, 4, null, null, null, '2023-01-14', null),
+       (2, 4, null, null, null, '2023-01-19', null),
+       (3, 4, null, null, null, '2023-01-15', null),
+       (1, 5, null, null, null, '2022-12-19', null),
+       (1, 6, null, 12, null, null, null),
+       (2, 6, null, 11, null, null, null),
+       (3, 6, null, 132, null, null, null);
 
 
 CREATE VIEW v_service_data AS
@@ -78,7 +84,8 @@ SELECT f.title   film,
        CASE
            WHEN fav.val_date IS NOT NULL THEN fav.val_date::text
            WHEN fav.val_bool IS NOT NULL THEN fav.val_bool::text
-           WHEN fav.val_num IS NOT NULL THEN fav.val_num::text
+           WHEN fav.val_int IS NOT NULL THEN fav.val_int::text
+           WHEN fav.val_float IS NOT NULL THEN fav.val_float::text
            WHEN fav.val_text IS NOT NULL THEN fav.val_text
            END   value
 FROM films f
