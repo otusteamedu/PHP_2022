@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    restart: always
+    container_name: hw13-php-fpm
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    environment:
+      PHP_IDE_CONFIG: serverName=SHOP
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: nginx:latest
+    container_name: hw13-nginx_server
+    volumes:
+      - ./app:/app
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+    depends_on:
+      - php-fpm
+
+networks:
+  app-network:
+    driver: bridge
