@@ -1,0 +1,28 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:1.23.2
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    restart: always
+    networks:
+      - app-network
+    depends_on:
+      - php_fpm
+    ports:
+      - "80:80"
+
+  php_fpm:
+    build: ./images/php_fpm
+    restart: always
+    volumes:
+      - ./www:/var/www
+      - ./logs/php:/var/log
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
