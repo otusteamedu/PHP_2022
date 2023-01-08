@@ -12,5 +12,8 @@
             "email": "imayakimov@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "elasticsearch/elasticsearch": "^8.5",
+        "vlucas/phpdotenv": "^5.5"
+    }
 }
