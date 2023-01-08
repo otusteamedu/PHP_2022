@@ -23,4 +23,9 @@ interface EventStorageInterface
      * @return Event[] Список событий в порядке уменьшения важности (priority)
      */
     public function findByConditions(array $conditions): array;
+
+    /**
+     * Возвращает наиболее подходящее событие для переданных условий
+     */
+    public function findMostAppropriateEventByCondition(array $conditions): ?Event;
 }
