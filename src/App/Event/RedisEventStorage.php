@@ -94,7 +94,7 @@ class RedisEventStorage implements EventStorageInterface
             $eventConditions = $this->client->hgetall(self::EVENTS_CONDITIONS_HSET_PREFIX . $eventName);
             $isSuitableEvent = true;
             foreach ($eventConditions as $eventConditionName => $eventConditionValue) {
-                if (!isset($conditions[$eventConditionName]) || $conditions[$eventConditionName] !== $eventConditionValue) {
+                if (!isset($conditions[$eventConditionName]) || (string)$conditions[$eventConditionName] !== $eventConditionValue) {
                     $isSuitableEvent = false;
                     break;
                 }
