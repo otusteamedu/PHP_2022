@@ -10,11 +10,12 @@ class InputCommandHandler
     {
         $longopts = [
             'category::',
-            'price::',
+            'priceGt::',
+            'priceLt::',
             'sku::',
             'shop::',
-            'stock::',
-            'title::'
+            'title::',
+            'in-stock::'
         ];
 
         return getopt('', $longopts);
