@@ -10,10 +10,12 @@ class HallGateway
     private \PDOStatement $insertStmt;
     private \PDOStatement $updateStmt;
     private \PDOStatement $deleteStmt;
+    private \PDOStatement $selectAllStmt;
 
     public function __construct(protected readonly \PDO $pdo)
     {
         $this->selectStmt = $this->pdo->prepare('SELECT id, title, capacity, created_at FROM halls WHERE id=?');
+        $this->selectAllStmt = $this->pdo->prepare('SELECT id, title, capacity, created_at FROM halls');
         $this->insertStmt = $this->pdo->prepare('INSERT INTO halls (title, capacity, created_at) VALUES  (?, ?, ?)');
         $this->updateStmt = $this->pdo->prepare('UPDATE halls SET title = ?, capacity = ?, created_at = ? WHERE id=?');
         $this->deleteStmt = $this->pdo->prepare('DELETE FROM halls WHERE id=?');
@@ -35,6 +37,25 @@ class HallGateway
         $hall->createdAt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $result['created_at']);
 
         return $hall;
+    }
+
+    /**
+     * @return array<HallDTO>
+     */
+    public function findAll(): array
+    {
+        $this->selectAllStmt->execute();
+        $result = $this->selectAllStmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return \array_map(function (array $item) {
+            $hall = new HallDTO();
+            $hall->id = (int)$item['id'];
+            $hall->title = (string)$item['title'];
+            $hall->capacity = (int)$item['capacity'];
+            $hall->createdAt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $item['created_at']);
+
+            return $hall;
+        }, $result);
     }
 
     public function update(HallDTO $hall): false|HallDTO

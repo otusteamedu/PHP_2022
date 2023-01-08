@@ -17,6 +17,7 @@ class Hall
     private \PDOStatement $deleteStmt;
 
     private static $selectQuery = 'SELECT id, title, capacity, created_at FROM halls WHERE id=?';
+    private static $selectAllQuery = 'SELECT id, title, capacity, created_at FROM halls';
 
     public function __construct(protected readonly \PDO $pdo)
     {
@@ -42,6 +43,26 @@ class Hall
         $hall->createdAt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $result['created_at']);
 
         return $hall;
+    }
+
+    /**
+     * @return Hall[]
+     */
+    public static function findAll(\PDO $pdo): array
+    {
+        $selectAllStmt = $pdo->prepare(self::$selectAllQuery);
+        $selectAllStmt->execute();
+        $result = $selectAllStmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return \array_map(function (array $item) use ($pdo) {
+            $hall = new self($pdo);
+            $hall->id = (int)$item['id'];
+            $hall->title = (string)$item['title'];
+            $hall->capacity = (int)$item['capacity'];
+            $hall->createdAt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $item['created_at']);
+
+            return $hall;
+        }, $result);
     }
 
     /**
