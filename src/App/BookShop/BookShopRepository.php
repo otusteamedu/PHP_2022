@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\App\Service;
+namespace App\App\BookShop;
 
 use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\ClientInterface;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 

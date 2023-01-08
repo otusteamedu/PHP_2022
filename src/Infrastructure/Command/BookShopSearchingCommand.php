@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Command;
 
-use App\App\Service\BookShopRepository;
+use App\App\BookShop\BookSearcher;
+use App\App\BookShop\BookShopRepository;
 
 class BookShopSearchingCommand implements CommandInterface
 {
@@ -18,48 +19,22 @@ class BookShopSearchingCommand implements CommandInterface
         return 'Осуществляет поиск в магазине по заданным параметрам';
     }
 
-    public function __construct(BookShopRepository $repository)
+    public function __construct(private readonly BookSearcher $searcher)
     {
-        $this->repository = $repository;
     }
 
     public function execute(array $arguments): void
     {
-        $conditions = [];
-
         foreach ($arguments as $argument) {
             [$field, $value] = \explode('=', \strtr($argument, ['--' => '']));
-            if (isset(self::FIELD_NAME_REPLACES[$field])) {
-                $field = self::FIELD_NAME_REPLACES[$field];
+            $methodName = 'set' . \ucfirst($field);
+            if (!\method_exists($this->searcher, $methodName)) {
+                throw new \RuntimeException('Invalid parameter ' . $field);
             }
-            if (\str_contains($value, '_')) {
-                [$comparableIdentifier, $comparableValue] = \explode('_', $value);
-                $conditions[] = [
-                    'range' => [
-                        $field => [
-                            $comparableIdentifier => $comparableValue
-                        ]
-                    ]
-                ];
-            } else {
-                $conditions[] = [
-                    'match' => [
-                        $field => [
-                            'query' => $value,
-                            'fuzziness' => 'auto',
-                        ]
-                    ]
-                ];
-            }
+            $this->searcher->$methodName($value);
         }
 
-        $query = [
-            'bool' => [
-                'must' => $conditions
-            ]
-        ];
-
-        $response = $this->repository->search($query);
+        $response = $this->searcher->search();
 
         printf("Total docs: %d\n", $response['hits']['total']['value']);
         printf("Max score : %.4f\n", $response['hits']['max_score']);
