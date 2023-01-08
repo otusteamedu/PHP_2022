@@ -8,4 +8,4 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $app = new App();
-$app->execute($argv);
+$app->execute();

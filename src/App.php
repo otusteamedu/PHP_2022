@@ -18,7 +18,7 @@ class App
         $this->commandHandler = new InputCommandHandler();
     }
 
-    public function execute(array $args = []): void
+    public function execute(): void
     {
         $args = $this->commandHandler->handle();
         $response = $this->elasticClient->search($args);
