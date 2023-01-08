@@ -1,0 +1,9 @@
+/*
+!/docs
+!/resources
+!/src/
+!/tests/
+
+!/.gitignore
+!/composer.json
+!/phpunit.xml.dist
