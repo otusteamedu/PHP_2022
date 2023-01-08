@@ -36,6 +36,20 @@ class TestServicesMiddleware implements MiddlewareInterface
         print_r($res);
         echo '</pre>';
 
+// Выведет:
+//
+//App\App\Event\Event Object
+//(
+//    [priority] => 3000
+//    [event] => event3
+//    [conditions] => Array
+//        (
+//            [param1] => 1
+//            [param2] => 2
+//        )
+//
+//)
+
         if ($request->getUri()->getPath() === '/test') {
             return new Response($this->getResponseContent(), 200);
         }
