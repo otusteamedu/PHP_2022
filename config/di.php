@@ -17,5 +17,6 @@ return [
             'host'   => $_ENV['REDIS_HOST'],
             'port'   => $_ENV['REDIS_PORT'],
         ]);
-    }
+    },
+    \App\App\Event\EventStorageInterface::class => \App\App\Event\RedisEventStorage::class,
 ];
