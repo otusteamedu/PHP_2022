@@ -11,8 +11,9 @@ class HallMapper
     private \PDOStatement $updateStmt;
     private \PDOStatement $deleteStmt;
     private \PDOStatement $selectAllStmt;
+    private IdentityMap $identityMap;
 
-    public function __construct(protected readonly \PDO $pdo)
+    public function __construct(protected readonly \PDO $pdo, IdentityMap $identityMap)
     {
         $this->selectStmt = $this->pdo->prepare('SELECT id, title, capacity, created_at FROM halls WHERE id=?');
         $this->selectAllStmt = $this->pdo->prepare('SELECT id, title, capacity, created_at FROM halls');
@@ -21,10 +22,14 @@ class HallMapper
         $this->deleteStmt = $this->pdo->prepare('DELETE FROM halls WHERE id=?');
 
         $this->selectSeatsStmt = $this->pdo->prepare('SELECT id, row, number, hall_id FROM seats WHERE hall_id = ?');
+        $this->identityMap = $identityMap;
     }
 
     public function find(int $id): ?Hall
     {
+        if ($this->identityMap->exists($id, Hall::class)) {
+            return $this->identityMap->get($id, Hall::class);
+        }
         $this->selectStmt->execute([$id]);
         $result = $this->selectStmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -32,13 +37,16 @@ class HallMapper
             return null;
         }
 
-        return new Hall(
+        $hall = new Hall(
             (int)$result['id'],
             (string)$result['title'],
             (int)$result['capacity'],
             \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $result['created_at']),
             $this->createSeatCollection((int)$result['id']),
         );
+
+        $this->identityMap->set($id, $hall);
+        return $hall;
     }
 
     /**
@@ -50,19 +58,22 @@ class HallMapper
         $result = $this->selectAllStmt->fetchAll(\PDO::FETCH_ASSOC);
 
         return \array_map(function (array $item) {
-            return new Hall(
+            $hall = new Hall(
                 (int)$item['id'],
                 (string)$item['title'],
                 (int)$item['capacity'],
                 \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $item['created_at']),
                 $this->createSeatCollection((int)$item['id']),
             );
+            $this->identityMap->set((int)$item['id'], $hall);
+            return $hall;
         }, $result);
     }
 
     public function update(Hall $hall): false|Hall
     {
         if ($this->updateStmt->execute([$hall->getTitle(), $hall->getCapacity(), $hall->getCreatedAt()->format('Y-m-d H:i:s.u'), $hall->getId()])) {
+            $this->identityMap->set($hall->getId(), $hall);
             return $hall;
         }
 
@@ -72,6 +83,7 @@ class HallMapper
     public function insert(Hall $hall): false|Hall
     {
         if ($this->insertStmt->execute([$hall->getId(), $hall->getTitle(), $hall->getCapacity(), $hall->getCreatedAt()->format('Y-m-d H:i:s.u')])) {
+            $this->identityMap->set($hall->getId(), $hall);
             return $hall;
         }
 
@@ -80,6 +92,7 @@ class HallMapper
 
     public function deleteById(int $id): bool
     {
+        $this->identityMap->remove($id, Hall::class);
         return $this->deleteStmt->execute([$id]);
     }
 
