@@ -71,6 +71,16 @@ services:
     networks:
       - app-network
 
+  elasticsearch:
+    image: elasticsearch:8.5.3
+    container_name: amarkhay_elasticsearch
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./docker/elastic/data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

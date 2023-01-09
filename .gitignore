@@ -13,3 +13,11 @@ docker/postgresql_data/
 
 # composer
 vendor/
+
+# Сертификаты
+/cert/
+!/cert/.gitkeep
+
+# Данные elasticsearch
+/docker/elastic/data
+!/docker/elastic/data/.gitkeep

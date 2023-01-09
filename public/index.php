@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require_once '../vendor/autoload.php';
-$config = require_once '../config/app.php';
+$config = require '../config/app.php';
 
 $app = new \App\App();
 

@@ -12,6 +12,8 @@
         "psr/http-server-middleware": "^1.0",
       "ext-pdo": "*",
         "ext-redis": "*",
-        "ext-memcache": "*"
+        "ext-memcache": "*",
+        "elasticsearch/elasticsearch": "^8.5",
+        "vlucas/phpdotenv": "^5.5"
     }
 }
