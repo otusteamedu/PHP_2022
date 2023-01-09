@@ -7,23 +7,15 @@ class Server
     public function run(): void
     {
         $socket = new UnixSocket();
-        if (!$socket->create(dirname(__FILE__) . "/server.sock")) {
-            echo 'An error has occurred. Try again later';
-
-            return;
-        }
-        while (1) { // server never exits
+        $socket->create(dirname(__FILE__) . "/server.sock");
+        while (1) {
             $socket->setBlock();
-            echo "Ready to receive...\n";
-            [$buf, $from] = $socket->getBytesReceivedInfo();
-            echo "Received $buf from $from\n";
-
-            $buf .= "->Response"; // process client query here
-
+            print_r("Ready to receive...");
+            [$buf, $from] = $socket->receive();
+            print_r("Received \"$buf\" from $from");
             $socket->setNonBlock();
             $socket->sendTo($buf, $from);
-
-            echo "Request processed\n";
+            print_r("Request processed");
         }
     }
 }

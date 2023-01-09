@@ -2,26 +2,29 @@
 
 namespace AKhakhanova\Hw4;
 
+use Throwable;
+
 class Client
 {
-    public function run()
+    public function run(): void
     {
-        $socket         = new UnixSocket();
-        $socketFilePath = dirname(__FILE__) . "/client.sock";
-        if (!$socket->create($socketFilePath)) {
-            echo 'An error has occurred. Try again later';
-
+        try {
+            $socket         = new UnixSocket();
+            $socketFilePath = dirname(__FILE__) . "/client.sock";
+            $serverSocketFilePath = dirname(__FILE__) . "/server.sock";
+            $socket->create($socketFilePath);
+            $socket->setNonBlock();
+            $msg              = "Message";
+            $socket->sendTo($msg, $serverSocketFilePath);
+            $socket->setBlock();
+            [$buf, $from] = $socket->receive();
+            print_r(sprintf('Message "%s" was successfully sent', $buf));
+            $socket->close();
+            $socket->unlink($socketFilePath);
+        } catch (Throwable $e) {
+            print_r('An error has occurred. ' . $e->getMessage());
             return;
         }
-
-        $socket->setNonBlock();
-        $server_side_sock = dirname(__FILE__) . "/server.sock";
-        $msg              = "Message";
-        $socket->sendTo($msg, $server_side_sock);
-        $socket->setBlock();
-        $socket->receiveFrom();
-        $socket->close();
-        $socket->unlink($socketFilePath);
 
         echo "Client exits\n";
     }
