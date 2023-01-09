@@ -11,12 +11,18 @@ class Hall
     private int $capacity;
     private \DateTimeImmutable $createdAt;
 
-    public function __construct(int $id, string $title, int $capacity, \DateTimeImmutable $createdAt)
+    /**
+     * @var DataMapperCollection<Seat>
+     */
+    private DataMapperCollection $seats;
+
+    public function __construct(int $id, string $title, int $capacity, \DateTimeImmutable $createdAt, DataMapperCollection $seats)
     {
         $this->id = $id;
         $this->title = $title;
         $this->capacity = $capacity;
         $this->createdAt = $createdAt;
+        $this->seats = $seats;
     }
 
     public function getId(): int
@@ -57,5 +63,15 @@ class Hall
     public function setCreatedAt(\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getSeats(): DataMapperCollection
+    {
+        return $this->seats;
+    }
+
+    public function setSeats(DataMapperCollection $seats): void
+    {
+        $this->seats = $seats;
     }
 }

@@ -19,6 +19,8 @@ class HallMapper
         $this->insertStmt = $this->pdo->prepare('INSERT INTO halls (id, title, capacity, created_at) VALUES  (?, ?, ?, ?)');
         $this->updateStmt = $this->pdo->prepare('UPDATE halls SET title = ?, capacity = ?, created_at = ? WHERE id=?');
         $this->deleteStmt = $this->pdo->prepare('DELETE FROM halls WHERE id=?');
+
+        $this->selectSeatsStmt = $this->pdo->prepare('SELECT id, row, number, hall_id FROM seats WHERE hall_id = ?');
     }
 
     public function find(int $id): ?Hall
@@ -34,7 +36,8 @@ class HallMapper
             (int)$result['id'],
             (string)$result['title'],
             (int)$result['capacity'],
-            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $result['created_at'])
+            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $result['created_at']),
+            $this->createSeatCollection((int)$result['id']),
         );
     }
 
@@ -51,7 +54,8 @@ class HallMapper
                 (int)$item['id'],
                 (string)$item['title'],
                 (int)$item['capacity'],
-                \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $item['created_at'])
+                \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $item['created_at']),
+                $this->createSeatCollection((int)$item['id']),
             );
         }, $result);
     }
@@ -77,5 +81,25 @@ class HallMapper
     public function deleteById(int $id): bool
     {
         return $this->deleteStmt->execute([$id]);
+    }
+
+    /**
+     * @param int $id
+     * @return DataMapperCollection
+     */
+    public function createSeatCollection(int $id): DataMapperCollection
+    {
+        return new DataMapperCollection(
+            $this->selectSeatsStmt,
+            [$id],
+            function (array $item) {
+                return new Seat(
+                    (int)$item['id'],
+                    (int)$item['row'],
+                    (int)$item['number'],
+                    (int)$item['hall_id'],
+                );
+            }
+        );
     }
 }
