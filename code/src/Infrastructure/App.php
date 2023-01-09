@@ -2,6 +2,8 @@
 
 namespace Study\Cinema\Infrastructure;
 
+use Study\Cinema\Infrastructure\Service\Builder\BurgerBuider;
+use Study\Cinema\Infrastructure\Service\Builder\HotdogBuider;
 use Study\Cinema\Infrastructure\Service\FoodFactory\BurgerFactory;
 use Study\Cinema\Infrastructure\Service\FoodFactory\HotdogFactory;
 use Study\Cinema\Infrastructure\Service\CookStrategy\HotdogCookStrategy;
@@ -27,12 +29,14 @@ class App
         if($type == FoodFactoryInterface::TYPE_BURGER )
         {
             $food = $burgerFactory->make();
-            $strategy = new BurgerCookStrategy($food);
+            $builder  = new BurgerBuider($food);
+            $strategy = new BurgerCookStrategy($builder);
 
         }else{
 
             $food = $hotdogFactory->make();
-            $strategy = new HotdogCookStrategy($food);
+            $builder = new HotdogBuider($food);
+            $strategy = new HotdogCookStrategy($builder);
         }
         $cookService = new CookService($strategy);
 

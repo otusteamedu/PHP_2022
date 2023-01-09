@@ -10,6 +10,10 @@ class Burger implements Food
 
     private string $base;
     private string $cutlet;
+
+    public bool $tomato = false;
+    public bool $onion = false;
+
     //private $tomato;
 /*
     public function cook(string $base, string $cutlet)
@@ -52,7 +56,7 @@ class Burger implements Food
     public function __toString()
     {
 
-        return "Burger base: $this->base,  cutlet: $this->cutlet";
+        return "Burger base: $this->base,  cutlet: $this->cutlet ,  tomato: $this->tomato,  onion: $this->onion";
     }
 
 }

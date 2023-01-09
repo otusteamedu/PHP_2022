@@ -10,12 +10,16 @@ class Hotdog implements Food
     private string $base;
     private string $sausage;
 
+    public bool $tomato = false;
+    public bool $tomato_sauce = false;
+
+/*
     public function cook(string $base, string $sausage)
     {
         $this->setBase($base);
         $this->setSausage($sausage);
     }
-
+*/
     /**
      * @return string
      */
@@ -50,7 +54,7 @@ class Hotdog implements Food
     public function __toString()
     {
 
-        return "Hotdog base: $this->base,  sausage: $this->sausage";
+        return "Hotdog base: $this->base,  sausage: $this->sausage, tomato: $this->tomato,  tomato_sauce: $this->tomato_sauce,  ";
     }
 
 }
