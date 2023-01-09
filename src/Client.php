@@ -17,6 +17,7 @@ class Client
 // same socket will be later used in recv_from
 // no binding is required if you wish only send and never receive
         $client_side_sock = dirname(__FILE__) . "/client.sock";
+        unlink(dirname(__FILE__) . "/client.sock");
         if (!socket_bind($socket, $client_side_sock))
             die("Unable to bind to $client_side_sock");
 
