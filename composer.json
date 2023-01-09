@@ -16,7 +16,8 @@
     ],
     "require": {
         "php": "^8.1",
-        "ext-sockets": "*"
+        "ext-sockets": "*",
+        "symfony/monolog-bundle": "^3.8"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*"
