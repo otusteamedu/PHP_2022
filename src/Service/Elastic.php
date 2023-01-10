@@ -26,47 +26,12 @@ class Elastic
      * @throws ClientResponseException
      * @throws ServerResponseException
      */
-    public function search(array $criteria = [])
+    public function search(array $query = []): array
     {
-        $condition = [
-            'filter' => [],
-            'must' => []
-        ];
-
-        if (isset($criteria['priceGt'])) {
-            $condition['filter'][] = ['range' => ['price' => ['gte' => $criteria['priceGt']]]];
-        }
-
-        if (isset($criteria['priceLt'])) {
-            $condition['filter'][] = ['range' => ['price' => ['lte' => $criteria['priceLt']]]];
-        }
-
-        if (isset($criteria['in-stock'])) {
-            $condition['filter'][] = ['range' => ['stock.stock' => ['gt' => 0]]];
-        }
-
-        if (isset($criteria['sku'])) {
-            $condition['filter'][] = ['term' => ['sku' => $criteria['sku']]];
-        }
-
-        if (isset($criteria['shop'])) {
-            $condition['filter'][] = ['term' => ['shop' => $criteria['shop']]];
-        }
-
-        if (isset($criteria['title'])) {
-            $condition['must'][] = ['match' => ['title' => $criteria['title']]];
-        }
-
-        if (isset($criteria['category'])) {
-            $condition['must'][] = ['match' => ['category' => $criteria['category']]];
-        }
-
         $params = [
             'index' => $_ENV['ES_INDEX'],
             'body' => [
-                'query' => [
-                    'bool' => $condition
-                ]
+                'query' => $query
             ]
         ];
 

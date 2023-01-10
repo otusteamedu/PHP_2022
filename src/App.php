@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pinguk\ElasticApp;
 
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Pinguk\ElasticApp\Service\Elastic;
 use Pinguk\ElasticApp\Utils\InputCommandHandler;
 
@@ -18,11 +20,54 @@ class App
         $this->commandHandler = new InputCommandHandler();
     }
 
+    /**
+     * @throws ClientResponseException
+     * @throws ServerResponseException
+     */
     public function execute(): void
     {
-        $args = $this->commandHandler->handle();
-        $response = $this->elasticClient->search($args);
+        $query = $this->prepareQuery();
+        $response = $this->elasticClient->search($query);
         $this->printResult($response);
+    }
+
+    private function prepareQuery(): array
+    {
+        $criteria = $this->commandHandler->handle();
+        $condition = [
+            'filter' => [],
+            'must' => []
+        ];
+
+        if (isset($criteria['priceGt'])) {
+            $condition['filter'][] = ['range' => ['price' => ['gte' => $criteria['priceGt']]]];
+        }
+
+        if (isset($criteria['priceLt'])) {
+            $condition['filter'][] = ['range' => ['price' => ['lte' => $criteria['priceLt']]]];
+        }
+
+        if (isset($criteria['in-stock'])) {
+            $condition['filter'][] = ['range' => ['stock.stock' => ['gt' => 0]]];
+        }
+
+        if (isset($criteria['sku'])) {
+            $condition['filter'][] = ['term' => ['sku' => $criteria['sku']]];
+        }
+
+        if (isset($criteria['shop'])) {
+            $condition['filter'][] = ['term' => ['shop' => $criteria['shop']]];
+        }
+
+        if (isset($criteria['title'])) {
+            $condition['must'][] = ['match' => ['title' => $criteria['title']]];
+        }
+
+        if (isset($criteria['category'])) {
+            $condition['must'][] = ['match' => ['category' => $criteria['category']]];
+        }
+
+        return $condition;
     }
 
     private function printResult(array $data): void
