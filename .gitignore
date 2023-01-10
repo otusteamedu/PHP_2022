@@ -1,0 +1,8 @@
+.env
+vendor
+.idea
+*.iml
+/out/
+/import/
+volumes
+/volumes/

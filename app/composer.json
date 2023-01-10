@@ -1,0 +1,15 @@
+{
+    "name": "app/db",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\Db\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0.26",
+        "php-di/php-di": "^6.3",
+        "worksolutions/php-collections": "^1.1",
+        "symfony/dotenv": "^6.0"
+    }
+}
