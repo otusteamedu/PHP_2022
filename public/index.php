@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 require_once '../vendor/autoload.php';
-require_once '../src/functions.php';
 $config = require '../config/app.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../', '.env');
