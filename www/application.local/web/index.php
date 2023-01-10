@@ -1,6 +1,7 @@
 <?php
-use app\controllers\EmailController;
+
+use app\Infrastructure\Http\Controller\RestaurantController;
 
 require __DIR__.'/../vendor/autoload.php';
 
-echo (new EmailController())->run();
+echo (new RestaurantController())->run();
