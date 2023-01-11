@@ -2,11 +2,12 @@
 
 namespace App\Db\Database\DataMapper\Mapper;
 
+use App\Db\Database\Entity;
 use App\Db\Database\DataMapper\Entity\Company;
 use App\Db\Database\QueryBuilder;
 use WS\Utils\Collections\CollectionFactory;
 
-class CompanyMapper
+class CompanyMapper implements AbstractMapper
 {
     private QueryBuilder $queryBuilder;
 
@@ -15,21 +16,21 @@ class CompanyMapper
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function insert(Company $company): int
+    public function insert(Entity $company): int
     {
         return $this->queryBuilder
             ->table('company')
             ->insert($company);
     }
 
-    public function update(Company $company): void
+    public function update(Entity $company): void
     {
         $this->queryBuilder
             ->table('company')
             ->update($company);
     }
 
-    public function delete(Company $company): void
+    public function delete(Entity $company): void
     {
         $this->queryBuilder
             ->table('company')
