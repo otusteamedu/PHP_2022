@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace ATolmachev\MyApp;
-
 
 use ATolmachev\MyApp\Exceptions\AppException;
 
