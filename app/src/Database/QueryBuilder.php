@@ -155,6 +155,6 @@ class QueryBuilder
 
     private function deleteLastChars(string $string, $count = 1): string
     {
-        return substr($string, 0,  (strlen($string) - $count));
+        return substr($string, 0, (strlen($string) - $count));
     }
 }
