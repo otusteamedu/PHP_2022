@@ -27,7 +27,9 @@ CREATE TABLE attribute_film
     film_id INT REFERENCES films(id) ON DELETE CASCADE,
     string_value TEXT,
     date_value DATE,
-    bool_value BOOL
+    bool_value BOOL,
+    int_value INT,
+    float_value NUMERIC
 );
 
 -- Фильмы
@@ -39,6 +41,8 @@ INSERT INTO films (title) VALUES ('Фильм №3');
 INSERT INTO attribute_types (type) VALUES ('string');
 INSERT INTO attribute_types (type) VALUES ('date');
 INSERT INTO attribute_types (type) VALUES ('bool');
+INSERT INTO attribute_types (type) VALUES ('int');
+INSERT INTO attribute_types (type) VALUES ('float');
 
 -- Атрибуты
 INSERT INTO attributes (name, type_id) VALUES ('reviews', 1);
@@ -46,6 +50,8 @@ INSERT INTO attributes (name, type_id) VALUES ('prize', 3);
 INSERT INTO attributes (name, type_id) VALUES ('world_premiere', 2);
 INSERT INTO attributes (name, type_id) VALUES ('russian_premiere', 2);
 INSERT INTO attributes (name, type_id) VALUES ('start_ticket_sale', 2);
+INSERT INTO attributes (name, type_id) VALUES ('additional_service_count', 4);
+INSERT INTO attributes (name, type_id) VALUES ('discount_price', 5);
 
 -- Заполнение атрибутов
 INSERT INTO attribute_film (attribute_id, film_id, string_value) VALUES (1, 1, 'Рецензия на фильм №1');
@@ -59,6 +65,8 @@ INSERT INTO attribute_film (attribute_id, film_id, date_value) VALUES (3, 1, '20
 INSERT INTO attribute_film (attribute_id, film_id, date_value) VALUES (4, 1, '2022-12-16');
 INSERT INTO attribute_film (attribute_id, film_id, date_value) VALUES (5, 2, '2023-01-30');
 INSERT INTO attribute_film (attribute_id, film_id, date_value) VALUES (3, 3, '2023-01-30');
+INSERT INTO attribute_film (attribute_id, film_id, int_value) VALUES (6, 3, 5);
+INSERT INTO attribute_film (attribute_id, film_id, float_value) VALUES (7, 3, 100.5);
 
 -- Index
 CREATE index attribute_type ON attribute_types(type);
@@ -84,6 +92,8 @@ CREATE OR REPLACE VIEW movies AS
             WHEN attribute_types.type = 'string' THEN attribute_film.string_value
             WHEN attribute_types.type = 'date' THEN attribute_film.date_value::text
             WHEN attribute_types.type = 'bool' THEN attribute_film.bool_value::text
+            WHEN attribute_types.type = 'int' THEN attribute_film.int_value::text
+            WHEN attribute_types.type = 'float' THEN attribute_film.float_value::text
         END "value"
     FROM attribute_film
         INNER JOIN films on attribute_film.film_id = films.id
