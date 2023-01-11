@@ -1,4 +1,5 @@
-create table hall_shows (
+# Показы фильмов
+create table movies_shows (
     id         bigint unsigned auto_increment primary key,
     hall_id    bigint unsigned NOT NULL,
     movie_id   bigint unsigned NOT NULL,
@@ -8,7 +9,6 @@ create table hall_shows (
     updated_at timestamp       NULL     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     KEY `hall_id` (`hall_id`),
     KEY `movie_id` (`movie_id`),
-    CONSTRAINT `fk_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)
-    collate = utf8mb4_unicode_ci;
+    CONSTRAINT `movies_shows_halls_fk` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `movies_shows_movies_fk` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) collate = utf8mb4_unicode_ci;
