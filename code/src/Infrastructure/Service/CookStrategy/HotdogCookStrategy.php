@@ -8,13 +8,14 @@ use Study\Cinema\Domain\Interface\CookStrategyInterface;
 use Study\Cinema\Domain\Interface\FoodBuilder;
 use Study\Cinema\Infrastructure\Food;
 use Study\Cinema\Infrastructure\Service\Builder\HotdogBuider;
+use Study\Cinema\Infrastructure\Service\EventManager\EventManager;
 
 class HotdogCookStrategy implements CookStrategyInterface
 {
     private Hotdog $hotdog;
     private HotdogBuider $builder;
 
-    public function __construct(FoodBuilder $builder)
+    public function __construct(FoodBuilder $builder,  EventManager $eventManager)
     {
         $this->builder = $builder;
     }

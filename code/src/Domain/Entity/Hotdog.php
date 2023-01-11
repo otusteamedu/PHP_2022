@@ -5,7 +5,7 @@ namespace Study\Cinema\Domain\Entity;
 
 use Study\Cinema\Infrastructure\Food;
 
-class Hotdog implements Food
+class Hotdog extends Food
 {
     private string $base;
     private string $sausage;

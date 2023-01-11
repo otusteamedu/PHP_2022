@@ -5,11 +5,13 @@ namespace Study\Cinema\Domain\Entity;
 
 use Study\Cinema\Infrastructure\Food;
 
-class Burger implements Food
+class Burger extends Food
 {
+
 
     private string $base;
     private string $cutlet;
+
 
     public bool $tomato = false;
     public bool $onion = false;

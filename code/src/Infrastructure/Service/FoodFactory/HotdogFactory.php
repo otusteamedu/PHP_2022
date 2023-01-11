@@ -8,7 +8,7 @@ use Study\Cinema\Domain\Interface\FoodFactoryInterface;
 use Study\Cinema\Infrastructure\Food;
 
 
-class HotdogFactory implements FoodFactoryInterface
+class HotdogFactory extends FoodFactoryInterface
 {
     public function make() : Food
     {

@@ -8,7 +8,7 @@ use Study\Cinema\Domain\Entity\Burger;
 use Study\Cinema\Infrastructure\Food;
 
 
-class BurgerFactory implements FoodFactoryInterface
+class BurgerFactory extends FoodFactoryInterface
 {
     public function make() : Food
     {
