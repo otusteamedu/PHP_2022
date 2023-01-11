@@ -14,7 +14,7 @@ use app\Domain\Model\Ingredient\Salad;
 use app\Domain\Model\Ingredient\Sausage;
 use app\Domain\Model\Order\AbstractOrder;
 use app\Domain\Model\Order\RestaurantOrder;
-use app\Domain\Model\Product\AbstractProduct;
+use app\Domain\Model\Product\ProductInterface;
 use app\Domain\ProductFactory\RestaurantProductFactory;
 use app\Domain\ValueObject\OrderItem;
 
@@ -48,7 +48,7 @@ class OrderService implements OrderServiceInterface {
         return $result;
     }
 
-    private function getProductByName(string $name): AbstractProduct {
+    private function getProductByName(string $name): ProductInterface {
         $factory = new RestaurantProductFactory();
         switch ($name) {
             case 'Burger':

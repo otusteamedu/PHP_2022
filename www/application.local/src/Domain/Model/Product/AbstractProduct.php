@@ -7,7 +7,7 @@ namespace app\Domain\Model\Product;
 use app\Domain\Model\Ingredient\AbstractIngredient;
 use app\Domain\ValueObject\ProductComposition;
 
-abstract class AbstractProduct  {
+abstract class AbstractProduct implements ProductInterface {
     protected string $name;
     protected int $price;
     protected ProductComposition $composition;
