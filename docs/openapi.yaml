@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: REST API для сервис заявок на банковскую выписку
+  description: |-
+    HW 16 REST API
+    Сервис отправки заявки на получение банковской выписки
+  version: 1.0.0
+servers:
+  - url: http://mysite.local/api/v1/
+    description: Dev server
+paths:
+  /enquiry:
+    get:
+      summary: Метод получения всех заявок
+      operationId: getAllEnquiries
+      tags:
+        - Enquiry
+      responses:
+        '200':
+          description: Успешный ответ со списком всех заявок
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enquiries"
+        '400':
+          description: Неудачная операция получения списка заявок
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Создание заявки
+      tags:
+        - Enquiry
+      operationId: saveEnquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enquiry_new'
+      responses:
+        '200':
+          description: Успешный ответ с созданной заявкой
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enquiry_result_creation"
+        '400':
+          description: Заявка не создалась
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_creation'
+  /enquiry/{enquiry_id}:
+    get:
+      summary: Метод получения информации по заявке используя ID
+      operationId: getEnquiryId
+      parameters:
+        - name: enquiry_id
+          in: path
+          description: Идентификатор заявки
+          required: true
+          schema:
+            type: string
+          example: 10
+      tags:
+        - Enquiry
+      responses:
+        '200':
+          description: Успешный ответ с информацией по заявке
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enquiry"
+        '400':
+          description: Заявка по такому ID не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Enquiry:
+      required:
+        - enquiry_id
+        - enquiry_description
+        - enquiry_status
+      type: object
+      properties:
+        enquiry_id:
+          type: integer
+          format: int64
+          example: 10
+        enquiry_description:
+          type: string
+          example: Сообщение любой формы от клиента
+        enquiry_status:
+          type: string
+          enum:
+            - в работе
+            - выполнено
+            - принято
+          description: Состояние заявки
+    Enquiry_new:
+      required:
+        - enquiry_description
+      type: object
+      properties:
+        enquiry_description:
+          type: string
+          example: Сообщение любой формы от клиента
+    Enquiries:
+      type: array
+      items:
+        $ref: "#/components/schemas/Enquiry"
+    Enquiry_result_creation:
+      required:
+        - status
+        - message
+        - id
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Enquiry created
+        id:
+          type: integer
+          format: int64
+          example: 10
+    Error:
+      required:
+        - status
+        - message
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Enquiry not found
+    Error_creation:
+      required:
+        - status
+        - message
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Enquiry not save
+
+
+
