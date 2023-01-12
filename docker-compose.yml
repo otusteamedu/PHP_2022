@@ -1,0 +1,18 @@
+version: '3'
+services:
+
+  php_fpm_1:
+    build: ./images/php_fpm
+    restart: always
+    volumes:
+      - ./app:/var/app
+      - ./logs/php:/var/log
+      - ./sock:/tmp/sock
+
+  php_fpm_2:
+    build: ./images/php_fpm
+    restart: always
+    volumes:
+      - ./app:/var/app
+      - ./logs/php:/var/log
+      - ./sock:/tmp/sock
