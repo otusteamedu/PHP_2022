@@ -14,12 +14,20 @@ class App
             print_r('Please choose only one of the options: "client" or "server"');
         }
 
-        if (in_array('client', $parameters)) {
-            (new Client())->run();
+        try {
+            if (in_array('client', $parameters)) {
+                (new Client())->run();
+            }
+
+            if (in_array('server', $parameters)) {
+                (new Server())->run();
+            }
+
+        }catch (\Throwable $exception)
+        {
+            print_r('An error has occurred. '. $exception->getMessage());
+            return;
         }
 
-        if (in_array('server', $parameters)) {
-            (new Server())->run();
-        }
     }
 }
