@@ -8,7 +8,7 @@ class ChatClientService extends AbstractChatProcess {
         return 'client';
     }
 
-    public function run(string $fileName): void {
+    public function run(): void {
 
         while(1) {
             $message = fgets(STDIN);

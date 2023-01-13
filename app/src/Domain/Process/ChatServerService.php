@@ -8,7 +8,7 @@ class ChatServerService extends AbstractChatProcess {
         return 'server';
     }
 
-    public function run(string $fileName): void {
+    public function run(): void {
 
         while(1) {
             $this->blockSocket();

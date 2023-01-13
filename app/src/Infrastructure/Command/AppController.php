@@ -18,7 +18,7 @@ class AppController {
             $serverFileName = $this->getSocketFilename('server');
             $this->rmOldFile($fileName);
             $process = (new ProcessManagerService())->createService($this->processName, $fileName, $serverFileName);
-            $process->run($fileName);
+            $process->run();
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
