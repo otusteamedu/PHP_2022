@@ -32,7 +32,4 @@ class EnquiriesServices
         $result = json_encode($save_result,JSON_UNESCAPED_UNICODE);
         echo $result;
     }
-
-
-
 }
