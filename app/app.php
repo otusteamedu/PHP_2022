@@ -1,12 +1,7 @@
 <?php
 
-use app\App;
+use app\Infrastructure\Command\AppController;
 
 require_once('./vendor/autoload.php');
 
-try {
-    $app = new App();
-    $app->run();
-} catch(Exception $e) {
-    echo $e->getMessage();
-}
+(new AppController())->run();

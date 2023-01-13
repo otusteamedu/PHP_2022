@@ -1,19 +1,18 @@
 <?php
 
-namespace app;
+namespace app\Domain\Process;
 
-class Server extends Process {
-    const PROCESS_NAME = 'server';
 
-    /**
-     * @throws \Exception
-     */
-    public function run() {
+class ChatServerService extends AbstractChatProcess {
+    public function getName(): string {
+        return 'server';
+    }
+
+    public function run(string $fileName): void {
 
         while(1) {
-            if (!socket_set_block($this->socket)) {
-                $this->socketError("Не могу заблокировать сокет");
-            }
+            $this->blockSocket();
+
             if (socket_recvfrom($this->socket, $message, 64 * 1024, 0, $source) === false) {
                 $this->socketError("Не могу получить сообщение");
             }
@@ -22,9 +21,7 @@ class Server extends Process {
             $messageLength = strlen($message);
             $reply = 'Получено '. $messageLength. ' байт.';
 
-            if (!socket_set_nonblock($this->socket)) {
-                $this->socketError('Не могу разблокировать сокет');
-            }
+            $this->unblockSocket();
 
             if (socket_sendto($this->socket, $reply, strlen($reply), 0, $source) === false) {
                 $this->socketError('Ошибка при отправке уведомления');
