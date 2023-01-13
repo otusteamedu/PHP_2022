@@ -1,0 +1,6 @@
+.idea
+.DS_Store
+/sock*
+/db/postgres
+/logs/*
+.env
