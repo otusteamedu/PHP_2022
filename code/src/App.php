@@ -57,31 +57,4 @@ class App
         $controller = new $controller_name();
         $controller->$action_name();
     }
-
-    public static function getConfig()
-    {
-        if (!file_exists('/data/mysite.local/src/Config/config.php')) {
-            return false;
-        } else {
-            return include('Config/config.php');
-        }
-    }
-
-    public static function getMailConfig()
-    {
-        if (!file_exists('/data/mysite.local/src/Config/config_mail.php')) {
-            return false;
-        } else {
-            return include('Config/config_mail.php');
-        }
-    }
-
-    public static function getConfigBD()
-    {
-        if (!file_exists('/data/mysite.local/src/Config/config_bd.php')) {
-            return false;
-        } else {
-            return include('Config/config_bd.php');
-        }
-    }
 }

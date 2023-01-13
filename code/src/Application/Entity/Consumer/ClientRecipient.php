@@ -2,7 +2,7 @@
 
 namespace Otus\App\Application\Entity\Consumer;
 
-use Otus\App\Application\Entity\Configurator;
+use Otus\App\Application\Entity\ConfiguratorRabbitMQ;
 use Otus\App\Domain\Models\Interface\RecipientInterface;
 
 class ClientRecipient implements RecipientInterface
@@ -10,7 +10,7 @@ class ClientRecipient implements RecipientInterface
 
     public function __construct()
     {
-        $connection = Configurator::createdChannel();
+        $connection = ConfiguratorRabbitMQ::createdChannel();
         $callback = function ($msg) {
             echo ' [x] Received ', $msg->body, "\n";
         };

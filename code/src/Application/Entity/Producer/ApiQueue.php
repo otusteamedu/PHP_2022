@@ -4,7 +4,7 @@ namespace Otus\App\Application\Entity\Producer;
 
 use Otus\App\Domain\Models\Interface\SendInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Otus\App\Application\Entity\Configurator;
+use Otus\App\Application\Entity\ConfiguratorRabbitMQ;
 
 class ApiQueue
 {
@@ -12,7 +12,7 @@ class ApiQueue
 
     public function __construct($new_id)
     {
-        $connection = Configurator::createdChannel();
+        $connection = ConfiguratorRabbitMQ::createdChannel();
         $api_queue_message = "Заявка принята. Номер $new_id. Чтобы проверить состояние http://mysite.local/api/v1/enquiry/$new_id";
         $msg = new AMQPMessage($api_queue_message);
         $connection->basic_publish($msg, '', 'message_from_bank');

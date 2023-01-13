@@ -13,7 +13,7 @@ abstract class ActiveRecordEntity
     private static function getInstance()
     {
         try {
-            $config = App::getConfigBD();
+            $config = ConfiguratorDB::getConfigBD();
 
             if(self::$connectionInstance === null) {
                 self::$connectionInstance = new PDO(sprintf("%s:host=%s;dbname=%s",

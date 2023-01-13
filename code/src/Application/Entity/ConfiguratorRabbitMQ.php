@@ -4,7 +4,7 @@ namespace Otus\App\Application\Entity;
 use Otus\App\App;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-class Configurator
+class ConfiguratorRabbitMQ
 {
     public static function createdChannel()
     {
@@ -20,9 +20,12 @@ class Configurator
         return $channel;
     }
 
-    private static function getConfiguration() : array
+    private static function getConfiguration()
     {
-        $configuration = App::getConfig();
-        return $configuration;
+        if (!file_exists('/data/mysite.local/src/Config/config.php')) {
+            return false;
+        } else {
+            return include('/data/mysite.local/src/Config/config.php');
+        }
     }
 }

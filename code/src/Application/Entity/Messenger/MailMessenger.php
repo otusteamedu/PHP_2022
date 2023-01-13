@@ -11,7 +11,7 @@ class MailMessenger implements MessengerInterface
 {
     public function send(string $email)
     {
-        $array_mailer_config = App::getMailConfig();
+        $array_mailer_config = MailConfigurator::getMailConfig();
         // Настройки PHPMailer
         $mail = new PHPMailer();
         try {
@@ -33,11 +33,7 @@ class MailMessenger implements MessengerInterface
 
             $mail->isHTML(true);
             $mail->Subject = 'Запрос на выписку получен';
-
-            $mail->msgHTML("<html><body>
-                    <h1>Здравствуйте!</h1>
-                    <p>Запрос на выписку получен. Срок обработки 1 рабочий день.</p>
-                    </html></body>");
+            $mail->msgHTML(file_get_contents('/data/mysite.local/src/Application/Entity/Messenger/MailTemplate/Enquiry.html'));
 
             $mail->send();
         } catch (\Exception $e) {
