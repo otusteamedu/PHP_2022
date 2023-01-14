@@ -1,0 +1,19 @@
+{
+    "name": "larisadebelova/php_2022",
+    "description": "Super project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Larisadebelova\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Лариса Дебёлова",
+            "email": "degtereva_la@magnit.ru"
+        }
+    ],
+    "require": {
+        "larisadebelova/composer-package": "^1.0"
+    }
+}
