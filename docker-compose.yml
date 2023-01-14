@@ -1,0 +1,102 @@
+version: '3.8'
+services:
+
+  nginx-balancer:
+    image: nginx:alpine
+    volumes:
+      - ./src:/app
+      - ./.docker/nginx-balancer/conf.d:/etc/nginx/conf.d
+    ports:
+      - "${HTTP_PORT}:80"
+    depends_on:
+      - nginx-1
+      - nginx-2
+
+  nginx-1:
+    image: nginx:alpine
+    volumes:
+      - ./src:/app
+      - ./.docker/nginx-proxy/conf.d/default.conf:/etc/nginx/templates/default.conf.template
+    ports:
+      - "8081:80"
+    environment:
+      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME_1}
+      PHP_FPM_SERVER_NAME: ${PHP_FPM_SERVER_NAME_1}
+    depends_on:
+      - php-fpm-1
+
+  nginx-2:
+    image: nginx:alpine
+    volumes:
+      - ./src:/app
+      - ./.docker/nginx-proxy/conf.d/default.conf:/etc/nginx/templates/default.conf.template
+    ports:
+      - "8082:80"
+    environment:
+      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME_2}
+      PHP_FPM_SERVER_NAME: ${PHP_FPM_SERVER_NAME_2}
+    depends_on:
+      - php-fpm-2
+
+  php-fpm-1:
+    build:
+      context: .docker
+      dockerfile: ./php-fpm/Dockerfile
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+    volumes:
+      - ./src:/app
+    depends_on:
+      - memcached-1
+      - memcached-2
+
+  php-fpm-2:
+    build:
+      context: .docker
+      dockerfile: ./php-fpm/Dockerfile
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+    volumes:
+      - ./src:/app
+    depends_on:
+      - memcached-1
+      - memcached-2
+
+  memcached-1:
+    image: memcached
+
+  memcached-2:
+    image: memcached
+
+  redis:
+    image: redis
+    ports:
+      - "${REDIS_PORT}:6379"
+
+  db-postgres:
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-postgres:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+
+  composer:
+    image: composer
+    volumes:
+      - ./src:/app
+    working_dir: /app
+
+volumes:
+  db-postgres:
