@@ -1,0 +1,20 @@
+{
+    "name": "artem/hw3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Artem\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artem Aleinik"
+        }
+    ],
+    "require": {
+        "spereten/string": "^1.0"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
