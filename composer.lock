@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "934370cb4db9279a776fdc3b36ddd737",
+    "packages": [
+        {
+            "name": "aldmarinka/num_words",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aldmarinka/num_words.git",
+                "reference": "ca91abaf70440eff9123c6df9167c918d8d0664d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aldmarinka/num_words/zipball/ca91abaf70440eff9123c6df9167c918d8d0664d",
+                "reference": "ca91abaf70440eff9123c6df9167c918d8d0664d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aldmarinka\\NumWords\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Марина Алдошина",
+                    "email": "aldmarinka@yandex.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/aldmarinka/num_words/issues",
+                "source": "https://github.com/aldmarinka/num_words/tree/v1.0.0"
+            },
+            "time": "2022-12-23T22:29:02+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
