@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx:latest
+    container_name: hw5-nginx_server
+    ports:
+      - '80:80'
+    volumes:
+      - ".:/var/www/application.local"
+      - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+    networks:
+      - app-network
+  app:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: hw5-php_fpm1
+    volumes:
+      - ".:/var/www/application.local"
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

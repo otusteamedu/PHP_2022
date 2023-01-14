@@ -1,0 +1,14 @@
+{
+    "name": "octopus/hw5",
+    "autoload": {
+        "psr-4": {
+            "Octopus\\Php2022\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gakhramanov Samir",
+            "email": "samirtula@mail.ru"
+        }
+    ]
+}
