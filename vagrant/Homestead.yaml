@@ -1,0 +1,33 @@
+ip: 192.168.56.56
+memory: 2048
+cpus: 2
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    -
+        map: ./src
+        to: /home/vagrant/src
+sites:
+    -
+        map: application.local
+        to: /home/vagrant/src/public
+databases:
+    - homestead
+features:
+    -
+        mysql: true
+    -
+        mariadb: false
+    -
+        postgresql: false
+    -
+        ohmyzsh: false
+    -
+        webdriver: false
+services:
+    -
+        enabled: [mysql]
+name: vagrant
+hostname: vagrant

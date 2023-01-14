@@ -1,0 +1,61 @@
+version: '3.8'
+services:
+
+  nginx:
+    build:
+      context: .docker
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+      - ./src:/app
+    ports:
+      - "${HTTP_PORT}:80"
+    depends_on:
+      - php
+
+  php-fpm:
+    build:
+      context: .docker
+      dockerfile: ./php-fpm/Dockerfile
+    environment:
+      DB_HOST: db-postgres
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+    volumes:
+      - ./src:/app
+
+  composer:
+    image: composer
+    volumes:
+      - ./src:/app
+    working_dir: /app
+    entrypoint:
+      - composer
+      - install
+    depends_on:
+      - php-fpm
+
+  db-postgres:
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-postgres:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+
+  memcached:
+    image: memcached
+    ports:
+      - "${MEMCACHED_PORT}:11211"
+
+  redis:
+    image: redis
+    ports:
+      - "${REDIS_PORT}:6379"
+
+volumes:
+  db-postgres:
