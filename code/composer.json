@@ -1,0 +1,16 @@
+{
+    "name": "sveta/code",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Sveta\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sveta",
+            "email": "svatelnet@gmail.com"
+        }
+    ],
+    "require": {}
+}
