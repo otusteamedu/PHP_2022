@@ -1,0 +1,45 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: mysite/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM
+  fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: mysite/php
+    container_name: fpm
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
