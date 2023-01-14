@@ -1,9 +1,9 @@
 # PHP_2022
 
-## Запустить сервер
+### Запустить сервер
 
 docker-compose run server_container php app.php server
 
-## Запустить клиент
+### Запустить клиент
 
 docker-compose run server_container php app.php client
