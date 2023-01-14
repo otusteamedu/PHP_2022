@@ -15,7 +15,7 @@ class Server
             print_r(sprintf('Received "%s" from "%s"', trim($buf), trim($from)) . PHP_EOL);
             $socket->setNonBlock();
             $socket->sendTo($buf, $from);
-            print_r("Request processed" . PHP_EOL.PHP_EOL);
+            print_r("Request processed" . PHP_EOL . PHP_EOL);
         }
     }
 }
