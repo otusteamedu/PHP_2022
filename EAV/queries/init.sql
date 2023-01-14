@@ -19,46 +19,31 @@ INSERT INTO "MovieAttribute"(id, "Name", "MovieAttributeType") VALUES (7, 'start
 INSERT INTO "MovieAttribute"(id, "Name", "MovieAttributeType") VALUES (8, 'start promo social', 1);
 INSERT INTO "MovieAttribute"(id, "Name", "MovieAttributeType") VALUES (9, 'start sales', 1);
 
--- INIT MovieAttributeValue VALUES --
-
-INSERT INTO "AttributeValueText"(id, "Value") VALUES (1, 'Фильм супер, всем советую');
-INSERT INTO "AttributeValueText"(id, "Value") VALUES (2, 'Ерунда полная, про какое-то железо');
-INSERT INTO "AttributeValueText"(id, "Value") VALUES (3, 'Шедевр');
-INSERT INTO "AttributeValueText"(id, "Value") VALUES (4, 'Не стоит того, думала с Дикаприо, а там другой кто-то');
-
-INSERT INTO "AttributeValueBool"(id, "Value") VALUES (1, true);
-INSERT INTO "AttributeValueBool"(id, "Value") VALUES (2, false);
-
-INSERT INTO "AttributeValueDate"(id, "Value") VALUES (1, '1980-12-01');
-INSERT INTO "AttributeValueDate"(id, "Value") VALUES (2, '1990-01-01');
-INSERT INTO "AttributeValueDate"(id, "Value") VALUES (3, '1984-06-12');
-INSERT INTO "AttributeValueDate"(id, "Value") VALUES (4, CURRENT_DATE);
-INSERT INTO "AttributeValueDate"(id, "Value") VALUES (5, CURRENT_DATE + 20);
-INSERT INTO "AttributeValueDate"(id, "Value") VALUES (6, CURRENT_DATE);
-INSERT INTO "AttributeValueDate"(id, "Value") VALUES (7, CURRENT_DATE + 20);
-
 -- INIT for Movie 1 --
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (1, 1, 1, 2);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (2, 1, 2, 3);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (3, 1, 3, 1);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (4, 1, 4, 2);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (5, 1, 5, 3);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (6, 1, 6, 4);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueText") VALUES (1, 1, 1, 'Ерунда полная, про какое-то железо');
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueText") VALUES (2, 1, 2, 'Шедевр');
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueBool") VALUES (3, 1, 3, true);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueBool") VALUES (4, 1, 4, false);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (5, 1, 5, CURRENT_DATE - 300);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (6, 1, 6, CURRENT_DATE - 250);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (7, 1, 7, CURRENT_DATE - 500);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (8, 1, 8, CURRENT_DATE - 400);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (9, 1, 9, CURRENT_DATE - 320);
 
 -- INIT for Movie 2 --
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (7, 2, 1, 4);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (8, 2, 2, 1);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (9, 2, 3, 2);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (10, 2, 4, 2);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (11, 2, 8, 6);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (12, 2, 9, 7);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueText") VALUES (10, 2, 1, 'Не стоит того, думала с Дикаприо, а там другой кто-то');
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueText") VALUES (11, 2, 2, 'Фильм супер, всем советую');
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueBool") VALUES (12, 2, 3, false);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueBool") VALUES (13, 2, 4, true);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (14, 2, 8, CURRENT_DATE);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (15, 2, 9, CURRENT_DATE + 20);
 
 -- INIT for Movie 3 --
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (13, 3, 2, 2);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (14, 3, 7, 4);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (15, 3, 9, 5);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueText") VALUES (16, 3, 2, 'Под пиво и чипсы');
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (17, 3, 7, CURRENT_DATE);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (18, 3, 9, CURRENT_DATE + 20);
 
 -- INIT for Movie 4 --
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (16, 4, 1, 4);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (17, 4, 3, 1);
-INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueId") VALUES (18, 4, 9, 2);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueText") VALUES (19, 4, 1, 'Отличное кино на вечер');
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueBool") VALUES (20, 4, 3, true);
+INSERT INTO "MovieAttributeValue"(id, "Movie", "MovieAttribute", "ValueDate") VALUES (21, 4, 9, CURRENT_DATE + 20);

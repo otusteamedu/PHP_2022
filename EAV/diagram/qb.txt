@@ -10,7 +10,9 @@ MovieAttributeValue
 id PK int
 Movie int FK -< Movie.id
 MovieAttribute int FK - MovieAttribute.id
-ValueId int
+ValueText text
+ValueDate date
+ValueBool boolean
 
 MovieAttributeType
 -
@@ -22,18 +24,3 @@ MovieAttribute
 id PK int
 MovieAttributeType int FK - MovieAttributeType.id
 Name varchar
-
-AttributeValueText
--
-id PK int
-Value text
-
-AttributeValueBool
--
-id PK int
-Value boolean
-
-AttributeValueDate
--
-id PK int
-Value date
