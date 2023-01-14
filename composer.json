@@ -1,0 +1,21 @@
+{
+    "name": "akhakhanova/hw3",
+    "version": "1.0.0",
+    "description": "homework",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "AKhakhanova\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AnastasiyaHahanova",
+            "email": "anastasiya.hahanova@mail.ru"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "danielstjules/stringy": "^3.1"
+    }
+}
