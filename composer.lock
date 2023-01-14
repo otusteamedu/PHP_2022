@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "33b76348bbc7be9808a8321871e2f9c2",
+    "packages": [
+        {
+            "name": "svatelnet/my-library",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/svatelnet/my-library.git",
+                "reference": "2aaf50db6ef667e0dc5657b03595ff48f05407e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/svatelnet/my-library/zipball/2aaf50db6ef667e0dc5657b03595ff48f05407e3",
+                "reference": "2aaf50db6ef667e0dc5657b03595ff48f05407e3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Svatelnet\\MyLibrary\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "sveta",
+                    "email": "svatelnet@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/svatelnet/my-library/issues",
+                "source": "https://github.com/svatelnet/my-library/tree/v1.0.1"
+            },
+            "time": "2022-11-09T19:54:46+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
