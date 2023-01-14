@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "93676b8877c591131bfd372cb40b4e44",
+    "packages": [
+        {
+            "name": "larisadebelova/composer-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DebelovaLA/otus-composer-package.git",
+                "reference": "f6e7dbb2e7615b33d59b64dfc9caec975692498b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DebelovaLA/otus-composer-package/zipball/f6e7dbb2e7615b33d59b64dfc9caec975692498b",
+                "reference": "f6e7dbb2e7615b33d59b64dfc9caec975692498b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Larisadebelova\\ComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Лариса Дебёлова",
+                    "email": "degtereva_la@magnit.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/DebelovaLA/otus-composer-package/issues",
+                "source": "https://github.com/DebelovaLA/otus-composer-package/tree/v1.0.0"
+            },
+            "time": "2022-11-15T14:21:14+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
