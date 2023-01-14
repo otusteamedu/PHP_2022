@@ -1,0 +1,17 @@
+{
+    "name": "otus/hw6",
+    "autoload": {
+        "psr-4": {
+            "Otus\\HW6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gakhramanov Samir",
+            "email": "samirtula@mail.ru"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*"
+    }
+}

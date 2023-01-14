@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  client:
+    build: ./docker
+    container_name: client
+    volumes:
+      - ".:/var/www/application.local"
+    networks:
+      - app-socket
+
+  server:
+    build: ./docker
+    container_name: server
+    volumes:
+      - ".:/var/www/application.local"
+    networks:
+      - app-socket
+
+networks:
+  app-socket:
+    driver: bridge
