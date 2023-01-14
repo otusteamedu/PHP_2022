@@ -1,0 +1,19 @@
+{
+    "name": "pinguk/redis_learn",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Pinguk\\RedisLearn\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "pingachguk",
+            "email": "imayakimov@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-redis": "*",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
