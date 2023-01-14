@@ -1,0 +1,18 @@
+{
+    "name": "chernysh/email-verification",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Chernysh\\EmailVerification\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mihail Chernysh",
+            "email": "mihail.chernysh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    }
+}
