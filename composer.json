@@ -1,0 +1,31 @@
+{
+    "name": "mikonnikov/otus-hw11",
+    "description": "Otus PHP HomeWork #11 (Redis)",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "App\\Src\\": "app/src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mikhail Ikonnikov"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "wp-cli/php-cli-tools": "^0.11.15",
+        "bramus/router": "^1.6",
+        "ext-redis": "*",
+        "ext-memcached": "*",
+        "ext-dom": "*",
+        "phpunit/phpunit": "^9.5",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    }
+}
