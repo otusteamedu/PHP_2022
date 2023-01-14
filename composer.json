@@ -1,0 +1,19 @@
+{
+    "name": "chernysh/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Chernysh\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "chernysh",
+            "email": "mihail.chernysh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "chernysh/fish-text": "^1.0"
+    }
+}
