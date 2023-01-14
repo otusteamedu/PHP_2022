@@ -1,0 +1,10 @@
+{
+    "name": "alexanderpryakhin/php_2022",
+    "authors": [
+        {
+            "name": "Alex",
+            "email": "test@alex.com"
+        }
+    ],
+    "require": {}
+}
