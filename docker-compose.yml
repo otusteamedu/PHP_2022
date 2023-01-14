@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  php-fpm:
+    build:
+      context: php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    restart: always
+    container_name: hw10-php-fpm
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    depends_on:
+      - elasticsearch
+    environment:
+      PHP_IDE_CONFIG: serverName=SHOP
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx:latest
+    container_name: hw10-nginx_server
+    volumes:
+      - ./app:/app
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+    depends_on:
+      - php-fpm
+
+  elasticsearch:
+    image: elasticsearch:8.4.2
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - app-network
+
+  kibana:
+    container_name: kibana
+    image: kibana:8.4.2
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - app-network
+
+volumes:
+  elasticsearch-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
