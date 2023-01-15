@@ -4,6 +4,7 @@ namespace Otus\Task10\App\Commands;
 
 use LucidFrame\Console\ConsoleTable;
 use Otus\Task10\App\Services\ElasticSearch\ProductFilterBuilder;
+use Otus\Task10\App\Services\ElasticSearch\Formats\ProductsFormat;
 use Otus\Task10\Core\Command\Command;
 use Otus\Task10\Core\Command\Contracts\InputContractContract;
 use Otus\Task10\Core\Command\Contracts\OutputCommandContract;
@@ -26,12 +27,11 @@ class SearchElasticSearchCommand extends Command
 
         $elasticClient = $this->elasticSearchManager->getClient();
         $productFilterBuilder = new ProductFilterBuilder($this->arguments->getArguments());
-        $result = $elasticClient->search($productFilterBuilder->toArray())->asArray();
+        $productsFormat = new ProductsFormat($elasticClient->search($productFilterBuilder->toArray())->asArray());
 
-        $this->table->setHeaders(array('Title', 'SKU', 'Category', 'Price'));
-        foreach ($result["hits"]["hits"] as $product){
-            $product = $product["_source"];
-            $this->table->addRow([$product['title'], $product['sku'], $product['category'],  $product['price']]);
+        $this->table->setHeaders($productsFormat->getFields());
+        foreach ( $productsFormat->getProducts() as $product){
+            $this->table->addRow($product);
         }
         $this->output->write($this->table->getTable());
     }
