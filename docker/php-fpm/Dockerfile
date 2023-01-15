@@ -16,9 +16,9 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Устанавливаем необходимые php зависимости
-RUN pecl install -o -f redis memcache \
+RUN pecl install -o -f redis memcache xdebug \
     && docker-php-ext-configure zip \
-    && docker-php-ext-enable redis memcache \
+    && docker-php-ext-enable redis memcache xdebug \
     && docker-php-ext-install pdo_pgsql mbstring zip \
     && rm -rf /tmp/pear
 

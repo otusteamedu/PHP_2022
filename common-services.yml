@@ -7,6 +7,8 @@ services:
     volumes:
       - .:/var/www/app
       - ./docker/php-fpm/local.ini:/usr/local/etc/php/conf.d/local.ini
+    environment:
+      PHP_IDE_CONFIG: 'serverName=server'
     networks:
       - app-network
 
