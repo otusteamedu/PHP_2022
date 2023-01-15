@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $sum = static fn(int $a, int $b): int => $a + $b;
 $join = static fn(string $a, string $b) => $a . $b;
 
