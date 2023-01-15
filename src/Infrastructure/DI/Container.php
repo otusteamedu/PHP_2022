@@ -8,12 +8,16 @@ class Container
 {
     private $bindings = [];
 
-    public function set(string $abstract, callable $factory): void {
+    public function set(string $abstract, callable|string $factory): void {
         $this->bindings[$abstract] = $factory;
     }
 
     public function get(string $abstract) {
         if (isset($this->bindings[$abstract])) {
+            if (\is_string($this->bindings[$abstract])) {
+                return $this->get($this->bindings[$abstract]);
+            }
+
             return $this->bindings[$abstract]($this);
         }
 

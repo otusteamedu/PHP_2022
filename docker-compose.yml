@@ -24,16 +24,16 @@ services:
       - PHP_SERVICE_HOST=php-fpm_1
       - PHP_SERVICE_PORT=9000
 
-  nginx_2:
-    container_name: amarkhay_nginx_2
-    extends:
-      file: common-services.yml
-      service: nginx
-    volumes:
-      - ./docker/nginx/templates:/etc/nginx/templates
-    environment:
-      - PHP_SERVICE_HOST=php-fpm_2
-      - PHP_SERVICE_PORT=9000
+#  nginx_2:
+#    container_name: amarkhay_nginx_2
+#    extends:
+#      file: common-services.yml
+#      service: nginx
+#    volumes:
+#      - ./docker/nginx/templates:/etc/nginx/templates
+#    environment:
+#      - PHP_SERVICE_HOST=php-fpm_2
+#      - PHP_SERVICE_PORT=9000
 
   php-fpm_1:
     container_name: amarkhay_php-fpm_1
@@ -41,11 +41,11 @@ services:
       file: common-services.yml
       service: php-fpm
 
-  php-fpm_2:
-    container_name: amarkhay_php-fpm_2
-    extends:
-      file: common-services.yml
-      service: php-fpm
+#  php-fpm_2:
+#    container_name: amarkhay_php-fpm_2
+#    extends:
+#      file: common-services.yml
+#      service: php-fpm
 
   db:
     image: postgres:15
