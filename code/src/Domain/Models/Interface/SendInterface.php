@@ -4,5 +4,5 @@ namespace Otus\App\Domain\Models\Interface;
 
 interface SendInterface
 {
-    public static function generateMessage();
+    public function generateMessage();
 }

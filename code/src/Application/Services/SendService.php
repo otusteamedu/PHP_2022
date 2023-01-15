@@ -10,7 +10,8 @@ class SendService
     public static function startSendMessage()
     {
         try {
-            new BankSender();
+            $send_message = new BankSender();
+            $send_message->generateMessage();
         } catch (\Exception $e) {
             View::render('error', [
                 'title' => '503 - Service Unavailable',
