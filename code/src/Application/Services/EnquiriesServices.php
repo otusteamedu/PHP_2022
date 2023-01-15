@@ -9,27 +9,65 @@ class EnquiriesServices
 {
     public static function allEnquiriesServ()
     {
-        $massif_enquiries = Enquiries::allEnquiries();
-        $result = json_encode($massif_enquiries, JSON_UNESCAPED_UNICODE);
-        echo $result;
+        $array_enquiries = Enquiries::allEnquiries();
+
+        if ($array_enquiries) {
+            http_response_code(200);
+            $result = json_encode($array_enquiries, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        } else {
+            http_response_code(400);
+            $not_found_result = [
+                "status" => false,
+                "message" => "Enquiries not found"
+            ];
+            $result = json_encode($not_found_result, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        }
     }
 
     public static function getEnquiryIdServ($enquiry_id)
     {
-        $massif_enquiries = Enquiries::getEnquiriesID($enquiry_id);
-        $result = json_encode($massif_enquiries, JSON_UNESCAPED_UNICODE);
-        echo $result;
+        $array_info_enquiry = Enquiries::getEnquiriesID($enquiry_id);
+
+        if ($array_info_enquiry) {
+            http_response_code(200);
+            $result = json_encode($array_info_enquiry, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        } else {
+            http_response_code(400);
+            $not_found_result = [
+                "status" => false,
+                "message" => "Enquiry not found"
+            ];
+            $result = json_encode($not_found_result, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        }
     }
 
     public static function saveEnquiryServ($user_data)
     {
         $enquiry_description = $user_data['enquiry_description'];
-        $save_result = Enquiries::saveEnquiry($enquiry_description);
-        if (isset($save_result['id'])) {
-            $new_id = $save_result['id'];
-            new ApiQueue($new_id);
+        $new_enquiry = Enquiries::saveEnquiry($enquiry_description);
+
+        if ($new_enquiry) {
+            new ApiQueue($new_enquiry);
+            http_response_code(201);
+            $save_result = [
+                "status" => true,
+                "message" => "Enquiry created",
+                "id" => $new_enquiry
+            ];
+            $result = json_encode($save_result,JSON_UNESCAPED_UNICODE);
+            echo $result;
+        } else {
+            http_response_code(400);
+            $not_save_result = [
+                "status" => false,
+                "message" => "Enquiry not save"
+            ];
+            $result = json_encode($not_save_result,JSON_UNESCAPED_UNICODE);
+            echo $result;
         }
-        $result = json_encode($save_result,JSON_UNESCAPED_UNICODE);
-        echo $result;
     }
 }
