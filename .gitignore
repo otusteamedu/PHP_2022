@@ -1,0 +1,6 @@
+.idea/
+.vscode/
+/code/vendor/
+tmp/
+volumes/
+.env
