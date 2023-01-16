@@ -6,8 +6,8 @@ use Otus\App\ApiApp;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$app = new ApiApp();
-$app->run();
+$api = new ApiApp();
+$api->run();
 
 
 
