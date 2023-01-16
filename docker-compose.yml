@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  client:
+    build: ./docker/php
+    container_name: client
+    volumes:
+      - ./code:/data
+    networks:
+      - app-socket
+
+  server:
+    build: ./docker/php
+    container_name: server
+    volumes:
+      - ./code:/data
+    networks:
+      - app-socket
+
+networks:
+  app-socket:
+    driver: bridge
