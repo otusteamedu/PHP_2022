@@ -9,6 +9,7 @@ class EnquiriesServices
 {
     public static function allEnquiriesServ()
     {
+        header("Content-Type: application/json; charset=UTF-8");
         $array_enquiries = Enquiries::allEnquiries();
 
         if ($array_enquiries) {
@@ -28,6 +29,7 @@ class EnquiriesServices
 
     public static function getEnquiryIdServ($enquiry_id)
     {
+        header("Content-Type: application/json; charset=UTF-8");
         $array_info_enquiry = Enquiries::getEnquiriesID($enquiry_id);
 
         if ($array_info_enquiry) {
@@ -47,6 +49,7 @@ class EnquiriesServices
 
     public static function saveEnquiryServ($user_data)
     {
+        header("Content-Type: application/json; charset=UTF-8");
         $enquiry_description = $user_data['enquiry_description'];
         $new_enquiry = Enquiries::saveEnquiry($enquiry_description);
 
