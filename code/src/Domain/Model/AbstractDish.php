@@ -20,5 +20,5 @@ abstract class AbstractDish
 
     abstract public function getPrice(): int;
 
-    abstract function cook(): void;
+    abstract public function cook(): void;
 }

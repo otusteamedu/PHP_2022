@@ -16,9 +16,8 @@ class CreateDishService
 
     public function __construct(
         private FactoryDishFactoryInterface $factoryDishFactory,
-        private ObserverFactoryInterface    $observerFactory
-    )
-    {
+        private ObserverFactoryInterface $observerFactory
+    ) {
     }
 
     public function createDish(DishDto $dishDto): AbstractDish
@@ -43,7 +42,8 @@ class CreateDishService
             ClassFinder::getClassesInNamespace(self::OBSERVERS_NAMESPACE, ClassFinder::RECURSIVE_MODE),
             function (string $class) use ($nameDish) {
                 return str_contains($class, $nameDish);
-            });
+            }
+        );
 
         foreach ($observerClasses as $observerClass) {
             $observer = $this->observerFactory->createObserver($observerClass);
