@@ -12,7 +12,8 @@ class Configuration
     const CONFIG_FILE = '/config/services.yaml';
     private Dotenv $dotenv;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->dotenv = new Dotenv();
     }
 

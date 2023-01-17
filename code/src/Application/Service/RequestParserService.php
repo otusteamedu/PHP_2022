@@ -29,7 +29,7 @@ class RequestParserService
                     $dishDto->{$argValues[0]} = $argValues[1];
                 }
             } else {
-                throw new \Exception('Illegal argument: "' . $argValues[0] . '", allowed values: ' .  implode(", ", self::ALLOWED_ARGV));
+                throw new \Exception('Illegal argument: "' . $argValues[0] . '", allowed values: ' . implode(", ", self::ALLOWED_ARGV));
             }
         }
 

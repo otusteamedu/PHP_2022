@@ -16,8 +16,10 @@ class CreateDishService
 
     public function __construct(
         private FactoryDishFactoryInterface $factoryDishFactory,
-        private ObserverFactoryInterface $observerFactory
-    ) {}
+        private ObserverFactoryInterface    $observerFactory
+    )
+    {
+    }
 
     public function createDish(DishDto $dishDto): AbstractDish
     {

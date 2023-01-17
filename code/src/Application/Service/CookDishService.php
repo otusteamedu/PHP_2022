@@ -8,7 +8,9 @@ use Cookapp\Php\Application\Dto\DishDto;
 
 class CookDishService
 {
-    public function __construct(private CreateDishService $createDishService) {}
+    public function __construct(private CreateDishService $createDishService)
+    {
+    }
 
     public function cookDish(DishDto $dishDto): void
     {

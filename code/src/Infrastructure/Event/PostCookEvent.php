@@ -9,5 +9,7 @@ use Cookapp\Php\Infrastructure\Dispatcher\AbstractEvent;
 
 class PostCookEvent extends AbstractEvent
 {
-    public function __construct(private AbstractDish $dish) {}
+    public function __construct(private AbstractDish $dish)
+    {
+    }
 }

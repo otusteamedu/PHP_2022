@@ -11,7 +11,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class SandwichFactory extends AbstractDishFactory
 {
-    public function __construct(private EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(private EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     public function createDish(?string $description): AbstractDish
     {

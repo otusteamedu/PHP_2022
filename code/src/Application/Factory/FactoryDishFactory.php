@@ -12,7 +12,9 @@ class FactoryDishFactory implements FactoryDishFactoryInterface
 {
     private const POSTFIX_FACTORY_CLASS = 'Factory';
 
-    public function __construct(private EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(private EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     public function createDishFactory(string $nameDish): AbstractDishFactory
     {

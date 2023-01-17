@@ -8,7 +8,9 @@ use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
 {
-    public function __construct(private ContainerInterface $container) {}
+    public function __construct(private ContainerInterface $container)
+    {
+    }
 
     public function get(string $id)
     {

@@ -12,7 +12,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class CookProxy implements CookableInterface
 {
-    public function __construct(private CookableInterface $cookingStrategy, private EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(private CookableInterface $cookingStrategy, private EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     public function cook(): void
     {

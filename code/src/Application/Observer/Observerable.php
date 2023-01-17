@@ -12,7 +12,9 @@ class Observerable implements DishStateSubject
 {
     private array $observers = [];
 
-    public function __construct(private AbstractDish $dish) {}
+    public function __construct(private AbstractDish $dish)
+    {
+    }
 
     public function attach(DishStateObserver $observer): void
     {

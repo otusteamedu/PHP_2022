@@ -9,7 +9,9 @@ use Cookapp\Php\Domain\Model\CookableInterface;
 
 class BurgerCookingStrategy implements CookableInterface
 {
-    public function __construct(private AbstractDish $dish) {}
+    public function __construct(private AbstractDish $dish)
+    {
+    }
 
     public function cook(): void
     {

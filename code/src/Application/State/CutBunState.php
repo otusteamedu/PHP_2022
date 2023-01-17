@@ -11,7 +11,9 @@ use Cookapp\Php\Domain\State\StateInterface;
 
 class CutBunState implements StateInterface
 {
-    public function __construct(private AbstractDish $dish) {}
+    public function __construct(private AbstractDish $dish)
+    {
+    }
 
     public function fryCutlet(): void
     {

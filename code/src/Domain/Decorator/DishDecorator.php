@@ -6,4 +6,6 @@ namespace Cookapp\Php\Domain\Decorator;
 
 use Cookapp\Php\Domain\Model\AbstractDish;
 
-abstract class DishDecorator extends AbstractDish {}
+abstract class DishDecorator extends AbstractDish
+{
+}

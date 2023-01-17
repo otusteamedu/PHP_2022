@@ -11,7 +11,8 @@ use Cookapp\Php\Domain\State\StateInterface;
 class Salad extends DishDecorator
 {
     public function __construct(private AbstractDish $dish, protected string $description = 'Салат', protected int $price = 25)
-    {}
+    {
+    }
 
     public function attach(DishStateObserver $observer): void
     {

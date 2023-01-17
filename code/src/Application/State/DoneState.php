@@ -9,7 +9,9 @@ use Cookapp\Php\Domain\State\StateInterface;
 
 class DoneState implements StateInterface
 {
-    public function __construct(private AbstractDish $dish) {}
+    public function __construct(private AbstractDish $dish)
+    {
+    }
 
     public function fryCutlet(): void
     {

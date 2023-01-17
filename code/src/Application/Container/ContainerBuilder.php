@@ -11,7 +11,9 @@ use DI;
 
 class ContainerBuilder implements ContainerBuilderInterface
 {
-    public function __construct(private Request $request, private array $configuration) {}
+    public function __construct(private Request $request, private array $configuration)
+    {
+    }
 
     public function build(): Container
     {

@@ -10,7 +10,9 @@ use Cookapp\Php\Domain\State\StateInterface;
 
 class BoilSausageState implements StateInterface
 {
-    public function __construct(private AbstractDish $dish) {}
+    public function __construct(private AbstractDish $dish)
+    {
+    }
 
     public function fryCutlet(): void
     {

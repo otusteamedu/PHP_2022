@@ -17,6 +17,8 @@ abstract class AbstractDish
     protected int $price;
 
     abstract public function getDescription(): string;
+
     abstract public function getPrice(): int;
+
     abstract function cook(): void;
 }
