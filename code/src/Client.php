@@ -74,4 +74,3 @@ final class Client
         return $socket;
     }
 }
-
