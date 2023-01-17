@@ -5,8 +5,6 @@ services:
     build:
       context: .docker
       dockerfile: ./php-cli/Dockerfile
-    environment:
-      PATH_TO_SOCKET: ${PATH_TO_SOCKET}
     volumes:
       - ./src:/app
 

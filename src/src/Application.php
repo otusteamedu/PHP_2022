@@ -12,17 +12,11 @@ use Exception;
 
 class Application
 {
-    private string $defaultCommand;
-    private string $defaultSocketDir;
-    private string $socketDir;
-    private array $config;
 
-    public function __construct(array $config)
+  public function __construct(array $config)
     {
         $this->config = $config;
         $this->defaultCommand = 'list';
-        $this->defaultSocketDir = __DIR__ . '/../var/socket/';
-        $this->socketDir = $this->config['socket_dir'] ?? $this->defaultSocketDir;
     }
 
     /**
@@ -54,8 +48,6 @@ class Application
     private function findCommand(string $commandName): CommandInterface
     {
         return match ($commandName) {
-            'server' => new ServerCommand($this->socketDir),
-            'client' => new ClientCommand($this->socketDir),
             default => new ListCommand(),
         };
     }
