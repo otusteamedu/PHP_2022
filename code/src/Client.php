@@ -58,8 +58,7 @@ final class Client
         }
 
         fclose($stdin);
-        $socket->close();
-        $socket->unlink($socketFilePath);
+        $this->removeUnixSocket($socket, $socketFilePath);
     }
 
     /**
@@ -72,5 +71,11 @@ final class Client
         $socket->setNonBlock();
 
         return $socket;
+    }
+
+    public function removeUnixSocket(UnixSocket $socket, string $socketFilePath): void
+    {
+        $socket->close();
+        $socket->unlink($socketFilePath);
     }
 }
