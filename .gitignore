@@ -1,0 +1,5 @@
+/code/.env
+/code/var/
+/code/vendor/
+/.idea/
+
