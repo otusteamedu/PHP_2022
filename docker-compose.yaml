@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: homework-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: homebee
+    container_name: homework-app
+    restart: unless-stopped
+    volumes:
+      - ./code:/var/www
+    networks:
+      - app-network
+
+  workspace:
+    build:
+      context: .
+      dockerfile: docker/php/ConsoleDockerfile
+    image: balance/workspace
+    container_name: homework-workspace
+    restart: unless-stopped
+    volumes:
+      - ./code:/var/www
+    networks:
+      - app-network
+
+  memcached:
+    container_name: homework-memcached
+    image: memcached:latest
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  redis:
+    image: redis:4.0
+    container_name: homework-redis
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  redisinsight:
+      image: redislabs/redisinsight:latest
+      container_name: homework-redisinsight
+      restart: unless-stopped
+      ports:
+          - "8001:8001"
+      networks:
+          - app-network
+
+networks:
+  app-network:
+    driver: bridge
