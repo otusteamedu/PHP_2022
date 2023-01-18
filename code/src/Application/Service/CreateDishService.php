@@ -12,7 +12,7 @@ use Cookapp\Php\Domain\Model\AbstractDish;
 
 class CreateDishService
 {
-    private const OBSERVERS_NAMESPACE = 'Cookapp\Php\Application\Observer';
+    public const OBSERVERS_NAMESPACE = 'Cookapp\Php\Application\Observer';
 
     public function __construct(
         private FactoryDishFactoryInterface $factoryDishFactory,
@@ -46,7 +46,7 @@ class CreateDishService
         );
 
         foreach ($observerClasses as $observerClass) {
-            $observer = $this->observerFactory->createObserver($observerClass);
+            $observer = $this->observerFactory->createObserver($observerClass, $nameDish);
             $dish->attach($observer);
         }
 

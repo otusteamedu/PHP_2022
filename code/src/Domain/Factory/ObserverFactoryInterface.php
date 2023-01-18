@@ -8,5 +8,5 @@ use Cookapp\Php\Domain\Observer\DishStateObserver;
 
 interface ObserverFactoryInterface
 {
-    public function createObserver($class): DishStateObserver;
+    public function createObserver($class, string $nameDish): DishStateObserver;
 }
