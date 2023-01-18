@@ -45,7 +45,7 @@ class AddIngredientsState implements StateInterface
 
     public function getStringState(): string
     {
-        return 'Добавляем инградиенты в ' . $this->dish->getDescription();
+        return 'Добавляем ингридиенты в ' . $this->dish->getDescription();
     }
 
     public function done(): void

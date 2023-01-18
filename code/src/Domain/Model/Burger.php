@@ -19,8 +19,10 @@ class Burger extends AbstractDish
     private DishStateSubject $dishStateSubject;
     private CookableInterface $cookingStrategy;
 
-    public function __construct(private EventDispatcherInterface $eventDispatcher, protected string $description = 'Составной бургер', protected int $price = 350)
+    public function __construct(private EventDispatcherInterface $eventDispatcher, ?string $description = null, ?int $price = null)
     {
+        $this->description = ($description ?: 'Бургер');
+        $this->price = ($price ?: 350);
         $this->dishStateSubject = new Observerable($this);
         $this->state = new NewState($this);
         $this->cookingStrategy = new CookProxy(new BurgerCookingStrategy($this), $this->eventDispatcher);

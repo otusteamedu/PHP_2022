@@ -17,6 +17,6 @@ class SandwichFactory extends AbstractDishFactory
 
     public function createDish(?string $description): AbstractDish
     {
-        return $description ? new Sandwich($this->eventDispatcher, $description) : new Sandwich($this->eventDispatcher);
+        return new Sandwich($this->eventDispatcher, $description);
     }
 }

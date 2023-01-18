@@ -17,6 +17,6 @@ class HotDogFactory extends AbstractDishFactory
 
     public function createDish(?string $description): AbstractDish
     {
-        return $description ? new HotDog($this->eventDispatcher, $description) : new HotDog($this->eventDispatcher);
+        return new HotDog($this->eventDispatcher, $description);
     }
 }

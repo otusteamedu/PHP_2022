@@ -17,6 +17,6 @@ class BurgerFactory extends AbstractDishFactory
 
     public function createDish(?string $description): AbstractDish
     {
-        return $description ? new Burger($this->eventDispatcher, $description) : new Burger($this->eventDispatcher);
+        return new Burger($this->eventDispatcher, $description);
     }
 }

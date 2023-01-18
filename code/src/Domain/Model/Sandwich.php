@@ -19,8 +19,10 @@ class Sandwich extends AbstractDish
     private DishStateSubject $dishStateSubject;
     private CookableInterface $cookingStrategy;
 
-    public function __construct(private EventDispatcherInterface $eventDispatcher, protected string $description = 'Составной сэндвич', protected int $price = 250)
+    public function __construct(private EventDispatcherInterface $eventDispatcher, ?string $description = null, ?int $price = null)
     {
+        $this->description = ($description ?: 'Составной сэндвич');
+        $this->price = ($price ?: 250);
         $this->dishStateSubject = new Observerable($this);
         $this->state = new NewState($this);
         $this->cookingStrategy = new CookProxy(new SandwichCookingStrategy($this), $this->eventDispatcher);
