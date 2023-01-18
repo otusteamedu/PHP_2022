@@ -76,23 +76,32 @@ php App.php Cook dish=Sandwich
 php App.php Cook dish=HotDog ingredient=Pepper ingredient=Onion
 ```
 
-**Параметр dish**: доступные блюда см. в ``code/src/Application/Factory/хххFactory.php``:  
+#### Параметры запуска 
+**Параметр "dish"**: доступные блюда см. в ``code/src/Application/Factory/хххFactory.php``:  
 - Burger
 - HotDog
 - Sandwich
 
-**Параметр ingredient**: доступные ингридиенты: ```/code/src/Domain/Decorator/xxx.php```
+**Параметр "ingredient"**: доступные ингридиенты: ```/code/src/Domain/Decorator/xxx.php```
 - Onion
 - Pepper
 - Salad
 
-### Пример запуска
+**Параметр "recipe"**: название блюда (фирменого рецепта) 
+- любое текстовое название без пробелов
+- например: ``recipe=FrenchHotDog``
+
+#### Допустимые состояния блюд:
+- **Бургер**: New -> FryCutlet -> CutBun -> AddIngredients -> Done
+- **Хотдог**: New -> BoilSausage -> AddSauces -> CutBun -> AddIngredients -> Done
+- **Сэндвич**: New -> AddIngredients -> Done
+
+### Примеры запуска
 **Пример №1**
 ```
 php App.php Cook dish=Sandwich
 
 PreCookEventListener, event: PreCookEvent
-PreCookEventListener2, event: PreCookEvent
 Состояние: Новый Составной сэндвич
 Наблюдатель: SandwichObserver, Состояние: Добавляем ингридиенты в Составной сэндвич
 Состояние: Добавляем ингридиенты в Составной сэндвич
@@ -109,7 +118,6 @@ php App.php Cook dish=HotDog ingredient=Pepper ingredient=Onion
 
 Прокси: Начинаем готовить Составной хотдог
 PreCookEventListener, event: PreCookEvent                               
-PreCookEventListener2, event: PreCookEvent                              
 Состояние: Новый Составной хотдог                                       
 Наблюдатель: HotDogObserver, Состояние: Варим сосиску в Составной хотдог
 Состояние: Варим сосиску в Составной хотдог                             
@@ -124,5 +132,25 @@ PreCookEventListener2, event: PreCookEvent
 PostCookEventListener, event: PostCookEvent
 
 Стоимость Составной хотдог Перец Лук: 185
+```
+
+**Пример №3**
+```
+php App.php Cook dish=Burger ingredient=Onion recipe=BavarianBurger
+
+Прокси: Начинаем готовить BavarianBurger
+PreCookEventListener, event: PreCookEvent
+Состояние: Новый BavarianBurger
+Наблюдатель: BurgerObserver, Состояние: Жарим котлету в BavarianBurger
+Состояние: Жарим котлету в BavarianBurger
+Наблюдатель: BurgerObserver, Состояние: Режим булочку в BavarianBurger
+Состояние: Режим булочку в BavarianBurger
+Наблюдатель: BurgerObserver, Состояние: Добавляем ингридиенты в BavarianBurger
+Состояние: Добавляем ингридиенты в BavarianBurger
+Наблюдатель: BurgerObserver, Состояние: BavarianBurger готов
+Состояние: BavarianBurger готов
+PostCookEventListener, event: PostCookEvent
+
+Стоимость BavarianBurger: 350
 ```
 
