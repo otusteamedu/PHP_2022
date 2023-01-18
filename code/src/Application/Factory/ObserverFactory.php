@@ -9,8 +9,17 @@ use Cookapp\Php\Domain\Observer\DishStateObserver;
 use HaydenPierce\ClassFinder\ClassFinder;
 use Cookapp\Php\Application\Service\CreateDishService;
 
+/**
+ * Observer factory
+ */
 class ObserverFactory implements ObserverFactoryInterface
 {
+    /**
+     * @param $class
+     * @param string $nameDish
+     * @return DishStateObserver
+     * @throws \Exception
+     */
     public function createObserver($class, string $nameDish): DishStateObserver
     {
         // check that observer class is valid
@@ -21,7 +30,7 @@ class ObserverFactory implements ObserverFactoryInterface
             }
         );
 
-        if(!in_array($class, $observerClasses)) {
+        if (!in_array($class, $observerClasses)) {
             throw new \Exception('Не корректный тип класса Наблюдателя: ' . $class);
         }
 

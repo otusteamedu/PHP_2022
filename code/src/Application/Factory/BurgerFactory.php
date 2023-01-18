@@ -9,6 +9,9 @@ use Cookapp\Php\Domain\Model\AbstractDish;
 use Cookapp\Php\Domain\Model\Burger;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Burger
+ */
 class BurgerFactory extends AbstractDishFactory
 {
     public function __construct(private EventDispatcherInterface $eventDispatcher)
