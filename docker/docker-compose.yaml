@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "cinema"
+      POSTGRES_USER: "nikcrazy"
+      POSTGRES_PASSWORD: "nikcrazy"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../dbdata/pgsql:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
