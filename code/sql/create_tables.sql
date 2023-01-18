@@ -7,7 +7,8 @@ CREATE TABLE zone (zone_id smallserial NOT NULL, name VARCHAR(20) NOT NULL, rate
 /* Стоимость каждого места в каждом зале определяется по zone.rate */
 CREATE TABLE place (place_id serial NOT NULL, zone_id smallint NOT NULL, hall_id smallint NOT NULL,  number integer,   created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(place_id));
 /*  В session  фиксируется базовая стоимость сеанса(session.price), которая зависит от  фильма, зала, дня, времени. А через зону опрелеляется разница в стоимости места    */
-CREATE TABLE session (session_id serial NOT NULL, hall_id smallint NOT NULL,
+CREATE TABLE session (session_id serial NOT NULL,
+                      hall_id smallint NOT NULL,
                       movie_id integer NOT NULL,
                       days_type_id  smallint NULL,
                       started_at  TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
