@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Cookapp\Php\Application\Factory;
+
+use Cookapp\Php\Domain\Factory\AbstractDishFactory;
+use Cookapp\Php\Domain\Factory\FactoryDishFactoryInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+
+/**
+ * Parent factory
+ */
+class FactoryDishFactory implements FactoryDishFactoryInterface
+{
+    private const POSTFIX_FACTORY_CLASS = 'Factory';
+
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(private EventDispatcherInterface $eventDispatcher)
+    {
+    }
+
+    /**
+     * @param string $nameDish
+     * @return AbstractDishFactory
+     * @throws \Exception
+     */
+    public function createDishFactory(string $nameDish): AbstractDishFactory
+    {
+        $classDishFactory = __NAMESPACE__ . "\\" . $nameDish . self::POSTFIX_FACTORY_CLASS;
+        if (!class_exists($classDishFactory)) {
+            throw new \Exception('Не найдена фабрика для блюда: ' . $nameDish);
+        }
+
+        return new $classDishFactory($this->eventDispatcher);
+    }
+}
