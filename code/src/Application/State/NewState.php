@@ -10,12 +10,21 @@ use Cookapp\Php\Domain\Model\HotDog;
 use Cookapp\Php\Domain\Model\Sandwich;
 use Cookapp\Php\Domain\State\StateInterface;
 
+/**
+ * New cooking state
+ */
 class NewState implements StateInterface
 {
+    /**
+     * @param AbstractDish $dish
+     */
     public function __construct(private AbstractDish $dish)
     {
     }
 
+    /**
+     * @return void
+     */
     public function fryCutlet(): void
     {
         if ($this->dish instanceof Burger) {
@@ -26,6 +35,9 @@ class NewState implements StateInterface
         }
     }
 
+    /**
+     * @return void
+     */
     public function boilSausage(): void
     {
         if ($this->dish instanceof HotDog) {
@@ -36,6 +48,9 @@ class NewState implements StateInterface
         }
     }
 
+    /**
+     * @return void
+     */
     public function addSauces(): void
     {
         if ($this->dish instanceof HotDog) {
@@ -47,6 +62,9 @@ class NewState implements StateInterface
         }
     }
 
+    /**
+     * @return void
+     */
     public function cutBun(): void
     {
         if ($this->dish instanceof Burger || $this->dish instanceof HotDog) {
@@ -58,6 +76,9 @@ class NewState implements StateInterface
         }
     }
 
+    /**
+     * @return void
+     */
     public function addIngredients(): void
     {
         if ($this->dish instanceof Sandwich) {
@@ -68,11 +89,17 @@ class NewState implements StateInterface
         }
     }
 
+    /**
+     * @return string
+     */
     public function getStringState(): string
     {
         return 'Новый ' . $this->dish->getDescription();
     }
 
+    /**
+     * @return void
+     */
     public function done(): void
     {
         fwrite(STDOUT, 'Недопустимый переход состояний, метод ' . __METHOD__

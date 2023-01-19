@@ -5,7 +5,5 @@ services:
 listeners:
   Cookapp\Php\Infrastructure\EventListener\PreCookEventListener:
     event: Cookapp\Php\Infrastructure\Event\PreCookEvent
-  Cookapp\Php\Infrastructure\EventListener\PreCookEventListener2:
-    event: Cookapp\Php\Infrastructure\Event\PreCookEvent
   Cookapp\Php\Infrastructure\EventListener\PostCookEventListener:
     event: Cookapp\Php\Infrastructure\Event\PostCookEvent

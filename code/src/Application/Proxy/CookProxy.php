@@ -10,12 +10,22 @@ use Cookapp\Php\Infrastructure\Event\PostCookEvent;
 use Cookapp\Php\Infrastructure\Event\PreCookEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Proxy
+ */
 class CookProxy implements CookableInterface
 {
+    /**
+     * @param CookableInterface $cookingStrategy
+     * @param EventDispatcherInterface $eventDispatcher
+     */
     public function __construct(private CookableInterface $cookingStrategy, private EventDispatcherInterface $eventDispatcher)
     {
     }
 
+    /**
+     * @return void
+     */
     public function cook(): void
     {
         fwrite(STDOUT, 'Прокси: Начинаем готовить ' . $this->getDish()->getDescription() . PHP_EOL);
@@ -29,6 +39,9 @@ class CookProxy implements CookableInterface
         $this->eventDispatcher->dispatch($postCookEvent);
     }
 
+    /**
+     * @return AbstractDish
+     */
     public function getDish(): AbstractDish
     {
         return $this->cookingStrategy->getDish();

@@ -8,12 +8,22 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\EventDispatcher\StoppableEventInterface;
 
+/**
+ * EventDispatcher
+ */
 class EventDispatcher implements EventDispatcherInterface
 {
+    /**
+     * @param ListenerProviderInterface $listenerProvider
+     */
     public function __construct(private ListenerProviderInterface $listenerProvider)
     {
     }
 
+    /**
+     * @param object $event
+     * @return object
+     */
     public function dispatch(object $event): object
     {
         if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {

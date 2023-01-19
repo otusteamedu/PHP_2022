@@ -14,10 +14,17 @@ use Psr\EventDispatcher\EventDispatcherInterface;
  */
 class BurgerFactory extends AbstractDishFactory
 {
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
     public function __construct(private EventDispatcherInterface $eventDispatcher)
     {
     }
 
+    /**
+     * @param string|null $description
+     * @return AbstractDish
+     */
     public function createDish(?string $description): AbstractDish
     {
         return new Burger($this->eventDispatcher, $description);

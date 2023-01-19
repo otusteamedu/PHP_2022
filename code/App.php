@@ -1,6 +1,10 @@
 <?php
 
-//declare(strict_types=1);
+/**
+ * Starting point
+ */
+
+declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 

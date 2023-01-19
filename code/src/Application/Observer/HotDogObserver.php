@@ -7,6 +7,9 @@ namespace Cookapp\Php\Application\Observer;
 use Cookapp\Php\Domain\Observer\DishStateObserver;
 use Cookapp\Php\Domain\Model\AbstractDish;
 
+/**
+ * HotDog cooking Observer
+ */
 class HotDogObserver implements DishStateObserver
 {
     public function update(AbstractDish $dish): void

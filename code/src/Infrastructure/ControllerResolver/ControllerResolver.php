@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Cookapp\Php\Infrastructure\ControllerResolver;
 
+/**
+ * Controller routing
+ */
 class ControllerResolver implements ControllerResolverInterface
 {
     const POSTFIX_CONTROLLER = 'Controller';
@@ -11,6 +14,9 @@ class ControllerResolver implements ControllerResolverInterface
 
     private ?string $command;
 
+    /**
+     * @param string|null $command
+     */
     public function __construct(?string $command)
     {
         $this->command = $command;
@@ -33,6 +39,9 @@ class ControllerResolver implements ControllerResolverInterface
         return $this->getControllerNamespace() . self::DEFAULT_CONTROLLER . self::POSTFIX_CONTROLLER;
     }
 
+    /**
+     * @return string
+     */
     private function getControllerNamespace(): string
     {
         $namespaceLevelUp = substr(__NAMESPACE__, 0, strrpos(__NAMESPACE__, '\\') + 1);

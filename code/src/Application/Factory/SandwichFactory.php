@@ -9,12 +9,22 @@ use Cookapp\Php\Domain\Model\AbstractDish;
 use Cookapp\Php\Domain\Model\Sandwich;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Sandwich factory
+ */
 class SandwichFactory extends AbstractDishFactory
 {
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
     public function __construct(private EventDispatcherInterface $eventDispatcher)
     {
     }
 
+    /**
+     * @param string|null $description
+     * @return AbstractDish
+     */
     public function createDish(?string $description): AbstractDish
     {
         return new Sandwich($this->eventDispatcher, $description);

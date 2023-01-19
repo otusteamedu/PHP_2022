@@ -6,7 +6,15 @@ namespace Cookapp\Php\Domain\Factory;
 
 use Cookapp\Php\Domain\Observer\DishStateObserver;
 
+/**
+ * Observer factory interface
+ */
 interface ObserverFactoryInterface
 {
-    public function createObserver($class, string $nameDish): DishStateObserver;
+    /**
+     * @param $class
+     * @param string $nameDish
+     * @return DishStateObserver
+     */
+    public function createObserver(string $class, string $nameDish): DishStateObserver;
 }

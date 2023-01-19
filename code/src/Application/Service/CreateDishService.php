@@ -10,16 +10,28 @@ use Cookapp\Php\Domain\Factory\FactoryDishFactoryInterface;
 use Cookapp\Php\Domain\Factory\ObserverFactoryInterface;
 use Cookapp\Php\Domain\Model\AbstractDish;
 
+/**
+ * Create dish service
+ */
 class CreateDishService
 {
     public const OBSERVERS_NAMESPACE = 'Cookapp\Php\Application\Observer';
 
+    /**
+     * @param FactoryDishFactoryInterface $factoryDishFactory
+     * @param ObserverFactoryInterface $observerFactory
+     */
     public function __construct(
         private FactoryDishFactoryInterface $factoryDishFactory,
         private ObserverFactoryInterface $observerFactory
     ) {
     }
 
+    /**
+     * @param DishDto $dishDto
+     * @return AbstractDish
+     * @throws \Exception
+     */
     public function createDish(DishDto $dishDto): AbstractDish
     {
         $dishFactory = $this->factoryDishFactory->createDishFactory($dishDto->dish);
@@ -36,6 +48,12 @@ class CreateDishService
         return $dish;
     }
 
+    /**
+     * @param AbstractDish $dish
+     * @param string $nameDish
+     * @return AbstractDish
+     * @throws \Exception
+     */
     private function attachObservers(AbstractDish $dish, string $nameDish): AbstractDish
     {
         $observerClasses = array_filter(

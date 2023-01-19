@@ -15,12 +15,12 @@ use Cookapp\Php\Application\Service\CreateDishService;
 class ObserverFactory implements ObserverFactoryInterface
 {
     /**
-     * @param $class
+     * @param string $class
      * @param string $nameDish
      * @return DishStateObserver
      * @throws \Exception
      */
-    public function createObserver($class, string $nameDish): DishStateObserver
+    public function createObserver(string $class, string $nameDish): DishStateObserver
     {
         // check that observer class is valid
         $observerClasses = array_filter(

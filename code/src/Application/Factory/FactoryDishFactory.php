@@ -8,14 +8,25 @@ use Cookapp\Php\Domain\Factory\AbstractDishFactory;
 use Cookapp\Php\Domain\Factory\FactoryDishFactoryInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Parent factory
+ */
 class FactoryDishFactory implements FactoryDishFactoryInterface
 {
     private const POSTFIX_FACTORY_CLASS = 'Factory';
 
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
     public function __construct(private EventDispatcherInterface $eventDispatcher)
     {
     }
 
+    /**
+     * @param string $nameDish
+     * @return AbstractDishFactory
+     * @throws \Exception
+     */
     public function createDishFactory(string $nameDish): AbstractDishFactory
     {
         $classDishFactory = __NAMESPACE__ . "\\" . $nameDish . self::POSTFIX_FACTORY_CLASS;

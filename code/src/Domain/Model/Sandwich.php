@@ -13,12 +13,20 @@ use Cookapp\Php\Domain\Observer\DishStateSubject;
 use Cookapp\Php\Domain\State\StateInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Sanwich dish
+ */
 class Sandwich extends AbstractDish
 {
     private StateInterface $state;
     private DishStateSubject $dishStateSubject;
     private CookableInterface $cookingStrategy;
 
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param string|null $description
+     * @param int|null $price
+     */
     public function __construct(private EventDispatcherInterface $eventDispatcher, ?string $description = null, ?int $price = null)
     {
         $this->description = ($description ?: 'Составной сэндвич');
@@ -28,11 +36,19 @@ class Sandwich extends AbstractDish
         $this->cookingStrategy = new CookProxy(new SandwichCookingStrategy($this), $this->eventDispatcher);
     }
 
+    /**
+     * @param DishStateObserver $observer
+     * @return void
+     */
     public function attach(DishStateObserver $observer): void
     {
         $this->dishStateSubject->attach($observer);
     }
 
+    /**
+     * @param DishStateObserver $observer
+     * @return void
+     */
     public function detach(DishStateObserver $observer): void
     {
         $this->dishStateSubject->detach($observer);

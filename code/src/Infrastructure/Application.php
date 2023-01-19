@@ -9,8 +9,17 @@ use Cookapp\Php\Infrastructure\Configuration\Configuration;
 use Cookapp\Php\Infrastructure\ControllerResolver\ControllerResolver;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * App (base class)
+ */
 class Application implements ApplicationInterface
 {
+    /**
+     * Start point
+     * @return void
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function run(): void
     {
         $configuration = (new Configuration())->load();

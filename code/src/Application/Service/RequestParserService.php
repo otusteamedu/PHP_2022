@@ -6,6 +6,9 @@ namespace Cookapp\Php\Application\Service;
 
 use Cookapp\Php\Application\Dto\DishDto;
 
+/**
+ * User requests parser
+ */
 class RequestParserService
 {
     private const DELIMITER = '=';
@@ -15,6 +18,11 @@ class RequestParserService
         'ingredient'
     ];
 
+    /**
+     * @param array $argv
+     * @return DishDto
+     * @throws \Exception
+     */
     public function createDishDto(array $argv): DishDto
     {
         $dishDto = new DishDto();
@@ -29,7 +37,7 @@ class RequestParserService
                     $dishDto->{$argValues[0]} = $argValues[1];
                 }
             } else {
-                throw new \Exception('Illegal argument: "' . $argValues[0] . '", allowed values: ' . implode(", ", self::ALLOWED_ARGV));
+                throw new \Exception('Неверный аргумент: "' . $argValues[0] . '", допустимые значения: ' . implode(", ", self::ALLOWED_ARGV));
             }
         }
 
