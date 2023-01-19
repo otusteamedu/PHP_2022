@@ -38,18 +38,50 @@ insert into seances
 values
     (1, 1, 1, '2023-01-19 10:00:00', 200),
     (2, 2, 2, '2023-01-19 10:00:00', 300),
-    (3, 3, 3, '2023-01-19 10:00:00', 300);
+    (3, 3, 3, '2023-01-19 10:00:00', 400);
+
+create table seates
+(
+    id integer not null constraint pk_seat_id primary key,
+    seance_id integer not null,
+    row_seat integer not null,
+    place_seat integer not null,
+    constraint pk_seance_id foreign key (seance_id) references seances on delete cascade,
+    unique (seance_id, row_seat, place_seat)
+);
+
+insert into seates
+values
+    (1, 1, 2, 1),
+    (2, 2, 3, 4),
+    (3, 3, 6, 5),
+    (4, 3, 6, 4);
+
+create table hall_seates
+(
+    id integer not null constraint pk_hs_id primary key,
+    hall_id integer not null,
+    width_hall integer not null,
+    row_hall integer not null,
+    constraint pk_hall_id foreign key (hall_id) references halls on delete cascade
+);
+
+insert into hall_seates
+values
+    (1, 1, 15, 15),
+    (2, 2, 13, 12),
+    (3, 3, 10, 7);
 
 create table order_client
 (
     id integer not null constraint pk_order_client_id primary key,
     seance_id integer not null,
-    row_hall integer not null,
+    total_price int not null,
     constraint fk_seance_id foreign key (seance_id) references seances on delete cascade
 );
 
 insert into order_client
 values
-    (1, 1, 3),
-    (2, 2, 4),
-    (3, 3, 5);
+    (1, 1, 200),
+    (2, 2, 250),
+    (3, 3, 400);
