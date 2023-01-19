@@ -9,6 +9,7 @@ use Study\Cinema\DataMapper\SessionMapper;
 use Study\Cinema\RowGateway\DaysType;
 use Study\Cinema\TableGateway\Hall;
 use DateTimeImmutable;
+use Study\Cinema\Helper\DotEnv;
 use PDO;
 
 class App
@@ -16,21 +17,10 @@ class App
     public function run()
     {
 
-        $pdo = null;
-        try {
-            $dsn = "pgsql:host=postgres;port=5432;dbname=test_t;";
-            $user = 'user';
-            $password = 'password';
-            $db = 'test_t';
-            $this->pdo = new PDO( $dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] );
+        (new DotEnv(__DIR__ . '/../.env'))->load();
+        $pdo = (new DBConnection())->getConnection();
+        $hall = new Hall($pdo);
 
-            if ($this->pdo ) {
-                echo "Connected to the $db database successfully!";
-            }
-
-        } catch (PDOException $e) {
-            die( $e->getMessage() );
-        }
 
         $hall = new Hall($pdo);
         $hallId = $hall->insert("Оливковый", 0.5, 25);
@@ -49,6 +39,8 @@ class App
         $session = new Session(null, $hallId,$movie->getId(),$days->getId(), 1002, (new DateTimeImmutable('2023-01-25 12:15')) ->format('Y-m-d H:i:s.u')  );
         $dataMapper = new SessionMapper($pdo);
         $dataMapper->insert($session);
+
+        $hall->update(24,seats_number: 57);
 
     }
 
