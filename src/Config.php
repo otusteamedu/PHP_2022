@@ -2,11 +2,10 @@
 
 namespace Dkozlov\Otus;
 
-use Dkozlov\Otus\Exceptions\ConfigNotFoundException;
+use Dkozlov\Otus\Exception\ConfigNotFoundException;
 
 class Config
 {
-
     private array $data = [];
 
     /**
@@ -21,7 +20,7 @@ class Config
      * @param string $name
      * @return false|mixed
      */
-    public function get(string $name)
+    public function get(string $name): mixed
     {
         return $this->data[$name] ?? false;
     }
@@ -32,7 +31,7 @@ class Config
     protected function load(string $path): void
     {
         if (!file_exists($path)) {
-            throw new ConfigNotFoundException('Could not find config by path: ' . $path);
+            throw new ConfigNotFoundException("Could not find config by path: {$path}");
         }
 
         $this->data = parse_ini_file($path);

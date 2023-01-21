@@ -2,10 +2,10 @@
 
 require_once '../vendor/autoload.php';
 
-$app = new \Dkozlov\Otus\Application();
-
 try {
+    $app = new \Dkozlov\Otus\Application($argv);
+
     $app->run();
 } catch (Exception $exception) {
-    echo $exception->getMessage();
+    echo $exception->getMessage() . PHP_EOL;
 }

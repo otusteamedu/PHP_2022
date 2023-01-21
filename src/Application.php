@@ -2,62 +2,56 @@
 
 namespace Dkozlov\Otus;
 
+use Dkozlov\Otus\Command\AbstractCommand;
+use Dkozlov\Otus\Command\LoadBookCommand;
+use Dkozlov\Otus\Command\SearchBookCommand;
+use Dkozlov\Otus\Exception\CommandNotFoundException;
+use Dkozlov\Otus\Exception\ConfigNotFoundException;
+use Dkozlov\Otus\QueryBuilder\SearchBookQueryBuilder;
+use Dkozlov\Otus\Repository\BookRepository;
+use Elastic\Elasticsearch\ClientBuilder;
+use Exception;
 use PDO;
 
 class Application
 {
 
-    private PDO $pdo;
+    private static Config $config;
 
-    private Config $config;
-
-    public function __construct()
-    {
-        $this->config = new Config(__DIR__ . '/../config/config.ini');
-        $this->pdo = $this->constructPDO();
+    /**
+     * @throws ConfigNotFoundException
+     */
+    public function __construct(
+        private readonly array $argv
+    ) {
+        self::$config = new Config(__DIR__ . '/../config/config.ini');
     }
 
+    /**
+     * @throws Exception
+     */
     public function run(): void
+
     {
-        $film = $this->getProfitableFilm();
+        $command = $this->getCommand($this->argv[1] ?? '');
 
-        if ($film) {
-            $result = 'Самый прибыльный фильм &laquo;' . $film['title'] . '&raquo; собрал ' . $film['total'] . ' рублей';
-        } else {
-            $result = 'Самый прибыльный фильм не найден';
-        }
-
-        echo $result;
+        $command->execute();
     }
 
-    protected function getProfitableFilm(): mixed
+    public static function config(string $name): mixed
     {
-        $query = "SELECT title, total FROM (
-            SELECT t.*, rank() over (order by total desc) as r FROM (
-                SELECT sum(cost) as total, films.title as title FROM tickets
-                    JOIN sessions on tickets.session_id = sessions.id
-                    JOIN films on sessions.film_id = films.id
-                    GROUP BY films.id
-            ) as t
-        ) as t2
-        WHERE r = 1";
-
-        $sth = $this->pdo->prepare($query);
-        $sth->execute();
-
-        return $sth->fetch(PDO::FETCH_ASSOC);
+        return self::$config->get($name);
     }
 
-    protected function constructPDO(): PDO
+    /**
+     * @throws Exception
+     */
+    private function getCommand(string $commandName): AbstractCommand
     {
-        $dsn = 'pgsql:host=' . $this->config->get('db_host') . ';';
-        $dsn .= 'port=' . $this->config->get('db_port') . ';';
-        $dsn .= 'dbname=' . $this->config->get('db_name');
-
-        return new PDO(
-            $dsn,
-            $this->config->get('db_username'),
-            $this->config->get('db_password')
-        );
+        return match($commandName) {
+            'load' => new LoadBookCommand(new BookRepository(), $this->argv),
+            'search' => new SearchBookCommand(new BookRepository(), $this->argv),
+            default => throw new CommandNotFoundException("Command \"$commandName\" not found")
+        };
     }
 }

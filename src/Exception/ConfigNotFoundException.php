@@ -1,6 +1,6 @@
 <?php
 
-namespace Dkozlov\Otus\Exceptions;
+namespace Dkozlov\Otus\Exception;
 
 use Exception;
 

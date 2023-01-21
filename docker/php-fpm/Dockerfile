@@ -21,6 +21,6 @@ RUN apt-get update \
 
 COPY ./conf.d/php.ini /usr/local/etc/php/conf.d/php.ini
 
-WORKDIR /var/www/application.local
+WORKDIR /var/www/application
 
 CMD ["php-fpm"]

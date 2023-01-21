@@ -1,32 +1,30 @@
 version: "3"
 
 services:
-  nginx:
-    build: ./docker/nginx
-    volumes:
-      - .:/var/www/application
-    ports:
-      - ${APP_PORT}:80
-    networks:
-      - app-network
   php-fpm:
     build: ./docker/php-fpm
+    container_name: otus_web
     volumes:
       - .:/var/www/application
     networks:
       - app-network
-  database:
-    image: postgres
-    environment:
-      POSTGRES_USER: app
-      POSTGRES_PASSWORD: app
-      POSTGRES_DB: app
+  elastic:
+    image: elasticsearch:8.4.2
+    container_name: otus_elastic
     volumes:
-      - ./docker/postgresql/data:/var/lib/postgresql/data
+      - elastic-data:/usr/share/elasticsearch/data
     ports:
-      - ${DB_PORT}:5432
+      - ${ELASTIC_PORT}:9200
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
     networks:
       - app-network
+
+volumes:
+  elastic-data:
+    driver: local
 
 networks:
   app-network:
