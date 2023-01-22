@@ -1,0 +1,5 @@
+CREATE TABLE aev_types (
+    id         VARCHAR(10) PRIMARY KEY,
+    name       VARCHAR(50),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
