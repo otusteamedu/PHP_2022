@@ -7,8 +7,6 @@ namespace Chernysh\Hw4\Service;
 class CheckStringService implements ServiceInterface
 {
 
-    private int $counter = 0;
-
 
     /**
      * @throws ServiceException
@@ -25,38 +23,28 @@ class CheckStringService implements ServiceInterface
             throw new ServiceException('Параметр $string не может быть пустым');
         }
 
-        $this->counter = 0;
+        $counter = 0;
         foreach (mb_str_split($string) as $char) {
             switch ($char) {
                 case '(':
-                    $this->incrementCounter();
+                    $counter++;
                     break;
                 case ')':
-                    $this->decrementCounter();
+                    if ($counter === 0) {
+                        throw new ServiceException('Для закрытой скобки нет соответствующей открытой скобки');
+                    }
+                    $counter--;
                     break;
                 default:
                     throw new ServiceException(sprintf('Невалидный символ «%s»', $char));
             }
         }
 
-        if ($this->counter > 0) {
+        if ($counter > 0) {
             throw new ServiceException('Для открытой скобки нет соответствующей закрытой скобки');
         }
 
         return true;
     }
-
-
-    private function incrementCounter(): void
-    {
-        $this->counter++;
-    }
-
-    private function decrementCounter(): void
-    {
-        if ($this->counter === 0) {
-            throw new ServiceException('Для закрытой скобки нет соответствующей открытой скобки');
-        }
-        $this->counter--;
-    }
+    
 }
