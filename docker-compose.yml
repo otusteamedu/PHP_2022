@@ -1,0 +1,93 @@
+version: "3.8"
+
+services:
+  # Контейнер с Nginx
+  balancer:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    volumes:
+      - ./docker/balancer/conf.d:/etc/nginx/conf.d
+    ports:
+      - "${HTTP_PORT}:80"
+    networks:
+      - external
+      - sail
+
+  # Контейнер с Nginx
+  app1:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    volumes:
+      - ./code:/code
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - sail
+
+  app2:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    volumes:
+      - ./code:/code
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - sail
+
+  # Контейнер с php-fpm
+  php1:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./code:/code
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+    env_file:
+      - .env
+    networks:
+      - sail
+
+  php2:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./code:/code
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+    env_file:
+      - .env
+    networks:
+      - sail
+
+  php3:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: myapp/php
+    volumes:
+      - ./code:/code
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d
+    env_file:
+      - .env
+    networks:
+      - sail
+
+  # Контейнер с memcached
+  memcached:
+    image: 'memcached:alpine'
+    ports:
+      - '${FORWARD_MEMCACHED_PORT:-11211}:${MEMCACHED_PORT}'
+    networks:
+      - sail
+
+
+# Docker networks
+networks:
+  sail:
+  external:
