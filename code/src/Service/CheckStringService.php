@@ -6,8 +6,6 @@ namespace Chernysh\Hw4\Service;
 
 class CheckStringService implements ServiceInterface
 {
-
-
     /**
      * @throws ServiceException
      */
@@ -46,5 +44,4 @@ class CheckStringService implements ServiceInterface
 
         return true;
     }
-    
 }

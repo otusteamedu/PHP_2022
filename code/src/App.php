@@ -8,7 +8,6 @@ use Chernysh\Hw4\Service\ServiceException;
 
 class App
 {
-
     public function run(): string
     {
         try {
@@ -21,5 +20,4 @@ class App
             return "Всё плохо: " . $e->getMessage();
         }
     }
-
 }
