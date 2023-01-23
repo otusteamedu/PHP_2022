@@ -77,6 +77,25 @@ class MyQueryBuilder
     }
 
     /**
+     * Update data
+     */
+    public function updateData(string $table, array $columns, array $whereArr): bool
+    {
+        $query = $this->pqb->table($table);
+        foreach($columns as $col) {
+            $query->select($col);
+        }
+
+        foreach($whereArr as $where) {
+            $query->where($where[0], $where[1], $where[2]);
+        }
+
+        $query->update($columns);
+
+        return true;
+    }
+
+    /**
      * Fetch info
      * @param string $section
      * @return string

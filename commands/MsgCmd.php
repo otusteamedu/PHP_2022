@@ -9,7 +9,7 @@ class MsgCmd extends BaseCmd
      */
     public function run(): bool
     {
-        $msgQues    = strtok("\n");
+        $msgQues    = substr($this->bot->getMsg()->getText(), 5);
         $userId     = $this->bot->getMsg()->getFromUserId();
         $userName   = $this->bot->getMsg()->getFromUserName();
 

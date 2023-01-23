@@ -11,6 +11,7 @@ class ChatBotStat
 
     private \DateTime $fromDate;
     private \DateTime $toDate;
+    private int $period;
 
     const PERIOD_DAY        = 1;
     const PERIOD_WEEK       = 2;
@@ -52,6 +53,7 @@ class ChatBotStat
                 break;
         }
 
+        $this->period   = $period;
         $this->fromDate = $fromDate;
         $this->toDate   = $toDate;
 
@@ -78,27 +80,32 @@ class ChatBotStat
      * Get statistics text
      * @return string
      */
-    public function getStat($period = self::PERIOD_DAY): string
+    public function getStat(): string
     {
-        $periodName = $this->getPeriodName($period);
+        $periodName     = $this->getPeriodName($this->period);
+        $msgsCnt        = $this->getMessagesCount();
+        $usersCnt       = $this->getUsersCount();
+        $newSubscrCnt   = $this->getSubscrCount();
+        $allSubscrCnt   = $this->getTotalSubscrCount();
 
-        $msgsCnt = $this->getMessagesCount($this->fromDate, $this->toDate);
-        $usersCnt = $this->getUsersCount($this->fromDate, $this->toDate);
-
+        // @see icons codes here: https://unicode-table.com/ru/1F4EB/
         $text  = "Статистика за {$periodName}: \n";
         $text .= "&#9997; Сообщений получено: {$msgsCnt}\n";
         $text .= "&#128587; Уникальных пользователей написало: {$usersCnt}\n";
+        $text .= "&#9993; Новых подписчиков за период: {$newSubscrCnt}\n";
+        $text .= "&#128140; Всего активных подписчиков: {$allSubscrCnt}\n\n";
+
+        $text .= "&#11088; Посмотреть статистику за указанный период: /stat X \n";
+        $text .= "где вместо Х : D - день, W - неделя, M - месяц, Q - квартал, Y - год\n";
 
         return $text;
     }
 
     /**
      * Count messages written for period
-     * @param $fromDate
-     * @param $toDate
      * @return int
      */
-    public function getMessagesCount(\DateTime $fromDate, \DateTime $toDate): int
+    public function getMessagesCount(): int
     {
         $query = PQB::table('messages');
         $query->where('send_time', '>=', $this->fromDate->format("Y-m-d H:i:s"));
@@ -113,11 +120,9 @@ class ChatBotStat
 
     /**
      * Calc unique users (who wrotes a messages)
-     * @param DateTime $fromDate
-     * @param DateTime $toDate
      * @return int
      */
-    public function getUsersCount(\DateTime $fromDate, \DateTime $toDate): int
+    public function getUsersCount(): int
     {
         $query = PQB::table('messages');
         $query->selectDistinct('from_userid');
@@ -128,5 +133,39 @@ class ChatBotStat
         $msgsCount = count($query->get());
 
         return $msgsCount;
+    }
+
+    /**
+     * Calc unique subscribers count
+     * @return int
+     */
+    public function getSubscrCount(): int
+    {
+        $query = PQB::table('subscribers');
+        $query->selectDistinct('id');
+        $query->where('subscr_date', '>=', date("Y-m-d H:i:s", $this->fromDate->getTimestamp()));
+        $query->where('subscr_date', '<=', date("Y-m-d H:i:s", $this->toDate->getTimestamp()));
+        $query->where('userid', '<>', 0);
+        $query->orWhere('username', '<>', '');
+
+        $count = count($query->get());
+
+        return $count;
+    }
+
+    /**
+     * Calc unique subscribers count
+     * @return int
+     */
+    public function getTotalSubscrCount(): int
+    {
+        $query = PQB::table('subscribers');
+        $query->selectDistinct('id');
+        $query->where('userid', '<>', 0);
+        $query->orWhere('username', '<>', '');
+
+        $count = count($query->get());
+
+        return $count;
     }
 }
