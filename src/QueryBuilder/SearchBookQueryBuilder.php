@@ -4,47 +4,33 @@ declare(strict_types=1);
 
 namespace Dkozlov\Otus\QueryBuilder;
 
-class SearchBookQueryBuilder
+class SearchBookQueryBuilder extends SearchQueryBuilder
 {
-    private const MORE_THAN = 'gt';
-
-    private const LESS_THAN = 'lt';
-
-    private array $params = [];
-
     public function setTitle(string $title): SearchBookQueryBuilder
     {
-        $this->params['bool']['must'][]['match']['title'] = [
-            'query' => $title,
-            'fuzziness' => 'auto'
-        ];
+        $this->setMust('title', $title);
 
         return $this;
     }
 
     public function setInStock(): SearchBookQueryBuilder
     {
-        $this->params['bool']['filter'][]['range']['stock.stock'][self::MORE_THAN] = 0;
+        $this->setRange('stock.stock', 0, self::MORE_THAN);
 
         return $this;
     }
 
     public function setPriceBefore(int $priceBefore): SearchBookQueryBuilder
     {
-        $this->params['bool']['filter'][]['range']['price'][self::LESS_THAN] = $priceBefore;
+        $this->setRange('price', $priceBefore, self::LESS_THAN);
 
         return $this;
     }
 
     public function setPriceFrom(int $priceFrom): SearchBookQueryBuilder
     {
-        $this->params['bool']['filter'][]['range']['price'][self::MORE_THAN] = $priceFrom;
+        $this->setRange('price', $priceFrom, self::MORE_THAN);
 
         return $this;
-    }
-
-    public function getParams(): array
-    {
-        return $this->params;
     }
 }

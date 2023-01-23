@@ -7,14 +7,16 @@ namespace Dkozlov\Otus\Repository;
 use Dkozlov\Otus\Application;
 use Dkozlov\Otus\Exception\EmptySearchQueryException;
 use Dkozlov\Otus\Exception\FileNotFoundException;
-use Dkozlov\Otus\QueryBuilder\SearchBookQueryBuilder;
+use Dkozlov\Otus\Exception\RepositoryException;
+use Dkozlov\Otus\QueryBuilder\SearchQueryBuilder;
+use Dkozlov\Otus\Repository\Interface\RepositoryInterface;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elastic\Elasticsearch\Exception\AuthenticationException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 
-class BookRepository
+class ElasticSearchRepository implements RepositoryInterface
 {
     private readonly Client $client;
 
@@ -28,11 +30,6 @@ class BookRepository
             ->build();
     }
 
-    /**
-     * @throws ClientResponseException
-     * @throws ServerResponseException
-     * @throws FileNotFoundException
-     */
     public function load(string $path): void
     {
         if (!file_exists($path)) {
@@ -41,17 +38,16 @@ class BookRepository
 
         $books = file_get_contents($path);
 
-        $this->client->bulk(['body' => $books]);
+        try {
+            $this->client->bulk(['body' => $books]);
+        } catch (ClientResponseException|ServerResponseException $exception) {
+            throw new RepositoryException($exception->getMessage());
+        }
     }
 
-    /**
-     * @throws ServerResponseException
-     * @throws ClientResponseException
-     * @throws EmptySearchQueryException
-     */
-    public function search(SearchBookQueryBuilder $bookQuery): array
+    public function search(SearchQueryBuilder $queryBuilder): array
     {
-        $query = $bookQuery->getParams();
+        $query = $queryBuilder->getParams();
 
         if (empty($query)) {
             throw new EmptySearchQueryException('Search params are not set');
@@ -64,8 +60,12 @@ class BookRepository
             ]
         ];
 
-        $response = $this->client->search($params);
+        try {
+            $response = $this->client->search($params);
 
-        return $response->asArray()['hits']['hits'] ?? [];
+            return $response->asArray()['hits']['hits'] ?? [];
+        } catch (ClientResponseException|ServerResponseException $exception) {
+            throw new RepositoryException($exception->getMessage());
+        }
     }
 }

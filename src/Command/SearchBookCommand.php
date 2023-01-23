@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Dkozlov\Otus\Command;
 
 use Dkozlov\Otus\QueryBuilder\SearchBookQueryBuilder;
-use Dkozlov\Otus\Repository\BookRepository;
+use Dkozlov\Otus\Repository\Interface\RepositoryInterface;
 use Throwable;
 
 class SearchBookCommand extends AbstractCommand
 {
     public function __construct(
-        private readonly BookRepository $bookRepository,
+        private readonly RepositoryInterface $repository,
         array $args
     ) {
         parent::__construct($args);
@@ -22,7 +22,7 @@ class SearchBookCommand extends AbstractCommand
         $query = $this->constructSearchBookQueryBuilder();
 
         try {
-            $response = $this->bookRepository->search($query);
+            $response = $this->repository->search($query);
 
             $this->printBooks($response);
         } catch (Throwable $e) {

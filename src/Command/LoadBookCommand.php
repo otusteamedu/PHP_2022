@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Dkozlov\Otus\Command;
 
 use Dkozlov\Otus\Exception\FileNotFoundException;
-use Dkozlov\Otus\Repository\BookRepository;
-use Throwable;
+use Dkozlov\Otus\Exception\RepositoryException;
+use Dkozlov\Otus\Repository\Interface\RepositoryInterface;
 
 class LoadBookCommand extends AbstractCommand
 {
     public function __construct(
-        private readonly BookRepository $bookRepository,
+        private readonly RepositoryInterface $repository,
         array $args
     ) {
         parent::__construct($args);
@@ -20,13 +20,11 @@ class LoadBookCommand extends AbstractCommand
     public function execute(): void
     {
         try {
-            $this->bookRepository->load($this->args['path']);
+            $this->repository->load($this->args['path'] ?? '');
 
             $response = 'Books has been loaded';
-        } catch (FileNotFoundException $exception) {
+        } catch (FileNotFoundException|RepositoryException $exception) {
             $response = $exception->getMessage();
-        } catch (Throwable) {
-            $response = 'While loading books happened error';
         }
 
         echo $response . PHP_EOL;
