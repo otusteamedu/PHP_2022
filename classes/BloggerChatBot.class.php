@@ -1,28 +1,6 @@
 <?php
 
-require_once('vendor/autoload.php');
-require_once('MyYoutubeApi.class.php');
-require_once('BotCommands.class.php');
-require_once('MyQueryBuilder.class.php');
-require_once('ChatBotStat.class.php');
-require_once('ChatBotSubscriber.class.php');
-require_once('ChatBotInterface.class.php');
-require_once('ChatBotLogger.class.php');
-require_once('commands/SocCmd.php');
-require_once('commands/StartCmd.php');
-require_once('commands/HelpCmd.php');
-require_once('commands/DefaultCmd.php');
-require_once('commands/AboutCmd.php');
-require_once('commands/NewsCmd.php');
-require_once('commands/ItnewsCmd.php');
-require_once('commands/StatCmd.php');
-require_once('commands/LogCmd.php');
-require_once('commands/SubscrCmd.php');
-require_once('commands/UnsubscrCmd.php');
-require_once('commands/MsgCmd.php');
-require_once('commands/MenuCmd.php');
-require_once('commands/PicCmd.php');
-require_once('commands/VideoCmd.php');
+require_once("ChatBotInterface.class.php");
 
 use Telegram\Bot\Api;
 use Telegram\Bot\Objects\Message as MessageObject;
@@ -60,7 +38,7 @@ class BloggerChatBot implements ChatBotInterface
 
         // Устанавливаем токен
         $this->tgApi = new Api($this->config['bot']['api_key']);
-        $this->tgApi->addCommands([ExecCommand::class]);
+        //$this->tgApi->addCommands([ExecCommand::class]);
 
         // init DB connection
         $this->qb = new MyQueryBuilder($this->config['bot']['bot_name']);
@@ -128,7 +106,7 @@ class BloggerChatBot implements ChatBotInterface
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// ACTIONS
+    /// GETTERS
 
     /**
      * @return string
@@ -163,7 +141,7 @@ class BloggerChatBot implements ChatBotInterface
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// MESSAGE HANDLING
+    /// MESSAGES HANDLING
 
     /**
      * Handle message from telegram
@@ -277,3 +255,25 @@ class BloggerChatBot implements ChatBotInterface
         }
     }
 }
+
+/**
+ * Custom classes autoloader
+ * @param string $className
+ * @return void
+ */
+function loadClasses(string $className)
+{
+    $dirs = ['', '../commands'];
+    $exts = ['.php', '.class.php'];
+
+    foreach($dirs as $dir) {
+        foreach($exts as $ext) {
+            $path = __DIR__ . "/{$dir}/" . $className . $ext;
+            if (file_exists($path)) {
+                require_once($path);
+            }
+        }
+    }
+}
+
+spl_autoload_register('loadClasses');
