@@ -36,6 +36,17 @@ class ChatBotSubscriber
     }
 
     /**
+     * @param string $userName
+     * @return array
+     */
+    public function findSubscriberByName(string $userName): array
+    {
+        $exist = $this->qb->getData('subscribers', ['id'], [['username', '=', $userName]]);
+
+        return $exist;
+    }
+
+    /**
      * Subscribe user
      * @return bool
      */
@@ -44,8 +55,13 @@ class ChatBotSubscriber
         $now = new DateTime('now');
         $now = $now->format("Y-m-d H:i:s");
 
-        $exist = $this->findSubscriber($this->userId);
-        if($exist) {
+        $existId = $this->findSubscriber($this->userId);
+        if($existId) {
+            return false;
+        }
+
+        $existName = $this->findSubscriberByName($this->userName);
+        if($existName) {
             return false;
         }
 
@@ -65,12 +81,15 @@ class ChatBotSubscriber
      */
     public function doUnsubscribe(): bool
     {
-        $exist = $this->findSubscriber($this->userId);
-        if(!$exist) {
+        $existId = $this->findSubscriber($this->userId);
+        $existName = $this->findSubscriberByName($this->userName);
+
+        if(!$existId && !$existName) {
             return false;
         }
 
         $this->qb->deleteData('subscribers', [['userid', '=', $this->userId]]);
+        $this->qb->deleteData('subscribers', [['username', '=', $this->userName]]);
 
         return true;
     }

@@ -8,10 +8,24 @@ require_once('ChatBotStat.class.php');
 require_once('ChatBotSubscriber.class.php');
 require_once('ChatBotInterface.class.php');
 require_once('ChatBotLogger.class.php');
+require_once('commands/SocCmd.php');
+require_once('commands/StartCmd.php');
+require_once('commands/HelpCmd.php');
+require_once('commands/DefaultCmd.php');
+require_once('commands/AboutCmd.php');
+require_once('commands/NewsCmd.php');
+require_once('commands/ItnewsCmd.php');
+require_once('commands/StatCmd.php');
+require_once('commands/LogCmd.php');
+require_once('commands/SubscrCmd.php');
+require_once('commands/UnsubscrCmd.php');
+require_once('commands/MsgCmd.php');
+require_once('commands/MenuCmd.php');
+require_once('commands/PicCmd.php');
+require_once('commands/VideoCmd.php');
 
 use Telegram\Bot\Api;
 use Telegram\Bot\Objects\Message as MessageObject;
-use Telegram\Bot\Keyboard\Keyboard;
 
 /**
  * Parent Bot
@@ -117,289 +131,35 @@ class BloggerChatBot implements ChatBotInterface
     /// ACTIONS
 
     /**
-     * Show social networks list
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actSoc(): bool
-    {
-        $reply = "[ Список соцсетей блоггера ]";
-
-        $this->sendMsg($reply);
-
-        return true;
-    }
-
-    /**
-     * Start action
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actStart(): bool
-    {
-        $name = $this->msg->getFromUsername();            // Юзернейм пользователя
-
-        $reply = "[ Приветственный текст блоггера ]";
-
-        $this->sendMsg($reply);
-
-        return $this->actHelp();
-    }
-
-    /**
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     * @see unicode symbols https://unicode-table.com/ru/1F30D/
-     */
-    protected function actHelp(): bool
-    {
-        $reply = "[ Подсказки по доступным командам/меню ]";
-
-        $this->sendMsg($reply);
-
-        return true;
-    }
-
-    /**
-     * About me (info)
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actAbout(): bool
-    {
-        $reply = "[ Общая инфа о блоггере ]";
-
-        $this->sendMsg($reply);
-
-        return true;
-    }
-
-    /**
-     * Show last news list
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actNews(): bool
-    {
-        $news = $this->getRssNews($this->config['news']['blog_rss_url']);
-        $this->sendMsg($news);
-
-        return true;
-    }
-
-    /**
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actItNews(): bool
-    {
-        $news = $this->getRssNews($this->config['news']['blog2_rss_url']);
-        $this->sendMsg($news);
-
-        return true;
-    }
-
-    /**
-     * Read last rss news from site
-     * @return string`
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function getRssNews(string $url): string
-    {
-        $html = simplexml_load_file($url);
-        $cnt = 0;
-        $reply = "";
-        foreach ($html->channel->item as $item) {
-            $reply .= "&#10687; <b>" . $item->title . "</b>" . " <a href='" . $item->link . "'>\xE2\x9E\xA1</a>\n\n";
-            $cnt++;
-            if ($cnt > $this->config['news']['posts_limit']) {
-                break;
-            }
-        }
-
-        return $reply;
-    }
-
-    /**
-     * Show bot dev log
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actLog(): bool
-    {
-        $html = file_get_contents($this->config['common']['work_file']);
-
-        $this->sendMsg($html);
-
-        return true;
-    }
-
-    /**
-     * Return chatBot statistics
      * @return string
      */
-    protected function actStat(): bool
+    public function getBotName(): string
     {
-        $stat = new ChatBotStat($this->botName,ChatBotStat::PERIOD_DAY);
-        $html = $stat->getStat();
-
-        $this->sendMsg($html);
-
-        return true;
+        return $this->botName;
     }
 
     /**
-     * Subscribe user
-     * @return bool
+     * @return MyQueryBuilder
      */
-    protected function actSubscr(): bool
+    public function getQB(): MyQueryBuilder
     {
-        $userId   = $this->msg->getFromUserId();
-        $userName = $this->msg->getFromUserName();
-
-        $subscr = new ChatBotSubscriber($this->botName, $userId, $userName);
-        $ret = $subscr->doSubscribe();
-
-        if($ret) {
-            $this->sendMsg('Подписка успешно выполнена.');
-        } else {
-            $this->sendMsg('Вы уже подписаны.');
-        }
-
-        return $ret;
+        return $this->qb;
     }
 
     /**
-     * @return bool
+     * @return TgMessage
      */
-    protected function actUnsubscr(): bool
+    public function getMsg(): TgMessage
     {
-        $userId   = $this->msg->getFromUserId();
-        $userName = $this->msg->getFromUserName();
-
-        $subscr = new ChatBotSubscriber($this->botName, $userId, $userName);
-        $ret = $subscr->doUnsubscribe();
-
-        if($ret) {
-            $this->sendMsg('Отписка успешно выполнена.');
-        } else {
-            $this->sendMsg('Вы не найдены среди подписчиков.');
-        }
-
-        return $ret;
+        return $this->msg;
     }
 
     /**
-     * Send msg to author
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
+     * @return Api
      */
-    protected function actMsg(): bool
+    public function getTgApi(): Api
     {
-        $msgQues    = strtok("\n");
-        $userId     = $this->msg->getFromUserId();
-        $userName   = $this->msg->getFromUserName();
-
-        if($msgQues) {
-            // to admin
-            $msgMe = "Сообщение от пользователя @$userName (#$userId): \n" . $msgQues;  //  из чата #$chatId
-            $this->sendMeMsg($msgMe);
-            // to user
-            $msgText = "Спасибо, ваше сообщение успешно отправлено.";
-            $this->sendMsg($msgText);
-        } else {
-            // to user
-            $msgText = "Напишите ваше сообщение в формате: \n/msg текст_сообщения";
-            $this->sendMsg($msgText);
-        }
-
-        return true;
-    }
-
-    /**
-     * Default messagges handler
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actDefault(): bool
-    {
-        if (!$this->msg->getText()) {
-            $reply = "Отправьте сообщение.";
-        } else if (substr($this->msg->getText(), 0, 1) === '/') {
-            $reply = "Неизвестная команда: \"<b>" . $this->msg->getText() . "</b>\"";
-        } else {
-            return $this->actHelp();
-        }
-
-        $this->sendMsg($reply);
-
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function actMenu(): bool
-    {
-        $keyboard = [];
-
-        // read menu from .ni config. see [menu] section
-        $sections = $this->config['menu'];
-        foreach($sections as $sectionArr) {
-            $menuArr = [];
-            foreach($sectionArr as $menuItem) {
-                $menuArr[] = $menuItem;
-            }
-            $keyboard[] = $menuArr;
-        }
-
-        $reply = "Выберите действие:";
-
-        $reply_markup = Keyboard::make([
-            'keyboard' => $keyboard,
-            'resize_keyboard' => true,
-            'one_time_keyboard' => false
-        ]);
-
-        $this->tgApi->sendMessage(['chat_id' => $this->msg->getChatId(), 'text' => $reply, 'reply_markup' => $reply_markup]);
-
-        return true;
-    }
-
-    /**
-     * Print random picture
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actPic(): bool
-    {
-        $photo = new BlogPhoto($this->config);
-        $url = $photo->getRandomPhoto();
-        $url = $photo->savePhoto($url);
-        $url = \Telegram\Bot\FileUpload\InputFile::create($url); // @see https://qna.habr.com/q/906075
-
-        $this->tgApi->sendPhoto(['chat_id' => $this->msg->getChatId(), 'photo' => $url, 'caption' => ""]);
-
-        return true;
-    }
-
-    /**
-     * get random video from Youtube
-     * @return bool
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
-     */
-    protected function actVideo(): bool
-    {
-        if(!$this->config['youtube']['search_keywords']) {
-            throw new \Exception('Не заданы ключевые слова для поиска видео в конфиге: youtube.search_keywords');
-        }
-
-        $yotubeApi = new MyYoutubeApi();
-        $url = $yotubeApi->searchRandomVideo($this->config['youtube']['search_keywords']);
-
-        $this->sendHtmlMsg($url);
-
-        return true;
+        return $this->tgApi;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,72 +200,43 @@ class BloggerChatBot implements ChatBotInterface
         ];
         $this->qb->insertData('messages', $msgData);
 
-        switch ($msgCmd) {
-
-            case "/menu":
-                $ret = $this->actMenu();
-                break;
-
-            case "/start":
-                $ret = $this->actStart();
-                $this->actMenu();
-                break;
-
-            case "/about":
-                $ret = $this->actAbout();
-                break;
-
-            case "/help":
-                $ret = $this->actHelp();
-                break;
-
-            case "/soc":
-                $ret = $this->actSoc();
-                break;
-
-            case "/news":
-                $ret = $this->actNews();
-                break;
-
-            case "/itnews":
-                $ret = $this->actItNews();
-                break;
-
-            case "/pic":
-                $ret = $this->actPic();
-                break;
-
-            case "/video":
-                $ret = $this->actVideo();
-                break;
-
-            case "/log":
-                $ret = $this->actLog();
-                break;
-
-            case "/msg":
-                $ret = $this->actMsg();
-                break;
-
-            case "/stat":
-                $ret = $this->actStat();
-                break;
-
-            case "/subscr":
-                $ret = $this->actSubscr();
-                break;
-
-            case "/unsubscr":
-                $ret = $this->actUnsubscr();
-                break;
-
-            default:
-                $ret = $this->actDefault();
-        }    // eof switch
+        $cmdClass = $this->getMenuCommand($msgCmd);
+        if($cmdClass) {
+            $cmd = new $cmdClass($this);
+        } else {
+            $cmd = new DefaultCmd($this);
+        }
+        $ret = $cmd->run();
 
         echo json_encode(['success' => $ret]);
 
         return $ret;
+    }
+
+    /**
+     * @param string $menuCmd
+     * @return ?string
+     */
+    public function getMenuCommand(string $menuCmd): ?string
+    {
+        $map = [
+            '/soc'       => 'SocCmd',
+            '/menu'      => 'MenuCmd',
+            '/start'     => 'StartCmd',
+            '/about'     => 'AboutCmd',
+            '/help'      => 'HelpCmd',
+            '/news'      => 'NewsCmd',
+            '/itnews'    => 'ItnewsCmd',
+            '/pic'       => 'PicCmd',
+            '/video'     => 'VideoCmd',
+            '/log'       => 'LogCmd',
+            '/msg'       => 'MsgCmd',
+            '/stat'      => 'StatCmd',
+            '/subscr'    => 'SubscrCmd',
+            '/unsubscr'  => 'UnsubscrCmd',
+        ];
+
+        return (isset($map[$menuCmd]) ? $map[$menuCmd] : null);
     }
 
     /**

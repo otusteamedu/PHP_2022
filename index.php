@@ -14,7 +14,6 @@ require_once('classes/MyYoutubeApi.class.php');
 require_once('classes/TgMessage.class.php');
 require_once('classes/BlogPhoto.class.php');
 require_once('classes/BloggerChatBot.class.php');
-require_once('classes/MishaikonChatBot.class.php');
 
-$bot = new MishaikonChatBot('mishaikon_bot');
+$bot = new BloggerChatBot('mishaikon_bot');
 $bot->run();
