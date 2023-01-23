@@ -1,11 +1,16 @@
-# Дмитрий Козлов HW-10
+# Дмитрий Козлов HW-11
 
-## Загрузка данных
+## Добавление события
 ```
-php app.php load --path=path/to/json
+php app.php add название приоритет --параметр1=2 --параметр2=3
 ```
 
-## Поиск
+## Отправка события
 ```
-php app.php search --title=рыцори --priceBefore=2000 --instock --priceBefore=1300
+php app.php send --параметр1=2 --параметр2=3
+```
+
+## Очистка событий
+```
+php app.php clear
 ```

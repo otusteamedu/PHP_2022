@@ -13,6 +13,7 @@
     ],
     "require": {
         "ext-pdo": "*",
-        "elasticsearch/elasticsearch": "^8.6"
+        "elasticsearch/elasticsearch": "^8.6",
+        "ext-redis": "*"
     }
 }

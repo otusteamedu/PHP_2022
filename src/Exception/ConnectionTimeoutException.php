@@ -6,6 +6,6 @@ namespace Dkozlov\Otus\Exception;
 
 use Exception;
 
-class FileNotFoundException extends Exception
+class ConnectionTimeoutException extends Exception
 {
 }
