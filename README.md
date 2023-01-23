@@ -1,3 +1,27 @@
-# PHP_2022
+# README #
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Что это? ###
+
+* Чат-бот для Telegram, написанный на языке PHP.
+* Версия: 2.0 (доработанная после прохождения **[курса Отуса](https://fas.st/wRyRs)**, с использованием БД)
+
+### Документация ###
+* [Описание разработки по шагам](http://nujensait.ru/10776/) 
+* [Доработка чат-бота для телеграм (mishaikon_bot): отображение фотографий из архива](http://nujensait.ru/10777/)
+* [Пишем/запускаем своего чат-бота для Телеграм](http://nujensait.ru/10776/)
+
+### История разработки ###
+* [Worklog (публичный)](/media/worklog.html)
+* [Dev-wiki (заркытый доступ)](https://mishaikon.atlassian.net/wiki/spaces/WIKI/pages/225443841/)
+
+### Как пользоваться ботом? ###
+
+* Открыть приложение Telegram (на компьютере ли смартфоне)
+* В окне поиска найдите: [mishaikon_bot](http://t.me/mishaikon_bot)
+* Введите команду «/start», нажмите Enter
+* Выберите нужную команду из предложенных
+
+### Вопросы? Замечания? ###
+* Автор: Иконников Михаил [<mishaikon@gmail.com>](mailto:mishaikon@gmail.com)
+* [Сайт разработчика](http://nujensait.ru/)
+* [Блог](http://mishaikon.ru/)
