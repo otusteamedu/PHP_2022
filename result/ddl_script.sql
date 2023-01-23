@@ -26,5 +26,7 @@ CREATE TABLE IF NOT EXISTS attribute_value
     av_value_int      int,
     av_value_varchar  varchar,
     av_value_text     text,
-    av_value_datetime timestamp with time zone
+    av_value_datetime timestamp with time zone,
+    av_value_numeric numeric,
+    av_value_real real
 );
