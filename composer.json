@@ -1,0 +1,5 @@
+{
+    "require": {
+        "kogarkov/translit": "0.0.1"
+    }
+}
