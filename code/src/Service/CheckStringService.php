@@ -23,19 +23,18 @@ class CheckStringService implements ServiceInterface
 
         $counter = 0;
         foreach (mb_str_split($string) as $char) {
-            switch ($char) {
-                case '(':
-                    $counter++;
-                    break;
-                case ')':
-                    if ($counter === 0) {
-                        throw new ServiceException('Для закрытой скобки нет соответствующей открытой скобки');
-                    }
-                    $counter--;
-                    break;
-                default:
-                    throw new ServiceException(sprintf('Невалидный символ «%s»', $char));
+            if ($char === '(') {
+                $counter++;
+                continue;
             }
+            if ($char === ')') {
+                if ($counter === 0) {
+                    throw new ServiceException('Для закрытой скобки нет соответствующей открытой скобки');
+                }
+                $counter--;
+                continue;
+            }
+            throw new ServiceException(sprintf('Невалидный символ «%s»', $char));
         }
 
         if ($counter > 0) {
