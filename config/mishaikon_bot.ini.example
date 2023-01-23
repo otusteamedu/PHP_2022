@@ -1,5 +1,5 @@
 [common]
-log_file = 'bot.log'
+log_file = 'logs/bot.log'
 work_file = 'media/worklog.html';
 
 [youtube]

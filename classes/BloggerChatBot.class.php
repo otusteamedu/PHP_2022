@@ -6,6 +6,8 @@ require_once('BotCommands.class.php');
 require_once('MyQueryBuilder.class.php');
 require_once('ChatBotStat.class.php');
 require_once('ChatBotSubscriber.class.php');
+require_once('ChatBotInterface.class.php');
+require_once('ChatBotLogger.class.php');
 
 use Telegram\Bot\Api;
 use Telegram\Bot\Objects\Message as MessageObject;
@@ -14,13 +16,14 @@ use Telegram\Bot\Keyboard\Keyboard;
 /**
  * Parent Bot
  */
-class BloggerChatBot
+class BloggerChatBot implements ChatBotInterface
 {
     protected Api $tgApi;
     protected array $config;
     protected TgMessage $msg;
     protected MyQueryBuilder $qb;
     protected string $botName;
+    protected ChatBotLogger $logger;
 
     /**
      * @param string $botName
@@ -47,6 +50,9 @@ class BloggerChatBot
 
         // init DB connection
         $this->qb = new MyQueryBuilder($this->config['bot']['bot_name']);
+
+        // init Logger
+        $this->logger = new ChatBotLogger($this->config);
     }
 
     /**
@@ -71,34 +77,6 @@ class BloggerChatBot
         echo json_encode(['result' => $result]);
 
         return $result;
-    }
-
-    /**
-     * Write to debug log
-     * @param $this- >msg_text
-     * @return bool
-     */
-    public function writeLog($msg_text)
-    {
-
-        $filename = $this->config['common']['log_file'];
-
-        $fo = fopen($filename, "a");
-        if ($fo == false) {
-            return false;
-        }
-
-        $res = fwrite($fo, $msg_text . "\n");
-        if ($res == false) {
-            return false;
-        }
-
-        $res = fclose($fo);
-        if ($res == false) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -535,7 +513,7 @@ class BloggerChatBot
      * @return void
      * @throws \Telegram\Bot\Exceptions\TelegramSDKException
      */
-    public function run()
+    public function run(): void
     {
         $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
@@ -553,7 +531,7 @@ class BloggerChatBot
                 // test log
                 print "Testing ...\n";
                 print "Write to log ...\n";
-                $res = $this->writeLog("Test");
+                $res = $this->logger->writeLog("Test");
                 echo "Result: ";
                 var_dump($res);
 

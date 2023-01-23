@@ -3,7 +3,7 @@
 /**
  * Bot @mishaikon_bot
  */
-class MishaikonChatBot extends BloggerChatBot
+class MishaikonChatBot extends BloggerChatBot implements ChatBotInterface
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// ACTIONS
