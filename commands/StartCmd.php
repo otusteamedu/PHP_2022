@@ -17,6 +17,9 @@ class StartCmd extends BaseCmd
 
         $this->bot->sendMsg($reply);
 
+        $cmd = new HelpCmd($this->bot);
+        $cmd->run();
+
         return true;
     }
 }

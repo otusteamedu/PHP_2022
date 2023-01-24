@@ -26,13 +26,34 @@ class NewsCmd extends BaseCmd
     }
 
     /**
+     * @param string $section
+     * @return string
+     */
+    protected function getNewsHeader(): string
+    {
+        $blogRss = $this->config['news'][$this->newsSection];
+        if(!$blogRss) {
+            return '';
+        }
+
+        $rssKey = strpos($blogRss, '/rss');
+        $blogName = $rssKey ? substr($blogRss, 0, $rssKey) : $blogRss;
+
+        $news  = "Свежие новости из блога {$blogName} : \n\n";
+
+        return $news;
+    }
+
+    /**
      * Show last news list
      * @return bool
      * @throws \Telegram\Bot\Exceptions\TelegramSDKException
      */
     public function run(): bool
     {
-        $news = $this->getRssNews($this->config['news'][$this->newsSection]);
+        $news = $this->getNewsHeader();
+        $news .= $this->getRssNews($this->config['news'][$this->newsSection]);
+
         $this->bot->sendMsg($news);
 
         return true;
