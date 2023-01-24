@@ -1,0 +1,10 @@
+/code/vendor
+/.idea/
+/code/config/.env
+/code/src/log/*.log
+.vscode
+mysql
+mysql
+/code/src/Assets/img/logo_race/
+/code/src/Assets/bootstrap/
+/code/src/Assets/css
