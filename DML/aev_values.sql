@@ -69,4 +69,5 @@ INSERT INTO aev_values (movie_id, attribute_id, value_date) VALUES (9, 5, '2023-
 INSERT INTO aev_values (movie_id, attribute_id, value_date) VALUES (9, 6, '2023-01-22');
 INSERT INTO aev_values (movie_id, attribute_id, value_date) VALUES (9, 7, '2023-01-22');
 
-
+INSERT INTO aev_values (movie_id, attribute_id, value_int) VALUES (1, 8, 19);
+INSERT INTO aev_values (movie_id, attribute_id, value_numeric) VALUES (1, 9, 450.50);

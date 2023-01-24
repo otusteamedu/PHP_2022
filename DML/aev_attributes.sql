@@ -5,3 +5,5 @@ INSERT INTO aev_attributes (type_id, name) VALUES ('date', 'Мировая пр�
 INSERT INTO aev_attributes (type_id, name) VALUES ('date', 'Премьера в РФ');
 INSERT INTO aev_attributes (type_id, name) VALUES ('task', 'Дата начала продажи билетов');
 INSERT INTO aev_attributes (type_id, name) VALUES ('task', 'Когда запускать рекламу на ТВ');
+INSERT INTO aev_attributes (type_id, name) VALUES ('int', 'Кол-во актеров');
+INSERT INTO aev_attributes (type_id, name) VALUES ('float', 'Средняя стоимость цены за билет в городе');

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS aev_types;
 CREATE TABLE aev_types (
     id         VARCHAR(10) PRIMARY KEY,
     name       VARCHAR(50),

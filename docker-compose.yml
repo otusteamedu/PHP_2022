@@ -8,5 +8,7 @@ services:
       POSTGRES_DB: "test"
       POSTGRES_USER: "user"
       POSTGRES_PASSWORD: "pass"
+    volumes:
+      - ./:/app
     ports:
       - "5432:5432"

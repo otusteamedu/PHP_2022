@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS aev_attributes;
 CREATE TABLE aev_attributes (
     id         SERIAL PRIMARY KEY,
     type_id    VARCHAR(10) NOT NULL,
