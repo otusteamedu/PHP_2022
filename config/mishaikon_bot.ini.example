@@ -1,0 +1,47 @@
+[common]
+log_file = 'logs/bot.log'
+work_file = 'media/worklog.html';
+
+[youtube]
+; get key here: https://code.google.com/apis/console
+api_key = 'XXXXXXXXXXXXXXXX'
+search_keywords = 'keywords'
+
+[blog_photo]
+; files with photos urls
+photos_list_file = 'photos.txt';
+
+; temp filename for photo storage
+photo_file = 'random_photo.jpg';
+
+[bot]
+; токен, полученный у @BotFather
+api_key = 'XXXXXXXXXXXXXXXXX'
+bot_name = 'XXXXXXXXXXX_bot'
+webhook_url = 'https://<your_blog>/bots/index.php?action=message'
+
+[news]
+posts_limit = 8
+blog_rss_url = 'http://<your_blog>/rss'
+blog2_rss_url = 'http://<your_blog2>/rss'
+
+[me]
+birth_date = "1980-01-01"
+in_msk_date = "2001-01-01"
+tg_user_id = 1111111111
+tg_username = "XXXXXXXXX"
+
+[menu]
+; @see https://stackoverflow.com/questions/14614866/nested-arrays-in-ini-file
+section1[] = "/start"
+section1[] = "/help"
+section1[] = "/about"
+section1[] = "/soc"
+section2[] = "/news"
+section2[] = "/itnews"
+section2[] = "/subscr"
+section2[] = "/unsubscr"
+section3[] = "/pic"
+section3[] = "/video"
+section3[] = "/stat"
+section3[] = "/log"
