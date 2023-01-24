@@ -21,7 +21,7 @@ class ClearEventCommand extends AbstractCommand
         try {
             $this->repository->clearEvents();
 
-            echo 'Events have benn successfully cleaned up' . PHP_EOL;
+            echo 'Events have been successfully cleaned up' . PHP_EOL;
         } catch (ConnectionTimeoutException $e) {
             echo $e->getMessage() . PHP_EOL;
         }

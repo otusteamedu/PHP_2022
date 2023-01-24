@@ -9,19 +9,14 @@ use Dkozlov\Otus\Command\SendEventCommand;
 use Dkozlov\Otus\Exception\CommandNotFoundException;
 use Dkozlov\Otus\Exception\CommandParamsException;
 use Dkozlov\Otus\Exception\ConfigNotFoundException;
-use Dkozlov\Otus\Repository\Dto\AddEventRequest;
-use Dkozlov\Otus\Repository\Dto\GetEventRequest;
-use Dkozlov\Otus\Repository\EventRepository;
+use Dkozlov\Otus\Exception\DepencyNotFoundException;
 use Dkozlov\Otus\Repository\Interface\EventRepositoryInterface;
 use Exception;
-use PDO;
 
 class Application
 {
 
     private static Config $config;
-
-    private array $depencies;
 
     /**
      * @throws ConfigNotFoundException
@@ -30,8 +25,6 @@ class Application
         private readonly array $argv
     ) {
         self::$config = new Config(__DIR__ . '/../config/config.ini');
-
-        $this->depencies = require(__DIR__ . '/../app/depencies.php');
     }
 
     /**
@@ -52,13 +45,16 @@ class Application
     /**
      * @throws CommandNotFoundException
      * @throws CommandParamsException
+     * @throws DepencyNotFoundException
      */
     private function getCommand(string $commandName): AbstractCommand
     {
+        $config = self::$config;
+
         return match($commandName) {
-            'add' => new AddEventCommand($this->depencies[EventRepositoryInterface::class], $this->argv),
-            'send' => new SendEventCommand($this->depencies[EventRepositoryInterface::class], $this->argv),
-            'clear' => new ClearEventCommand($this->depencies[EventRepositoryInterface::class], $this->argv),
+            'add' => new AddEventCommand($config->depency(EventRepositoryInterface::class), $this->argv),
+            'send' => new SendEventCommand($config->depency(EventRepositoryInterface::class), $this->argv),
+            'clear' => new ClearEventCommand($config->depency(EventRepositoryInterface::class), $this->argv),
             default => throw new CommandNotFoundException("Command \"$commandName\" not found")
         };
     }
