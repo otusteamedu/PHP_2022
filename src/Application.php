@@ -5,6 +5,8 @@ namespace Dkozlov\Otus;
 use Dkozlov\Otus\Application\Interface\OperationMapperInterface;
 use Dkozlov\Otus\Domain\Operation;
 use Dkozlov\Otus\Exception\ConfigNotFoundException;
+use Dkozlov\Otus\Exception\ConnectionTimeoutException;
+use Dkozlov\Otus\Exception\DepencyNotFoundException;
 
 class Application
 {
@@ -18,6 +20,10 @@ class Application
         self::$config = new Config(__DIR__ . '/../config/config.ini');
     }
 
+    /**
+     * @throws ConnectionTimeoutException
+     * @throws DepencyNotFoundException
+     */
     public function run(): void
     {
         /**
@@ -25,19 +31,19 @@ class Application
          */
         $mapper = self::$config->depency(OperationMapperInterface::class);
 
-        $operation = new Operation(1, 'Dmitry', 300, new \DateTime());
+        $mapper->save(new Operation(1, 'Dmitry', 300, new \DateTime()));
+        $mapper->save(new Operation(2, 'Dmitry', 500, new \DateTime()));
+        $mapper->save(new Operation(3, 'Dmitry', 700, new \DateTime()));
 
-        $mapper->save($operation);
+        echo 'Операции пользователя Dmitry <br>';
 
-        echo 'Операцию совершил ' . $operation->getPerson() . ' на сумму ' . $operation->getAmount() . '<br>';
-
-        $operation->setAmount(500);
-
-        $mapper->update($operation);
-
-        echo 'Или на сумму ' . $operation->getAmount() . '<br>';
+        foreach ($mapper->getPersonOperations('Dmitry') as $operation) {
+            echo 'Операция#' . $operation->getId() . ' на сумму ' . $operation->getAmount() . '<br>';
+        }
 
         $mapper->remove(1);
+        $mapper->remove(2);
+        $mapper->remove(3);
     }
 
     public static function config(string $name): mixed

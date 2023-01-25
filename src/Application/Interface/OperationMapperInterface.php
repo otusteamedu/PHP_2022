@@ -32,4 +32,9 @@ interface OperationMapperInterface
      * @throws ConnectionTimeoutException
      */
     public function remove(string $id): void;
+
+    /**
+     * @throws ConnectionTimeoutException
+     */
+    public function getPersonOperations(string $person): array;
 }

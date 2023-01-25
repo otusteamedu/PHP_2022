@@ -94,6 +94,30 @@ class OperationMapper implements OperationMapperInterface
     }
 
     /**
+     * @param string $user
+     * @return Operation[]
+     * @throws ConnectionTimeoutException
+     * @throws Exception
+     */
+    public function getPersonOperations(string $person): array
+    {
+        $result = [];
+
+        $query = "SELECT * FROM {$this->table} WHERE person = :person";
+        $response = $this->storage->select($query, ['person' => $person]);
+
+        foreach ($response as $item) {
+            $operation = $this->buildOperation($item);
+
+            $this->identityMap->add($operation->getId(), $operation);
+
+            $result[] = $operation;
+        }
+
+        return $result;
+    }
+
+    /**
      * @throws Exception
      */
     private function buildOperation(array $row): Operation
