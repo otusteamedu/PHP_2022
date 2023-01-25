@@ -43,13 +43,12 @@ class MailMessenger implements MessengerInterface
             $mail->isHTML(true);
             $mail->Subject = 'Запрос на выписку получен';
 
-            $mail->msgHTML("<html><body>
+            $mail->msgHTML("<html lang=\"ru\"><body>
                     <h1>Здравствуйте!</h1>
                     <p>Запрос на выписку получен. Срок обработки заявки - 1 рабочий день.</p>
                     </html></body>");
 
             $mail->send();
-
         } catch (\Exception $e) {
             View::render('error', [
                 'title' => '503 - Service Unavailable',

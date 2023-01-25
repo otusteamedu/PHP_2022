@@ -10,20 +10,29 @@ use Otus\App\Domain\Models\Interface\RecipientInterface;
  */
 class ClientRecipient implements RecipientInterface
 {
+    private $connection;
+
     /**
-     * Run listener
+     * Init listener
      */
     public function __construct()
     {
-        $connection = Configurator::createdChannel();
+        $this->connection = Configurator::createdChannel();
         $callback = function ($msg) {
-            echo ' [x] Received ', $msg->body, "\n";
+            echo " [x] Received ", $msg->body, "\n";
         };
 
-        $connection->basic_consume('message_from_bank', '', false, true, false, false, $callback);
+        $this->connection->basic_consume('message_from_bank', '', false, true, false, false, $callback);
+    }
 
-        while ($connection->is_open()) {
-            $connection->wait();
+    /**
+     * Run messages listening
+     * @return void
+     */
+    public function getMessage()
+    {
+        while ($this->connection->is_open()) {
+            $this->connection->wait();
         }
     }
 }

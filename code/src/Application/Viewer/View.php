@@ -13,11 +13,10 @@ class View
      * @param array $data
      * @return void
      */
-    static function render(string $view, array $data = [])
+    public static function render(string $view, array $data = [])
     {
         extract($data, EXTR_OVERWRITE);
         require_once('/data/mysite.local/src/Application/Views/' . "$view.php");
         exit();
     }
 }
-
