@@ -17,7 +17,6 @@ class MessageForSend
     {
         try {
             if (!empty($_POST['email']) && !empty($_POST['date_start']) && !empty($_POST['date_end'])) {
-
                 $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
                 $domain = substr(strrchr($email, "@"), 1);
 
@@ -54,15 +53,12 @@ class MessageForSend
                 'error_code' => '400 Bad Request ',
                 'result' => 'Форма заполнена не корректно'
             ]);
-
         } catch (\InvalidArgumentException $e) {
-
             View::render('error', [
                 'title' => '400 Bad Request ',
                 'error_code' => '400 Bad Request',
                 'result' => 'Причина: ' . $e->getMessage()
             ]);
-
         }
     }
 }
