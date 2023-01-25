@@ -2,72 +2,47 @@
 
 namespace Dkozlov\Otus;
 
-use PDO;
+use Dkozlov\Otus\Application\Interface\OperationMapperInterface;
+use Dkozlov\Otus\Domain\Operation;
+use Dkozlov\Otus\Exception\ConfigNotFoundException;
 
 class Application
 {
+    private static Config $config;
 
-    private PDO $pdo;
-
-    private Config $config;
-
+    /**
+     * @throws ConfigNotFoundException
+     */
     public function __construct()
     {
-        $this->config = new Config(__DIR__ . '/../config/config.ini');
-        $this->pdo = $this->constructPDO();
+        self::$config = new Config(__DIR__ . '/../config/config.ini');
     }
 
     public function run(): void
     {
-        $this->printTasks();
-        $this->printMovies();
+        /**
+         * @var OperationMapperInterface $mapper
+         */
+        $mapper = self::$config->depency(OperationMapperInterface::class);
+
+        $operation = new Operation(1, 'Dmitry', 300, new \DateTime());
+
+        $mapper->save($operation);
+
+        echo 'Операцию совершил ' . $operation->getPerson() . ' на сумму ' . $operation->getAmount() . '<br>';
+
+        $operation->setAmount(500);
+
+        $mapper->update($operation);
+
+        echo 'Или на сумму ' . $operation->getAmount() . '<br>';
+
+        $mapper->remove(1);
     }
 
-    protected function printTasks(): void
+    public static function config(string $name): mixed
     {
-        $statement = $this->pdo->prepare('SELECT * FROM movies_tasks');
-
-        $statement->execute();
-
-        echo '<table border="1" width="1000" style="text-align: center; margin-bottom: 20px">';
-        echo '<tr><th>Название фильма</th><th>Событие</th><th>Дата</th></tr>';
-        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $movie) {
-            echo '<tr>';
-            echo '<td>'. $movie['title'] .'</td>';
-            echo '<td>'. $movie['name'] .'</td>';
-            echo '<td>'. $movie['value'] .'</td>';
-            echo '<tr>';
-        }
+        return self::$config->get($name);
     }
 
-    protected function printMovies(): void
-    {
-        $statement = $this->pdo->prepare('SELECT * FROM movies');
-
-        $statement->execute();
-
-        echo '<table border="1" width="1000" style="text-align: center">';
-        echo '<tr><th>Название фильма</th><th>Тип атрибута</th><th>Название атрибута</th><th>Значение</th></tr>';
-        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $movie) {
-            echo '<tr>';
-            echo '<td>'. $movie['title'] .'</td>';
-            echo '<td>'. $movie['type'] .'</td>';
-            echo '<td>'. $movie['name'] .'</td>';
-            echo '<td>'. $movie['value'] .'</td>';
-            echo '<tr>';
-        }
-    }
-
-    protected function constructPDO(): PDO
-    {
-        $dsn = 'pgsql:host=' . $this->config->get('db_host') . ';';
-        $dsn .= 'port=' . $this->config->get('db_port') . ';';
-        $dsn .= 'dbname=' . $this->config->get('db_name');
-
-        return new PDO(
-            $dsn,
-            $this->config->get('db_username'),
-            $this->config->get('db_password')
-        );
-    }
 }

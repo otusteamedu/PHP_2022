@@ -2,12 +2,20 @@
 
 namespace Dkozlov\Otus;
 
-use Dkozlov\Otus\Exceptions\ConfigNotFoundException;
+use Closure;
+use Dkozlov\Otus\Application\Interface\OperationMapperInterface;
+use Dkozlov\Otus\Application\Interface\StorageInterface;
+use Dkozlov\Otus\Application\Mapper\OperationIdentityMap;
+use Dkozlov\Otus\Application\Mapper\OperationMapper;
+use Dkozlov\Otus\Exception\ConfigNotFoundException;
+use Dkozlov\Otus\Exception\DepencyNotFoundException;
+use Dkozlov\Otus\Infrastracture\Storage\Storage;
 
 class Config
 {
-
     private array $data = [];
+
+    private array $depencies = [];
 
     /**
      * @throws ConfigNotFoundException
@@ -15,15 +23,34 @@ class Config
     public function __construct(string $path)
     {
         $this->load($path);
+        $this->initDepencies();
     }
 
     /**
      * @param string $name
      * @return false|mixed
      */
-    public function get(string $name)
+    public function get(string $name): mixed
     {
         return $this->data[$name] ?? false;
+    }
+
+    /**
+     * @throws DepencyNotFoundException
+     */
+    public function depency(string $interface): mixed
+    {
+        if (!isset($this->depencies[$interface])) {
+            throw new DepencyNotFoundException('Required depency not found');
+        }
+
+        $depency = $this->depencies[$interface];
+
+        if ($depency instanceof Closure) {
+            $this->depencies[$interface] = $depency();
+        }
+
+        return $this->depencies[$interface];
     }
 
     /**
@@ -36,5 +63,14 @@ class Config
         }
 
         $this->data = parse_ini_file($path);
+    }
+
+    protected function initDepencies(): void
+    {
+        $this->depencies[StorageInterface::class] = static fn () => new Storage();
+        $this->depencies[OperationMapperInterface::class] = fn () => new OperationMapper(
+            $this->depency(StorageInterface::class),
+            new OperationIdentityMap()
+        );
     }
 }

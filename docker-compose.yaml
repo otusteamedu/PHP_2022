@@ -11,6 +11,7 @@ services:
       - app-network
   php-fpm:
     build: ./docker/php-fpm
+    container_name: otus_web
     volumes:
       - .:/var/www/application
     networks:
