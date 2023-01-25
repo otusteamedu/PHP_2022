@@ -1,18 +1,17 @@
 create view film_current as
-select films.name as film,
-       fa.name as attr_name,
-       fv.value as attr_value
-from films
-         join film_attributes fa on films.id = fa.film_id
-         join film_values fv on fa.id = fv.attr_id
-where fv.date = current_date or fv.date = current_date + interval '20 day';
+select f.name, fa.name, fv.value_date from films f
+       join film_values fv on f.id = fv.film_id
+       join film_attributes fa on fv.attr_id = fa.id
+       join film_type ft on fa.type_id = ft.id
+where fv.value_date = current_date or fv.value_date = current_date + interval '20 day';
 
 create view film_marketing as
-select films.name as film,
-       fa.name as attr,
-       fv.value as value,
-	fat.type as type
-from films
-	join film_attributes fa on films.id = fa.film_id
-	join film_attribute_type fat on fa.id = fat.attr_id
-	join film_values fv on fv.attr_type_id = fat.id;
+select
+    f.name as film,
+    ft.name as type,
+    fa.name as attribute,
+    concat(fv.value, fv.value_date, fv.value_int, fv.value_float) as value
+from films f
+	join film_values fv on f.id = fv.film_id
+	join film_attributes fa on fv.attr_id = fa.id
+	join film_type ft on fa.type_id = ft.id;
