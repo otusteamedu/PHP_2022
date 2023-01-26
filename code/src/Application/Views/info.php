@@ -13,9 +13,11 @@
     <div class="col col-xl-3 col-xxl-3"
          style="border: 1px solid #CCC; border-radius: 5px; background-color: #EEE; padding: 50px;">
 
+        <h2>Заказ выписки</h2><br />
+
         <label for="email">Email</label>
         <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
-               placeholder="Enter email" style="width:100%;" value="test@mail.ru">
+               placeholder="Enter email" style="width:100%;" value="test@mail.ru"/>
         <small id="email" class="form-text text-muted">Укажите ваш email</small>
 
         <div class="row">
@@ -23,12 +25,12 @@
             <label for="email" style="margin-top: 30px;">Начало периода</label>
             <input type="text" name="date_start" class="datepicker form-control" id="date_start"
                    aria-describedby="dataStartHelp" placeholder="2022-01-01"
-                   value="<?= date("Y-m-d", time() - 3600 * 24 * 30) ?>">
+                   value="<?= date("Y-m-d", time() - 3600 * 24 * 30) ?>"/>
             <div id="data_start" class="form-text">Укажите начальную дату (ГГГГ-ММ-ДД)</div>
 
             <label for="email" style="margin-top: 30px;">Конец периода</label>
             <input type="text" name="date_end" class="datepicker form-control" id="date_end"
-                   aria-describedby="dataEndHelp" placeholder="2022-12-31" value="<?= date("Y-m-d") ?>">
+                   aria-describedby="dataEndHelp" placeholder="2022-12-31" value="<?= date("Y-m-d") ?>"/>
             <div id="data_end" class="form-text">Укажите конечную дату (ГГГГ-ММ-ДД)</div>
 
         </div>

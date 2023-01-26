@@ -37,6 +37,7 @@ services:
       MAILER_PORT1: ${MAILER_PORT1}
       MAILER_USER: ${MAILER_USER}
       MAILER_PASSWORD: ${MAILER_PASSWORD}
+      MAILER_FROM_EMAIL: ${MAILER_FROM_EMAIL}
     networks:
       - app-network
 

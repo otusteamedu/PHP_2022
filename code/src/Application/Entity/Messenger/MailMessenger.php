@@ -30,23 +30,25 @@ class MailMessenger implements MessengerInterface
             $mail->SMTPDebug = 0;
 
             // Настройки вашей почты
-            $mail->Host = $array_mailer_config['mail']['hostname']; // SMTP сервера вашей почты
+            // SMTP сервера вашей почты
+            $mail->Host = $array_mailer_config['mail']['hostname'];
             $mail->Username = $array_mailer_config['mail']['user'];
             $mail->Password = $array_mailer_config['mail']['password'];
             $mail->Port = $array_mailer_config['mail']['port'];
             $mail->SMTPSecure = 'ssl';
 
-            // Получатель письма
-            $mail->setFrom('PupkinIgor74@yandex.ru', 'Mailer'); // Адрес самой почты и имя отправителя
+            // Адрес самой почты и имя отправителя
+            $mail->setFrom($array_mailer_config['mail']['from_email'], 'Mailer');
             $mail->addAddress($email);
 
             $mail->isHTML(true);
             $mail->Subject = 'Запрос на выписку получен';
 
-            $mail->msgHTML("<html lang=\"ru\"><body>
-                    <h1>Здравствуйте!</h1>
-                    <p>Запрос на выписку получен. Срок обработки заявки - 1 рабочий день.</p>
-                    </html></body>");
+            $responseText = View::renderStr('response', [
+                'period' => 1,
+            ]);
+
+            $mail->msgHTML($responseText);
 
             $mail->send();
         } catch (\Exception $e) {

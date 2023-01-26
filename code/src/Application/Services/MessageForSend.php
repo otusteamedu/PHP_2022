@@ -2,6 +2,7 @@
 
 namespace Otus\App\Application\Services;
 
+use Otus\App\Application\Entity\Producer\BankMessage;
 use Otus\App\Application\Viewer\View;
 
 /**
@@ -11,11 +12,13 @@ class MessageForSend
 {
     /**
      * Create new request + validate data
-     * @return array|void
+     * @return ?BankMessage
+     * @throws \Exception
      */
-    public static function create()
+    public static function create(): ?BankMessage
     {
         try {
+
             if (!empty($_POST['email']) && !empty($_POST['date_start']) && !empty($_POST['date_end'])) {
                 $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
                 $domain = substr(strrchr($email, "@"), 1);
@@ -33,19 +36,19 @@ class MessageForSend
                 if (!preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $_POST['date_start'])) {
                     throw new \InvalidArgumentException("Начальная дата неправильная!");
                 } else {
-                    $secure_date_start = htmlspecialchars($_POST['date_start']);
+                    $secure_date_start = new \DateTime($_POST['date_start']);
                 }
 
                 if (!preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $_POST['date_end'])) {
                     throw new \InvalidArgumentException("Конечная дата неправильная!");
                 } else {
-                    $secure_date_end = htmlspecialchars($_POST['date_end']);
+                    $secure_date_end = new \DateTime($_POST['date_end']);
                 }
 
-                //$secure_msg = "Отправим выписку: с $secure_date_start по $secure_date_end на $secure_email";
-                $secure_msg = array($secure_email, $secure_date_start, $secure_date_end);
+                // "Отправим выписку: с $secure_date_start по $secure_date_end на $secure_email";
+                $bankMessage = new BankMessage($secure_email, $secure_date_start, $secure_date_end);
 
-                return $secure_msg;
+                return $bankMessage;
             }
 
             View::render('error', [
@@ -60,5 +63,7 @@ class MessageForSend
                 'result' => 'Причина: ' . $e->getMessage()
             ]);
         }
+
+        return null;
     }
 }
