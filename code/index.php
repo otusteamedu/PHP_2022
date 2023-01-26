@@ -1,20 +1,10 @@
 <?php
 
-try {    
-    $request = $_POST['string'];
+declare(strict_types=1);
 
-    if (empty($request)) {
-        throw new Exception("Request string is empty");
-    }
-    
-    $is_match = preg_match("/^[^()\n]*+(\((?>[^()\n]|(?1))*+\)[^()\n]*+)++$/", $request);
+include 'Core/Autoloader.php';
 
-    if ($is_match) {
-        print_r("Everything is OK");
-    } else {
-        throw new Exception("Request string is wrong");
-    }
-} catch (Exception $ex) {
-    http_response_code(400);
-    print_r($ex->getMessage());
-}
+use Core\Core;
+
+$core = new Core();
+$core->startup();
