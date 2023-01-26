@@ -10,7 +10,7 @@ select
     f.name as film,
     ft.name as type,
     fa.name as attribute,
-    concat(fv.value, fv.value_date, fv.value_int, fv.value_float) as value
+    concat(fv.value, fv.value_date, fv.value_int, fv.value_float, fv.value_bool) as value
 from films f
 	join film_values fv on f.id = fv.film_id
 	join film_attributes fa on fv.attr_id = fa.id
