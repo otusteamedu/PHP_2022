@@ -1,8 +1,6 @@
 # Elasticsearch PHP in Docker
-***
 
 ## Setup
-***
 
 ### Run containers (console)
 ```
@@ -87,7 +85,6 @@ curl
 ```
 
 ## Usage
-***
 
 ### Bookstore search
 ```
@@ -102,7 +99,6 @@ php app.php [--option.name "option.value"]
 - limit - *integer*
 
 ## Example
-***
 
 ### Search by all params
 
