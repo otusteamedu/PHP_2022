@@ -13,5 +13,3 @@ WHERE m_attr_type."Type" = 'date'
 
 SELECT *
 FROM movies_events;
-
-DROP VIEW movies_events;

@@ -3,6 +3,8 @@
 INSERT INTO "MovieAttributeType"(id, "Type") VALUES (1, 'date');
 INSERT INTO "MovieAttributeType"(id, "Type") VALUES (2, 'text');
 INSERT INTO "MovieAttributeType"(id, "Type") VALUES (3, 'bool');
+INSERT INTO "MovieAttributeType"(id, "Type") VALUES (4, 'int');
+INSERT INTO "MovieAttributeType"(id, "Type") VALUES (5, 'numeric');
 
 -- INIT MovieAttribute VALUES --
 

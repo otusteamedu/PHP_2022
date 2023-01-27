@@ -13,6 +13,8 @@ MovieAttribute int FK - MovieAttribute.id
 ValueText text
 ValueDate date
 ValueBool boolean
+ValueInt int
+ValueNumeric numeric
 
 MovieAttributeType
 -
