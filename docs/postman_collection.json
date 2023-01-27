@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "fb11af7c-c797-41c9-b42a-6d93b9bffa39",
+		"name": "HW29",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4856283"
+	},
+	"item": [
+		{
+			"name": "Get info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://application.local/",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create report",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"param1\": \"lol\",\n    \"param2\": \"kek\",\n    \"param3\": \"cheburek\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://application.local/v1/report/",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					],
+					"path": [
+						"v1",
+						"report",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show report data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://application.local/v1/report/48",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					],
+					"path": [
+						"v1",
+						"report",
+						"48"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show report status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://application.local/v1/report/48/status",
+					"protocol": "http",
+					"host": [
+						"application",
+						"local"
+					],
+					"path": [
+						"v1",
+						"report",
+						"48",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

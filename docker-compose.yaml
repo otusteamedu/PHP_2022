@@ -1,0 +1,74 @@
+version: "3.2"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: homework-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: homework/27/fpm
+    container_name: homework-app
+    volumes:
+      - ./code:/var/www
+    networks:
+      - app-network
+
+  workspace:
+    build:
+      context: .
+      dockerfile: docker/php/ConsoleDockerfile
+    image: homework/27/workspace
+    container_name: homework-workspace
+    volumes:
+      - ./code:/var/www
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+    hostname: docker-rabbitmq
+    volumes:
+      - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - rabbitmq-hw:/var/lib/rabbitmq
+    environment:
+      - "RABBITMQ_DEFAULT_USER=rabbit"
+      - "RABBITMQ_DEFAULT_PASS=rabbit"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:11.2-alpine
+    volumes:
+      - ./docker/postgres/create_extension.sql:/docker-entrypoint-initdb.d/create_extension.sql
+      - postgres-hw:/var/lib/postgresql/data
+    ports:
+      - "54322:5432"
+    environment:
+      - "POSTGRES_DB=homework"
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=root"
+    networks:
+      - app-network
+
+volumes:
+  rabbitmq-hw:
+  postgres-hw:
+
+networks:
+  app-network:
+    driver: bridge
