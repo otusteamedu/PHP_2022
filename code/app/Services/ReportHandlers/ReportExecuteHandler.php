@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\ReportHandlers;
-
 
 use App\Services\Interfaces\ReportExecuteHandlerInterface;
 use App\Services\ReportService;

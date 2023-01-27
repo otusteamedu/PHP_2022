@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\QueueServices;
-
 
 use App\Mail\ReportCreatedEmail;
 use App\Services\Interfaces\ConsumerQueueInterface;

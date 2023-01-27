@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\QueueServices;
-
 
 use App\Services\Dtos\ReportDto;
 use App\Services\Interfaces\PublisherQueueInterface;

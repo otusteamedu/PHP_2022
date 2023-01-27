@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\QueueServices;
-
 
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;

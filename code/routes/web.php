@@ -13,7 +13,9 @@
 |
 */
 
-$router->get('/', function () use ($router) { return $router->app->version(); });
+$router->get('/', function () use ($router) {
+    return $router->app->version();
+});
 
 // отчеты
 $router->group(['prefix' => 'v1/report'], function () use ($router) {

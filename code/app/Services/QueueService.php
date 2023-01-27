@@ -18,8 +18,9 @@ final class QueueService
 
     public function __construct(
         private PublisherQueueInterface $publisher,
-        private ConsumerQueueInterface $consumer,
-    ) {
+        private ConsumerQueueInterface  $consumer,
+    )
+    {
     }
 
     public function publish(ReportDto $reportDto): void
@@ -27,7 +28,7 @@ final class QueueService
         $this->publisher->handle($reportDto);
     }
 
-    public function consume(ReportExecuteHandlerInterface $handler):void
+    public function consume(ReportExecuteHandlerInterface $handler): void
     {
         $this->consumer->handle($handler);
     }

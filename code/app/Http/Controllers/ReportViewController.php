@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\Presenters\ErrorPresenter;
 use App\Presenters\Report\ReportViewPresenter;
@@ -12,10 +10,17 @@ use Throwable;
 
 final class ReportViewController extends Controller
 {
+    /**
+     * @param ReportService $service
+     */
     public function __construct(private ReportService $service)
     {
     }
 
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
     public function view(int $id): JsonResponse
     {
         try {
