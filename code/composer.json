@@ -1,0 +1,19 @@
+{
+    "name": "nikcrazy37/hw10",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nikcrazy37\\Hw10\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nikcrazy37",
+            "email": "nik_crazy@bk.ru"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.6",
+        "phplucidframe/console-table": "^1.2"
+    }
+}

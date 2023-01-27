@@ -1,0 +1,4 @@
+/.idea/
+/code/vendor/
+/code/composer.lock
+/code/config.ini

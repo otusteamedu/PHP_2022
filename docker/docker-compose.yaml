@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  elasticsearch:
+    image: elasticsearch:8.6.0
+    container_name: elastic
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
+      - xpack.ml.enabled=false
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - target: 9200
+        published: 9200
+    networks:
+      - elastic
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php
+    volumes:
+      - ../code:/data/mysite.local/
+    networks:
+      - elastic
+
+volumes:
+  es_data:
+    driver: local
+
+networks:
+  elastic:
+    name: elastic
+    driver: bridge
