@@ -1,0 +1,68 @@
+version: '3.5'
+services:
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: app/nginx
+    container_name: nginx_hw_12
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+       - ./code:/data/mysite.local
+       - ./tmp/log/nginx:/var/log/nginx
+    depends_on:
+      - fpm
+    networks:
+      - app-network
+
+  fpm:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: app/fpm
+    container_name: fpm_hw_12
+    volumes:
+       - ./code:/data/mysite.local
+       - ./docker/fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    environment:
+      XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=Docker"
+      RABBITMQ_HOSTNAME: ${RABBITMQ_HOSTNAME}
+      RABBITMQ_PORT1: ${RABBITMQ_PORT1}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      MAILER_HOSTNAME: ${MAILER_HOSTNAME}
+      MAILER_PORT1: ${MAILER_PORT1}
+      MAILER_USER: ${MAILER_USER}
+      MAILER_PASSWORD: ${MAILER_PASSWORD}
+      MAILER_FROM_EMAIL: ${MAILER_FROM_EMAIL}
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    hostname: ${RABBITMQ_HOSTNAME}
+    ports:
+      - ${RABBITMQ_PORT1}:5672
+      - ${RABBITMQ_PORT2}:15672
+    volumes:
+      - ./volumes/rabbitmq/data/:/var/lib/rabbitmq
+      - ./volumes/rabbitmq/log/:/var/log/rabbitmq
+    command: >
+      sh -c "chmod 400 /var/lib/rabbitmq/.erlang.cookie; rabbitmq-server &&
+             chmod 0777 /var/log/rabbitmq/; rabbitmq-server &&
+             rabbitmqctl add_user user 123456 &&
+             rabbitmqctl set_user_tags user administrator &&
+             rabbitmqctl set_permissions -p / user \".*\" \".*\" \".*\" "
+    environment:
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

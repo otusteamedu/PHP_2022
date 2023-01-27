@@ -1,0 +1,21 @@
+{
+    "name": "otus/hw12",
+    "description": "HW15 RabbitMQ",
+    "type": "project",
+    "authors": [
+        {
+            "name": "I.Tsyganok",
+            "email": "ciganokigor@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "php-amqplib/php-amqplib": ">=3.0",
+        "phpmailer/phpmailer": ">=v6.6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\App\\": "src/"
+        }
+    }
+}
