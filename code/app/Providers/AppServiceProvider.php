@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Providers;
-
 
 use App\Services\Interfaces\ConsumerQueueInterface;
 use App\Services\Interfaces\PublisherQueueInterface;

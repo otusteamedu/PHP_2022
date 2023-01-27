@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Services\Interfaces\ConsumerQueueInterface;
 use App\Services\Interfaces\PublisherQueueInterface;
@@ -16,10 +14,7 @@ final class QueueService
     public const STATUS_DONE = 'success';
     public const STATUS_ERROR = 'error';
 
-    public function __construct(
-        private PublisherQueueInterface $publisher,
-        private ConsumerQueueInterface  $consumer,
-    )
+    public function __construct(private PublisherQueueInterface $publisher, private ConsumerQueueInterface  $consumer)
     {
     }
 

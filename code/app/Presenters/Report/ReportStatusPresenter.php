@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Presenters\Report;
-
 
 use App\Presenters\AbstractPresenter;
 use stdClass;
