@@ -13,7 +13,8 @@
     <div class="col col-xl-3 col-xxl-3"
          style="border: 1px solid #CCC; border-radius: 5px; background-color: #EEE; padding: 50px;">
 
-        <h2>Заказ выписки</h2><br />
+        <center><h2>Заказ выписки</h2></center>
+        <br />
 
         <label for="email">Email</label>
         <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
