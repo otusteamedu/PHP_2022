@@ -22,7 +22,6 @@ from
     generate_series(1, 32) as gs2(number);
 
 
-
 insert into movies_shows (movie_id, hall_id, price, start_date)
 select
     m.id,
@@ -30,6 +29,7 @@ select
         10*(35+random()*10)::integer,
         timestamp '2022-12-01' + random() * (timestamp '2023-02-28' - timestamp '2022-12-01')
 from movies as m;
+
 
 -- рандомно продаем билетики
 WITH vars AS (
@@ -44,6 +44,23 @@ select
     gs.id,
     (vars.minShows+random()*(vars.countShows-1))::integer as show_id,
     (vars.minPlaces+random()*(vars.countPlaces-1))::integer as place_id
+from
+    vars,
+    generate_series(1, 100000) as gs(id);
+
+
+-- жанры
+WITH vars AS (
+    SELECT
+        (select count(*) from genres) as countGenres,
+        (select min(id) from genres) as minGenres,
+        (select count(*) from movies_shows) as countShows,
+        (select min(id) from movies_shows) as minShows
+)
+insert into movies_genre (movie_id, genre_id)
+select
+    (vars.minShows+random()*(vars.countShows-1))::integer as show_id,
+    (vars.minGenres+random()*(vars.countGenres-1))::integer as genre_id
 from
     vars,
     generate_series(1, 100000) as gs(id);
