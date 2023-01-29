@@ -9,12 +9,9 @@ and is_deleted = false;
 --   Filter: ((NOT is_deleted) AND (duration >= 90) AND (duration <= 100))
 
 
-CREATE INDEX idx_duration ON movies(duration);
+CREATE INDEX idx_duration ON movies(duration) WHERE is_deleted = false;
 
--- Bitmap Heap Scan on movies  (cost=20.62..297.71 rows=1082 width=35)
---   Recheck Cond: ((duration >= 90) AND (duration <= 100))
---   Filter: (NOT is_deleted)
---   ->  Bitmap Index Scan on idx_duration  (cost=0.00..20.35 rows=1206 width=0)
+-- Bitmap Heap Scan on movies  (cost=19.14..293.02 rows=1059 width=35)
+--   Recheck Cond: ((duration >= 90) AND (duration <= 100) AND (NOT is_deleted))
+--   ->  Bitmap Index Scan on idx_duration  (cost=0.00..18.88 rows=1059 width=0)
 --         Index Cond: ((duration >= 90) AND (duration <= 100))
-
-
