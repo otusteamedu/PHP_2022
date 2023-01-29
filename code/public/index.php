@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Starting page
+ */
+
 declare(strict_types=1);
 
 use Otus\App\App;
