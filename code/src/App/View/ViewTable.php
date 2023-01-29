@@ -5,46 +5,55 @@ declare(strict_types=1);
 namespace Nikcrazy37\Hw10\App\View;
 
 use LucidFrame\Console\ConsoleTable;
+use Nikcrazy37\Hw10\Exception\NotFoundException;
 
 class ViewTable extends ConsoleTable
 {
     /**
      * @param array $data
+     * @param array $colName
      * @return void
+     * @throws NotFoundException
      */
-    public function run(array $data): void
+    public function run(array $data, array $colName): void
     {
-        $this->setHeaders(ViewConfig::HEADERS);
+        if (empty($data["hits"]["hits"])) {
+            throw new NotFoundException();
+        }
 
-        array_walk($data["hits"]["hits"], function ($book, $key) {
-            $book = $book["_source"];
+        $this->setHeaders($colName);
 
-            $stock = $this->prepareStock($book["stock"]);
+        array_walk($data["hits"]["hits"], function ($book) use ($colName) {
+            $this->addRow();
 
-            $this->addRow(array(
-                ++$key,
-                $book["title"],
-                $book["sku"],
-                $book["category"],
-                $book["price"],
-                $stock
-            ));
+            array_walk($colName, function ($col) use ($book) {
+                if (strpos($col, ".")) {
+                    $param = $this->prepareNested($book, $col);
+                } else {
+                    $param = $book["_source"][$col];
+                }
+
+                $this->addColumn($param);
+            });
         });
 
         $this->showAllBorders()->display();
     }
 
     /**
-     * @param array $stocks
+     * @param array $book
+     * @param string $paramName
      * @return string
      */
-    private function prepareStock(array $stocks): string
+    private function prepareNested(array $book, string $paramName): string
     {
-        $text = "";
-        array_walk($stocks, function ($stock) use (&$text) {
-            $text .= "{$stock["shop"]} - {$stock["stock"]} шт.\n";
+        $expName = explode(".", $paramName);
+
+        $param = "";
+        array_walk($book["_source"][$expName[0]], function ($value) use ($expName, &$param) {
+            $param .= $value[$expName[1]] . "\n";
         });
 
-        return $text;
+        return $param;
     }
 }

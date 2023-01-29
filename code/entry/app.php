@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-const ROOT = __DIR__;
+const ROOT = __DIR__ . "/..";
 require ROOT . "/vendor/autoload.php";
 
 use Nikcrazy37\Hw10\App;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw10\App\Input;
 
+use Nikcrazy37\Hw10\Config;
+
 class InputHandler
 {
     /**
@@ -11,6 +13,6 @@ class InputHandler
      */
     public static function getParam(): array|bool
     {
-        return getopt("", InputConfig::OPTION_LONG);
+        return getopt("", Config::getOption("OPTION_LONG"));
     }
 }

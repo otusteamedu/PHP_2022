@@ -11,14 +11,25 @@ use Nikcrazy37\Hw10\Exception\AppException;
 
 class App
 {
+    /**
+     * @var SearchHandler
+     */
     private SearchHandler $search;
-    private array $param;
+
+    /**
+     * @var array|bool
+     */
+    private array|bool $inputParam;
+
+    /**
+     * @var ViewTable
+     */
     private ViewTable $view;
 
     public function __construct()
     {
         $this->search = new SearchHandler();
-        $this->param = InputHandler::getParam();
+        $this->inputParam = InputHandler::getParam();
         $this->view = new ViewTable();
     }
 
@@ -28,7 +39,10 @@ class App
      */
     public function run(): void
     {
-        $result = $this->search->run($this->param);
-        $this->view->run($result);
+        $result = $this->search->run($this->inputParam);
+
+        $headers = $this->search->getHeaders();
+
+        $this->view->run($result, $headers);
     }
 }

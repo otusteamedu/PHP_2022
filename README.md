@@ -76,11 +76,11 @@ docker exec -it php bash
 
 ### Import bookstore data (console)
 ```
-curl
-    --location
-    --insecure
-    --request POST 'http://elastic:9200/_bulk'
-    --header 'Content-type: application/json'
+curl \
+    --location \
+    --insecure \
+    --request POST 'http://elastic:9200/_bulk' \
+    --header 'Content-type: application/json' \
     --data-binary "@bulk.json"
 ```
 
@@ -93,7 +93,7 @@ php app.php [--option.name "option.value"]
 
 ### Possible option.name values:
 - title - *string*
-- stock - *integer*
+- stock.stock - *string*
 - price - *string*
 - category - *string*
 - limit - *integer*
@@ -102,19 +102,19 @@ php app.php [--option.name "option.value"]
 
 ### Search by all params
 
-    php app.php --title рыцори --stock 0 --price "..2000" --category "Исторический роман" --limit 29
+    php app.php --title рыцори --stock.stock 1 --price "..2000" --category "Исторический роман" --limit 29
 
-### Special price usage
+### Special price and stock usage *(Price example)*
 
 
-#### If you want to search by more than price:
+#### If you want to search by more than:
 
     php app.php --price value
 
-#### If you want to search by less than price:
+#### If you want to search by less than:
 
     php app.php --price ..value
 
-#### You can specify price range:
+#### You can specify price:
 
     php app.php --price minval..maxval
