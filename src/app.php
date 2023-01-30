@@ -1,12 +1,13 @@
+#!/usr/bin/env php
 <?php
 
 declare(strict_types=1);
 
-use Src\Sandwich\Infrastructure\WebController;
+use Src\Sandwich\Infrastructure\CliController;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dialog = new WebController();
+$dialog = new CliController();
 
 $product = $dialog->startCooking();
 
