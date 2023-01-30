@@ -6,15 +6,7 @@ language: php
 php:
   - 8.1
 
-# deployment settings
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: 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
-  keep_history: true
-  on:
-    branch: main
-
+# required settings
 sudo: required
 services:
   - docker
@@ -23,33 +15,29 @@ services:
 env:
   COMPOSE_VERSION: 1.4.1
 
-# steps before install
-before_install:
-  - cp code/src/Application/Views/info.php code/src/Application/Views/tmp.php
-  - mv code/src/Application/Views/deploy.php code/src/Application/Views/info.php
-  - echo "begin deploy"
-
-# Commands to be run before your environment runs.
+# steps before
 before_script:
   - cp .env.example .env
   - cd code
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - cd ../
+  - cp code/src/Application/Views/info.php code/src/Application/Views/tmp.php
+  - mv code/src/Application/Views/deploy.php code/src/Application/Views/info.php
+  - pwd
 
 # deployment scripts
 script:
   - docker-compose down
   - docker-compose build
   - docker-compose up -d
+  - pwd
 
-# after setup
-after_install:
+# after deploy
+after_script:
   - cp code/src/Application/Views/tmp.php code/src/Application/Views/info.php
+  - pwd
 
 # Customize when the notification emails are sent.
 notifications:
   email: true
-  on_success: never
-  on_failure: always
-
