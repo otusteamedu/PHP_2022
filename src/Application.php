@@ -2,24 +2,18 @@
 
 namespace Dkozlov\Otus;
 
-use Dkozlov\Otus\Command\AbstractCommand;
-use Dkozlov\Otus\Command\LoadBookCommand;
-use Dkozlov\Otus\Command\SearchBookCommand;
-use Dkozlov\Otus\Exception\CommandNotFoundException;
+use Dkozlov\Otus\Application\Repository\Interface\RepositoryInterface;
 use Dkozlov\Otus\Exception\ConfigNotFoundException;
-use Dkozlov\Otus\QueryBuilder\SearchBookQueryBuilder;
-use Dkozlov\Otus\Repository\ElasticSearchRepository;
-use Dkozlov\Otus\Repository\Interface\RepositoryInterface;
-use Elastic\Elasticsearch\ClientBuilder;
+use Dkozlov\Otus\Infrastructure\Command\Exception\CommandNotFoundException;
+use Dkozlov\Otus\Infrastructure\Command\Interface\CommandInterface;
+use Dkozlov\Otus\Infrastructure\Command\LoadBookCommand;
+use Dkozlov\Otus\Infrastructure\Command\SearchBookCommand;
 use Exception;
-use PDO;
 
 class Application
 {
 
     private static Config $config;
-
-    private array $depencies;
 
     /**
      * @throws ConfigNotFoundException
@@ -28,15 +22,12 @@ class Application
         private readonly array $argv
     ) {
         self::$config = new Config(__DIR__ . '/../config/config.ini');
-
-        $this->depencies = require('../app/depencies.php');
     }
 
     /**
      * @throws Exception
      */
     public function run(): void
-
     {
         $command = $this->getCommand($this->argv[1] ?? '');
 
@@ -51,11 +42,17 @@ class Application
     /**
      * @throws Exception
      */
-    private function getCommand(string $commandName): AbstractCommand
+    private function getCommand(string $commandName): CommandInterface
     {
         return match($commandName) {
-            'load' => new LoadBookCommand($this->depencies[RepositoryInterface::class], $this->argv),
-            'search' => new SearchBookCommand($this->depencies[RepositoryInterface::class], $this->argv),
+            'load' => new LoadBookCommand(
+                self::$config->depency(RepositoryInterface::class),
+                $this->argv
+            ),
+            'search' => new SearchBookCommand(
+                self::$config->depency(RepositoryInterface::class),
+                $this->argv
+            ),
             default => throw new CommandNotFoundException("Command \"$commandName\" not found")
         };
     }

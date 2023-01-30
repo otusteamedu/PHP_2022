@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Dkozlov\Otus\Command;
+namespace Dkozlov\Otus\Infrastructure\Command;
 
-use Dkozlov\Otus\QueryBuilder\SearchBookQueryBuilder;
-use Dkozlov\Otus\Repository\Interface\RepositoryInterface;
+use Dkozlov\Otus\Application\QueryBuilder\SearchBookQueryBuilder;
+use Dkozlov\Otus\Application\Repository\Interface\RepositoryInterface;
+use Dkozlov\Otus\Domain\Book;
 use Throwable;
 
 class SearchBookCommand extends AbstractCommand
 {
     public function __construct(
         private readonly RepositoryInterface $repository,
-        array $args
+        array                                $args
     ) {
         parent::__construct($args);
     }
@@ -30,26 +31,19 @@ class SearchBookCommand extends AbstractCommand
         }
     }
 
+    /**
+     * @param Book[] $books
+     * @return void
+     */
     private function printBooks(array $books): void
     {
         if (empty($books)) {
             echo 'No books were found for the specified parameters' . PHP_EOL;
         } else {
             foreach ($books as $book) {
-                $source = $book['_source'];
-                $inStock = false;
+                $stockText = ($book->isInStock()) ? 'in stock' : 'out of stock';
 
-                foreach ($source['stock'] as $stock) {
-                    if ($stock['stock'] > 0) {
-                        $inStock = true;
-
-                        break;
-                    }
-                }
-
-                $stockText = ($inStock) ? 'in stock' : 'out of stock';
-
-                echo "{$source['sku']} - {$source['title']} - {$source['price']} RUB - {$stockText}" . PHP_EOL;
+                echo "{$book->getSku()} - {$book->getTitle()} - {$book->getCost()} - {$stockText}" . PHP_EOL;
             }
         }
     }

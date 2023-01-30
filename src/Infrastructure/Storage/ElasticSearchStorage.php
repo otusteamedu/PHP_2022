@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Dkozlov\Otus\Repository;
+namespace Dkozlov\Otus\Infrastructure\Storage;
 
 use Dkozlov\Otus\Application;
-use Dkozlov\Otus\Exception\EmptySearchQueryException;
+use Dkozlov\Otus\Application\Dto\SearchResponse;
+use Dkozlov\Otus\Application\QueryBuilder\SearchQueryBuilder;
+use Dkozlov\Otus\Application\Storage\StorageException;
+use Dkozlov\Otus\Application\Storage\StorageInterface;
 use Dkozlov\Otus\Exception\FileNotFoundException;
-use Dkozlov\Otus\Exception\RepositoryException;
-use Dkozlov\Otus\QueryBuilder\SearchQueryBuilder;
-use Dkozlov\Otus\Repository\Interface\RepositoryInterface;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elastic\Elasticsearch\Exception\AuthenticationException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 
-class ElasticSearchRepository implements RepositoryInterface
+class ElasticSearchStorage implements StorageInterface
 {
     private readonly Client $client;
 
@@ -30,42 +30,37 @@ class ElasticSearchRepository implements RepositoryInterface
             ->build();
     }
 
-    public function load(string $path): void
+    public function loadJSON(string $path): void
     {
         if (!file_exists($path)) {
             throw new FileNotFoundException("File by path \"{$path}\" not found");
         }
 
-        $books = file_get_contents($path);
+        $body = file_get_contents($path);
 
         try {
-            $this->client->bulk(['body' => $books]);
+            $this->client->bulk(['body' => $body]);
         } catch (ClientResponseException|ServerResponseException $exception) {
-            throw new RepositoryException($exception->getMessage());
+            throw new StorageException($exception->getMessage());
         }
     }
 
-    public function search(SearchQueryBuilder $queryBuilder): array
+    public function search(SearchQueryBuilder $queryBuilder): SearchResponse
     {
-        $query = $queryBuilder->getParams();
-
-        if (empty($query)) {
-            throw new EmptySearchQueryException('Search params are not set');
-        }
-
         $params = [
             'index' => Application::config('elastic_index'),
             'body' => [
-                'query' => $query
+                'query' => $queryBuilder->getParams()
             ]
         ];
 
         try {
-            $response = $this->client->search($params);
+            $response = $this->client->search($params)->asArray();
 
-            return $response->asArray()['hits']['hits'] ?? [];
+            return new SearchResponse(array_column($response['hits']['hits'], '_source'));
         } catch (ClientResponseException|ServerResponseException $exception) {
-            throw new RepositoryException($exception->getMessage());
+            throw new StorageException($exception->getMessage());
         }
     }
+
 }

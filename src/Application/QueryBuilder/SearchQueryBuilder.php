@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dkozlov\Otus\QueryBuilder;
+namespace Dkozlov\Otus\Application\QueryBuilder;
 
 abstract class SearchQueryBuilder
 {
@@ -11,6 +11,11 @@ abstract class SearchQueryBuilder
     protected const LESS_THAN = 'lt';
 
     protected array $params = [];
+
+    public function isEmpty(): bool
+    {
+        return empty($this->getParams());
+    }
 
     public function getParams(): array
     {

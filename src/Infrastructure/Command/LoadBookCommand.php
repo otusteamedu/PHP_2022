@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Dkozlov\Otus\Command;
+namespace Dkozlov\Otus\Infrastructure\Command;
 
+use Dkozlov\Otus\Application\Repository\Exception\RepositoryException;
+use Dkozlov\Otus\Application\Repository\Interface\RepositoryInterface;
 use Dkozlov\Otus\Exception\FileNotFoundException;
-use Dkozlov\Otus\Exception\RepositoryException;
-use Dkozlov\Otus\Repository\Interface\RepositoryInterface;
 
 class LoadBookCommand extends AbstractCommand
 {

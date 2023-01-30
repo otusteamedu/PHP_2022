@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dkozlov\Otus\Exception;
+namespace Dkozlov\Otus\Application\Repository\Exception;
 
 use Exception;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dkozlov\Otus\QueryBuilder;
+namespace Dkozlov\Otus\Application\QueryBuilder;
 
 class SearchBookQueryBuilder extends SearchQueryBuilder
 {

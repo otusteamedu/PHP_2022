@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dkozlov\Otus\Command;
+namespace Dkozlov\Otus\Infrastructure\Command\Interface;
 
 interface CommandInterface
 {
