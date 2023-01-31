@@ -1,0 +1,24 @@
+{
+    "name": "ashvedov/otus-hw14",
+    "description": "Otus hw14",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shvedov"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "wp-cli/php-cli-tools": "^0.11.0@dev",
+        "php-di/php-di": "dev-master"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "4.0.x-dev"
+    }
+}

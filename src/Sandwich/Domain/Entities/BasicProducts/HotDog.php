@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Src\Sandwich\Domain\Entities\BasicProducts;
+
+use Src\Sandwich\Domain\Contracts\BasicProduct;
+
+class HotDog implements BasicProduct
+{
+    /**
+     * @var string
+     */
+    private string $basic_product_name;
+
+    /**
+     * @param string $basic_product_name
+     */
+    public function __construct(string $basic_product_name)
+    {
+        $this->basic_product_name = $basic_product_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (new \ReflectionClass($this))->getShortName();
+    }
+
+    /**
+     * @return HotDog
+     */
+    public function cook(): self
+    {
+        return $this;
+    }
+}
