@@ -26,8 +26,10 @@ insert into movies_shows (movie_id, hall_id, price, start_date)
 select
     m.id,
     (1+random()*2)::integer,
-        10*(35+random()*10)::integer,
-        timestamp '2022-12-01' + random() * (timestamp '2023-02-28' - timestamp '2022-12-01')
+    10*(35+random()*10)::integer,
+    (current_date - INTERVAL '20 day')
+        + trunc(random()  * 60) * '1 day'::interval
+        + trunc(random()  * 144) * '10 minute'::interval
 from movies as m;
 
 
