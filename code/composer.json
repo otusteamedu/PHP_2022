@@ -1,0 +1,11 @@
+{
+    "name": "kogarkov/validator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Kogarkov\\Validator\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
