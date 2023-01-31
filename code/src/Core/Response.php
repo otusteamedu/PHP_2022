@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Core;
+namespace Kogarkov\Validator\Core;
 
-use Model\ResponseModel;
+use Kogarkov\Validator\Model\ResponseModel;
 
 class Response
 {

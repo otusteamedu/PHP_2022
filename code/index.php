@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-include 'Core/Autoloader.php';
+require __DIR__ . '/vendor/autoload.php';
 
-use Core\Core;
+use Kogarkov\Validator\Core\Core;
 
 $core = new Core();
 $core->startup();

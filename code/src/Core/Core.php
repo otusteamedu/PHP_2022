@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Core;
+namespace Kogarkov\Validator\Core;
 
-use Controller\ValidatorController;
+use Kogarkov\Validator\Controller\ValidatorController;
 
 class Core
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Model;
+namespace Kogarkov\Validator\Model;
 
 class ResponseModel
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Kogarkov\Validator\Core;
 
 class Request
 {
