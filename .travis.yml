@@ -22,21 +22,17 @@ before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - cd ../
-  - cp code/src/Application/Views/info.php code/src/Application/Views/tmp.php
-  - mv code/src/Application/Views/deploy.php code/src/Application/Views/info.php
-  - pwd
+  - cp code/public/_.htaccess code/public/.htaccess
 
 # deployment scripts
 script:
   - docker-compose down
   - docker-compose build
   - docker-compose up -d
-  - pwd
 
 # after deploy
 after_script:
-  - cp code/src/Application/Views/tmp.php code/src/Application/Views/info.php
-  - pwd
+  - rm code/public/.htaccess
 
 # Customize when the notification emails are sent.
 notifications:

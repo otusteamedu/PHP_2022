@@ -1,0 +1,16 @@
+Options -Indexes
+ErrorDocument 404 /404.php
+php_flag register_globals off
+php_value pcre.recursion_limit 1000
+
+# Conditions for redirect
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+# redirect all requests to port 3030
+RewriteCond %{SERVER_PORT} !^3030$
+RewriteRule ^(.*)$ http://%{HTTP_HOST}:3030%{REQUEST_URI}  [R=301,L]
+</IfModule>
+
+php_value default_charset utf-8
+AddType 'text/html; charset=utf-8' .html .htm .shtml
