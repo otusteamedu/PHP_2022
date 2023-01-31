@@ -1,0 +1,39 @@
+# build here: https://app.travis-ci.com/github/nujensait/otus_hw16_queues/builds/260119105
+# Required to run your project under the correct environment.
+language: php
+
+# Versions of PHP you want your project run with.
+php:
+  - 8.1
+
+# required settings
+sudo: required
+services:
+  - docker
+
+# enviroment variables
+env:
+  COMPOSE_VERSION: 1.4.1
+
+# steps before
+before_script:
+  - cp .env.example .env
+  - cd code
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+  - cd ../
+  - cp code/public/_.htaccess code/public/.htaccess
+
+# deployment scripts
+script:
+  - docker-compose down
+  - docker-compose build
+  - docker-compose up -d
+
+# after deploy
+after_script:
+  - rm code/public/.htaccess
+
+# Customize when the notification emails are sent.
+notifications:
+  email: true
