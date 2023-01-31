@@ -6,6 +6,7 @@ namespace Src\Sandwich\Infrastructure;
 
 use Src\Sandwich\Application\Core\Core;
 use Src\Sandwich\DTO\SandwichParametersDTO;
+use Src\Sandwich\Domain\Contracts\BasicProduct;
 use Src\Sandwich\Application\Proxy\CookingProcessProxy;
 
 use function cli\{line, menu, prompt};
@@ -25,9 +26,11 @@ final class CliController
     }
 
     /**
-     * @return array
+     * @return BasicProduct
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
-    public function startCooking(): array
+    public function startCooking(): BasicProduct
     {
         line(msg: 'Добро пожаловать! Что желаете?' . PHP_EOL);
 

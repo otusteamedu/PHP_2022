@@ -13,6 +13,6 @@ final class HotDogRecycled implements CookingEvent
      */
     public function updateCookingStatus(): void
     {
-        echo 'HotDog spoiled' . PHP_EOL;
+        echo 'Хот-дог испорчен и был утилизирован' . PHP_EOL;
     }
 }

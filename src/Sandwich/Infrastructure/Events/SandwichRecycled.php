@@ -13,6 +13,6 @@ final class SandwichRecycled implements CookingEvent
      */
     public function updateCookingStatus(): void
     {
-        echo 'Sandwich spoiled' . PHP_EOL;
+        echo 'Сэндвич испорчен и был утилизирован' . PHP_EOL;
     }
 }

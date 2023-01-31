@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Src\Sandwich\Application;
 
 use DI\Container;
+use Src\Sandwich\Domain\Contracts\BasicProduct;
 use Src\Sandwich\DTO\SandwichParametersDTO;
 use Src\Sandwich\Domain\UseCases\BasicProductFactory;
 use Src\Sandwich\Domain\UseCases\CookingContextStrategy;
@@ -13,9 +14,9 @@ use Src\Sandwich\Domain\Contracts\Events\CookingTraceability;
 class CookingProcess
 {
     /**
-     * @var array
+     * @var BasicProduct
      */
-    protected array $cooked_basic_product;
+    protected BasicProduct $cooked_basic_product;
 
     /**
      * @var CookingTraceability
@@ -67,9 +68,9 @@ class CookingProcess
     }
 
     /**
-     * @return array
+     * @return BasicProduct
      */
-    public function getResult(): array
+    public function getResult(): BasicProduct
     {
         $this->cooking_observer->notifySubscribers(event_name: 'IsReady');
 

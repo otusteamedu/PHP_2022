@@ -18,7 +18,7 @@ final class BaconIngredient implements Ingredient
      */
     public function __toString(): string
     {
-        return (new \ReflectionClass($this))->getShortName();
+        return 'Бекон в количестве ' . $this->getQuantity() . 'шт.';
     }
 
     /**

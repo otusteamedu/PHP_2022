@@ -7,7 +7,7 @@ namespace Src\Sandwich\Domain\Contracts;
 interface BasicProduct
 {
     /**
-     * @return array
+     * @return $this
      */
-    public function cook(): array;
+    public function cook(): self;
 }

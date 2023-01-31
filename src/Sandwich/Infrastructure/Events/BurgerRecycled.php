@@ -13,6 +13,6 @@ final class BurgerRecycled implements CookingEvent
      */
     public function updateCookingStatus(): void
     {
-        echo 'Burger spoiled' . PHP_EOL;
+        echo 'Бургер испорчен и был утилизирован' . PHP_EOL;
     }
 }

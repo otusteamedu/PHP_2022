@@ -22,10 +22,18 @@ class Sandwich implements BasicProduct
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function cook(): array
+    public function __toString(): string
     {
-        return ['basic_product' => $this->basic_product_name];
+        return (new \ReflectionClass($this))->getShortName();
+    }
+
+    /**
+     * @return Sandwich
+     */
+    public function cook(): self
+    {
+        return $this;
     }
 }

@@ -18,7 +18,7 @@ final class TomatoIngredient implements Ingredient
      */
     public function __toString(): string
     {
-        return (new \ReflectionClass($this))->getShortName();
+        return 'Помидоры в количестве ' . $this->getQuantity() . 'шт.';
     }
 
     /**

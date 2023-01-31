@@ -14,7 +14,12 @@ final class BurgerDecorator implements BasicProduct
     /**
      * @var BasicProduct
      */
-    private BasicProduct $basic_product;
+    public BasicProduct $basic_product;
+
+    /**
+     * @var array
+     */
+    public array $ingredients;
 
     /**
      * @var SandwichParametersDTO
@@ -54,20 +59,19 @@ final class BurgerDecorator implements BasicProduct
      */
     public function __toString(): string
     {
-        return $this->sandwich_parameters_dto->sandwich_prototype;
+        return $this->basic_product . '';
     }
 
     /**
-     * @return array
+     * @return BasicProduct
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    public function cook(): array
+    public function cook(): BasicProduct
     {
-        return array_merge(
-            $this->basic_product->cook(),
-            $this->addIngredients(),
-        );
+        $this->addIngredients();
+
+        return $this;
     }
 
     /*
@@ -77,27 +81,23 @@ final class BurgerDecorator implements BasicProduct
     */
 
     /**
-     * @return array
+     * @return void
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    private function addIngredients(): array
+    private function addIngredients(): void
     {
         $merged_ingredients = array_merge(
             $this->product_recipe->get(),
             $this->sandwich_parameters_dto->sandwich_partials
         );
 
-        $ready_ingredients = [];
-
         foreach ($merged_ingredients as $ingredient => $ingredient_quantity) {
             $ingredient = $this->di_container->make(name: $ingredient . 'Ingredient');
 
             $ingredient->setQuantity(quantity: $ingredient_quantity);
 
-            $ready_ingredients[] = $ingredient;
+            $this->ingredients[] = $ingredient;
         }
-
-        return $ready_ingredients;
     }
 }

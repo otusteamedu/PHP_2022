@@ -18,7 +18,7 @@ final class OnionIngredient implements Ingredient
      */
     public function __toString(): string
     {
-        return (new \ReflectionClass($this))->getShortName();
+        return 'Лук в количестве ' . $this->getQuantity() . 'шт.';
     }
 
     /**

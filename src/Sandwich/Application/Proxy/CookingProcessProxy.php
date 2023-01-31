@@ -6,6 +6,8 @@ namespace Src\Sandwich\Application\Proxy;
 
 use DI\Container;
 use Src\Sandwich\Application\CookingProcess;
+use Src\Sandwich\Domain\Contracts\BasicProduct;
+use Src\Sandwich\Domain\Entities\BasicProducts\SpoiledBasicProduct;
 use Src\Sandwich\DTO\SandwichParametersDTO;
 
 final class CookingProcessProxy extends CookingProcess
@@ -21,16 +23,16 @@ final class CookingProcessProxy extends CookingProcess
     }
 
     /**
-     * @return array
+     * @return BasicProduct
      */
-    public function getResult(): array
+    public function getResult(): BasicProduct
     {
         $product_status = $this->periodicDeteriorationOfTheProduct();
 
         $this->cooking_observer->notifySubscribers(event_name: $product_status);
 
         if ($product_status === 'Recycled') {
-            return [];
+            return new SpoiledBasicProduct();
         }
 
         return $this->cooked_basic_product;
