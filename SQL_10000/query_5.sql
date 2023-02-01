@@ -1,36 +1,44 @@
--- Сколько всего вестернов
-explain
-select count(m.*)
-from movies as m
-inner join movies_genre mg on m.id = mg.movie_id
-inner join genres g on g.id = mg.genre_id
-where g.name = 'Вестерн';
+-- 5. Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
+explain analyse
+select
+    p.line,
+    p.number,
+    CASE WHEN t.id is null THEN false ELSE true END AS busy
+from
+    halls_places as p
+    left join tickets t on (p.id = t.place_id and t.show_id = 10)
+order by
+    p.line, p.number;
 
--- Aggregate  (cost=2091.54..2091.55 rows=1 width=8)
---            ->  Nested Loop  (cost=19.59..2090.19 rows=541 width=197)
---         ->  Hash Join  (cost=19.30..1920.30 rows=541 width=4)
---               Hash Cond: (mg.genre_id = g.id)
---               ->  Seq Scan on movies_genre mg  (cost=0.00..1637.00 rows=100000 width=8)
---               ->  Hash  (cost=19.25..19.25 rows=4 width=4)
---                     ->  Seq Scan on genres g  (cost=0.00..19.25 rows=4 width=4)
---                           Filter: ((name)::text = 'Вестерн'::text)
---         ->  Index Scan using movies_pkey on movies m  (cost=0.29..0.31 rows=1 width=201)
---               Index Cond: (id = mg.movie_id)
+-- Sort  (cost=2005.97..2009.57 rows=1440 width=9) (actual time=6.571..6.625 rows=1440 loops=1)
+-- "  Sort Key: p.line, p.number"
+--   Sort Method: quicksort  Memory: 127kB
+--   ->  Hash Right Join  (cost=43.40..1930.43 rows=1440 width=9) (actual time=3.134..6.267 rows=1440 loops=1)
+--         Hash Cond: (t.place_id = p.id)
+--         ->  Seq Scan on tickets t  (cost=0.00..1887.00 rows=10 width=8) (actual time=2.870..5.858 rows=6 loops=1)
+--               Filter: (show_id = 10)
+--               Rows Removed by Filter: 99994
+--         ->  Hash  (cost=25.40..25.40 rows=1440 width=12) (actual time=0.256..0.259 rows=1440 loops=1)
+--               Buckets: 2048  Batches: 1  Memory Usage: 78kB
+--               ->  Seq Scan on halls_places p  (cost=0.00..25.40 rows=1440 width=12) (actual time=0.005..0.122 rows=1440 loops=1)
+-- Planning Time: 0.233 ms
+-- Execution Time: 6.677 ms
 
+-- Индекс по полю show_id
+CREATE INDEX idx_show_id ON tickets(show_id);
 
-CREATE INDEX idx_name ON genres(name);
-
--- Aggregate  (cost=2492.05..2492.06 rows=1 width=8)
---            ->  Hash Join  (cost=484.20..2475.38 rows=6667 width=197)
---         Hash Cond: (mg.movie_id = m.id)
---         ->  Hash Join  (cost=1.20..1974.87 rows=6667 width=4)
---               Hash Cond: (mg.genre_id = g.id)
---               ->  Seq Scan on movies_genre mg  (cost=0.00..1637.00 rows=100000 width=8)
---               ->  Hash  (cost=1.19..1.19 rows=1 width=4)
---                     ->  Seq Scan on genres g  (cost=0.00..1.19 rows=1 width=4)
---                           Filter: ((name)::text = 'Вестерн'::text)
---         ->  Hash  (cost=358.00..358.00 rows=10000 width=201)
---               ->  Seq Scan on movies m  (cost=0.00..358.00 rows=10000 width=201)
-
-
--- @todo: скорее всего в реальных условиях будет поиск по id жанра
+-- Sort  (cost=159.70..163.30 rows=1440 width=9) (actual time=0.769..0.809 rows=1440 loops=1)
+-- "  Sort Key: p.line, p.number"
+--   Sort Method: quicksort  Memory: 127kB
+--   ->  Hash Right Join  (cost=47.77..84.16 rows=1440 width=9) (actual time=0.307..0.434 rows=1440 loops=1)
+--         Hash Cond: (t.place_id = p.id)
+--         ->  Bitmap Heap Scan on tickets t  (cost=4.37..40.74 rows=10 width=8) (actual time=0.020..0.030 rows=6 loops=1)
+--               Recheck Cond: (show_id = 10)
+--               Heap Blocks: exact=6
+--               ->  Bitmap Index Scan on idx_show_id  (cost=0.00..4.37 rows=10 width=0) (actual time=0.015..0.015 rows=6 loops=1)
+--                     Index Cond: (show_id = 10)
+--         ->  Hash  (cost=25.40..25.40 rows=1440 width=12) (actual time=0.280..0.281 rows=1440 loops=1)
+--               Buckets: 2048  Batches: 1  Memory Usage: 78kB
+--               ->  Seq Scan on halls_places p  (cost=0.00..25.40 rows=1440 width=12) (actual time=0.003..0.135 rows=1440 loops=1)
+-- Planning Time: 0.223 ms
+-- Execution Time: 0.853 ms
