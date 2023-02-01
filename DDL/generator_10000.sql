@@ -26,11 +26,11 @@ insert into movies_shows (movie_id, hall_id, price, start_date)
 select
     m.id,
     (1+random()*2)::integer,
-    10*(35+random()*10)::integer,
-    (current_date - INTERVAL '20 day')
+        10*(35+random()*10)::integer,
+        (current_date - INTERVAL '20 day')
         + trunc(random()  * 60) * '1 day'::interval
         + trunc(random()  * 144) * '10 minute'::interval
-from movies as m;
+from movies as m, (select generate_series(1, 10)) as g;
 
 
 -- рандомно продаем билетики
@@ -52,20 +52,3 @@ select
 from
     vars,
     generate_series(1, 100000) as gs(id);
-
-
--- жанры
-WITH vars AS (
-    SELECT
-        (select count(*) from genres) as countGenres,
-        (select min(id) from genres) as minGenres,
-        (select count(*) from movies_shows) as countShows,
-        (select min(id) from movies_shows) as minShows
-)
-insert into movies_genre (movie_id, genre_id)
-select
-    (vars.minShows+random()*(vars.countShows-1))::integer as show_id,
-    (vars.minGenres+random()*(vars.countGenres-1))::integer as genre_id
-from
-    vars,
-    generate_series(1, 20000) as gs(id);
