@@ -2,7 +2,7 @@
     "name": "dmitry/app",
     "autoload": {
         "psr-4": {
-            "Dmitry\\App\\": "src/"
+            "DKozlov\\Otus\\": "src/"
         }
     },
     "authors": [
