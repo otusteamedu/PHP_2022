@@ -51,7 +51,7 @@ select
         + trunc(random()  * 144) * '10 minute'::interval
 from
     vars,
-    generate_series(1, 10000) as gs(id);
+    generate_series(1, 100000) as gs(id);
 
 
 -- жанры
