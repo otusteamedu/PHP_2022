@@ -41,14 +41,17 @@ WITH vars AS (
         (select count(*) from movies_shows) as countShows,
         (select min(id) from movies_shows) as minShows
 )
-insert into tickets (id, show_id, place_id)
+insert into tickets (id, show_id, place_id, created_at)
 select
     gs.id,
     (vars.minShows+random()*(vars.countShows-1))::integer as show_id,
-    (vars.minPlaces+random()*(vars.countPlaces-1))::integer as place_id
+    (vars.minPlaces+random()*(vars.countPlaces-1))::integer as place_id,
+    (current_date - INTERVAL '30 day')
+        + trunc(random()  * 30) * '1 day'::interval
+        + trunc(random()  * 144) * '10 minute'::interval
 from
     vars,
-    generate_series(1, 100000) as gs(id);
+    generate_series(1, 10000) as gs(id);
 
 
 -- жанры
@@ -65,4 +68,4 @@ select
     (vars.minGenres+random()*(vars.countGenres-1))::integer as genre_id
 from
     vars,
-    generate_series(1, 100000) as gs(id);
+    generate_series(1, 20000) as gs(id);

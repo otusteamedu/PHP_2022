@@ -27,7 +27,7 @@ order by ms.start_date;
 -- Planning Time: 0.226 ms
 -- Execution Time: 1.421 ms
 
-
+-- Добавляем индекс по дате начала показа, причем только для неудаленных записей
 CREATE INDEX idx_current_date ON movies_shows((start_date::date)) WHERE is_deleted = false;
 
 -- Sort  (cost=394.30..394.41 rows=45 width=38) (actual time=0.446..0.451 rows=159 loops=1)
