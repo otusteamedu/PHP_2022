@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace DKozlov\Otus\Domain\Model\Interface;
 
+use DKozlov\Otus\Domain\Factory\Interface\IngredientFactoryInterface;
 use DKozlov\Otus\Domain\Value\AbstractIngredient;
 use DKozlov\Otus\Domain\Value\Interface\IngredientInterface;
 
 interface ProductInterface
 {
-    public static function make(): self;
+    public static function make(IngredientFactoryInterface $ingredientFactory): self;
 
     public function addIngredient(IngredientInterface $ingredient): void;
 

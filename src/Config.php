@@ -5,15 +5,12 @@ namespace Dkozlov\Otus;
 use Closure;
 use DKozlov\Otus\Application\Builder\Interface\ProductBuilderInterface;
 use DKozlov\Otus\Application\Builder\ProductBuilder;
+use DKozlov\Otus\Domain\Factory\Interface\IngredientFactoryInterface;
 use DKozlov\Otus\Application\Factory\Interface\ProductFactoryInterface;
 use DKozlov\Otus\Application\Observer\Interface\ProductObserverInterface;
 use DKozlov\Otus\Application\Observer\ProductObserver;
-use Dkozlov\Otus\Application\Repository\Interface\RepositoryInterface;
-use Dkozlov\Otus\Application\Repository\BookRepository;
-use Dkozlov\Otus\Application\Storage\StorageInterface;
-use Dkozlov\Otus\Exception\ConfigNotFoundException;
+use DKozlov\Otus\Domain\Factory\IngredientFactory;
 use Dkozlov\Otus\Exception\DepencyNotFoundException;
-use Dkozlov\Otus\Infrastructure\Storage\ElasticSearchStorage;
 
 class Config
 {
@@ -50,9 +47,11 @@ class Config
     protected function initDepencies(): void
     {
         $this->setDepency(ProductObserverInterface::class, static fn () => new ProductObserver());
+        $this->setDepency(IngredientFactoryInterface::class, static fn () => new IngredientFactory());
         $this->setDepency(ProductBuilderInterface::class, fn () => new ProductBuilder(
             $this->depency(ProductFactoryInterface::class),
-            $this->depency(ProductObserverInterface::class)
+            $this->depency(ProductObserverInterface::class),
+            $this->depency(IngredientFactoryInterface::class)
         ));
     }
 }

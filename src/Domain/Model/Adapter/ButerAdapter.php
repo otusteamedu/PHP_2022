@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DKozlov\Otus\Domain\Model\Adapter;
 
+use DKozlov\Otus\Domain\Factory\Interface\IngredientFactoryInterface;
 use DKozlov\Otus\Domain\Model\Interface\ProductInterface;
 use DKozlov\Otus\Domain\Model\Sandwich;
 use DKozlov\Otus\Domain\Value\AbstractIngredient;
@@ -16,9 +17,9 @@ class ButerAdapter implements ProductInterface
     ) {
     }
 
-    public static function make(): ProductInterface
+    public static function make(IngredientFactoryInterface $ingredientFactory): ProductInterface
     {
-        return new self(Sandwich::make());
+        return new static(Sandwich::make($ingredientFactory));
     }
 
     public function addIngredient(IngredientInterface $ingredient): void

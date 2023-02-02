@@ -13,7 +13,7 @@ class Controller
 {
     public function index(
         ProductBuilderInterface $builder,
-        ProductObserverInterface $observer
+        ProductObserverInterface $observer,
     ): void {
         $observer->subscribe(new ProductSubscriber());
 

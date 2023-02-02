@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DKozlov\Otus\Application\Builder;
 
 use DKozlov\Otus\Application\Builder\Interface\ProductBuilderInterface;
+use DKozlov\Otus\Domain\Factory\Interface\IngredientFactoryInterface;
 use DKozlov\Otus\Application\Factory\Interface\ProductFactoryInterface;
 use DKozlov\Otus\Application\Observer\Interface\ProductObserverInterface;
 use DKozlov\Otus\Domain\Model\Exception\ProductIngredientsNotFoundException;
@@ -20,9 +21,12 @@ class ProductBuilder implements ProductBuilderInterface
     protected ?AbstractIngredient $firstStep = null;
     protected ?AbstractIngredient $currentStep = null;
 
-    public function __construct(ProductFactoryInterface $factory, ProductObserverInterface $observer)
-    {
-        $this->product = $factory->make();
+    public function __construct(
+        ProductFactoryInterface $factory,
+        ProductObserverInterface $observer,
+        IngredientFactoryInterface $ingredientFactory
+    ) {
+        $this->product = $factory->make($ingredientFactory);
         $this->observer = $observer;
     }
 

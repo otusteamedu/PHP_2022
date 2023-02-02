@@ -12,10 +12,6 @@ use DKozlov\Otus\Application\Factory\HotDogFactory;
 use DKozlov\Otus\Application\Factory\Interface\ProductFactoryInterface;
 use DKozlov\Otus\Application\Factory\SandwichFactory;
 use DKozlov\Otus\Application\Observer\Interface\ProductObserverInterface;
-use DKozlov\Otus\Application\Observer\ProductSubscriber;
-use DKozlov\Otus\Application\Builder\ProductBuilder;
-use DKozlov\Otus\Application\Observer\ProductObserver;
-use DKozlov\Otus\Domain\Model\Adapter\ButerAdapter;
 use DKozlov\Otus\Infrastructure\Http\Controller;
 
 class Application
@@ -35,7 +31,7 @@ class Application
 
         $controller->index(
             self::$config->depency(ProductBuilderInterface::class),
-            self::$config->depency(ProductObserverInterface::class)
+            self::$config->depency(ProductObserverInterface::class),
         );
     }
 

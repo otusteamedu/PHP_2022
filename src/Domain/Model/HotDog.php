@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace DKozlov\Otus\Domain\Model;
 
 use DKozlov\Otus\Domain\Value\AbstractIngredient;
-use DKozlov\Otus\Domain\Value\Bread;
-use DKozlov\Otus\Domain\Value\Sauce;
-use DKozlov\Otus\Domain\Value\Sausage;
 
 class HotDog extends AbstractProduct
 {
@@ -18,11 +15,11 @@ class HotDog extends AbstractProduct
 
     public function getProductReceipt(): AbstractIngredient
     {
-        $receipt = new Bread();
+        $receipt = $this->ingredientFactory->buildBread();
 
         $receipt
-            ->setNextIngredient(new Sauce())
-            ->setNextIngredient(new Sausage());
+            ->setNextIngredient($this->ingredientFactory->buildSauce())
+            ->setNextIngredient($this->ingredientFactory->buildSausage());
 
         return $receipt;
     }
