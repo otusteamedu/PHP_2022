@@ -19,7 +19,7 @@ class ProductBuilder implements ProductBuilderInterface
     protected ProductObserverInterface $observer;
 
     protected ?AbstractIngredient $firstStep = null;
-    protected ?AbstractIngredient $currentStep = null;
+    protected ?AbstractIngredient $lastStep = null;
 
     public function __construct(
         ProductFactoryInterface $factory,
@@ -58,9 +58,9 @@ class ProductBuilder implements ProductBuilderInterface
         if (is_null($this->firstStep)) {
             $this->firstStep = $ingredient;
         } else {
-            $this->currentStep->setNextIngredient($ingredient);
+            $this->lastStep->setNextIngredient($ingredient);
         }
 
-        $this->currentStep = $ingredient;
+        $this->lastStep = $ingredient;
     }
 }
