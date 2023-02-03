@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+#  postgres
+  postgres:
+    image: postgres
+    container_name: pgdb3
+    environment:
+      POSTGRES_DB: "pgbase3"
+      POSTGRES_USER: "pgadmin"
+      POSTGRES_PASSWORD: "pgpassword"
+    volumes:
+      - ./db3:/var/lib/postgresql/data
+    ports:
+      - "54320:5432"
+    networks:
+      - app-network
+
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
