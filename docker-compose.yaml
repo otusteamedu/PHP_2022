@@ -1,0 +1,39 @@
+# версия синтаксиса
+version: '3'
+services:
+  server_container:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: server
+    working_dir: /data
+    volumes:
+      - ./public:/data/mysite.local
+      - ./src:/data/src
+      - ./vendor:/data/vendor
+      - ./app.php:/data/app.php
+    networks:
+      - app-network
+
+  client_container:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: client
+    volumes:
+      - ./public:/data/mysite.local
+      - ./src:/data/src
+      - ./vendor:/data/vendor
+      - ./app.php:/data/app.php
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local
