@@ -16,24 +16,11 @@ class Client
             $socket->setNonBlock();
 
             $stdin = fopen('php://stdin', 'r');
-            $exit  = 0;
             print_r('Enter the message: ');
-            while (1) {
-                $msg = trim(fgets($stdin));
-                if (empty($msg) && $exit) {
+            while ($msg = trim(fgets($stdin))) {
+                if (empty($msg)) {
                     break;
                 }
-
-                if (empty($msg)) {
-                    $exit++;
-                    print_r('Please type the message or press "Enter" to exit.');
-                    continue;
-                }
-
-                if ($exit) {
-                    $exit--;
-                }
-
                 $socket->sendTo($msg, $serverSocketFilePath);
                 $socket->setBlock();
                 [$buf, $from] = $socket->receive();
