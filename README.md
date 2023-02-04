@@ -12,7 +12,9 @@ docker-compose up -d --build
 composer install
 ```
 
-Go to **http://mysite.local/event/**.
+## Usage
+
+### Go to **http://mysite.local/event/**.
 
 You can:
  - create event
