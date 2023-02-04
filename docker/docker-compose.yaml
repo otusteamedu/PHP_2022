@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ../code:/data/mysite.local/
+    networks:
+      - nosql
+
+  php:
+    build:
+      context: ./php
+    image: php
+    container_name: php
+    volumes:
+      - ../code:/data/mysite.local/
+    networks:
+      - nosql
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - ../dbdata/redis:/data
+    ports:
+      - "6379:6379"
+    command:
+      - '--save 1 1'
+    networks:
+      - nosql
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+
+networks:
+  nosql:
+    driver: bridge
