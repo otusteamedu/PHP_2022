@@ -6,7 +6,9 @@ namespace Nikcrazy37\Hw11;
 
 use Nikcrazy37\Hw11\Dto\EntityDto;
 use Nikcrazy37\Hw11\Exception\AppException;
-use Nikcrazy37\Hw11\Exception\FileNotFoundException;
+use Nikcrazy37\Hw11\Exception\NotFoundClassException;
+use Nikcrazy37\Hw11\Exception\NotFoundFileException;
+use Nikcrazy37\Hw11\Exception\NotFoundMethodException;
 
 class Router
 {
@@ -32,7 +34,7 @@ class Router
     private string $repositoryObjectPath;
 
     /**
-     * @throws FileNotFoundException
+     * @throws NotFoundFileException
      * @throws AppException
      */
     public function __construct()
@@ -62,8 +64,16 @@ class Router
                 );
 
                 $controllerName = ucfirst($entityName) . 'Controller';
-                $actionName = ucfirst(array_shift($segments));
+                $actionName = array_shift($segments);
                 $controllerObjectPath = self::CONTROLLER_NAMESPACE . $controllerName;
+
+                if (!class_exists($controllerObjectPath)) {
+                    throw new NotFoundClassException($controllerObjectPath);
+                }
+
+                if (!method_exists($controllerObjectPath, $actionName)) {
+                    throw new NotFoundMethodException($actionName);
+                }
 
                 $controllerObject = new $controllerObjectPath($repository);
                 $result = $controllerObject->$actionName();
@@ -77,12 +87,12 @@ class Router
 
     /**
      * @return void
-     * @throws FileNotFoundException
+     * @throws NotFoundFileException
      */
     private function includeRoutes(): void
     {
         if (!file_exists(self::ROUTES_PATH)) {
-            throw new FileNotFoundException(self::ROUTES_PATH);
+            throw new NotFoundFileException(self::ROUTES_PATH);
         }
 
         $this->routes = include(self::ROUTES_PATH);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw11\Exception;
 
-class FileNotFoundException extends AppException
+class NotFoundFileException extends AppException
 {
     protected $message;
 

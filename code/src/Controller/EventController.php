@@ -7,6 +7,7 @@ namespace Nikcrazy37\Hw11\Controller;
 use Nikcrazy37\Hw11\Exception\EmptyRequestException;
 use Nikcrazy37\Hw11\Model\EventModel;
 use Nikcrazy37\Hw11\Repository\Repository;
+use Nikcrazy37\Hw11\Request\Request;
 
 class EventController
 {
@@ -18,6 +19,10 @@ class EventController
      * @var EventModel
      */
     private EventModel $event;
+    /**
+     * @var Request
+     */
+    private Request $request;
 
     /**
      * @param Repository $repository
@@ -26,6 +31,7 @@ class EventController
     {
         $this->repository = $repository;
         $this->event = new EventModel();
+        $this->request = new Request();
     }
 
     /**
@@ -42,9 +48,8 @@ class EventController
      */
     public function create(): void
     {
-        $request = $this->event->getRequest("create");
-
-        $res = $this->repository->create($request["param"], $request["score"]);
+        $param = $this->event->prepareParam($this->request->param);
+        $res = $this->repository->create($param, $this->request->score);
 
         require_once ROOT . "/src/view/event/create.php";
     }
@@ -55,9 +60,7 @@ class EventController
      */
     public function read(): void
     {
-        $request = $this->event->getRequest("read");
-
-        $res = $this->repository->read($request["id"]);
+        $res = $this->repository->read($this->request->id);
 
         require_once ROOT . "/src/view/event/read.php";
     }
@@ -68,9 +71,8 @@ class EventController
      */
     public function update(): void
     {
-        $request = $this->event->getRequest("update");
-
-        $res = $this->repository->update($request["param"], $request["score"], $request["id"]);
+        $param = $this->event->prepareParam($this->request->param);
+        $res = $this->repository->update($param, $this->request->score, $this->request->id);
 
         require_once ROOT . "/src/view/event/update.php";
     }
@@ -81,12 +83,10 @@ class EventController
      */
     public function delete(): void
     {
-        $request = $this->event->getRequest("delete");
-
-        if (isset($request["clear"])) {
+        if (isset($this->request->clear)) {
             $res = $this->repository->clear();
         } else {
-            $res = $this->repository->delete($request["id"]);
+            $res = $this->repository->delete($this->request->id);
         }
 
         require_once ROOT . "/src/view/event/delete.php";
@@ -98,9 +98,8 @@ class EventController
      */
     public function search(): void
     {
-        $request = $this->event->getRequest("search");
-
-        $res = $this->repository->search($request["param"]);
+        $param = $this->event->prepareParam($this->request->param);
+        $res = $this->repository->search($param);
 
         require_once ROOT . "/src/view/event/search.php";
     }
