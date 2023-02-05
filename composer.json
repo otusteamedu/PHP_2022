@@ -1,0 +1,18 @@
+{
+    "name": "ilisitsa/hw-4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ilisitsa\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ivan",
+            "email": "lisica.media@gmail.com"
+        }
+    ],
+    "require": {
+        "ivan-lisitsa/test-package": "^1.0"
+    }
+}
