@@ -13,6 +13,6 @@
         }
     ],
     "require": {
-        "ivan-lisitsa/test-package": "^1.0"
+        "ivan-lisitsa/test-package": "^2.0"
     }
 }

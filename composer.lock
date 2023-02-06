@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d9c19671550b712ffe8e700ce429e9e",
+    "content-hash": "97d67ac834580965321fc811596c2b79",
     "packages": [
         {
             "name": "ivan-lisitsa/test-package",
-            "version": "v1.0.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ivanich274/test-package.git",
-                "reference": "679b3c862991719a9b1f9ebca278e999fe2c0b3a"
+                "reference": "326c8106c0087cfed9cacc427a08cb19da351137"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivanich274/test-package/zipball/679b3c862991719a9b1f9ebca278e999fe2c0b3a",
-                "reference": "679b3c862991719a9b1f9ebca278e999fe2c0b3a",
+                "url": "https://api.github.com/repos/ivanich274/test-package/zipball/326c8106c0087cfed9cacc427a08cb19da351137",
+                "reference": "326c8106c0087cfed9cacc427a08cb19da351137",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.0"
             },
             "type": "library",
             "autoload": {
@@ -38,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ivanich274/test-package/issues",
-                "source": "https://github.com/ivanich274/test-package/tree/v1.0.0"
+                "source": "https://github.com/ivanich274/test-package/tree/v2.1.0"
             },
-            "time": "2023-02-05T16:03:41+00:00"
+            "time": "2023-02-06T07:50:07+00:00"
         }
     ],
     "packages-dev": [],
