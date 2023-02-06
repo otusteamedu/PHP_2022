@@ -18,8 +18,10 @@ class ProductBuilder implements ProductBuilderInterface
 
     protected ProductObserverInterface $observer;
 
-    protected ?AbstractIngredient $firstStep = null;
-    protected ?AbstractIngredient $lastStep = null;
+    /**
+     * @var AbstractIngredient[]
+     */
+    protected array $ingredients = [];
 
     public function __construct(
         ProductFactoryInterface $factory,
@@ -39,11 +41,7 @@ class ProductBuilder implements ProductBuilderInterface
 
     public function cook(): ProductInterface
     {
-        $step = $this->firstStep;
-
-        if (is_null($step)) {
-            throw new ProductIngredientsNotFoundException('Ингридиенты для "' . $this->product->who() . " не найдены");
-        }
+        $step = $this->makeCookChain();
 
         do {
             $this->product->addIngredient($step);
@@ -55,12 +53,27 @@ class ProductBuilder implements ProductBuilderInterface
 
     public function addIngredient(AbstractIngredient $ingredient): void
     {
-        if (is_null($this->firstStep)) {
-            $this->firstStep = $ingredient;
-        } else {
-            $this->lastStep->setNextIngredient($ingredient);
+        $this->ingredients[] = $ingredient;
+    }
+
+    /**
+     * @throws ProductIngredientsNotFoundException
+     */
+    protected function makeCookChain(): AbstractIngredient
+    {
+        $start = array_shift($this->ingredients);
+
+        if (is_null($start)) {
+            throw new ProductIngredientsNotFoundException('Ингридиенты для "' . $this->product->who() . " не найдены");
         }
 
-        $this->lastStep = $ingredient;
+        $current = $start;
+
+        while ($step = array_shift($this->ingredients)) {
+            $current->setNextIngredient($step);
+            $current = $step;
+        }
+
+        return $start;
     }
 }
