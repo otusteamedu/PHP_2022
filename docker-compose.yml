@@ -1,0 +1,47 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:1.23.2
+    volumes:
+      - ./publisher/hosts:/etc/nginx/conf.d
+      - ./publisher/www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    restart: always
+    networks:
+      - app-network
+    depends_on:
+      - publisher
+    ports:
+      - "80:80"
+
+  publisher:
+    build: ./images/php_fpm
+    restart: always
+    volumes:
+      - ./publisher/www:/var/www
+      - ./logs/publisher/php:/var/log
+    networks:
+      - app-network
+
+  consumer:
+    build: ./images/php_fpm
+    restart: always
+    volumes:
+      - ./consumer:/var/www
+      - ./logs/consumer/php:/var/log
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
