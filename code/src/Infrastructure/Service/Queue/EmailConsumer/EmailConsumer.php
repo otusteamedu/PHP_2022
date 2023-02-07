@@ -49,6 +49,4 @@ class EmailConsumer implements QueueInterface
     {
         mail($dto->getTo(), $dto->getTitle(), $dto->getTitle());
     }
-
-
 }

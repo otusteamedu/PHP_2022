@@ -17,14 +17,8 @@ class EmailSendDTO
 
     private array $payload;
 
-
     public function __construct(array $data)
     {
-        /*
-        $this->from = $data['from'] ;
-        $this->to = $data['to'] ;
-        $this->body = $data['body'] ;
-        */
         $this->payload =
             [
                 'from' => $data['from'],

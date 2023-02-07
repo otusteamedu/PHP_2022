@@ -21,15 +21,10 @@ class StatementPublisher implements QueueInterface
     public function send(array $data)
     {
         $this->createChanel();
-
-
         $message = $this->createMessage($data);
 
         $this->channel->basic_publish($message, '', self::QUEUE_NAME_STATEMENT);
-       // echo " [x] Sent 'Hello World!'\n";
-
         $this->channel->close();
-      //  $connection->close();
 
     }
 
@@ -38,7 +33,6 @@ class StatementPublisher implements QueueInterface
         $connection =  $this->rabbitMQConnector->connection();
         $this->channel = $connection->channel();
         $this->channel->queue_declare(self::QUEUE_NAME_STATEMENT, false, false, false, false);
-
 
     }
 

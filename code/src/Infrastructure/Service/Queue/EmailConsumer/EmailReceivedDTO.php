@@ -78,8 +78,4 @@ class EmailReceivedDTO
         return $this->attachment;
     }
 
-
-
-
-
 }

@@ -29,10 +29,7 @@ class StatementController
         $cn = new RabbitMQConnector();
         $publisher = new  StatementPublisher($cn);
 
-
         $publisher->send($_REQUEST);
-
-       // $statementService = new StatementService($publisher);
 
         View::render('statementRequestSend', [
             'title' => 'Подтверждение отправки запроса.',

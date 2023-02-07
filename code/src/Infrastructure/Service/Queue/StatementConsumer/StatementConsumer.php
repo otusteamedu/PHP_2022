@@ -3,11 +3,9 @@
 
 namespace Study\Cinema\Infrastructure\Service\Queue\StatementConsumer;
 
-use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Study\Cinema\Infrastructure\Rabbit\RabbitMQConnector;
 use Study\Cinema\Infrastructure\Service\Queue\QueueInterface;
-use Study\Cinema\Infrastructure\Service\Queue;
 use Study\Cinema\Infrastructure\Service\Statement\StatementService;
 use Study\Cinema\Infrastructure\Service\Queue\EmailPublisher\EmailPublisher;
 
@@ -32,25 +30,21 @@ class StatementConsumer implements QueueInterface
     {
         $this->createChanel();
 
-
         $callback = function ($msg) {
-          //  echo ' [x] Received ', $msg->body, "\n";
-            //$data  = explode(",", $msg->body);
+
             $data = json_decode($msg->body, true);
             $dto = new StatementReceivedDTO($data);
-            echo ' [x] Received ', $msg->body, "\n";
-
+            echo ' [x] Received request with data', $msg->body, "\n";
             //обработка и получение результата
-           echo  $this->getStatement($dto);
+            if($this->getStatement($dto))
+                echo " Выписка сформирована. Данные отправлены.";
+
         };
-
         $this->channel->basic_consume(QueueInterface::QUEUE_NAME_STATEMENT, '', false, true, false, false, $callback);
-
         while ($this->channel->is_open()) {
             $this->channel->wait();
         }
 
-       
     }
 
     private function createChanel()
@@ -62,8 +56,10 @@ class StatementConsumer implements QueueInterface
         echo " [*] Waiting for messages. To exit press CTRL+C\n";
 
     }
-
-    private function getStatement(StatementReceivedDTO $dto )
+    /**
+     * Метод формирует данные выписки и отпавляет готовую выписку
+    **/
+    private function getStatement(StatementReceivedDTO $dto)
     {
         return $this->statementService->createStatement($dto, $this->emailPublisher);
     }

@@ -25,9 +25,7 @@ class EmailPublisher implements QueueInterface
         $message = $this->createMessage($data);
         $this->channel->basic_publish($message, '', self::QUEUE_NAME_EMAIL);
 
-
         $this->channel->close();
-      //  $connection->close();
 
     }
 
