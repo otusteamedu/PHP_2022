@@ -13,6 +13,7 @@
         }
     ],
     "require": {
+        "php": "^8.0",
         "ivan-lisitsa/test-package": "^2.0"
     }
 }
