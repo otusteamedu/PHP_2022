@@ -7,7 +7,7 @@ use app\validators\DateValidator;
 use app\validators\EmailValidator;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class Form {
+class Form implements ModelInterface {
     public string $dateFrom = '';
     public string $dateTo = '';
     public string $email = '';
