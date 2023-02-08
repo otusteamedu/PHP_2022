@@ -1,0 +1,10 @@
+/.idea
+/pgadmin
+/db_data
+/volumes
+/vendor
+.env
+.DS_Store
+*.bak
+*.orig
+*.crt

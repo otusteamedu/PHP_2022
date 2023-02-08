@@ -1,2 +1,9 @@
 # PHP_2022
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+
+## ДЗ: Разработка кейсов тестирования
+
+#### Описание/Пошаговая инструкция выполнения домашнего задания:
+- Скачать файл с заданием https://drive.google.com/file/d/1yAtmj9DE2yFeGh26WxDwr42j7RVbB_PI/view?usp=sharing
+- Внутри файла содержится задача, результат выполнения задачи необходимо сохранить в md-файл или doc-файл.
+- Полученный файл выложить в git, Google Drive или любой другой файлообменник.
+- Ссылку на файл прислать в чат с преподавателем.
