@@ -1,0 +1,30 @@
+version: '3'
+
+services:  
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: chat/php
+    container_name: server
+    volumes:
+      - ./code:/data/app
+      - ./sock:/data/sock
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: chat/php
+    container_name: client
+    volumes:
+      - ./code:/data/app
+      - ./sock:/data/sock
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
