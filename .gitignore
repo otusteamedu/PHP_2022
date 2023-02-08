@@ -1,0 +1,5 @@
+/.idea/
+/dbdata/
+/code/vendor/
+/code/composer.lock
+/.env
