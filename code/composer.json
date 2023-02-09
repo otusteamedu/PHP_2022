@@ -1,0 +1,11 @@
+{
+    "name": "kogarkov/chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Kogarkov\\Chat\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
