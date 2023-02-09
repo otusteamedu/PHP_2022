@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kogarkov\Chat\App;
 
+use Generator;
 use Kogarkov\Chat\Core\Socket\Client as ClientSocket;
 
 class Client
@@ -21,16 +22,15 @@ class Client
         $this->socket->connect();
     }
 
-    public function run(): void
+    public function run(): \Generator
     {
-        echo 'Input message: ';
+        yield 'Input message: ';
         while (true) {
             $message = fgets(fopen('php://stdin', 'r'));
             if ($message) {
                 $result = $this->socket->write($message);
                 if ($result) {
-                    echo "$result bytes send to socket \n";
-                    echo 'Input message: ';
+                    yield "$result bytes send to socket \nInput message: ";
                 }
             }
         }

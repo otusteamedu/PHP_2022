@@ -11,7 +11,7 @@ use Kogarkov\Chat\Core\Service\Registry;
 
 class App
 {
-    public $run_mode;
+    private $run_mode;
 
     public function __construct()
     {
@@ -43,13 +43,17 @@ class App
     {
         $server = new Server();
         $server->initialize();
-        $server->run();
+        foreach ($server->run() as $message) {
+            echo $message;
+        }
     }
 
     private function runClient(): void
     {
         $client = new Client();
         $client->initialize();
-        $client->run();
+        foreach ($client->run() as $message) {
+            echo $message;
+        }
     }
 }

@@ -23,12 +23,12 @@ class Server
         $this->socket->accept();
     }
 
-    public function run(): void
+    public function run(): \Generator
     {
         while (true) {
             $message = $this->socket->read();
             if ($message) {
-                echo "Message from Client: $message";
+                yield "Message from Client: $message";
             }
         }
     }
