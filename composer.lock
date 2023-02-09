@@ -1,0 +1,57 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "70035b594811812edde39aa0c1187041",
+    "packages": [
+        {
+            "name": "ivan-lisitsa/test-package",
+            "version": "v3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ivanich274/test-package.git",
+                "reference": "5303375f2b3002447389f39681c3e73ae9a87fd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ivanich274/test-package/zipball/5303375f2b3002447389f39681c3e73ae9a87fd1",
+                "reference": "5303375f2b3002447389f39681c3e73ae9a87fd1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IvanLisitsa\\TestPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Ivan",
+                    "email": "lisica.media@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/ivanich274/test-package/issues",
+                "source": "https://github.com/ivanich274/test-package/tree/v3.2"
+            },
+            "time": "2023-02-09T08:00:29+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.0"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}
