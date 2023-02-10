@@ -32,16 +32,17 @@ CREATE TABLE `hall` (
 
 
 CREATE TABLE `hall_scheme` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `hall_id` int(11) NOT NULL,
   `row_number` smallint(2) NOT NULL,
-  `seat_count` smallint(3) NOT NULL
+  `seat_number` smallint(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE `hall_scheme` ADD PRIMARY KEY( `hall_id`, `row_number`);
 ALTER TABLE `hall_scheme`
   ADD KEY `hall_fk` (`hall_id`);
 ALTER TABLE `hall_scheme`
   ADD CONSTRAINT `hall_fk` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `hall_scheme` ADD UNIQUE `hall_scheme_unq_idx` (`hall_id`, `row_number`, `seat_number`) USING BTREE;
 
 
 CREATE TABLE `movie` (
@@ -96,15 +97,16 @@ CREATE TABLE `ticket` (
   `code` varchar(32) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `session_id` int(11) NOT NULL,
-  `row_number` smallint(2) NOT NULL,
-  `seat_number` smallint(3) NOT NULL,
+  `hall_scheme_id` int(11) NOT NULL,
   `total` decimal(4,2) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE `ticket`
   ADD KEY `customer_fk` (`customer_id`),
+  ADD KEY `hall_scheme_1_fk` (`hall_scheme_id`),
   ADD KEY `session_fk` (`session_id`);
 ALTER TABLE `ticket`
   ADD CONSTRAINT `customer_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `hall_scheme_1_fk` FOREIGN KEY (`hall_scheme_id`) REFERENCES `hall_scheme` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `session_fk` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`) ON UPDATE CASCADE;

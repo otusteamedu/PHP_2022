@@ -33,11 +33,13 @@
 | title | VARCHAR(64) | NOT NULL |
 | status | TINYINT(1) | NOT NULL |
 ### hall_scheme - Схема кинозалов  
+Составной уникальный ключ на (hall_id, row_number, seat_number)  
 | Наименование поля | Тип поля | Примечания
 | --- | --- | --- |
-| hall_id | INT(11) | NOT NULL, PK |
-| row_number | SMALLINT(2) | NOT NULL, PK <br /> Номер ряда |
-| seat_count | SMALLINT(3) | NOT NULL <br /> Кол-во мест в ряду |
+| id | INT(11) | NOT NULL, PK |
+| hall_id | INT(11) | NOT NULL, UNQ <br /> Зал |
+| row_number | SMALLINT(2) | NOT NULL, UNQ <br /> Номер ряда |
+| seat_number | SMALLINT(3) | NOT NULL, UNQ <br /> Номер места |
 ### movie - Список кинофильмов
 | Наименование поля | Тип поля | Примечания
 | --- | --- | --- |
@@ -74,8 +76,7 @@
 | code | VARCHAR(32) | NOT NULL |
 | customer_id | INT(11) | NOT NULL |
 | session_id | INT(11) | NOT NULL |
-| row_number | SMALLINT(2) | NOT NULL |
-| seat_number | SMALLINT(3) | NOT NULL |
+| hall_scheme_id | INT(11) | NOT NULL |
 | total | DECIMAL(4,2) | NOT NULL |
 | created_at | DATETIME | NOT NULL |
 
