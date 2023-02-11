@@ -33,7 +33,12 @@ class Processor {
     private function handleMessage(AMQPMessage $msg): void {
         $id = $msg->getBody();
         echo 'Получен запрос от пользователя. Обрабатываю.'.PHP_EOL;
-        UserQueryService::processQuery($id);
+        $model = UserQueryService::getFromDb($id);
+        //какая-то обработка
+        sleep(5);
+        $model->setStatus('processed');
+        $service = new UserQueryService($model);
+        $service->updateInDB();
     }
 
 
