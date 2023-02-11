@@ -1,10 +1,10 @@
 <?php
 
-use app\components\SlimApplication;
+use app\command\Processor;
 
 require __DIR__.'/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
 $dotenv->load();
 
-(new SlimApplication())->run();
+(new Processor())->run();
