@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12\Dto;
+namespace Nikcrazy37\Hw12\Core\Dto;
 
-class DtoConnection
+class Connection
 {
     private string $hostname;
     private string $database;

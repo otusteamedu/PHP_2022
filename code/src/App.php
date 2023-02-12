@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw12;
 
-use Nikcrazy37\Hw12\Exception\AppException;
+use Nikcrazy37\Hw12\Core\Exception\AppException;
+use Nikcrazy37\Hw12\Core\Router;
 
 class App
 {

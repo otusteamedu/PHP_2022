@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12\Exception;
+namespace Nikcrazy37\Hw12\Core\Exception;
 
 class NotFoundMethodException extends AppException
 {

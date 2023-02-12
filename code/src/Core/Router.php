@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12;
+namespace Nikcrazy37\Hw12\Core;
 
-use Nikcrazy37\Hw12\Exception\AppException;
-use Nikcrazy37\Hw12\Exception\NotFoundFileException;
-use Nikcrazy37\Hw12\Exception\NotFoundClassException;
-use Nikcrazy37\Hw12\Exception\NotFoundMethodException;
+use Nikcrazy37\Hw12\Core\Exception\AppException;
+use Nikcrazy37\Hw12\Core\Exception\NotFoundFileException;
+use Nikcrazy37\Hw12\Core\Exception\NotFoundClassException;
+use Nikcrazy37\Hw12\Core\Exception\NotFoundMethodException;
 
 class Router
 {

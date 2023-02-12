@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12\Exception;
+namespace Nikcrazy37\Hw12\Core\Exception;
 
-class EmptyParamException extends AppException
+class NotFoundClassException extends AppException
 {
     protected $message;
 
     public function __construct($message = "", $code = 0, \Throwable $previous = null)
     {
-        $message = "Parameter \"$message\" is empty!";
+        $message = "Class \"$message()\" not found!";
         parent::__construct($message, $code, $previous);
     }
 }

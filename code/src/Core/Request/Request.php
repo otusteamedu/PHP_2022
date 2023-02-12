@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12\Request;
+namespace Nikcrazy37\Hw12\Core\Request;
 
-use Nikcrazy37\Hw12\Exception\EmptyParamException;
-use Nikcrazy37\Hw12\Exception\EmptyRequestException;
+use Nikcrazy37\Hw12\Core\Exception\EmptyParamException;
+use Nikcrazy37\Hw12\Core\Exception\EmptyRequestException;
 
 class Request
 {

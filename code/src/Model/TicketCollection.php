@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12\Map\Ticket;
+namespace Nikcrazy37\Hw12\Model;
 
-use Nikcrazy37\Hw12\Map\IdentityMap;
+use Nikcrazy37\Hw12\Core\Entity\IdentityMap;
 
 class TicketCollection implements \Iterator
 {

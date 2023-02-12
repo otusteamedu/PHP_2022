@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12\Exception;
+namespace Nikcrazy37\Hw12\Core\Exception;
 
-class NotFoundFileException extends AppException
+class EmptyParamException extends AppException
 {
     protected $message;
 
     public function __construct($message = "", $code = 0, \Throwable $previous = null)
     {
-        $message = "File for path: \"$message\" not found!";
+        $message = "Parameter \"$message\" is empty!";
         parent::__construct($message, $code, $previous);
     }
 }

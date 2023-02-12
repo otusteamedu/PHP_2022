@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw12\Map\Ticket;
+namespace Nikcrazy37\Hw12\Model;
 
 use PDO;
 use PDOStatement;
-use Nikcrazy37\Hw12\Map\EntityMapper;
-use Nikcrazy37\Hw12\Map\Entity;
-use Nikcrazy37\Hw12\Exception\NotFoundElementException;
-use Nikcrazy37\Hw12\Map\IdentityMap;
+use Nikcrazy37\Hw12\Core\Entity\EntityMapper;
+use Nikcrazy37\Hw12\Core\Entity\Entity;
+use Nikcrazy37\Hw12\Core\Exception\NotFoundElementException;
+use Nikcrazy37\Hw12\Core\Entity\IdentityMap;
 
 class TicketMapper implements EntityMapper
 {
@@ -65,10 +65,6 @@ class TicketMapper implements EntityMapper
 
         $this->insertStmt = $pdo->prepare(
             "insert into " . self::TABLE_NAME . " (price, seat, session_id) values (?, ?, ?)"
-        );
-
-        $this->updateStmt = $pdo->prepare(
-            "update " . self::TABLE_NAME . " set price = ?, seat = ?, session_id = ? where id = ?"
         );
 
         $this->deleteStmt = $pdo->prepare("delete from " . self::TABLE_NAME . " where id = ?");
@@ -169,16 +165,29 @@ class TicketMapper implements EntityMapper
      */
     public function update(Entity $ticket): bool
     {
+        $param = $ticket->getAll();
+
+        $id = $param["id"];
+        unset($param["id"]);
+
+        $param = array_filter($param);
+
+        $set = "";
+        array_walk($param, function ($value, $key) use (&$set) {
+            if (strlen($set) === 0) {
+                $set .= "$key = $value";
+                return;
+            }
+            $set .= ", $key = $value";
+        });
+
+        $this->updateStmt = $this->pdo->prepare(
+            "update " . self::TABLE_NAME . " set $set where id = $id"
+        );
+
         $this->addToMap($ticket);
 
-        return $this->updateStmt->execute(
-            array(
-                $ticket->getPrice(),
-                $ticket->getSeat(),
-                $ticket->getSessionId(),
-                $ticket->getId(),
-            )
-        );
+        return $this->updateStmt->execute();
     }
 
     /**

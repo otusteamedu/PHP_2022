@@ -5,7 +5,7 @@ const ROOT = __DIR__ . "/..";
 require ROOT . "/vendor/autoload.php";
 
 use Nikcrazy37\Hw12\App;
-use Nikcrazy37\Hw12\Exception\AppException;
+use Nikcrazy37\Hw12\Core\Exception\AppException;
 
 try {
     $app = new App();
