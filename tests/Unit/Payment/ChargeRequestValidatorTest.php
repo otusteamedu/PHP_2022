@@ -25,16 +25,16 @@ final class ChargeRequestValidatorTest extends TestCase
 
     public function testIncorrectCardNumber(): void
     {
-        $cardNumberLessThan16Digests = $this->generateStringNumber(15);
-        $cardNumberMoreThan16Digests = $this->generateStringNumber(17);
-        $cardNumberWithCharacters = $this->generateStringNumber(7) . $this->faker->randomAscii . $this->generateStringNumber(8);
+        $cardNumberLessThan16Digests = RandomStringGenerator::generateStringNumber(15);
+        $cardNumberMoreThan16Digests = RandomStringGenerator::generateStringNumber(17);
+        $cardNumberWithCharacters = RandomStringGenerator::generateStringNumber(7) . $this->faker->randomAscii . RandomStringGenerator::generateStringNumber(8);
         $request = new ChargeRequest(
             '',
             $this->faker->name . ' ' . $this->faker->lastName,
             $this->faker->creditCardExpirationDateString,
-            $this->generateStringNumber(3),
-            $this->generateStringNumber(10),
-            $this->generateStringNumber(4) . ',' . $this->generateStringNumber(2)
+            RandomStringGenerator::generateStringNumber(3),
+            RandomStringGenerator::generateStringNumber(10),
+            RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(2)
         );
 
         $request->card_number = $cardNumberLessThan16Digests;
@@ -54,12 +54,12 @@ final class ChargeRequestValidatorTest extends TestCase
         $shortListOfInappropriateSymbolsForCardHolder = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', ':', '"', '|', '<', '>', '?', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
         $request = new ChargeRequest(
-            $this->generateStringNumber(16),
+            RandomStringGenerator::generateStringNumber(16),
             '',
             $this->faker->creditCardExpirationDateString,
-            $this->generateStringNumber(3),
-            $this->generateStringNumber(10),
-            $this->generateStringNumber(4) . ',' . $this->generateStringNumber(2)
+            RandomStringGenerator::generateStringNumber(3),
+            RandomStringGenerator::generateStringNumber(10),
+            RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(2)
         );
 
         $request->card_holder = $moreThanOneSpaceCardHolder;
@@ -85,12 +85,12 @@ final class ChargeRequestValidatorTest extends TestCase
         $expDateIncorrectMonth = strval(\rand(13, 99)) . '/' . $currentYearTwoNumbers;
 
         $request = new ChargeRequest(
-            $this->generateStringNumber(16),
+            RandomStringGenerator::generateStringNumber(16),
             $this->faker->name . ' ' . $this->faker->lastName,
             $this->faker->creditCardExpirationDateString,
-            $this->generateStringNumber(3),
-            $this->generateStringNumber(10),
-            $this->generateStringNumber(4) . ',' . $this->generateStringNumber(2)
+            RandomStringGenerator::generateStringNumber(3),
+            RandomStringGenerator::generateStringNumber(10),
+            RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(2)
         );
 
         $request->card_expiration = $expDateWithoutSlash;
@@ -108,18 +108,18 @@ final class ChargeRequestValidatorTest extends TestCase
 
     public function testIncorrectCVV(): void
     {
-        $cvv2Numbers = $this->generateStringNumber(2);
-        $cvv4Numbers = $this->generateStringNumber(4);
-        $cvvWithLetter = $this->generateStringNumber(3) . RandomStringGenerator::randomEnglishAlphabetSting(1);
+        $cvv2Numbers = RandomStringGenerator::generateStringNumber(2);
+        $cvv4Numbers = RandomStringGenerator::generateStringNumber(4);
+        $cvvWithLetter = RandomStringGenerator::generateStringNumber(3) . RandomStringGenerator::randomEnglishAlphabetSting(1);
         $cvv3Letters = RandomStringGenerator::randomEnglishAlphabetSting(3);
 
         $request = new ChargeRequest(
-            $this->generateStringNumber(16),
+            RandomStringGenerator::generateStringNumber(16),
             $this->faker->name . ' ' . $this->faker->lastName,
             $this->faker->creditCardExpirationDateString,
-            $this->generateStringNumber(3),
-            $this->generateStringNumber(10),
-            $this->generateStringNumber(4) . ',' . $this->generateStringNumber(2)
+            RandomStringGenerator::generateStringNumber(3),
+            RandomStringGenerator::generateStringNumber(10),
+            RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(2)
         );
 
         $request->cvv = $cvv2Numbers;
@@ -137,18 +137,18 @@ final class ChargeRequestValidatorTest extends TestCase
 
     public function testIncorrectOrderNumber(): void
     {
-        $sumWithLetter = $this->generateStringNumber(4) . ',' . $this->generateStringNumber(2) . RandomStringGenerator::randomEnglishAlphabetSting(1);
-        $sumWithDotDelimiter = $this->generateStringNumber(4) . '.' . $this->generateStringNumber(2);
-        $sumWithoutDelimiter = $this->generateStringNumber(6);
-        $sum3NumbersInCents = $this->generateStringNumber(4) . ',' . $this->generateStringNumber(3);
+        $sumWithLetter = RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(2) . RandomStringGenerator::randomEnglishAlphabetSting(1);
+        $sumWithDotDelimiter = RandomStringGenerator::generateStringNumber(4) . '.' . RandomStringGenerator::generateStringNumber(2);
+        $sumWithoutDelimiter = RandomStringGenerator::generateStringNumber(6);
+        $sum3NumbersInCents = RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(3);
 
         $request = new ChargeRequest(
-            $this->generateStringNumber(16),
+            RandomStringGenerator::generateStringNumber(16),
             $this->faker->name . ' ' . $this->faker->lastName,
             $this->faker->creditCardExpirationDateString,
-            $this->generateStringNumber(3),
-            $this->generateStringNumber(10),
-            $this->generateStringNumber(4) . ',' . $this->generateStringNumber(2)
+            RandomStringGenerator::generateStringNumber(3),
+            RandomStringGenerator::generateStringNumber(10),
+            RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(2)
         );
 
         $request->sum = $sumWithLetter;
@@ -166,27 +166,18 @@ final class ChargeRequestValidatorTest extends TestCase
 
     public function testIncorrectSum(): void
     {
-        $orderNumberMoreThan17Characters = $this->generateStringNumber(17);
+        $orderNumberMoreThan17Characters = RandomStringGenerator::generateStringNumber(17);
 
         $request = new ChargeRequest(
-            $this->generateStringNumber(16),
+            RandomStringGenerator::generateStringNumber(16),
             $this->faker->name . ' ' . $this->faker->lastName,
             $this->faker->creditCardExpirationDateString,
-            $this->generateStringNumber(3),
-            $this->generateStringNumber(10),
-            $this->generateStringNumber(4) . ',' . $this->generateStringNumber(2)
+            RandomStringGenerator::generateStringNumber(3),
+            RandomStringGenerator::generateStringNumber(10),
+            RandomStringGenerator::generateStringNumber(4) . ',' . RandomStringGenerator::generateStringNumber(2)
         );
 
         $request->order_number = $orderNumberMoreThan17Characters;
         self::assertFalse($this->chargeRequestValidator->isValid($request));
-    }
-
-    private function generateStringNumber(int $numbersQuantity): string
-    {
-        $result = '';
-        for ($i = 0; $i < $numbersQuantity; $i++) {
-            $result .= $this->faker->randomDigit();
-        }
-        return $result;
     }
 }

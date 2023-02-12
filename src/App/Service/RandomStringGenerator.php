@@ -23,4 +23,13 @@ class RandomStringGenerator
         }
         return $result;
     }
+
+    public static function generateStringNumber(int $numbersQuantity): string
+    {
+        $result = '';
+        for ($i = 0; $i < $numbersQuantity; $i++) {
+            $result .= \random_int(0, 9);
+        }
+        return $result;
+    }
 }
