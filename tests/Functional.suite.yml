@@ -8,5 +8,5 @@
 actor: FunctionalTester
 modules:
     enabled:
-        # add a framework module here
+        - Symfony
 step_decorators: ~
