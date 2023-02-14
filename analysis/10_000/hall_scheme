@@ -1,0 +1,20 @@
+Hash Left Join  (cost=251.64..266.37 rows=50 width=5) (actual time=2.032..2.131 rows=50 loops=1)
+"  Hash Cond: (p.id = t.""Place"")"
+"  ->  Seq Scan on ""Place"" p  (cost=0.00..14.38 rows=50 width=8) (actual time=0.014..0.102 rows=50 loops=1)"
+"        Filter: (""Hall"" = 3)"
+        Rows Removed by Filter: 700
+  ->  Hash  (cost=250.62..250.62 rows=81 width=4) (actual time=2.007..2.008 rows=89 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 12kB
+        ->  Sort  (cost=249.61..249.81 rows=81 width=4) (actual time=1.953..1.959 rows=89 loops=1)
+"              Sort Key: t.""Place"""
+              Sort Method: quicksort  Memory: 29kB
+              ->  Hash Join  (cost=46.74..247.04 rows=81 width=4) (actual time=0.187..1.927 rows=89 loops=1)
+"                    Hash Cond: (t.""Schedule"" = sch.id)"
+"                    ->  Seq Scan on ""Ticket"" t  (cost=0.00..174.00 rows=10000 width=8) (actual time=0.004..0.742 rows=10000 loops=1)"
+                    ->  Hash  (cost=46.55..46.55 rows=15 width=4) (actual time=0.168..0.169 rows=15 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"                          ->  Seq Scan on ""Schedule"" sch  (cost=0.00..46.55 rows=15 width=4) (actual time=0.079..0.158 rows=15 loops=1)"
+"                                Filter: ((""Time"" = '16:00:00'::time without time zone) AND (""Date"" = CURRENT_DATE))"
+                                Rows Removed by Filter: 1845
+Planning Time: 0.297 ms
+Execution Time: 2.229 ms

@@ -1,0 +1,11 @@
+Aggregate  (cost=256.27..256.28 rows=1 width=4) (actual time=2.420..2.422 rows=1 loops=1)
+  ->  Hash Join  (cost=55.89..256.19 rows=16 width=2) (actual time=0.516..2.414 rows=17 loops=1)
+"        Hash Cond: (t.""Schedule"" = sch.id)"
+"        ->  Seq Scan on ""Ticket"" t  (cost=0.00..174.00 rows=10000 width=6) (actual time=0.132..1.293 rows=10000 loops=1)"
+        ->  Hash  (cost=55.85..55.85 rows=3 width=4) (actual time=0.323..0.324 rows=3 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"              ->  Seq Scan on ""Schedule"" sch  (cost=0.00..55.85 rows=3 width=4) (actual time=0.068..0.310 rows=3 loops=1)"
+"                    Filter: ((""Time"" = '16:00:00'::time without time zone) AND (""Movie"" = 2) AND (""Date"" = (CURRENT_DATE - 10)))"
+                    Rows Removed by Filter: 1857
+Planning Time: 5.103 ms
+Execution Time: 2.540 ms
