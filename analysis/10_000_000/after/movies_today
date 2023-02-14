@@ -1,0 +1,12 @@
+HashAggregate  (cost=5.08..5.13 rows=5 width=30) (actual time=0.141..0.142 rows=5 loops=1)
+"  Group Key: m.""Name"""
+  Batches: 1  Memory Usage: 24kB
+  ->  Hash Join  (cost=1.39..4.93 rows=60 width=30) (actual time=0.078..0.105 rows=60 loops=1)
+"        Hash Cond: (sch.""Movie"" = m.id)"
+"        ->  Index Scan using idx_schedule_date on ""Schedule"" sch  (cost=0.28..3.53 rows=60 width=4) (actual time=0.052..0.064 rows=60 loops=1)"
+"              Index Cond: (""Date"" = CURRENT_DATE)"
+        ->  Hash  (cost=1.05..1.05 rows=5 width=34) (actual time=0.016..0.016 rows=5 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"              ->  Seq Scan on ""Movie"" m  (cost=0.00..1.05 rows=5 width=34) (actual time=0.004..0.005 rows=5 loops=1)"
+Planning Time: 0.197 ms
+Execution Time: 0.204 ms

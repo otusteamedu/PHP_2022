@@ -1,0 +1,13 @@
+Aggregate  (cost=16205.55..16205.56 rows=1 width=4) (actual time=27.533..27.535 rows=1 loops=1)
+  ->  Nested Loop  (cost=47.88..16124.91 rows=16129 width=2) (actual time=2.018..26.005 rows=15880 loops=1)
+"        ->  Index Scan using idx_schedule_date on ""Schedule"" sch  (cost=0.28..3.83 rows=3 width=4) (actual time=0.031..0.056 rows=3 loops=1)"
+"              Index Cond: (""Date"" = (CURRENT_DATE - 10))"
+"              Filter: ((""Time"" = '16:00:00'::time without time zone) AND (""Movie"" = 2))"
+              Rows Removed by Filter: 57
+"        ->  Bitmap Heap Scan on ""Ticket"" t  (cost=47.60..5319.93 rows=5376 width=6) (actual time=1.985..7.966 rows=5293 loops=3)"
+"              Recheck Cond: (""Schedule"" = sch.id)"
+              Heap Blocks: exact=15337
+              ->  Bitmap Index Scan on idx_tickets_schedules  (cost=0.00..46.26 rows=5376 width=0) (actual time=1.085..1.085 rows=5293 loops=3)
+"                    Index Cond: (""Schedule"" = sch.id)"
+Planning Time: 1.091 ms
+Execution Time: 27.711 ms

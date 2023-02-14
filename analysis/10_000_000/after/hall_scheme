@@ -1,0 +1,22 @@
+Hash Right Join  (cost=65291.67..66526.06 rows=5376 width=5) (actual time=303.415..315.146 rows=8996 loops=1)
+"  Hash Cond: (t.""Place"" = p.id)"
+  ->  Sort  (cost=65276.67..65478.28 rows=80645 width=4) (actual time=300.012..309.346 rows=80591 loops=1)
+"        Sort Key: t.""Place"""
+        Sort Method: external merge  Disk: 1112kB
+        ->  Nested Loop  (cost=47.88..58704.38 rows=80645 width=4) (actual time=1.523..273.904 rows=80591 loops=1)
+"              ->  Index Scan using idx_schedule_date on ""Schedule"" sch  (cost=0.28..3.68 rows=15 width=4) (actual time=0.016..0.065 rows=15 loops=1)"
+"                    Index Cond: (""Date"" = CURRENT_DATE)"
+"                    Filter: (""Time"" = '16:00:00'::time without time zone)"
+                    Rows Removed by Filter: 45
+"              ->  Bitmap Heap Scan on ""Ticket"" t  (cost=47.60..3859.62 rows=5376 width=8) (actual time=1.507..17.715 rows=5373 loops=15)"
+"                    Recheck Cond: (""Schedule"" = sch.id)"
+                    Heap Blocks: exact=77764
+                    ->  Bitmap Index Scan on idx_tickets_schedules  (cost=0.00..46.26 rows=5376 width=0) (actual time=0.810..0.810 rows=5373 loops=15)
+"                          Index Cond: (""Schedule"" = sch.id)"
+  ->  Hash  (cost=14.38..14.38 rows=50 width=8) (actual time=0.085..0.086 rows=50 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 10kB
+"        ->  Seq Scan on ""Place"" p  (cost=0.00..14.38 rows=50 width=8) (actual time=0.012..0.071 rows=50 loops=1)"
+"              Filter: (""Hall"" = 3)"
+              Rows Removed by Filter: 700
+Planning Time: 7.081 ms
+Execution Time: 315.706 ms

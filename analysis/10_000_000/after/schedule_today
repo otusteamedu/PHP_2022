@@ -1,0 +1,19 @@
+Hash Join  (cost=3.80..7.92 rows=60 width=59) (actual time=0.141..0.193 rows=60 loops=1)
+"  Hash Cond: (sch.""Movie"" = m.id)"
+  ->  Hash Join  (cost=2.69..6.52 rows=60 width=33) (actual time=0.098..0.140 rows=60 loops=1)
+"        Hash Cond: (h.""Cinema"" = c.id)"
+        ->  Hash Join  (cost=1.62..5.07 rows=60 width=24) (actual time=0.067..0.099 rows=60 loops=1)
+"              Hash Cond: (sch.""Hall"" = h.id)"
+"              ->  Index Scan using idx_schedule_date on ""Schedule"" sch  (cost=0.28..3.53 rows=60 width=16) (actual time=0.013..0.021 rows=60 loops=1)"
+"                    Index Cond: (""Date"" = CURRENT_DATE)"
+              ->  Hash  (cost=1.15..1.15 rows=15 width=16) (actual time=0.030..0.030 rows=15 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"                    ->  Seq Scan on ""Hall"" h  (cost=0.00..1.15 rows=15 width=16) (actual time=0.002..0.004 rows=15 loops=1)"
+        ->  Hash  (cost=1.03..1.03 rows=3 width=17) (actual time=0.021..0.021 rows=3 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"              ->  Seq Scan on ""Cinema"" c  (cost=0.00..1.03 rows=3 width=17) (actual time=0.002..0.002 rows=3 loops=1)"
+  ->  Hash  (cost=1.05..1.05 rows=5 width=34) (actual time=0.029..0.029 rows=5 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"        ->  Seq Scan on ""Movie"" m  (cost=0.00..1.05 rows=5 width=34) (actual time=0.017..0.018 rows=5 loops=1)"
+Planning Time: 7.445 ms
+Execution Time: 0.306 ms
