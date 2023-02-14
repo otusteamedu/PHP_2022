@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Support;
 
+use App\App\Service\RandomStringGenerator;
+use Faker\Factory;
+
 /**
  * Inherited Methods
  * @method void wantTo($text)
@@ -23,7 +26,13 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    /**
-     * Define custom actions here
-     */
+    public function fillCorrectCardInfo(): void
+    {
+        $I = $this;
+        $faker = Factory::create();
+        $I->fillField('card_number', RandomStringGenerator::generateStringNumber(16));
+        $I->fillField('cardholder', $faker->name . ' ' . $faker->lastName);
+        $I->fillField('expiration_date', $faker->creditCardExpirationDateString);
+        $I->fillField('cvv', RandomStringGenerator::generateStringNumber(3));
+    }
 }
