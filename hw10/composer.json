@@ -1,0 +1,19 @@
+{
+    "name": "veraadzhieva/hw10",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Veraadzhieva\\Hw10\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vera Adzhieva",
+            "email": "vera.adzhieva3003@mail.ru"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^7.11",
+        "php": "^7.1"
+    }
+}
