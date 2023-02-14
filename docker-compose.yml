@@ -10,5 +10,6 @@ services:
       - db-postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    command: postgres -c random_page_cost=1.1
 volumes:
   db-postgres:
