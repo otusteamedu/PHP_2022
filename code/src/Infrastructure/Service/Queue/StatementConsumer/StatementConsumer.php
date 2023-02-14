@@ -35,6 +35,8 @@ class StatementConsumer implements QueueInterface
             $data = json_decode($msg->body, true);
             $dto = new StatementReceivedDTO($data);
             echo ' [x] Received request with data', $msg->body, "\n";
+
+            //
             //обработка и получение результата
             if($this->getStatement($dto))
                 echo " Выписка сформирована. Данные отправлены.";

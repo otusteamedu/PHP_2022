@@ -18,7 +18,6 @@ class StatementController
 
     public  function index()
     {
-
         View::render('statementForm', [
             'title' => 'Главная страница',
         ]);

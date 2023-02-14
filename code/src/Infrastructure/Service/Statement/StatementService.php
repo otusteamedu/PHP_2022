@@ -9,7 +9,9 @@ class StatementService
 {
     public function createStatement(StatementReceivedDTO $dto, EmailPublisher $emailPublisher): bool
     {
+        //Записать в базу запрос, получить ид
         //сходить в базу собрать данные
+
         //отправить письмо с итогом
         $emailPublisher->send(['from' => 'config.email', 'title'=> 'letter_title', 'to' => $dto->getEmail(), 'body' => [1, 2, 3, 4] ]);
         return true;
