@@ -1,0 +1,29 @@
+Hash Right Join  (cost=129747.51..138449.18 rows=4480 width=5) (actual time=523.631..539.926 rows=9091 loops=1)
+"  Hash Cond: (t.""Place"" = p.id)"
+  ->  Gather Merge  (cost=129732.51..137573.52 rows=67204 width=4) (actual time=505.619..520.637 rows=80788 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Sort  (cost=128732.49..128816.49 rows=33602 width=4) (actual time=491.604..493.865 rows=26929 loops=3)
+"              Sort Key: t.""Place"""
+              Sort Method: quicksort  Memory: 2097kB
+              Worker 0:  Sort Method: quicksort  Memory: 2016kB
+              Worker 1:  Sort Method: quicksort  Memory: 1980kB
+              ->  Hash Join  (cost=46.74..126206.24 rows=33602 width=4) (actual time=6.591..485.804 rows=26929 loops=3)
+"                    Hash Cond: (t.""Schedule"" = sch.id)"
+"                    ->  Parallel Seq Scan on ""Ticket"" t  (cost=0.00..115197.00 rows=4166700 width=8) (actual time=0.029..213.093 rows=3333333 loops=3)"
+                    ->  Hash  (cost=46.55..46.55 rows=15 width=4) (actual time=6.392..6.393 rows=15 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"                          ->  Seq Scan on ""Schedule"" sch  (cost=0.00..46.55 rows=15 width=4) (actual time=6.303..6.375 rows=15 loops=3)"
+"                                Filter: ((""Time"" = '16:00:00'::time without time zone) AND (""Date"" = CURRENT_DATE))"
+                                Rows Removed by Filter: 1845
+  ->  Hash  (cost=14.38..14.38 rows=50 width=8) (actual time=13.910..13.911 rows=50 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 10kB
+"        ->  Seq Scan on ""Place"" p  (cost=0.00..14.38 rows=50 width=8) (actual time=13.848..13.891 rows=50 loops=1)"
+"              Filter: (""Hall"" = 3)"
+              Rows Removed by Filter: 700
+Planning Time: 1.467 ms
+JIT:
+  Functions: 46
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 4.517 ms, Inlining 0.000 ms, Optimization 1.541 ms, Emission 31.010 ms, Total 37.068 ms"
+Execution Time: 559.862 ms
