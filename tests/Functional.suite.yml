@@ -9,4 +9,6 @@ actor: FunctionalTester
 modules:
     enabled:
         - Symfony
+        - Doctrine2:
+              depends: Symfony
 step_decorators: ~
