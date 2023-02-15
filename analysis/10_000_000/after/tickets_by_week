@@ -20,3 +20,14 @@ Aggregate  (cost=1.70..1.71 rows=1 width=8) (actual time=0.020..0.020 rows=1 loo
         Rows Removed by Filter: 23
 Planning Time: 0.082 ms
 Execution Time: 0.047 ms
+
+
+-- AFTER REINIT VALS --
+
+-- After creating "TicketsSales" table
+
+Aggregate  (cost=2.66..2.67 rows=1 width=8) (actual time=0.031..0.032 rows=1 loops=1)
+"  ->  Index Scan using idx_tickets_sales_date on ""TicketsSales""  (cost=0.28..2.64 rows=8 width=4) (actual time=0.025..0.027 rows=8 loops=1)"
+"        Index Cond: ((""Date"" <= CURRENT_DATE) AND (""Date"" >= (CURRENT_DATE - 7)))"
+Planning Time: 0.379 ms
+Execution Time: 0.064 ms

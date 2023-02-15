@@ -27,3 +27,32 @@ JIT:
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
 "  Timing: Generation 4.517 ms, Inlining 0.000 ms, Optimization 1.541 ms, Emission 31.010 ms, Total 37.068 ms"
 Execution Time: 559.862 ms
+
+
+
+-- AFTER REINIT VALS --
+
+Hash Right Join  (cost=3912.64..142888.08 rows=200 width=5) (actual time=551.077..590.476 rows=200 loops=1)
+"  Hash Cond: (t.""Place"" = p.id)"
+  ->  Gather  (cost=3730.14..142691.68 rows=5098 width=4) (actual time=535.822..574.975 rows=4984 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Hash Join  (cost=2730.14..141181.88 rows=2124 width=4) (actual time=522.226..558.230 rows=1661 loops=3)
+"              Hash Cond: (t.""Schedule"" = sch.id)"
+"              ->  Parallel Seq Scan on ""Ticket"" t  (cost=0.00..126445.67 rows=4573567 width=8) (actual time=0.022..243.909 rows=3658829 loops=3)"
+              ->  Hash  (cost=2729.50..2729.50 rows=51 width=4) (actual time=13.191..13.192 rows=50 loops=3)
+                    Buckets: 1024  Batches: 1  Memory Usage: 10kB
+"                    ->  Seq Scan on ""Schedule"" sch  (cost=0.00..2729.50 rows=51 width=4) (actual time=12.703..13.150 rows=50 loops=3)"
+"                          Filter: ((""Time"" = '20:00:00'::time without time zone) AND (""Date"" = CURRENT_DATE))"
+                          Rows Removed by Filter: 109750
+  ->  Hash  (cost=180.00..180.00 rows=200 width=8) (actual time=14.959..14.965 rows=200 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 16kB
+"        ->  Seq Scan on ""Place"" p  (cost=0.00..180.00 rows=200 width=8) (actual time=14.363..14.919 rows=200 loops=1)"
+"              Filter: (""Hall"" = 10)"
+              Rows Removed by Filter: 9800
+Planning Time: 2.358 ms
+JIT:
+  Functions: 46
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 4.204 ms, Inlining 0.000 ms, Optimization 1.411 ms, Emission 30.754 ms, Total 36.369 ms"
+Execution Time: 609.106 ms

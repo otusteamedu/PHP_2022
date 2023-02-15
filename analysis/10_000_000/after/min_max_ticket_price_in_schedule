@@ -11,3 +11,19 @@ Aggregate  (cost=16205.55..16205.56 rows=1 width=4) (actual time=27.533..27.535 
 "                    Index Cond: (""Schedule"" = sch.id)"
 Planning Time: 1.091 ms
 Execution Time: 27.711 ms
+
+
+-- AFTER REINIT VALS --
+
+-- With indexes --
+
+Aggregate  (cost=523.34..523.35 rows=1 width=4) (actual time=1.455..1.455 rows=1 loops=1)
+  ->  Nested Loop  (cost=0.73..498.35 rows=4998 width=2) (actual time=0.033..1.152 rows=4946 loops=1)
+"        ->  Index Scan using idx_schedule_date on ""Schedule"" sch  (cost=0.30..10.48 rows=50 width=4) (actual time=0.019..0.060 rows=50 loops=1)"
+"              Index Cond: (""Date"" = (CURRENT_DATE - 2))"
+"              Filter: (""Time"" = '18:00:00'::time without time zone)"
+              Rows Removed by Filter: 250
+"        ->  Index Scan using idx_tickets_schedules on ""Ticket"" t  (cost=0.43..7.57 rows=219 width=6) (actual time=0.003..0.014 rows=99 loops=50)"
+"              Index Cond: (""Schedule"" = sch.id)"
+Planning Time: 0.272 ms
+Execution Time: 1.522 ms

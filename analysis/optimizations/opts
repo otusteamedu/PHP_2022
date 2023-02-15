@@ -73,4 +73,17 @@
   Есть подозрение, что корректное заполнение исправит ситуацию и запрос будет выполняться быстрее.
 
 
+7. Переделываем инициализацию
+
+8. Повторяем анализ, те же действия. Результаты:
+
+Запрос                                  До                                После
+
+3 наиболее прибыльных фильма            Execution Time: 1254.845 ms       Execution Time: 56.253 ms
+схема зала                              Execution Time: 609.106 ms        Execution Time: 2.664 ms
+мин/макс цены за билет в расписании     Execution Time: 576.076 ms        Execution Time: 1.522 ms
+фильмы сегодня                          Execution Time: 13.858 ms         Execution Time: 0.558 ms
+расписание сегодня                      Execution Time: 14.489 ms         Execution Time: 1.346 ms
+проданные за неделю билеты              Execution Time: 449.073 ms        Execution Time: 0.064 ms
+
 

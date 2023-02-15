@@ -17,3 +17,30 @@ Hash Join  (cost=3.80..7.92 rows=60 width=59) (actual time=0.141..0.193 rows=60 
 "        ->  Seq Scan on ""Movie"" m  (cost=0.00..1.05 rows=5 width=34) (actual time=0.017..0.018 rows=5 loops=1)"
 Planning Time: 7.445 ms
 Execution Time: 0.306 ms
+
+
+-- AFTER REINIT VALS --
+
+-- With indexes --
+
+Hash Join  (cost=67.96..97.15 rows=299 width=93) (actual time=0.410..1.151 rows=300 loops=1)
+"  Hash Cond: (sch.""Movie"" = m.id)"
+  ->  Hash Join  (cost=37.46..65.87 rows=299 width=76) (actual time=0.146..0.734 rows=300 loops=1)
+"        Hash Cond: (h.""Cinema"" = c.id)"
+        ->  Nested Loop  (cost=0.46..28.08 rows=299 width=48) (actual time=0.056..0.498 rows=300 loops=1)
+"              ->  Index Scan using idx_schedule_date on ""Schedule"" sch  (cost=0.29..9.73 rows=299 width=16) (actual time=0.020..0.092 rows=300 loops=1)"
+"                    Index Cond: (""Date"" = CURRENT_DATE)"
+              ->  Memoize  (cost=0.16..0.22 rows=1 width=40) (actual time=0.001..0.001 rows=1 loops=300)
+"                    Cache Key: sch.""Hall"""
+                    Cache Mode: logical
+                    Hits: 250  Misses: 50  Evictions: 0  Overflows: 0  Memory Usage: 6kB
+"                    ->  Index Scan using ""pk_Hall"" on ""Hall"" h  (cost=0.15..0.21 rows=1 width=40) (actual time=0.002..0.002 rows=1 loops=50)"
+"                          Index Cond: (id = sch.""Hall"")"
+        ->  Hash  (cost=22.00..22.00 rows=1200 width=36) (actual time=0.051..0.051 rows=10 loops=1)
+              Buckets: 2048  Batches: 1  Memory Usage: 17kB
+"              ->  Seq Scan on ""Cinema"" c  (cost=0.00..22.00 rows=1200 width=36) (actual time=0.035..0.038 rows=10 loops=1)"
+  ->  Hash  (cost=18.00..18.00 rows=1000 width=25) (actual time=0.256..0.257 rows=1000 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 67kB
+"        ->  Seq Scan on ""Movie"" m  (cost=0.00..18.00 rows=1000 width=25) (actual time=0.007..0.098 rows=1000 loops=1)"
+Planning Time: 0.361 ms
+Execution Time: 1.346 ms

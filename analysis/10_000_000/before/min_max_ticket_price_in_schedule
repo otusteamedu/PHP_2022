@@ -17,3 +17,27 @@ JIT:
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
 "  Timing: Generation 5.686 ms, Inlining 0.000 ms, Optimization 1.602 ms, Emission 43.782 ms, Total 51.070 ms"
 Execution Time: 514.384 ms
+
+
+
+-- AFTER REINIT VALS --
+
+Finalize Aggregate  (cost=142467.00..142467.01 rows=1 width=4) (actual time=570.921..574.042 rows=1 loops=1)
+  ->  Gather  (cost=142466.78..142466.99 rows=2 width=4) (actual time=570.753..574.026 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Partial Aggregate  (cost=141466.78..141466.79 rows=1 width=4) (actual time=555.720..555.728 rows=1 loops=3)
+              ->  Hash Join  (cost=3004.62..141456.37 rows=2082 width=2) (actual time=523.159..555.634 rows=1649 loops=3)
+"                    Hash Cond: (t.""Schedule"" = sch.id)"
+"                    ->  Parallel Seq Scan on ""Ticket"" t  (cost=0.00..126445.67 rows=4573567 width=6) (actual time=0.035..239.292 rows=3658829 loops=3)"
+                    ->  Hash  (cost=3004.00..3004.00 rows=50 width=4) (actual time=22.660..22.661 rows=50 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 10kB
+"                          ->  Seq Scan on ""Schedule"" sch  (cost=0.00..3004.00 rows=50 width=4) (actual time=22.088..22.625 rows=50 loops=3)"
+"                                Filter: ((""Time"" = '18:00:00'::time without time zone) AND (""Date"" = (CURRENT_DATE - 2)))"
+                                Rows Removed by Filter: 109750
+Planning Time: 0.260 ms
+JIT:
+  Functions: 44
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 4.851 ms, Inlining 0.000 ms, Optimization 1.449 ms, Emission 41.552 ms, Total 47.852 ms"
+Execution Time: 576.076 ms

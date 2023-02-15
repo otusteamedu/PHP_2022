@@ -13,3 +13,22 @@ HashAggregate  (cost=49.28..49.88 rows=60 width=32) (actual time=0.453..0.455 ro
 "                    Index Cond: (id = sch.""Movie"")"
 Planning Time: 0.120 ms
 Execution Time: 0.534 ms
+
+
+-- AFTER REINIT VALS --
+
+Group  (cost=2498.58..2500.07 rows=299 width=21) (actual time=13.667..13.725 rows=50 loops=1)
+"  Group Key: m.""Name"""
+  ->  Sort  (cost=2498.58..2499.33 rows=299 width=21) (actual time=13.664..13.681 rows=300 loops=1)
+"        Sort Key: m.""Name"""
+        Sort Method: quicksort  Memory: 48kB
+        ->  Hash Join  (cost=30.50..2486.28 rows=299 width=21) (actual time=12.491..13.408 rows=300 loops=1)
+"              Hash Cond: (sch.""Movie"" = m.id)"
+"              ->  Seq Scan on ""Schedule"" sch  (cost=0.00..2455.00 rows=299 width=4) (actual time=11.893..12.724 rows=300 loops=1)"
+"                    Filter: (""Date"" = CURRENT_DATE)"
+                    Rows Removed by Filter: 109500
+              ->  Hash  (cost=18.00..18.00 rows=1000 width=25) (actual time=0.531..0.532 rows=1000 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 67kB
+"                    ->  Seq Scan on ""Movie"" m  (cost=0.00..18.00 rows=1000 width=25) (actual time=0.029..0.184 rows=1000 loops=1)"
+Planning Time: 0.380 ms
+Execution Time: 13.858 ms

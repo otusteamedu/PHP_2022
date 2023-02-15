@@ -20,3 +20,25 @@ Hash Right Join  (cost=65291.67..66526.06 rows=5376 width=5) (actual time=303.41
               Rows Removed by Filter: 700
 Planning Time: 7.081 ms
 Execution Time: 315.706 ms
+
+
+-- AFTER REINIT VALS --
+
+-- With indexes --
+
+Hash Right Join  (cost=183.23..704.50 rows=200 width=5) (actual time=1.331..2.589 rows=200 loops=1)
+"  Hash Cond: (t.""Place"" = p.id)"
+  ->  Nested Loop  (cost=0.73..508.11 rows=5098 width=4) (actual time=0.047..1.253 rows=4984 loops=1)
+"        ->  Index Scan using idx_schedule_date on ""Schedule"" sch  (cost=0.29..10.48 rows=51 width=4) (actual time=0.030..0.067 rows=50 loops=1)"
+"              Index Cond: (""Date"" = CURRENT_DATE)"
+"              Filter: (""Time"" = '20:00:00'::time without time zone)"
+              Rows Removed by Filter: 250
+"        ->  Index Scan using idx_tickets_schedules on ""Ticket"" t  (cost=0.43..7.57 rows=219 width=8) (actual time=0.002..0.015 rows=100 loops=50)"
+"              Index Cond: (""Schedule"" = sch.id)"
+  ->  Hash  (cost=180.00..180.00 rows=200 width=8) (actual time=0.966..0.967 rows=200 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 16kB
+"        ->  Seq Scan on ""Place"" p  (cost=0.00..180.00 rows=200 width=8) (actual time=0.167..0.931 rows=200 loops=1)"
+"              Filter: (""Hall"" = 10)"
+              Rows Removed by Filter: 9800
+Planning Time: 0.788 ms
+Execution Time: 2.664 ms
