@@ -35,4 +35,13 @@ class AcceptanceTester extends \Codeception\Actor
         $I->fillField('expiration_date', $faker->creditCardExpirationDateString);
         $I->fillField('cvv', RandomStringGenerator::generateStringNumber(3));
     }
+
+    public function fillTestCardInfo(): void
+    {
+        $I = $this;
+        $I->fillField('card_number', $_ENV['TEST_CARD_NUMBER']);
+        $I->fillField('cardholder', $_ENV['TEST_CARDHOLDER']);
+        $I->fillField('expiration_date', $_ENV['TEST_CARD_EXP_DATE']);
+        $I->fillField('cvv', $_ENV['TEST_CARD_CVV']);
+    }
 }

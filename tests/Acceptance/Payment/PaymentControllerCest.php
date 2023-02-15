@@ -5,14 +5,30 @@ declare(strict_types=1);
 namespace Test\Acceptance\Payment;
 
 use App\App\Service\RandomStringGenerator;
+use App\Domain\Entity\Order;
+use Codeception\Stub;
 use Faker\Factory;
+use src\App\Gateway\Payment\MMMPaymentSystemGateway;
+use src\App\Gateway\Payment\PaymentSystemGatewayInterface;
 use Tests\Support\AcceptanceTester;
+use Tests\Support\FunctionalTester;
 
 class PaymentControllerCest
 {
     protected function _before() {
         $this->faker = Factory::create();
     }
+
+    public function tryChargeWithCorrectCard(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/payment');
+        $I->fillTestCardInfo();
+        $I->fillField('#card_number', $_ENV['test_card_number']);
+
+        $I->click('Submit');
+        $I->see('Спасибо за покупку', 'h1');
+    }
+
     public function tryChargeWithIncorrectCardnumber(AcceptanceTester $I): void
     {
         $cardNumberLessThan16Digests = RandomStringGenerator::generateStringNumber(15);
