@@ -1,0 +1,11 @@
+table_name,table_size,indexes_size,total_size
+"""public"".""Ticket""",631 MB,309 MB,940 MB
+"""public"".""Client""",287 MB,107 MB,394 MB
+"""public"".""Schedule""",6496 kB,3168 kB,9664 kB
+"""public"".""MovieFees""",5632 kB,2416 kB,8048 kB
+"""public"".""Place""",472 kB,240 kB,712 kB
+"""public"".""Movie""",96 kB,40 kB,136 kB
+"""public"".""TicketsSales""",48 kB,48 kB,96 kB
+"""public"".""Hall""",16 kB,16 kB,32 kB
+"""public"".""Address""",16 kB,16 kB,32 kB
+"""public"".""Cinema""",16 kB,16 kB,32 kB
