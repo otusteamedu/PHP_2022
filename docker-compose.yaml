@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  #Контейнер с PHP-FPM
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: app
+    volumes:
+      - ./code:/data
+    env_file:
+      - .env
+    networks:
+      - appnetwork
+  #  postgres
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: "pgbase"
+      POSTGRES_USER: "pgadmin"
+      POSTGRES_PASSWORD: "pgpassword"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    ports:
+      - "54320:5432"
+    networks:
+      - appnetwork
+
+
+#Docker Networks
+networks:
+  appnetwork:
+    driver: bridge
+

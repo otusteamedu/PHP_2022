@@ -1,0 +1,11 @@
+{
+  "name": "ppro/hw15",
+  "autoload": {
+    "psr-4": {
+      "Ppro\\Hw15\\": "src/"
+    }
+  },
+  "require": {
+    "league/climate": "^3.8"
+  }
+}
