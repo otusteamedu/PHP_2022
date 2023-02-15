@@ -16,6 +16,7 @@ class CommandResolver
         return match ($cmd) {
             'find','-f' => new FindCommand(),
             'check','-c' => new CheckCommand(),
+            'exit','-e' => new ExitCommand(),
             default => new InitCommand(),
         };
     }

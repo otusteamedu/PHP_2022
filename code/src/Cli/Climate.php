@@ -17,17 +17,17 @@ class Climate
         $this->climate = new \League\CLImate\CLImate;
     }
 
-    public function renderRadio(array $options = [],string $prompt = "",bool $br = false): InputAbstract
+    public function renderRadio(array $options = [],string $prompt = "",bool $lineBreak = false): InputAbstract
     {
-        if($br)
+        if($lineBreak)
             $this->climate->br();
         $input = $this->climate->radio($prompt, $options);
         return $input;
     }
 
-    public function renderInput($prompt,$notEmpty = true,bool $br = false): InputAbstract
+    public function renderInput($prompt,$notEmpty = true,bool $lineBreak = false): InputAbstract
     {
-        if($br)
+        if($lineBreak)
             $this->climate->br();
         $input = $this->climate->input('<dim>'.$prompt.'</dim>');
         if($notEmpty)
@@ -37,9 +37,9 @@ class Climate
         return $input;
     }
 
-    public function renderMultilineInput($prompt,$notEmpty = true,bool $br = false): InputAbstract
+    public function renderMultilineInput($prompt,$notEmpty = true,bool $lineBreak = false): InputAbstract
     {
-        if($br)
+        if($lineBreak)
             $this->climate->br();
         $input = $this->climate->input('<dim>'.$prompt.'</dim>')->multiline();
         if($notEmpty)
@@ -49,9 +49,9 @@ class Climate
         return $input;
     }
 
-    public function renderInputInt($prompt,bool $br = false): InputAbstract
+    public function renderInputInt($prompt,bool $lineBreak = false): InputAbstract
     {
-        if($br)
+        if($lineBreak)
             $this->climate->br();
         $input = $this->climate->input('<dim>'.$prompt.'</dim>');
         $input->accept(function($response) {
@@ -81,16 +81,16 @@ class Climate
         $this->climate->whiteUnderlineBold()->out($header);
     }
 
-    public function setSuccess(string $result,bool $br = false): void
+    public function setSuccess(string $result,bool $lineBreak = false): void
     {
-        if($br)
+        if($lineBreak)
             $this->climate->br();
         $this->climate->info($result);
     }
 
-    public function setError(string $result,bool $br = false): void
+    public function setError(string $result,bool $lineBreak = false): void
     {
-        if($br)
+        if($lineBreak)
             $this->climate->br();
         $this->climate->error($result);
     }

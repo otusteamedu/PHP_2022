@@ -8,18 +8,17 @@ class PostgresqlConnection
 {
     public static function connect(): \PDO
     {
-        $params = Register::instance();
         $dsn = sprintf("pgsql:host=%s;port=%d;dbname=%s;",
-          $params->getValue('host'),
-          $params->getValue('port'),
-          $params->getValue('database'),
+              getenv('pg_host'),
+              getenv('pg_port'),
+              getenv('pg_database'),
           );
 
         try {
             return new \PDO(
               $dsn,
-              $params->getValue('user'),
-              $params->getValue('password'),
+              getenv('pg_user'),
+              getenv('pg_password'),
               [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]
             );
         } catch(\PDOException $e) {

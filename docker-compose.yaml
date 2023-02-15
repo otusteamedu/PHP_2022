@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+  #Контейнер с PHP-FPM
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: app
+    volumes:
+      - ./code:/data
+    env_file:
+      - .env
+    networks:
+      - appnetwork
   #  postgres
   postgres:
     image: postgres
@@ -13,11 +26,11 @@ services:
     ports:
       - "54320:5432"
     networks:
-      - app-network
+      - appnetwork
 
 
 #Docker Networks
 networks:
-  app-network:
+  appnetwork:
     driver: bridge
 

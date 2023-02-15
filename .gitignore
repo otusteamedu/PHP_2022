@@ -3,5 +3,6 @@
 
 # IntelliJ project files
 .idea
+.env
 /db*
 /code/vendor

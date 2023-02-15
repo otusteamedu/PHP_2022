@@ -11,7 +11,7 @@ class App
     const APP_MENU_COMMAND = [
       'FIND_SESSION' => '-f',
       'CHECK_IMAP' => '-c',
-      'EXIT' => '',
+      'EXIT' => '-e',
     ];
 
     private string $configPath;
@@ -50,12 +50,7 @@ class App
         $this->reg->setRequest($request);
         $db = $config->getValue('default','db',self::DEFAULT_DB);
         $this->reg->setValueMulti([
-          'db' => $db,
-          'host' => $config->getValue($db,'host'),
-          'port' => $config->getValue($db,'port'),
-          'user' => $config->getValue($db,'user'),
-          'password' => $config->getValue($db,'password'),
-          'database' => $config->getValue($db,'database'),
+          'db' => $db
         ]);
     }
 
@@ -66,12 +61,6 @@ class App
      */
     public static function forward(string $cmd = ''): void
     {
-        if($cmd === 'EXIT') {
-            $exitView = new ExitView();
-            $exitView->render();
-            if(!empty($exitView->exitConfirmed()))
-                exit();
-        }
         $_SERVER['argv'][1] = self::APP_MENU_COMMAND[$cmd] ?? '';
         Register::instance()->reset();
         $app = new App();
