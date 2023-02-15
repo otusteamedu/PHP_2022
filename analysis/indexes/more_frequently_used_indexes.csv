@@ -1,0 +1,6 @@
+relid,indexrelid,schemaname,relname,indexrelname,idx_scan,idx_tup_read,idx_tup_fetch
+19250,19253,public,Schedule,pk_Schedule,11086300,11525496,11525486
+19231,19234,public,Place,pk_Place,10976490,10976490,10976486
+19236,19241,public,Client,pk_Client,10976486,10976486,10976486
+19243,19248,public,Movie,pk_Movie,223618,223618,223618
+19224,19229,public,Hall,pk_Hall,119900,119900,119900

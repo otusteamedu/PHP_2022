@@ -1,0 +1,39 @@
+HashAggregate  (cost=49.28..49.88 rows=60 width=32) (actual time=0.280..0.282 rows=5 loops=1)
+"  Group Key: m.""Name"""
+  Batches: 1  Memory Usage: 24kB
+  ->  Nested Loop  (cost=0.16..49.13 rows=60 width=32) (actual time=0.123..0.262 rows=60 loops=1)
+"        ->  Seq Scan on ""Schedule"" sch  (cost=0.00..41.90 rows=60 width=4) (actual time=0.094..0.201 rows=60 loops=1)"
+"              Filter: (""Date"" = CURRENT_DATE)"
+              Rows Removed by Filter: 1800
+        ->  Memoize  (cost=0.16..0.98 rows=1 width=36) (actual time=0.001..0.001 rows=1 loops=60)
+"              Cache Key: sch.""Movie"""
+              Cache Mode: logical
+              Hits: 55  Misses: 5  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+"              ->  Index Scan using ""pk_Movie"" on ""Movie"" m  (cost=0.15..0.97 rows=1 width=36) (actual time=0.006..0.006 rows=1 loops=5)"
+"                    Index Cond: (id = sch.""Movie"")"
+Planning Time: 0.403 ms
+Execution Time: 0.378 ms
+
+
+-- AFTER REINIT VALS --
+
+Hash Join  (cost=30.82..2558.76 rows=299 width=93) (actual time=12.869..14.326 rows=300 loops=1)
+"  Hash Cond: (sch.""Movie"" = m.id)"
+  ->  Nested Loop  (cost=0.32..2527.47 rows=299 width=76) (actual time=12.505..13.888 rows=300 loops=1)
+        ->  Nested Loop  (cost=0.16..2473.36 rows=299 width=48) (actual time=12.476..13.558 rows=300 loops=1)
+"              ->  Seq Scan on ""Schedule"" sch  (cost=0.00..2455.00 rows=299 width=16) (actual time=12.424..13.293 rows=300 loops=1)"
+"                    Filter: (""Date"" = CURRENT_DATE)"
+                    Rows Removed by Filter: 109500
+              ->  Memoize  (cost=0.16..0.22 rows=1 width=40) (actual time=0.001..0.001 rows=1 loops=300)
+"                    Cache Key: sch.""Hall"""
+                    Cache Mode: logical
+                    Hits: 250  Misses: 50  Evictions: 0  Overflows: 0  Memory Usage: 6kB
+"                    ->  Index Scan using ""pk_Hall"" on ""Hall"" h  (cost=0.15..0.21 rows=1 width=40) (actual time=0.002..0.002 rows=1 loops=50)"
+"                          Index Cond: (id = sch.""Hall"")"
+"        ->  Index Scan using ""pk_Cinema"" on ""Cinema"" c  (cost=0.15..0.18 rows=1 width=36) (actual time=0.001..0.001 rows=1 loops=300)"
+"              Index Cond: (id = h.""Cinema"")"
+  ->  Hash  (cost=18.00..18.00 rows=1000 width=25) (actual time=0.346..0.347 rows=1000 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 67kB
+"        ->  Seq Scan on ""Movie"" m  (cost=0.00..18.00 rows=1000 width=25) (actual time=0.006..0.161 rows=1000 loops=1)"
+Planning Time: 2.764 ms
+Execution Time: 14.489 ms

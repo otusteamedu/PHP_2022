@@ -1,0 +1,23 @@
+Limit  (cost=379.56..379.56 rows=3 width=64) (actual time=4.380..4.383 rows=3 loops=1)
+  ->  Sort  (cost=379.56..380.06 rows=200 width=64) (actual time=4.379..4.382 rows=3 loops=1)
+"        Sort Key: (sum((sum(""Ticket"".""Price"")))) DESC"
+        Sort Method: quicksort  Memory: 25kB
+        ->  HashAggregate  (cost=374.47..376.97 rows=200 width=64) (actual time=4.363..4.367 rows=5 loops=1)
+"              Group Key: m.""Name"""
+              Batches: 1  Memory Usage: 40kB
+              ->  Hash Join  (cost=318.43..365.21 rows=1852 width=40) (actual time=2.831..3.935 rows=1852 loops=1)
+"                    Hash Cond: (sch.""Movie"" = m.id)"
+                    ->  Hash Join  (cost=279.85..321.76 rows=1852 width=12) (actual time=2.805..3.535 rows=1852 loops=1)
+"                          Hash Cond: (""Ticket"".""Schedule"" = sch.id)"
+                          ->  HashAggregate  (cost=224.00..242.52 rows=1852 width=12) (actual time=2.372..2.686 rows=1852 loops=1)
+"                                Group Key: ""Ticket"".""Schedule"""
+                                Batches: 1  Memory Usage: 369kB
+"                                ->  Seq Scan on ""Ticket""  (cost=0.00..174.00 rows=10000 width=6) (actual time=0.009..0.630 rows=10000 loops=1)"
+                          ->  Hash  (cost=32.60..32.60 rows=1860 width=8) (actual time=0.413..0.414 rows=1860 loops=1)
+                                Buckets: 2048  Batches: 1  Memory Usage: 89kB
+"                                ->  Seq Scan on ""Schedule"" sch  (cost=0.00..32.60 rows=1860 width=8) (actual time=0.004..0.181 rows=1860 loops=1)"
+                    ->  Hash  (cost=22.70..22.70 rows=1270 width=36) (actual time=0.016..0.016 rows=5 loops=1)
+                          Buckets: 2048  Batches: 1  Memory Usage: 17kB
+"                          ->  Seq Scan on ""Movie"" m  (cost=0.00..22.70 rows=1270 width=36) (actual time=0.007..0.008 rows=5 loops=1)"
+Planning Time: 0.138 ms
+Execution Time: 4.619 ms

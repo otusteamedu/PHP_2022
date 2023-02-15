@@ -1,0 +1,56 @@
+#created with quickdatabasediagrams.com
+
+Cinema
+-
+id PK int
+Name varchar
+Address int FK - Address.id
+
+Address
+-
+id PK int
+City varchar
+Location text
+
+Hall
+-
+id PK int
+Name varchar
+Cinema int FK >- Cinema.id
+
+Place
+-
+id PK int
+Number smallint
+Row smallint
+Hall int FK >- Hall.id
+PriceModifier smallint
+
+Client
+-
+id PK int
+E-mail varchar
+Phone varchar
+
+Movie
+-
+id PK int
+Name varchar
+
+Schedule
+-
+id PK int
+Date date
+Time time
+Hall int FK >- Hall.id
+Movie int FK >- Movie.id
+BasePrice smallint
+
+Ticket
+-
+id PK int
+Client int FK >- Client.id
+Price smallint
+Place int FK >- Place.id
+Schedule int FK >- Schedule.id
+PurchaseTime timestamp #DEFAULT CURRENT_TIMESTAMP

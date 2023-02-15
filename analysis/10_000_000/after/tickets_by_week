@@ -1,0 +1,33 @@
+Finalize Aggregate  (cost=123326.87..123326.88 rows=1 width=8) (actual time=765.075..770.631 rows=1 loops=1)
+  ->  Gather  (cost=123326.66..123326.87 rows=2 width=8) (actual time=764.556..770.612 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Partial Aggregate  (cost=122326.66..122326.67 rows=1 width=8) (actual time=748.552..748.553 rows=1 loops=3)
+"              ->  Parallel Index Scan using idx_tickets_purchase_time on ""Ticket""  (cost=0.44..119649.23 rows=1070972 width=2) (actual time=7.903..687.290 rows=860102 loops=3)"
+"                    Index Cond: ((""PurchaseTime"" <= CURRENT_DATE) AND (""PurchaseTime"" >= (CURRENT_DATE - 7)))"
+Planning Time: 0.469 ms
+JIT:
+  Functions: 23
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 3.347 ms, Inlining 0.000 ms, Optimization 1.081 ms, Emission 22.458 ms, Total 26.886 ms"
+Execution Time: 772.087 ms
+
+-- After creating "TicketsSales" table
+
+Aggregate  (cost=1.70..1.71 rows=1 width=8) (actual time=0.020..0.020 rows=1 loops=1)
+"  ->  Seq Scan on ""TicketsSales""  (cost=0.00..1.70 rows=1 width=4) (actual time=0.011..0.016 rows=8 loops=1)"
+"        Filter: ((""Date"" <= CURRENT_DATE) AND (""Date"" >= (CURRENT_DATE - 7)))"
+        Rows Removed by Filter: 23
+Planning Time: 0.082 ms
+Execution Time: 0.047 ms
+
+
+-- AFTER REINIT VALS --
+
+-- After creating "TicketsSales" table
+
+Aggregate  (cost=2.66..2.67 rows=1 width=8) (actual time=0.031..0.032 rows=1 loops=1)
+"  ->  Index Scan using idx_tickets_sales_date on ""TicketsSales""  (cost=0.28..2.64 rows=8 width=4) (actual time=0.025..0.027 rows=8 loops=1)"
+"        Index Cond: ((""Date"" <= CURRENT_DATE) AND (""Date"" >= (CURRENT_DATE - 7)))"
+Planning Time: 0.379 ms
+Execution Time: 0.064 ms

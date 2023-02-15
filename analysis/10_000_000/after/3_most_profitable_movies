@@ -1,0 +1,118 @@
+Limit  (cost=137876.09..137876.10 rows=3 width=62) (actual time=786.986..787.708 rows=3 loops=1)
+  ->  Sort  (cost=137876.09..137876.10 rows=5 width=62) (actual time=766.524..767.245 rows=3 loops=1)
+"        Sort Key: (sum((sum(""Ticket"".""Price"")))) DESC"
+        Sort Method: quicksort  Memory: 25kB
+        ->  GroupAggregate  (cost=137862.02..137876.03 rows=5 width=62) (actual time=766.178..767.225 rows=5 loops=1)
+"              Group Key: m.""Name"""
+              ->  Sort  (cost=137862.02..137866.67 rows=1860 width=38) (actual time=766.056..766.877 rows=1860 loops=1)
+"                    Sort Key: m.""Name"""
+                    Sort Method: quicksort  Memory: 217kB
+                    ->  Merge Join  (cost=137150.05..137761.01 rows=1860 width=38) (actual time=761.078..765.985 rows=1860 loops=1)
+"                          Merge Cond: (sch.id = ""Ticket"".""Schedule"")"
+                          ->  Nested Loop  (cost=0.42..93.65 rows=1860 width=34) (actual time=0.073..1.775 rows=1860 loops=1)
+"                                ->  Index Scan using ""pk_Schedule"" on ""Schedule"" sch  (cost=0.28..49.98 rows=1860 width=8) (actual time=0.037..0.916 rows=1860 loops=1)"
+                                ->  Memoize  (cost=0.14..0.16 rows=1 width=34) (actual time=0.000..0.000 rows=1 loops=1860)
+"                                      Cache Key: sch.""Movie"""
+                                      Cache Mode: logical
+                                      Hits: 1855  Misses: 5  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+"                                      ->  Index Scan using ""pk_Movie"" on ""Movie"" m  (cost=0.13..0.15 rows=1 width=34) (actual time=0.005..0.005 rows=1 loops=5)"
+"                                            Index Cond: (id = sch.""Movie"")"
+                          ->  Finalize GroupAggregate  (cost=137149.63..137620.86 rows=1860 width=12) (actual time=760.996..763.732 rows=1860 loops=1)
+"                                Group Key: ""Ticket"".""Schedule"""
+                                ->  Gather Merge  (cost=137149.63..137583.66 rows=3720 width=12) (actual time=760.965..762.867 rows=5580 loops=1)
+                                      Workers Planned: 2
+                                      Workers Launched: 2
+                                      ->  Sort  (cost=136149.61..136154.26 rows=1860 width=12) (actual time=743.253..743.408 rows=1860 loops=3)
+"                                            Sort Key: ""Ticket"".""Schedule"""
+                                            Sort Method: quicksort  Memory: 136kB
+                                            Worker 0:  Sort Method: quicksort  Memory: 136kB
+                                            Worker 1:  Sort Method: quicksort  Memory: 136kB
+                                            ->  Partial HashAggregate  (cost=136030.00..136048.60 rows=1860 width=12) (actual time=742.196..742.509 rows=1860 loops=3)
+"                                                  Group Key: ""Ticket"".""Schedule"""
+                                                  Batches: 1  Memory Usage: 369kB
+                                                  Worker 0:  Batches: 1  Memory Usage: 369kB
+                                                  Worker 1:  Batches: 1  Memory Usage: 369kB
+"                                                  ->  Parallel Seq Scan on ""Ticket""  (cost=0.00..115196.67 rows=4166667 width=6) (actual time=0.021..225.085 rows=3333333 loops=3)"
+Planning Time: 0.375 ms
+JIT:
+  Functions: 44
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 4.347 ms, Inlining 0.000 ms, Optimization 1.425 ms, Emission 36.116 ms, Total 41.887 ms"
+Execution Time: 790.402 ms
+
+
+-- After creating "MovieFees" table
+
+Limit  (cost=50.14..50.15 rows=3 width=38) (actual time=1.264..1.267 rows=3 loops=1)
+  ->  Sort  (cost=50.14..50.15 rows=5 width=38) (actual time=1.263..1.265 rows=3 loops=1)
+"        Sort Key: (sum(mf.""Fees"")) DESC"
+        Sort Method: quicksort  Memory: 25kB
+        ->  HashAggregate  (cost=50.03..50.08 rows=5 width=38) (actual time=1.247..1.250 rows=5 loops=1)
+"              Group Key: m.""Name"""
+              Batches: 1  Memory Usage: 24kB
+              ->  Hash Join  (cost=1.11..40.73 rows=1860 width=34) (actual time=0.043..0.726 rows=1860 loops=1)
+"                    Hash Cond: (mf.""Movie"" = m.id)"
+"                    ->  Seq Scan on ""MovieFees"" mf  (cost=0.00..30.60 rows=1860 width=8) (actual time=0.008..0.159 rows=1860 loops=1)"
+                    ->  Hash  (cost=1.05..1.05 rows=5 width=34) (actual time=0.022..0.023 rows=5 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+"                          ->  Seq Scan on ""Movie"" m  (cost=0.00..1.05 rows=5 width=34) (actual time=0.004..0.005 rows=5 loops=1)"
+Planning Time: 0.227 ms
+Execution Time: 1.419 ms
+
+
+
+-- AFTER REINIT VALS --
+
+-- With indexes --
+
+Limit  (cost=234756.29..234756.30 rows=3 width=53) (actual time=1076.012..1081.328 rows=3 loops=1)
+  ->  Sort  (cost=234756.29..234758.79 rows=1000 width=53) (actual time=1057.372..1062.687 rows=3 loops=1)
+"        Sort Key: (sum((sum(""Ticket"".""Price"")))) DESC"
+        Sort Method: top-N heapsort  Memory: 25kB
+        ->  HashAggregate  (cost=234730.86..234743.36 rows=1000 width=53) (actual time=1056.727..1062.346 rows=1000 loops=1)
+"              Group Key: m.""Name"""
+              Batches: 1  Memory Usage: 321kB
+              ->  Nested Loop  (cost=1001.04..234479.73 rows=50226 width=29) (actual time=31.187..1030.655 rows=109800 loops=1)
+                    ->  Merge Join  (cost=1000.75..232931.94 rows=50226 width=12) (actual time=31.151..977.962 rows=109800 loops=1)
+"                          Merge Cond: (sch.id = ""Ticket"".""Schedule"")"
+"                          ->  Index Scan using ""pk_Schedule"" on ""Schedule"" sch  (cost=0.29..2787.59 rows=109800 width=8) (actual time=0.015..23.150 rows=109800 loops=1)"
+                          ->  Finalize GroupAggregate  (cost=1000.46..228739.76 rows=50226 width=12) (actual time=31.123..919.217 rows=109800 loops=1)
+"                                Group Key: ""Ticket"".""Schedule"""
+                                ->  Gather Merge  (cost=1000.46..227735.24 rows=100452 width=12) (actual time=31.076..887.477 rows=109800 loops=1)
+                                      Workers Planned: 2
+                                      Workers Launched: 2
+                                      ->  Partial GroupAggregate  (cost=0.43..215140.56 rows=50226 width=12) (actual time=4.190..851.199 rows=36600 loops=3)
+"                                            Group Key: ""Ticket"".""Schedule"""
+"                                            ->  Parallel Index Scan using idx_tickets_schedules on ""Ticket""  (cost=0.43..191770.62 rows=4573536 width=6) (actual time=0.049..529.127 rows=3658829 loops=3)"
+                    ->  Memoize  (cost=0.29..0.30 rows=1 width=25) (actual time=0.000..0.000 rows=1 loops=109800)
+"                          Cache Key: sch.""Movie"""
+                          Cache Mode: logical
+                          Hits: 108800  Misses: 1000  Evictions: 0  Overflows: 0  Memory Usage: 125kB
+"                          ->  Index Scan using ""pk_Movie"" on ""Movie"" m  (cost=0.28..0.29 rows=1 width=25) (actual time=0.002..0.002 rows=1 loops=1000)"
+"                                Index Cond: (id = sch.""Movie"")"
+Planning Time: 0.638 ms
+JIT:
+  Functions: 39
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 4.114 ms, Inlining 0.000 ms, Optimization 1.180 ms, Emission 29.852 ms, Total 35.146 ms"
+Execution Time: 1084.013 ms
+
+
+
+-- NEW TABLE MovieFees
+
+Limit  (cost=2852.12..2852.13 rows=3 width=29) (actual time=56.080..56.082 rows=3 loops=1)
+  ->  Sort  (cost=2852.12..2854.62 rows=1000 width=29) (actual time=56.079..56.080 rows=3 loops=1)
+"        Sort Key: (sum(mf.""Fees"")) DESC"
+        Sort Method: top-N heapsort  Memory: 25kB
+        ->  HashAggregate  (cost=2829.20..2839.20 rows=1000 width=29) (actual time=55.805..55.939 rows=1000 loops=1)
+"              Group Key: m.""Name"""
+              Batches: 1  Memory Usage: 193kB
+              ->  Hash Join  (cost=30.50..2234.20 rows=119000 width=25) (actual time=0.277..33.221 rows=109800 loops=1)
+"                    Hash Cond: (mf.""Movie"" = m.id)"
+"                    ->  Seq Scan on ""MovieFees"" mf  (cost=0.00..1890.00 rows=119000 width=8) (actual time=0.009..9.934 rows=109800 loops=1)"
+                    ->  Hash  (cost=18.00..18.00 rows=1000 width=25) (actual time=0.258..0.258 rows=1000 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 67kB
+"                          ->  Seq Scan on ""Movie"" m  (cost=0.00..18.00 rows=1000 width=25) (actual time=0.005..0.098 rows=1000 loops=1)"
+Planning Time: 0.219 ms
+Execution Time: 56.253 ms

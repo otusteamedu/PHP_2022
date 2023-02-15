@@ -1,0 +1,34 @@
+Finalize Aggregate  (cost=170997.65..170997.66 rows=1 width=8) (actual time=417.016..419.737 rows=1 loops=1)
+  ->  Gather  (cost=170997.44..170997.65 rows=2 width=8) (actual time=416.920..419.724 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Partial Aggregate  (cost=169997.44..169997.45 rows=1 width=8) (actual time=402.787..402.788 rows=1 loops=3)
+"              ->  Parallel Seq Scan on ""Ticket""  (cost=0.00..167280.75 rows=1086675 width=2) (actual time=6.111..367.958 rows=860044 loops=3)"
+"                    Filter: ((""PurchaseTime"" <= CURRENT_DATE) AND (""PurchaseTime"" >= (CURRENT_DATE - 7)))"
+                    Rows Removed by Filter: 2473289
+Planning Time: 0.084 ms
+JIT:
+  Functions: 17
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 2.809 ms, Inlining 0.000 ms, Optimization 0.953 ms, Emission 17.332 ms, Total 21.093 ms"
+Execution Time: 420.542 ms
+
+
+
+-- AFTER REINIT VALS --
+
+Finalize Aggregate  (cost=184867.01..184867.02 rows=1 width=8) (actual time=426.395..428.743 rows=1 loops=1)
+  ->  Gather  (cost=184866.80..184867.01 rows=2 width=8) (actual time=426.248..428.728 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Partial Aggregate  (cost=183866.80..183866.81 rows=1 width=8) (actual time=412.130..412.130 rows=1 loops=3)
+"              ->  Parallel Seq Scan on ""Ticket""  (cost=0.00..183615.25 rows=100618 width=2) (actual time=380.064..408.968 rows=79924 loops=3)"
+"                    Filter: ((""PurchaseTime"" <= CURRENT_DATE) AND (""PurchaseTime"" >= (CURRENT_DATE - 7)))"
+                    Rows Removed by Filter: 3578904
+Planning Time: 0.628 ms
+JIT:
+  Functions: 17
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 2.954 ms, Inlining 0.000 ms, Optimization 1.059 ms, Emission 22.821 ms, Total 26.834 ms"
+Execution Time: 449.073 ms
+

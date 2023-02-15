@@ -1,0 +1,6 @@
+relid,indexrelid,schemaname,relname,indexrelname,idx_scan,idx_tup_read,idx_tup_fetch
+19255,19259,public,Ticket,pk_Ticket,0,0,0
+19346,19351,public,TicketsSales,TicketsSales_pkey,0,0,0
+19326,19331,public,MovieFees,MovieFees_pkey,0,0,0
+19346,19353,public,TicketsSales,idx_tickets_sales_date,1,8,8
+19250,19304,public,Schedule,idx_schedule_date,4,1200,1200
