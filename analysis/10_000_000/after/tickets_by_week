@@ -1,19 +1,16 @@
-Finalize Aggregate  (cost=170944.45..170944.46 rows=1 width=8) (actual time=440.779..445.211 rows=1 loops=1)
-  ->  Gather  (cost=170944.24..170944.45 rows=2 width=8) (actual time=440.630..445.188 rows=3 loops=1)
+Finalize Aggregate  (cost=123326.87..123326.88 rows=1 width=8) (actual time=765.075..770.631 rows=1 loops=1)
+  ->  Gather  (cost=123326.66..123326.87 rows=2 width=8) (actual time=764.556..770.612 rows=3 loops=1)
         Workers Planned: 2
         Workers Launched: 2
-        ->  Partial Aggregate  (cost=169944.24..169944.25 rows=1 width=8) (actual time=426.661..426.662 rows=1 loops=3)
-"              ->  Parallel Seq Scan on ""Ticket""  (cost=0.00..167280.00 rows=1065695 width=2) (actual time=7.457..390.429 rows=859864 loops=3)"
-"                    Filter: ((""PurchaseTime"" <= CURRENT_DATE) AND (""PurchaseTime"" >= (CURRENT_DATE - 7)))"
-                    Rows Removed by Filter: 2473470
-Planning Time: 0.226 ms
+        ->  Partial Aggregate  (cost=122326.66..122326.67 rows=1 width=8) (actual time=748.552..748.553 rows=1 loops=3)
+"              ->  Parallel Index Scan using idx_tickets_purchase_time on ""Ticket""  (cost=0.44..119649.23 rows=1070972 width=2) (actual time=7.903..687.290 rows=860102 loops=3)"
+"                    Index Cond: ((""PurchaseTime"" <= CURRENT_DATE) AND (""PurchaseTime"" >= (CURRENT_DATE - 7)))"
+Planning Time: 0.469 ms
 JIT:
-  Functions: 17
+  Functions: 23
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
-"  Timing: Generation 2.940 ms, Inlining 0.000 ms, Optimization 1.141 ms, Emission 21.180 ms, Total 25.260 ms"
-Execution Time: 446.002 ms
-
-
+"  Timing: Generation 3.347 ms, Inlining 0.000 ms, Optimization 1.081 ms, Emission 22.458 ms, Total 26.886 ms"
+Execution Time: 772.087 ms
 
 -- After creating "TicketsSales" table
 
