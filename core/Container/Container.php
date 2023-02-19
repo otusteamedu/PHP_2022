@@ -1,40 +1,41 @@
 <?php
-namespace Otus\Task12\Core\Container;
 
-use Otus\Task12\Core\Container\Contracts\ContainerContract;
-use Otus\Task12\Core\Http\Request;
+namespace Otus\Task13\Core\Container;
 
-class Container implements ContainerContract, \ArrayAccess
+use ArrayAccess;
+use Otus\Task13\Core\Container\Contracts\ContainerContract;
+use Otus\Task13\Core\Http\Request;
+
+class Container implements ContainerContract, ArrayAccess
 {
     private static ?ContainerContract $instance = null;
     private array $containers = [];
 
-    private function __construct(){}
+    private function __construct()
+    {
+    }
 
     public static function instance(): self
     {
-        if (is_null(self::$instance)){
+        if (is_null(self::$instance)) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    public function get(mixed $id){
-        return $this->containers[$id] ?? null;
-    }
-
-    public function getContainer(mixed $id){
-        return $this->containers[$id] ?? null;
-    }
-
-    public function set(mixed $id, mixed $value)
+    public function getContainer(mixed $id)
     {
-        $this->containers[$id] = $value;
+        return $this->containers[$id] ?? null;
     }
 
     public function getRequest(): Request
     {
-       return $this->get('request');
+        return $this->get('request');
+    }
+
+    public function get(mixed $id)
+    {
+        return $this->containers[$id] ?? null;
     }
 
     public function setRequest(Request $request)
@@ -42,9 +43,9 @@ class Container implements ContainerContract, \ArrayAccess
         $this->set('request', $request);
     }
 
-    public function has(mixed $id): bool
+    public function set(mixed $id, mixed $value)
     {
-        return isset($this->containers[$id]);
+        $this->containers[$id] = $value;
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
@@ -55,6 +56,11 @@ class Container implements ContainerContract, \ArrayAccess
     public function offsetExists(mixed $offset): bool
     {
         return $this->has($offset);
+    }
+
+    public function has(mixed $id): bool
+    {
+        return isset($this->containers[$id]);
     }
 
     public function offsetUnset(mixed $offset): void

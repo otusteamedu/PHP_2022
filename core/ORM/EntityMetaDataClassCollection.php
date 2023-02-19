@@ -1,12 +1,15 @@
 <?php
-namespace Otus\Task12\Core\ORM;
+
+namespace Otus\Task13\Core\ORM;
 
 
 class EntityMetaDataClassCollection
 {
     protected static $instance;
 
-    final protected function __construct(){}
+    final protected function __construct()
+    {
+    }
 
     final public static function instance()
     {

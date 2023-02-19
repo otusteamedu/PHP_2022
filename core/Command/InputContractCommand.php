@@ -1,12 +1,13 @@
 <?php
 
-namespace Otus\Task12\Core\Command;
+namespace Otus\Task13\Core\Command;
 
-use Otus\Task12\Core\Command\Contracts\InputContractContract;
+use Otus\Task13\Core\Command\Contracts\InputContractContract;
 
 class InputContractCommand implements InputContractContract
 {
-    public function __construct(private array $arguments){
+    public function __construct(private array $arguments)
+    {
         $this->arguments = array_slice($this->arguments, 2);
     }
 

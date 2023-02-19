@@ -1,6 +1,6 @@
 <?php
 
-namespace Otus\Task12\Core\Command\Contracts;
+namespace Otus\Task13\Core\Command\Contracts;
 
 interface OutputCommandContract
 {

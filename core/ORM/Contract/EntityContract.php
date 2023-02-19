@@ -1,5 +1,7 @@
 <?php
 
-namespace Otus\Task12\Core\ORM\Contract;
+namespace Otus\Task13\Core\ORM\Contract;
 
-interface EntityContract{}
+interface EntityContract
+{
+}

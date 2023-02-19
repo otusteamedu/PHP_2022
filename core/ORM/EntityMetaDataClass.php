@@ -1,11 +1,12 @@
 <?php
 
-namespace Otus\Task12\Core\ORM;
+namespace Otus\Task13\Core\ORM;
 
-use Otus\Task12\Core\ORM\Mapping\Column;
-use Otus\Task12\Core\ORM\Mapping\Entity;
-use Otus\Task12\Core\ORM\Mapping\PrimaryKey;
-use Otus\Task12\Core\ORM\Mapping\Table;
+use Otus\Task13\Core\ORM\Mapping\Column;
+use Otus\Task13\Core\ORM\Mapping\Entity;
+use Otus\Task13\Core\ORM\Mapping\PrimaryKey;
+use Otus\Task13\Core\ORM\Mapping\Table;
+use ReflectionClass;
 
 class EntityMetaDataClass
 {
@@ -17,15 +18,15 @@ class EntityMetaDataClass
 
     public function __construct(string $entity)
     {
-        $class = new \ReflectionClass($entity);
+        $class = new ReflectionClass($entity);
         $attributes = $class->getAttributes();
 
-        foreach ($attributes as $attribute){
+        foreach ($attributes as $attribute) {
             $object = $attribute->newInstance();
-            if($object instanceof Table){
+            if ($object instanceof Table) {
                 $this->table = $object->name;
             }
-            if($object instanceof Entity){
+            if ($object instanceof Entity) {
                 $this->transformClass = $object->transform;
             }
         }
@@ -33,12 +34,12 @@ class EntityMetaDataClass
         foreach ($class->getProperties() as $property) {
             $propertyName = $property->getName();
 
-            foreach($property->getAttributes(Column::class) as $attribute){
+            foreach ($property->getAttributes(Column::class) as $attribute) {
                 $object = $attribute->newInstance();
                 $this->columns[$propertyName] = $object->name;
             }
 
-            foreach($property->getAttributes(PrimaryKey::class) as $attribute){
+            foreach ($property->getAttributes(PrimaryKey::class) as $attribute) {
                 $object = $attribute->newInstance();
                 $this->columns[$propertyName] = $object->primaryKey;
                 $this->primaryKey = $object->primaryKey;
@@ -46,13 +47,14 @@ class EntityMetaDataClass
         }
     }
 
-    public function getTable(){
+    public function getTable()
+    {
         return $this->table;
     }
 
     public function getPrimaryKey()
     {
-        return  $this->primaryKey;
+        return $this->primaryKey;
     }
 
     public function getTransformClass(): string

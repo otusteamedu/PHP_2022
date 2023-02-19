@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use \Otus\Task12\Core\Application;
-echo '<pre>';
+use \Otus\Task13\Core\Application;
+
 include __DIR__ . '/vendor/autoload.php';
 
 $application = new Application();

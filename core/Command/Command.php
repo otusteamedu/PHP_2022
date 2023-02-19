@@ -1,8 +1,8 @@
 <?php
 
-namespace Otus\Task12\Core\Command;
+namespace Otus\Task13\Core\Command;
 
-use Otus\Task12\Core\Http\Request;
+use Otus\Task13\Core\Http\Request;
 
 abstract class Command
 {
@@ -10,5 +10,6 @@ abstract class Command
     {
         $this->handle($request);
     }
+
     abstract protected function handle(Request $request): void;
 }

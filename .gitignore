@@ -2,3 +2,6 @@
 vendor
 docker
 *.json
+tasks.md
+sqlite.db
+core/.container.php

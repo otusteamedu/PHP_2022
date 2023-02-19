@@ -1,17 +1,23 @@
 <?php
 
-namespace Otus\Task12\Core\Routing;
+namespace Otus\Task13\Core\Routing;
 
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
 use Traversable;
 
-class RouteCollection implements \ArrayAccess, \IteratorAggregate
+class RouteCollection implements ArrayAccess, IteratorAggregate
 {
     private array $container = [];
-    public function add(Route $route){
+
+    public function add(Route $route)
+    {
         $this->container[] = $route;
     }
 
-    public function offsetSet(mixed $offset, mixed $value): void{
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
         if (is_null($offset)) {
             $this->container[] = $value;
         } else {
@@ -19,7 +25,8 @@ class RouteCollection implements \ArrayAccess, \IteratorAggregate
         }
     }
 
-    public function offsetExists(mixed $offset): bool {
+    public function offsetExists(mixed $offset): bool
+    {
         return isset($this->container[$offset]);
     }
 
@@ -35,6 +42,6 @@ class RouteCollection implements \ArrayAccess, \IteratorAggregate
 
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->container);
+        return new ArrayIterator($this->container);
     }
 }

@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Otus\Task12\Core\Config;
+namespace Otus\Task13\Core\Config;
 
-use Otus\Task12\Core\Config\Contracts\ConfigContract;
+use ArrayAccess;
+use Otus\Task13\Core\Config\Contracts\ConfigInterface;
 
 
-class Config implements ConfigContract, \ArrayAccess
+class Config implements ConfigInterface, ArrayAccess
 {
     private array $container;
 
@@ -14,16 +15,6 @@ class Config implements ConfigContract, \ArrayAccess
     {
 
         $this->container = require $path;
-    }
-
-    public function get($key) : mixed
-    {
-        return $this->container[$key] ?? null;
-    }
-
-    public function has(mixed $id): bool
-    {
-        return isset($this->containers[$id]);
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
@@ -36,6 +27,11 @@ class Config implements ConfigContract, \ArrayAccess
         return $this->has($offset);
     }
 
+    public function has(mixed $id): bool
+    {
+        return isset($this->containers[$id]);
+    }
+
     public function offsetUnset(mixed $offset): void
     {
         unset($this->containers[$offset]);
@@ -44,6 +40,11 @@ class Config implements ConfigContract, \ArrayAccess
     public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
+    }
+
+    public function get($key): mixed
+    {
+        return $this->container[$key] ?? null;
     }
 
 }

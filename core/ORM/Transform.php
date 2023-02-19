@@ -1,8 +1,8 @@
 <?php
 
-namespace Otus\Task12\Core\ORM;
+namespace Otus\Task13\Core\ORM;
 
 abstract class Transform
 {
-   abstract function transform();
+    abstract function transform();
 }

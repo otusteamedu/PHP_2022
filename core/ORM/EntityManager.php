@@ -1,24 +1,26 @@
 <?php
 
-namespace Otus\Task12\Core\ORM;
+namespace Otus\Task13\Core\ORM;
 
-use Otus\Task12\Core\Container\Container;
-use Otus\Task12\Core\ORM\Contract\EntityContract;
-use Otus\Task12\Core\ORM\Contract\EntityManagerContract;
-use Otus\Task12\Core\ORM\Contract\EntityIdentityMapContract;
+use Otus\Task13\Core\ORM\Contract\DatabaseInterface;
+use Otus\Task13\Core\ORM\Contract\EntityContract;
+use Otus\Task13\Core\ORM\Contract\EntityIdentityMapContract;
+use Otus\Task13\Core\ORM\Contract\EntityManagerContract;
 
 class EntityManager implements EntityManagerContract
 {
-    private Databases $connection;
+    private Database $connection;
     private EntityIdentityMapContract $identityMap;
 
-    public function __construct()
+    public function __construct(
+        DatabaseInterface $database,
+    )
     {
-        $this->connection = Container::instance()->get('database');
+        $this->connection = $database;
         $this->identityMap = EntityIdentityMap::instance();
     }
 
-    public function getConnection(): Databases
+    public function getConnection(): Database
     {
         return $this->connection;
     }
@@ -28,19 +30,32 @@ class EntityManager implements EntityManagerContract
         $metadata = $this->getMetaDataClass($entity);
 
         $columns = implode(', ', $metadata->getColums());
-        $values = implode(', ',array_map(static fn($column) => ':' . $column, $metadata->getColums()));
+        $values = implode(', ', array_map(static fn($column) => ':' . $column, $metadata->getColums()));
 
         $sql = "INSERT INTO {$metadata->getTable()} ($columns) VALUES ($values)";
 
         $binding = [];
-        foreach($metadata->getColums() as $property => $column){
+        foreach ($metadata->getColums() as $property => $column) {
             $binding[$column] = $entity->{'get' . ucfirst($property)}();
         }
 
-        $this->connection->statement($sql, $binding);
-        $entity = $this->getRepository($entity)->find($this->connection->lastInsertId());
 
+        $this->connection->statement($sql, $binding);
+
+        $entity = $this->getRepository($entity)->find($this->connection->lastInsertId());
         return $this->identityMap->append($entity);
+    }
+
+    public function getMetaDataClass($entityClass): EntityMetaDataClass
+    {
+        $entityClass = is_object($entityClass) ? get_class($entityClass) : $entityClass;
+        return EntityMetaDataClassCollection::instance()->getMetadata($entityClass);
+    }
+
+    public function getRepository($entity): Repository
+    {
+        $entity = is_object($entity) ? get_class($entity) : $entity;
+        return new Repository($this, $entity);
     }
 
     public function update(EntityContract $entity): EntityContract
@@ -48,11 +63,11 @@ class EntityManager implements EntityManagerContract
         $metadata = $this->getMetaDataClass($entity);
 
         $pk = $metadata->getPrimaryKey();
-        $columns = implode(', ',array_map(static fn($column) => $column .' = :' . $column, $metadata->getColums()));
+        $columns = implode(', ', array_map(static fn($column) => $column . ' = :' . $column, $metadata->getColums()));
         $sql = "UPDATE {$metadata->getTable()} SET $columns WHERE {$pk} = :{$pk} ";
 
         $binding = [];
-        foreach($metadata->getColums() as $property => $column) {
+        foreach ($metadata->getColums() as $property => $column) {
             $binding[$column] = $entity->{'get' . ucfirst($property)}();
         }
         $this->connection->statement($sql, $binding);
@@ -67,18 +82,6 @@ class EntityManager implements EntityManagerContract
         $pk = $metadata->getPrimaryKey();
         $sql = "DELETE FROM {$metadata->getTable()}  WHERE {$pk} = :{$pk}";
         $this->connection->statement($sql, [$pk => $entity->{'get' . ucfirst($pk)}()]);
-    }
-
-    public function getMetaDataClass($entityClass): EntityMetaDataClass
-    {
-       $entityClass = is_object($entityClass) ? get_class($entityClass) : $entityClass;
-       return EntityMetaDataClassCollection::instance()->getMetadata($entityClass);
-    }
-
-    public function getRepository($entity): Repository
-    {
-        $entity = is_object($entity) ? get_class($entity) : $entity;
-        return new Repository($this, $entity);
     }
 
     public function getIdentityMap(): EntityIdentityMapContract

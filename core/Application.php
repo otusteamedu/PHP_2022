@@ -1,44 +1,48 @@
 <?php
 declare(strict_types=1);
 
-namespace Otus\Task12\Core;
+namespace Otus\Task13\Core;
 
-use Otus\Task12\Core\Config\Config;
-use Otus\Task12\Core\Container\Container;
-use Otus\Task12\Core\Container\Contracts\ContainerContract;
-use Otus\Task12\Core\Http\HttpRequest;
-use Otus\Task12\Core\Http\Response;
-use Otus\Task12\Core\Routing\RouterManager;
-use Otus\Task12\Core\View\ViewManager;
-use Otus\Task12\Core\ORM\Databases;
+use Otus\Task13\Core\Config\Contracts\ConfigInterface;
+use Otus\Task13\Core\Http\Contract\HttpRequestInterface;
+use Otus\Task13\Core\Http\ControllerResolve;
+use Otus\Task13\Core\Http\Response;
+use Otus\Task13\Core\Routing\RouteCollection;
+use Otus\Task13\Core\Routing\RouterManager;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class Application
 {
-    private ?ContainerContract $container;
+    private ?ContainerInterface $container;
 
     public function __construct()
     {
-        $this->container = Container::instance();
 
-        $this->container->set('base_path', __DIR__ . '/../app');
-        $this->container->setRequest(new HttpRequest($_POST));
-        $this->container->set('config', new Config($this->container['base_path'] . '/config/app.php'));
-        $this->container->set('view' , new ViewManager($this->container['config']['path_view']));
-        $this->container->set('database', new Databases($this->container['config']['database']));
+        $this->container = new ContainerBuilder();
+        $loader = new PhpFileLoader($this->container, new FileLocator(__DIR__ . '/..'));
+        $loader->load('config/services.php');
 
+        $this->container->compile();
     }
 
 
     public function run(): void
     {
-        $request = $this->container->getRequest();
-        $router = new RouterManager();
-        $fileRouter = $this->container['base_path'] . '/routers.php';
-        if(file_exists($fileRouter)){
+        $config = $this->container->get(ConfigInterface::class);
+        $request = $this->container->get(HttpRequestInterface::class);
+        $router = new RouterManager(new RouteCollection());
+
+        $fileRouter = $config->get('base_path') . '/config/routers.php';
+        if (file_exists($fileRouter)) {
             require_once $fileRouter;
         }
-        $response = $router->resolve($request)->run();
-        if(!$response instanceof Response){
+
+        $controller = new ControllerResolve($router->resolve($request), $this->container);
+        $response = $controller->make();
+        if (!$response instanceof Response) {
             $response = new Response((string)$response);
         }
         $response->send();

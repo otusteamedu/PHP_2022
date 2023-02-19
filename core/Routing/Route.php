@@ -1,12 +1,12 @@
 <?php
 
-namespace Otus\Task12\Core\Routing;
-
-use Otus\Task12\Core\Http\Response;
+namespace Otus\Task13\Core\Routing;
 
 class Route
 {
-    public function __construct(private readonly string $method, private readonly string $path, private readonly mixed $handler){}
+    public function __construct(private readonly string $method, private readonly string $path, private readonly mixed $handler)
+    {
+    }
 
     public function getMethod(): string
     {
@@ -18,10 +18,9 @@ class Route
         return $this->path;
     }
 
-    public function run(): mixed{
-        if(is_array($this->handler)){
-            [$class, $method] = $this->handler;
-           return call_user_func_array([new $class(), $method], []);
-        }
+    public function getHandler(): mixed
+    {
+        return $this->handler;
     }
+
 }

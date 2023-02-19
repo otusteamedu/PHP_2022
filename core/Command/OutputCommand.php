@@ -1,8 +1,8 @@
 <?php
 
-namespace Otus\Task12\Core\Command;
+namespace Otus\Task13\Core\Command;
 
-use Otus\Task12\Core\Command\Contracts\OutputCommandContract;
+use Otus\Task13\Core\Command\Contracts\OutputCommandContract;
 
 class OutputCommand implements OutputCommandContract
 {

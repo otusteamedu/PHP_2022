@@ -1,13 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Otus\Task12\Core\Http;
-use \Stringable;
+namespace Otus\Task13\Core\Http;
+
+use Stringable;
 
 class Response implements Stringable
 {
 
-    public function __construct(private string|Stringable $result, private int $status = 200){}
+    public function __construct(private string|Stringable $result, private int $status = 200)
+    {
+    }
 
     public function __toString(): string
     {
@@ -15,7 +18,8 @@ class Response implements Stringable
         return (string)$this->result;
     }
 
-    public function send(){
+    public function send()
+    {
         echo $this;
     }
 }

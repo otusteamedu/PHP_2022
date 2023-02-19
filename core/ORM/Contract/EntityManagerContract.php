@@ -1,7 +1,9 @@
 <?php
 
-namespace Otus\Task12\Core\ORM\Contract;
+namespace Otus\Task13\Core\ORM\Contract;
 
+
+use Otus\Task13\Core\ORM\Repository;
 
 interface EntityManagerContract
 {
@@ -10,4 +12,8 @@ interface EntityManagerContract
     public function getConnection();
 
     public function getIdentityMap(): EntityIdentityMapContract;
+
+    public function create(EntityContract $entity): EntityContract;
+
+    public function getRepository($entity): Repository;
 }

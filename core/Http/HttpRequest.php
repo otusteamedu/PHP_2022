@@ -1,30 +1,49 @@
 <?php
 
-namespace Otus\Task12\Core\Http;
+namespace Otus\Task13\Core\Http;
 
-use Otus\Task12\Core\Http\Parameters\PostParameter;
+use Otus\Task13\Core\Http\Contract\HttpRequestInterface;
+use Otus\Task13\Core\Http\Parameters\PostParameter;
 
-class HttpRequest extends Request
+class HttpRequest implements HttpRequestInterface
 {
-    public ?PostParameter $post = null;
+    protected string $path = '/';
+    protected array $properties = [];
+    private PostParameter $post;
 
-    public function __construct(array $post){
+    public function __construct(array $post)
+    {
         $this->post = new PostParameter($post);
     }
 
-    public function initialize()
+    public function getMethod(): string
     {
-        $this->post = new PostParameter($_POST);
-
+        return $_SERVER['REQUEST_METHOD'];
     }
+
+    public function getUri(): string
+    {
+        return $_SERVER["REQUEST_URI"];
+    }
+
+    public function getProperties(): array
+    {
+        return $this->properties;
+    }
+
+    public function setProperties(array $properties): void
+    {
+        $this->properties = $properties;
+    }
+
 
     public function isPost(): bool
     {
         return $_SERVER['REQUEST_METHOD'] === 'POST';
     }
 
-    public function getPath()
+    public function getPost(): PostParameter
     {
-        // TODO: Implement getPath() method.
+        return $this->post;
     }
 }

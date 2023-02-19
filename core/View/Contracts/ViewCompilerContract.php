@@ -1,8 +1,8 @@
 <?php
 
-namespace Otus\Task12\Core\View\Contracts;
+namespace Otus\Task13\Core\View\Contracts;
 
 interface ViewCompilerContract
 {
-    public function render():string;
+    public function render(): string;
 }

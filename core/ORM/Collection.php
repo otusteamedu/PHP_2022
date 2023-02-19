@@ -1,21 +1,26 @@
 <?php
 
-namespace Otus\Task12\Core\ORM;
+namespace Otus\Task13\Core\ORM;
 
-use Otus\Task12\Core\ORM\Contract\EntityContract;
+use Iterator;
+use Otus\Task13\Core\ORM\Contract\CollectionInterface;
+use Otus\Task13\Core\ORM\Contract\EntityContract;
 
-class Collection implements \Iterator
+class Collection implements Iterator, CollectionInterface
 {
     private int $position = 0;
 
-    public function __construct(private array $items = []){}
+    public function __construct(private array $items = [])
+    {
+    }
 
     public function rewind(): void
     {
         $this->position = 0;
     }
 
-    public function current(): ?EntityContract {
+    public function current(): EntityContract
+    {
         return $this->items[$this->position];
     }
 
