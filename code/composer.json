@@ -1,9 +1,9 @@
 {
-    "name": "nikcrazy37/hw5",
+    "name": "nikcrazy37/hw13",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Nikcrazy37\\Hw5\\": "src/"
+            "Nikcrazy37\\Hw13\\": "src/"
         }
     },
     "authors": [

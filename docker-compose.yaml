@@ -3,7 +3,7 @@ version: '3'
 services:
   nginx:
     build:
-      context: ./nginx
+      context: docker/nginx
       dockerfile: Dockerfile
     image: nginx
     container_name: nginx
@@ -16,7 +16,7 @@ services:
 
   app:
     build:
-      context: ./fpm
+      context: docker/fpm
       dockerfile: Dockerfile
     image: php-fpm
     container_name: app

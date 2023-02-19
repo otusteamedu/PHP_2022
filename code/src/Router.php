@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Nikcrazy37\Hw5;
+namespace Nikcrazy37\Hw13;
 
-use Nikcrazy37\Hw5\Exception\AppException;
-use Nikcrazy37\Hw5\Exception\ControllerException;
-use Nikcrazy37\Hw5\Exception\FileNotFoundException;
+use Nikcrazy37\Hw13\Libs\Exception\Base\FileNotFoundException;
+use Nikcrazy37\Hw13\Libs\Exception\BaseException;
+use Nikcrazy37\Hw13\Libs\Exception\Base\NotFoundClassException;
+use Nikcrazy37\Hw13\Libs\Exception\Base\NotFoundMethodException;
 
 class Router
 {
-    private $routes;
-    const controllerNamespace = 'Nikcrazy37\Hw5\Controller\\';
+    private array $routes;
 
     /**
      * @throws FileNotFoundException
-     * @throws AppException
+     * @throws BaseException
      */
     public function __construct()
     {
@@ -26,21 +26,25 @@ class Router
             if (preg_match("~$uriPattern~", $uri)) {
                 $segments = explode('/', $path);
 
-                $controllerName = ucfirst(array_shift($segments)) . 'Controller';
-
+                $moduleName = ucfirst(array_shift($segments));
+                $controllerName = $moduleName . 'Controller';
+                $controllerNamespace = "Nikcrazy37\Hw13\Modules\\{$moduleName}\Infrastructure\Controller\\";
                 $actionName = ucfirst(array_shift($segments));
+                $controllerObjectPath = $controllerNamespace . $controllerName;
 
-                $controllerObjectPath = self::controllerNamespace . $controllerName;
+                if (!class_exists($controllerObjectPath)) {
+                    throw new NotFoundClassException($controllerObjectPath);
+                }
 
-                try {
-                    $controllerObject = new $controllerObjectPath;
-                    $result = $controllerObject->$actionName();
+                if (!method_exists($controllerObjectPath, $actionName)) {
+                    throw new NotFoundMethodException($actionName);
+                }
 
-                    if ($result != null) {
-                        break;
-                    }
-                } catch (ControllerException $e) {
-                    throw new AppException($e->getMessage(), 400, $e);
+                $controllerObject = new $controllerObjectPath;
+                $result = $controllerObject->$actionName();
+
+                if ($result !== null) {
+                    break;
                 }
             }
         }
@@ -50,9 +54,9 @@ class Router
      * @return void
      * @throws FileNotFoundException
      */
-    private function includeRoutes()
+    private function includeRoutes(): void
     {
-        $routesPath = ROOT . '/config/routes.php';
+        $routesPath = ROOT . '/src/config/routes.php';
         if (!file_exists($routesPath)) {
             throw new FileNotFoundException();
         }
