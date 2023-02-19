@@ -1,6 +1,6 @@
 <?php
 
-namespace Study\Cinema\Infrastructure\Controller;
+namespace Study\Cinema\Infrastructure\Controller\Api\v1;
 
 use Study\Cinema\Domain\RequestStatus;
 use Study\Cinema\Infrastructure\Response\Response;

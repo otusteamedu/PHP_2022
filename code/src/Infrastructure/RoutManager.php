@@ -3,14 +3,14 @@
 
 namespace Study\Cinema\Infrastructure;
 
-use Study\Cinema\Infrastructure\View\View;
+
 use Study\Cinema\Infrastructure\Response\Response;
 
 class RoutManager
 {
     const ALLOWED_ACTIONS = ['index', 'get', 'delete', 'post'];
     const ALLOWED_ROUTES = ['request',''];
-    const NAMESPACE = "Study\\Cinema\\Infrastructure\\Controller\\";
+    const NAMESPACE = "Study\\Cinema\\Infrastructure\\Controller\\Api\\v1\\";
     public function __construct()
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
