@@ -1,9 +1,9 @@
 <?php
 
-namespace Study\Cinema\Infrastructure\Service\Queue\StatementPublisher;
+namespace Study\Cinema\Infrastructure\Service\Queue\RequestPublisher;
 
 
-class StatementSendDTO
+class RequestSendDTO
 {
     private string $dateFrom;
 
@@ -20,7 +20,11 @@ class StatementSendDTO
             [
                 'dateFrom' => $data['dateFrom'],
                 'dateTill' =>$data['dateTill'],
-                'email' => $data['email'],
+                 'email' => $data['email'],
+                'request_id' => $data['request_id'],
+                'user_id' => $data['user_id'],
+                'request_status_id' => $data['request_status_id'],
+                'request_type_id' => $data['request_type_id']
             ];
     }
     public function toAMQPMessage(): string

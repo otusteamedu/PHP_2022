@@ -27,6 +27,8 @@ class EmailConsumer implements QueueInterface
             $data = json_decode($msg->body, true);
             $dto = new EmailReceivedDTO($data);
             $this->sendMail($dto);
+            echo "Email sent";
+
         };
 
         $this->channel->basic_consume(QueueInterface::QUEUE_NAME_EMAIL, '', false, true, false, false, $callback);

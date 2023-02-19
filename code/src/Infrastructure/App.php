@@ -12,6 +12,8 @@ class App
     {
         (new DotEnv(__DIR__ . '/../../.env'))->load();
         $router = new RoutManager();
+       // $pdo = (new DBConnection())->getConnection();
+
 
     }
 }
