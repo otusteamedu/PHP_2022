@@ -26,6 +26,4 @@ class ValidationService
             (new Response($throwable->getMessage(), Response::HTTP_FORBIDDEN))->send();
         }
     }
-
-
 }
