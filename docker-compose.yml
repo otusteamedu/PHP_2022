@@ -1,0 +1,107 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+
+  ## Балансировщик нагрузки
+  balancer:
+    image: nginx:1.15.3
+    container_name: balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/balancer:/etc/nginx/conf.d
+      - ./backend:/data/application.localhost
+    depends_on:
+      - nginx1
+      - nginx2
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  #контейнер с Nginx #1
+  nginx1:
+    image: nginx:1.15.3
+    container_name: nginx1
+    ports:
+      - "8080"
+    volumes:
+      - ./infra/nginx:/etc/nginx/conf.d
+      - ./backend:/data/application.localhost
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  #контейнер с Nginx #2
+  nginx2:
+    image: nginx:1.15.3
+    container_name: nginx2
+    ports:
+      - "8080"
+    volumes:
+      - ./infra/nginx:/etc/nginx/conf.d
+      - ./backend:/data/application.localhost
+    networks:
+      - app-network
+    restart: unless-stopped
+
+
+  #Контейнер с PHP-FPM #1
+  backend1:
+    build:
+      context: ./infra/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: backend1
+    volumes:
+      - ./backend:/data/application.localhost
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  #Контейнер с PHP-FPM #2
+  backend2:
+    build:
+      context: ./infra/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: backend2
+    volumes:
+      - ./backend:/data/application.localhost
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:6.2.3
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  memcached:
+    image: memcached:1.6.17
+    container_name: memcached
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  pgsql:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgsql_data:/var/lib/postgresql/data/:delegated
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  pgsql_data: {}
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
