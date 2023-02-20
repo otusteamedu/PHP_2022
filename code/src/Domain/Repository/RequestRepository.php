@@ -3,7 +3,7 @@ namespace Study\Cinema\Domain\Repository;
 
 use PDO;
 use PDOStatement;
-use Study\Cinema\Infrastructure\Service\Queue\RequestConsumer\RequestReceivedDTO;
+use Study\Cinema\Domain\RequestDTO;
 use Study\Cinema\Domain\Request;
 
 class RequestRepository
@@ -54,9 +54,9 @@ class RequestRepository
 
     }
 
-    public function insertFromDTO(RequestReceivedDTO $receivedDTO): int
+    public function insertFromDTO(RequestDTO $requestDTO): int
     {
-        $this->insertStmt->execute([$receivedDTO->getUserId(), $receivedDTO->getRequestTypeId(), $receivedDTO->getRequestStatusId()]);
+        $this->insertStmt->execute([$requestDTO->getUserId(), $requestDTO->getRequestTypeId(), $requestDTO->getRequestStatusId()]);
         $id = (int) $this->pdo->lastInsertId();
         return (int) $id;
     }

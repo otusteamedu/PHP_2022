@@ -9,7 +9,7 @@ use Study\Cinema\Infrastructure\Response\Response;
 class RoutManager
 {
     const ALLOWED_ACTIONS = ['index', 'get', 'delete', 'post'];
-    const ALLOWED_ROUTES = ['request',''];
+    const ALLOWED_ROUTES = ['request','documentation'];
     const NAMESPACE = "Study\\Cinema\\Infrastructure\\Controller\\Api\\v1\\";
     public function __construct()
     {
