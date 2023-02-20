@@ -1,5 +1,8 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';
 
-echo 'hello word';
 
-echo phpinfo();
+session_start();
+
+echo 'Идентификатор сессии: ' . session_id().'<br>';
+echo "Текущий контейнер: " . $_SERVER['HOSTNAME'];
