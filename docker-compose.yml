@@ -3,33 +3,72 @@ version: '3'
 
 # в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
-  #контейнер с Nginx
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: nginx
-    # проброс портов
+
+  ## Балансировщик нагрузки
+  balancer:
+    image: nginx:1.15.3
+    container_name: balancer
     ports:
       - "80:80"
     volumes:
-      - ./backend:/data/application.local
+      - ./infra/balancer:/etc/nginx/conf.d
+      - ./backend:/data/application.localhost
+    depends_on:
+      - nginx1
+      - nginx2
     networks:
       - app-network
     restart: unless-stopped
 
-  #Контейнер с PHP-FPM, назовём его app
-  backend:
-    # Если нет секции build, то система будет искать образ в репозиториях
-    build:
-      context: ./php
-      dockerfile: Dockerfile
-    image: myapp/php # имя будущего образа
-    container_name: backend # имя контейнера после запуска
+  #контейнер с Nginx #1
+  nginx1:
+    image: nginx:1.15.3
+    container_name: nginx1
+    ports:
+      - "8080"
     volumes:
-      - ./backend:/data/application.local
-    # мы можем создать для контейнеров внутреннюю сеть
+      - ./infra/nginx:/etc/nginx/conf.d
+      - ./backend:/data/application.localhost
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  #контейнер с Nginx #2
+  nginx2:
+    image: nginx:1.15.3
+    container_name: nginx2
+    ports:
+      - "8080"
+    volumes:
+      - ./infra/nginx:/etc/nginx/conf.d
+      - ./backend:/data/application.localhost
+    networks:
+      - app-network
+    restart: unless-stopped
+
+
+  #Контейнер с PHP-FPM #1
+  backend1:
+    build:
+      context: ./infra/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: backend1
+    volumes:
+      - ./backend:/data/application.localhost
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  #Контейнер с PHP-FPM #2
+  backend2:
+    build:
+      context: ./infra/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: backend2
+    volumes:
+      - ./backend:/data/application.localhost
     networks:
       - app-network
     restart: unless-stopped
@@ -42,6 +81,7 @@ services:
 
   memcached:
     image: memcached:1.6.17
+    container_name: memcached
     networks:
       - app-network
     restart: unless-stopped

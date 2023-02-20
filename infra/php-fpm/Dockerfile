@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
 
 
 
-COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /data
 
