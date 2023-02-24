@@ -6,6 +6,12 @@
         }
     },
     "require": {
-        "laminas/laminas-config-aggregator": "^1.11"
+        "laminas/laminas-config-aggregator": "^1.11",
+        "elasticsearch/elasticsearch": "^8.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
