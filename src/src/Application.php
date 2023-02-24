@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App;
 
 use App\Command\CommandInterface;
-use App\Command\CreateTableCommand;
-use App\Command\DeleteTableCommand;
-use App\Command\GetTableCommand;
 use App\Command\ListCommand;
-use App\Command\SearchCommand;
+use App\Command\Search\SearchCommand;
+use App\Command\Table\CreateTableCommand;
+use App\Command\Table\DeleteTableCommand;
+use App\Command\Table\GetTableCommand;
 use App\Command\TestCommand;
 use Exception;
 use RuntimeException;
@@ -55,9 +55,9 @@ class Application
     {
         return match ($commandName) {
             'test' => new TestCommand($this->config),
-            'db_create' => new CreateTableCommand($this->config, $this->queryParams),
-            'db_get' => new GetTableCommand($this->config, $this->queryParams),
-            'db_delete' => new DeleteTableCommand($this->config, $this->queryParams),
+            'table_create' => new CreateTableCommand($this->config, $this->queryParams),
+            'table_get' => new GetTableCommand($this->config, $this->queryParams),
+            'table_delete' => new DeleteTableCommand($this->config, $this->queryParams),
             'search' => new SearchCommand($this->config, $this->queryParams),
             default => new ListCommand(),
         };

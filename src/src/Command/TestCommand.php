@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Providers\Elastic\Command\GetVersionCommand;
-use App\Providers\Elastic\DTO\ConnectionParamsDTO;
-use App\Providers\Elastic\Factory\ClientFactory;
-use App\Providers\Elastic\Query\GetVersionQuery;
+use App\Provider\Elastic\Command\GetVersionCommand;
+use App\Provider\Elastic\DTO\ConnectionParamsDTO;
+use App\Provider\Elastic\Factory\ClientFactory;
+use App\Provider\Elastic\Query\GetVersionQuery;
 
 class TestCommand implements CommandInterface
 {
