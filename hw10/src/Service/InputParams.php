@@ -6,7 +6,7 @@ namespace VeraAdzhieva\Hw10\Service;
 
 class InputParams
 {
-    const PARAMS = [
+    private const PARAMS = [
         "title:",
         "category::",
         "price::"
