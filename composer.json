@@ -1,0 +1,31 @@
+{
+    "name": "ashvedov/otus-hw16",
+    "description": "Otus hw16",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shvedov"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.1",
+        "bramus/router": "dev-master",
+        "php-amqplib/php-amqplib": "^3.5",
+        "php-di/php-di": "dev-master"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "squizlabs/php_codesniffer": "4.0.x-dev"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
