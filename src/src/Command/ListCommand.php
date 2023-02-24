@@ -6,9 +6,8 @@ namespace App\Command;
 
 class ListCommand implements CommandInterface
 {
-    public function execute()
+    public function execute(): void
     {
-        echo 'Available commands are:' . PHP_EOL . 'list' . PHP_EOL;
+        echo 'Available commands are:' . PHP_EOL . 'list, test, db_create, db_delete, db_get, search' . PHP_EOL;
     }
-
 }
