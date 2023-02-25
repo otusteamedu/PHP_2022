@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Application;
 
-use DI\{DependencyException,NotFoundException};
+use DI\{DependencyException, NotFoundException};
 use Src\Application\Contracts\Infrastructure\Routes\RouterGateway;
 
 final class Kernel
