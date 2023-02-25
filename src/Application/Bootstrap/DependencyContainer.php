@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Src\Application\Bootstrap;
 
-use DI\{Container, ContainerBuilder};
+use DI\{Container, ContainerBuilder, DependencyException, NotFoundException};
 
 final class DependencyContainer
 {
     private const PATH_TO_DEPENDENCY_INJECTION_DEFINITIONS_FILE =
-        '\Application\Bootstrap\config_files\dependency_injection_definitions.php';
+        '/../config_files/dependency_injection_definitions.php';
 
     /**
      * @var array
@@ -19,12 +19,18 @@ final class DependencyContainer
     /**
      * construct
      */
-    protected function __construct() {}
+    protected function __construct()
+    {
+        //
+    }
 
     /**
      * @return void
      */
-    protected function __clone() {}
+    protected function __clone()
+    {
+        //
+    }
 
     /**
      * @return mixed
@@ -53,12 +59,26 @@ final class DependencyContainer
      * @return Container
      * @throws \Exception
      */
-    public function create(): Container
+    public function initializeDependencies(): Container
     {
         $container = new ContainerBuilder();
 
         $container->addDefinitions(__DIR__ . self::PATH_TO_DEPENDENCY_INJECTION_DEFINITIONS_FILE);
 
         return $container->build();
+    }
+
+    /**
+     * @param string $dependency
+     * @return mixed
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws \Exception
+     */
+    public function make(string $dependency): mixed
+    {
+        $container = self::getInstance()->initializeDependencies();
+
+        return $container->make($dependency);
     }
 }

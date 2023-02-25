@@ -8,8 +8,7 @@
             "Src\\": "src/"
         },
         "files": [
-            "src/Application/Helpers/helpers.php",
-            "src/Infrastrucute/config/routes/web.php"
+            "src/Application/Helpers/helpers.php"
         ]
     },
     "authors": [
@@ -22,7 +21,8 @@
         "php": ">=8.1",
         "bramus/router": "dev-master",
         "php-amqplib/php-amqplib": "^3.5",
-        "php-di/php-di": "dev-master"
+        "php-di/php-di": "dev-master",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
