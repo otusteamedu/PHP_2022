@@ -6,7 +6,11 @@
     "autoload": {
         "psr-4": {
             "Src\\": "src/"
-        }
+        },
+        "files": [
+            "src/Application/Helpers/helpers.php",
+            "src/Infrastrucute/config/routes/web.php"
+        ]
     },
     "authors": [
         {

@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
+namespace Src\Application;
+
 final class Kernel
 {
-    public function __construct()
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    public function runApplication(): void
     {
-        //
-    }
-
-    public function runApplication()
-    {
-        //
+        \app()->create();
     }
 }
