@@ -12,14 +12,14 @@ use Otus\Task13\Product\Domain\ValueObject\ProductTitle;
 
 class CreateProductUseCase implements CreateProductUseCaseInterface
 {
-    public function __construct(private readonly ProductRepositoryInterface $productDao)
+    public function __construct(private readonly ProductRepositoryInterface $productRepository)
     {
     }
 
     public function create(CreateProductRequestDto $dto): CreateProductResponseDto
     {
         $product = $this->mapperDtoToEntity($dto);
-        return $this->productDao->create($product);
+        return $this->productRepository->create($product);
     }
 
     private function mapperDtoToEntity(CreateProductRequestDto $createProductRequestDto): ProductEntity

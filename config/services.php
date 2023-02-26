@@ -29,7 +29,6 @@ return static function (ContainerConfigurator $containerConfigurator) {
     $services->set(ConfigInterface::class, Config::class)->args([__DIR__ . '/app.php']);
 
     $services->load('Otus\\Task13\\', '../src/')
-        // Otus\Task13\Product\Domain\ValueObject
         ->exclude('../src/Product/Domain/ValueObject')
         ->exclude('../src/Product/Application/{Dto}');
 
