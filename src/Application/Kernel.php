@@ -13,11 +13,22 @@ final class Kernel
      * @return void
      * @throws \Exception
      */
-    public function runApplication(): void
+    public function runHttpApplication(): void
     {
         \app()->initializeDependencies();
 
         $this->captureRequest();
+    }
+
+    /**
+     * @return void
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws \Exception
+     */
+    public function runAmqpConsumer(): void
+    {
+        \app()->initializeDependencies();
     }
 
     /*

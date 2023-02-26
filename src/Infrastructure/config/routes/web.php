@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-// phpcs:disable
-
 use Bramus\Router\Router;
 
 $router = new Router();
@@ -14,8 +12,8 @@ $router->get(
 );
 
 $router->post(
-    pattern: '/bank_statement/generate',
-    fn: '\src\Infrastructure\Controllers\BankStatementController@generate'
+    pattern: '/bank-statement/generate',
+    fn: '\Src\Infrastructure\Controllers\BankStatementController@generate'
 );
 
 $router->run();

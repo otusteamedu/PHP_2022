@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 $kernel = new Kernel();
 
 try {
-    $kernel->runApplication();
+    $kernel->runHttpApplication();
 } catch (Exception $exception) {
     var_dump('Exception: ' . $exception->getMessage() . PHP_EOL . 'Trace:' . $exception->getTraceAsString());
 

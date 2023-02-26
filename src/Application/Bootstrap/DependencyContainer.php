@@ -63,7 +63,8 @@ final class DependencyContainer
     {
         $container = new ContainerBuilder();
 
-        $container->addDefinitions(__DIR__ . self::PATH_TO_DEPENDENCY_INJECTION_DEFINITIONS_FILE);
+        $container->addDefinitions(__DIR__ . self::PATH_TO_DEPENDENCY_INJECTION_DEFINITIONS_FILE)
+            ->useAutowiring(bool: true);
 
         return $container->build();
     }
@@ -79,6 +80,6 @@ final class DependencyContainer
     {
         $container = self::getInstance()->initializeDependencies();
 
-        return $container->make($dependency);
+        return $container->get($dependency);
     }
 }
