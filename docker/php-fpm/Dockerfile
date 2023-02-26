@@ -10,7 +10,7 @@ RUN apt-get update \
 	    libmemcached-dev \
 	    libmcrypt-dev \
         libpq-dev \
-    && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql pgsql pdo_pgsql zip \
+    && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql pgsql pdo_pgsql zip sockets \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install memcached  \

@@ -10,11 +10,33 @@ services:
       - ./:/var/www/application.local
     networks:
       - network
+
   php-fpm:
     build: ./docker/php-fpm
     container_name: otus_web
     volumes:
       - ./:/var/www/application.local
+    networks:
+      - network
+
+  consumer:
+    build: ./docker/php-fpm
+    container_name: otus_consumer
+    volumes:
+      - ./:/var/www/application.local
+    networks:
+      - network
+
+  rabbitmq:
+    image: rabbitmq:latest
+    hostname: rabbitmq
+    container_name: otus_rabbitmq
+    ports:
+      - ${RABBITMQ_PORT}:15672
+      - ${AMQP_PORT}:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     networks:
       - network
 
