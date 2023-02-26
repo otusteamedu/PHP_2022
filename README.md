@@ -16,3 +16,4 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 7. Приложить инструкцию по запуску системы
 
 #### Порядок запуска
+- chmod +x amqp_consumer.php

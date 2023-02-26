@@ -14,6 +14,7 @@ final class PublishRequestBodyInQueueDTO
         public string $pass_place_code,
         public string $pass_issue_date,
         public string $email_callback,
+        public string $account_amount,
     ) {
         //
     }

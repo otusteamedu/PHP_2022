@@ -21,7 +21,10 @@ final class PublishRequestBodyInQueue
      */
     public function publish(string $request_body): void
     {
-        $this->queue_publisher->setUpConnection(queue_name: 'bank-statement', routing_key: 'statement.report')
+        $this->queue_publisher->setUpConnection(
+            queue_name: $_ENV['QUEUE_NAME'],
+            routing_key: $_ENV['QUEUE_ROUTING_KEY']
+        )
            ->publish(request_body: $request_body)
            ->endPublish();
     }

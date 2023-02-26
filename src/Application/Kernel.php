@@ -6,6 +6,7 @@ namespace Src\Application;
 
 use DI\{DependencyException, NotFoundException};
 use Src\Application\Contracts\Infrastructure\Routes\RouterGateway;
+use Src\Application\Contracts\Infrastructure\Queues\QueueConsumerGateway;
 
 final class Kernel
 {
@@ -29,6 +30,10 @@ final class Kernel
     public function runAmqpConsumer(): void
     {
         \app()->initializeDependencies();
+
+        $consumer = \app()->make(dependency: QueueConsumerGateway::class);
+
+        $consumer->consume();
     }
 
     /*
