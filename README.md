@@ -16,4 +16,34 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 7. Приложить инструкцию по запуску системы
 
 #### Порядок запуска
-- chmod +x amqp_consumer.php
+1. Склонировать проект из репозитория  
+2. Перейти в директорию с проектом и из консоли (терминала) выполнить ```docker-compose build```
+3. Если все успешно, то выполнить ```docker-compose -p 'otus-hw16' up -d```
+4. Если все успешно, будет создано 4-е контейнера:
+![img.png](img.png)  
+5. Зайти в контейнер ```otus-hw16``` и выполнить ```cp .env.example .env```
+6. В этом же контейнере выполнить ```composer install```
+7. В этом же контейнере перейти в директорию ```src (cd src\)``` и выполнить ```chmod +x amqp_consumer.php```  
+8. Приложение готово к эксплуатации.
+
+#### Пример работы:
+1. Открыть ```http://localhost:8010/```
+![img_1.png](readme_imgs/img_1.png)   
+2. Открыть ```http://localhost:15672/```. Ввести логин: ```guest```, пароль: ```guest```
+![img_2.png](readme_imgs/img_2.png)  
+3. Открыть ```http://localhost:1024/```
+![img_3.png](readme_imgs/img_3.png)  
+4. Заполнить форму и нажать кнопку "Отправить заявку"  
+![img_4.png](readme_imgs/img_4.png)  
+5. Если все ок, то откроется форма с подтверждением
+![img_5.png](readme_imgs/img_5.png)  
+6. В очереди появится сообщение
+![img_6.png](readme_imgs/img_6.png)  
+7. Чтобы прочитать сообщение и получить email открыть еще раз контейнер ```otus-hw16```, перейти в директорию ```src (cd src\)``` и выполнить ```./amqp_consumer.php```
+![img_7.png](readme_imgs/img_7.png)  
+8. Если все успешно, то сообщение будет прочитано из очереди и отправлено уведомление на почту
+![img_8.png](readme_imgs/img_8.png)  
+![img_9.png](readme_imgs/img_9.png)  
+![img_10.png](readme_imgs/img_10.png)  
+9. Консьюмер будет продолжать работать как демон, готовый читать следующие сообщения из очереди (для останова нажать ```Cmd+C (Mac)```, ```Ctrl+C (Linux/Windows)```)).
+![img_11.png](readme_imgs/img_11.png)  
