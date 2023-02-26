@@ -1,0 +1,30 @@
+version: '3'
+
+services:  
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - ./code:/data/app
+    networks:
+      - app-network
+
+  elasticsearch:
+    image: elasticsearch:8.2.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
