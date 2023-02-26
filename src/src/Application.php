@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Command\AddEventCommand;
 use App\Command\CommandInterface;
+use App\Command\FlushAllCommand;
+use App\Command\GetEventCommand;
 use App\Command\ListCommand;
-use App\Command\Search\SearchCommand;
-use App\Command\Table\CreateTableCommand;
-use App\Command\Table\DeleteTableCommand;
-use App\Command\Table\GetTableCommand;
 use App\Command\TestCommand;
 use Exception;
 use RuntimeException;
@@ -55,10 +54,9 @@ class Application
     {
         return match ($commandName) {
             'test' => new TestCommand($this->config),
-            'table_create' => new CreateTableCommand($this->config, $this->queryParams),
-            'table_get' => new GetTableCommand($this->config, $this->queryParams),
-            'table_delete' => new DeleteTableCommand($this->config, $this->queryParams),
-            'search' => new SearchCommand($this->config, $this->queryParams),
+            'event_add' => new AddEventCommand($this->config, $this->queryParams),
+            'event_get' => new GetEventCommand($this->config, $this->queryParams),
+            'flush_all' => new FlushAllCommand($this->config),
             default => new ListCommand(),
         };
     }

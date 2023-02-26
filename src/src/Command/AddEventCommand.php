@@ -7,12 +7,9 @@ namespace App\Command;
 use App\EventsStorage\EventsStorage;
 use RedisException;
 
-class TestCommand implements CommandInterface
+class AddEventCommand implements CommandInterface
 {
-    /**
-     * @param array $config
-     */
-    public function __construct(private array $config)
+    public function __construct(private array $config, private array $params)
     {
     }
 
@@ -22,6 +19,7 @@ class TestCommand implements CommandInterface
     public function execute(): void
     {
         $storage = new EventsStorage($this->config);
-        echo $storage->testConnection() . PHP_EOL;
+        $message = $storage->addEvent(...$this->params) ? 'Success' : 'Failed';
+        echo $message . PHP_EOL;
     }
 }

@@ -7,11 +7,8 @@ namespace App\Command;
 use App\EventsStorage\EventsStorage;
 use RedisException;
 
-class TestCommand implements CommandInterface
+class FlushAllCommand implements CommandInterface
 {
-    /**
-     * @param array $config
-     */
     public function __construct(private array $config)
     {
     }
@@ -22,6 +19,7 @@ class TestCommand implements CommandInterface
     public function execute(): void
     {
         $storage = new EventsStorage($this->config);
-        echo $storage->testConnection() . PHP_EOL;
+        $storage->flushAll();
+        echo 'Db flushed' . PHP_EOL;
     }
 }
