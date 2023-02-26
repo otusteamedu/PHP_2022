@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  app-hw16:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    image: otus-homework16
+    container_name: otus-hw16
+    env_file:
+      - .env
+    restart: unless-stopped
+    working_dir: /project
+    volumes:
+      - ./:/project
+      - ./docker-settings/php/app.ini:/usr/local/etc/php/conf.d/app.ini
+    networks:
+      - otus
+
+  nginx-hw16:
+    image: nginx:alpine
+    container_name: nginx-hw16
+    restart: unless-stopped
+    ports:
+      - '8010:80'
+    volumes:
+      - ./:/project
+      - ./docker-settings/nginx:/etc/nginx/conf.d/
+    networks:
+      - otus
+
+  mailhog-hw16:
+    image: mailhog/mailhog:latest
+    container_name: mailhog-hw16
+    tty: true
+    environment:
+      MAIL_MAILER: ${MAIL_LOG_CHANNEL}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_ENCRYPTION: ${MAIL_ENCRYPTION}
+    ports:
+      - '8025:8025'
+      - '1024:8025'
+    networks:
+      - otus
+
+  rabbitmq-hw16:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq-hw16
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./:/project
+      - ./volumes/rabbitmq/data/:/var/lib/rabbitmq
+      - ./volumes/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge
