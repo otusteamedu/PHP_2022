@@ -6,7 +6,9 @@ namespace Kogarkov\Es\App;
 
 use Kogarkov\Es\Config\Config;
 use Kogarkov\Es\Core\Service\Registry;
-use Kogarkov\Es\Core\Storage\Elastic\Elastic;
+use Kogarkov\Es\Core\Storage\Elastic\Core as ES;
+use Kogarkov\Es\Core\Storage\Elastic\Output as ESOutput;
+use Kogarkov\Es\Core\Storage\Elastic\Query as ESQuery;
 use Kogarkov\Es\Helper\AsciiTable;
 
 class App
@@ -58,50 +60,15 @@ class App
         $config = Registry::instance()->get('config');
         $index_name = $config->get('es_index_name');
 
-        $es = new Elastic($index_name);
-        $result = $es->search($this->filter);
+        $client = new ES($index_name);
+        $query = new ESQuery($client->get(), $index_name);
+        $result = $query->search($this->filter);
 
-        $output = [];
-        if ($result['hits']['total']['value'] > 0) {
-            foreach ($result['hits']['hits'] as $item) {
-                $output[] = $this->buildOutput($item);
-            }
-        } else {
-            $output[] = $this->buildEmptyOutput();
-        }
+        $output_parser = new ESOutput($index_name);
+        $output = $output_parser->build($result);
 
         $table = new AsciiTable();
         $table->makeTable($output, 'Результаты поиска');
-    }
-
-    private function buildOutput(array $item): array
-    {
-        $stock_str = '';
-
-        foreach ($item['_source']['stock'] as $stock) {
-            if (empty($this->filter['stock']) || $stock['stock'] > 0) {
-                $stock_str .= $stock['shop'] . ': ' . $stock['stock'] . '; ';
-            }
-        }
-
-        return [
-            'Наименование' => $item['_source']['title'],
-            'SKU' => $item['_source']['sku'],
-            'Категория' => $item['_source']['category'],
-            'Цена' => $item['_source']['price'],
-            'Наличие' => $stock_str
-        ];
-    }
-
-    private function buildEmptyOutput(): array
-    {
-        return [
-            'Наименование' => '',
-            'SKU' => '',
-            'Категория' => '',
-            'Цена' => '',
-            'Наличие' => '',
-        ];
     }
 
     private function getHelpMessage(): string
