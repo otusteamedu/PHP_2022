@@ -7,9 +7,9 @@ namespace App;
 use App\Command\CommandInterface;
 use App\Command\ListCommand;
 use App\Command\Search\SearchCommand;
-use App\Command\Table\CreateTableCommand;
-use App\Command\Table\DeleteTableCommand;
-use App\Command\Table\GetTableCommand;
+use App\Command\Table\CreateCommand;
+use App\Command\Table\DeleteCommand;
+use App\Command\Table\PrintCommand;
 use App\Command\TestCommand;
 use Exception;
 use RuntimeException;
@@ -55,9 +55,9 @@ class Application
     {
         return match ($commandName) {
             'test' => new TestCommand($this->config),
-            'table_create' => new CreateTableCommand($this->config, $this->queryParams),
-            'table_get' => new GetTableCommand($this->config, $this->queryParams),
-            'table_delete' => new DeleteTableCommand($this->config, $this->queryParams),
+            'create' => new CreateCommand($this->config, $this->queryParams),
+            'print' => new PrintCommand($this->config, $this->queryParams),
+            'delete' => new DeleteCommand($this->config, $this->queryParams),
             'search' => new SearchCommand($this->config, $this->queryParams),
             default => new ListCommand(),
         };

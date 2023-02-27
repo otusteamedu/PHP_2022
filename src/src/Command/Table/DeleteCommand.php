@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Search;
+namespace App\Command\Table;
 
 use App\Command\CommandInterface;
 use App\Provider\ProviderFactory;
 
-class SearchCommand implements CommandInterface
+class DeleteCommand implements CommandInterface
 {
     public function __construct(private array $config, private array $params)
     {
@@ -16,7 +16,6 @@ class SearchCommand implements CommandInterface
     public function execute(): void
     {
         $provider = ProviderFactory::createProvider($this->config);
-        $result = $provider->search($this->params);
-        $provider->printSearchResult($result);
+        $provider->deleteTable($this->params[0]);
     }
 }

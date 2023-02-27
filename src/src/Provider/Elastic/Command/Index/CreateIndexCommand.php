@@ -2,48 +2,28 @@
 
 namespace App\Provider\Elastic\Command\Index;
 
-use Elastic\Elasticsearch\Client;
-use Exception;
-
 class CreateIndexCommand
 {
-    /**
-     * @throws Exception
-     */
-    public function __construct(private array $params, private Client $client)
-    {
-    }
+    private array $params;
 
-    /**
-     * @return string
-     */
-    public function getParams(): array
+    public function __construct(...$params)
     {
-        return $this->params;
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->params = $params;
     }
 
     public function buildParams(): array
     {
-        $params = $this->getParams();
         $properties = [];
-        foreach ($params['properties'] as $property) {
+        for ($i = 1, $iMax = count($this->params) - 1; $i < $iMax; $i += 2) {
             $properties[] = [
-                $property['name'] => [
-                    'type' => $property['type'],
+                $this->params[$i] => [
+                    'type' => $this->params[$i + 1],
                     'analyzer' => 'rebuilt_russian'
                 ],
             ];
         }
         return [
-            'index' => $params['index'],
+            'index' => $this->params[0],
             'settings' => [
                 "analysis" => [
                     "filter" => [

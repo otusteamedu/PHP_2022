@@ -8,6 +8,6 @@ class ListCommand implements CommandInterface
 {
     public function execute(): void
     {
-        echo 'Available commands are:' . PHP_EOL . 'list, test, db_create, db_delete, db_get, search' . PHP_EOL;
+        echo 'Available commands are:' . PHP_EOL . 'list, test, create, delete, get, search' . PHP_EOL;
     }
 }

@@ -6,6 +6,7 @@ namespace App\Provider\Elastic\Query\Index;
 
 use App\Provider\Elastic\Command\Index\CreateIndexCommand;
 use App\Provider\Elastic\Query\QueryInterface;
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
@@ -14,7 +15,7 @@ use Http\Promise\Promise;
 
 class CreateIndexQuery implements QueryInterface
 {
-    public function __construct(private CreateIndexCommand $command)
+    public function __construct(private CreateIndexCommand $command, private Client $client)
     {
     }
 
@@ -46,6 +47,6 @@ class CreateIndexQuery implements QueryInterface
      */
     public function createIndexRequest(): Elasticsearch|Promise
     {
-        return $this->command->getClient()->indices()->create($this->command->buildParams());
+        return $this->client->indices()->create($this->command->buildParams());
     }
 }

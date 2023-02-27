@@ -6,6 +6,7 @@ namespace App\Provider\Elastic\Query\Index;
 
 use App\Provider\Elastic\Command\Index\DeleteIndexCommand;
 use App\Provider\Elastic\Query\QueryInterface;
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
@@ -14,7 +15,7 @@ use Http\Promise\Promise;
 
 class DeleteIndexQuery implements QueryInterface
 {
-    public function __construct(private DeleteIndexCommand $command)
+    public function __construct(private DeleteIndexCommand $command, private Client $client)
     {
     }
 
@@ -46,6 +47,6 @@ class DeleteIndexQuery implements QueryInterface
      */
     public function deleteIndexRequest(): Elasticsearch|Promise
     {
-        return $this->command->getClient()->indices()->delete($this->command->buildParams());
+        return $this->client->indices()->delete($this->command->buildParams());
     }
 }
