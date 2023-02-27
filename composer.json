@@ -1,0 +1,22 @@
+{
+    "name": "eliasj/hw16",
+    "description": "homework 16 on otus php 2022",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eliasj\\Hw16\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Prigunov"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "require": {
+        "php-amqplib/php-amqplib": "^3.5",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
