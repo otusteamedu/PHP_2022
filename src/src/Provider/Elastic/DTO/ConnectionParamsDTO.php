@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Provider\Elastic\DTO;
 
 use App\Provider\Elastic\Service\Validator;

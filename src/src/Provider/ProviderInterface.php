@@ -17,5 +17,4 @@ interface ProviderInterface
     public function printSearchResult(array $result): void;
 
     public function testConnection(): void;
-
 }
