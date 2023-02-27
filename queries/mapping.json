@@ -1,0 +1,60 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "russian_stop": {
+          "type": "stop",
+          "stopwords": "_russian_"
+        },
+        "russian_stemmer": {
+          "type": "stemmer",
+          "language": "russian"
+        }
+      },
+      "analyzer": {
+        "my_russian": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "russian_stop",
+            "russian_stemmer"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "category": {
+        "type": "keyword"
+      },
+      "price": {
+        "type": "integer"
+      },
+      "sku": {
+        "type": "keyword"
+      },
+      "stock": {
+        "type": "nested",
+        "properties": {
+          "shop": {
+            "type": "keyword"
+          },
+          "stock": {
+            "type": "short"
+          }
+        }
+      },
+      "title": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        },
+        "analyzer": "my_russian"
+      }
+    }
+  }
+}
