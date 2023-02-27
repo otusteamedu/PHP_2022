@@ -9,7 +9,7 @@ final class ProviderFactory
     public static function createProvider(array $config): ProviderInterface
     {
         return match ($config['db']['provider']) {
-            'elastic' => new ElasticProvider($config),
+            'elastic' => new ElasticProvider($config['elastic']),
             default => throw new InvalidArgumentException('Unknown provider name given'),
         };
     }

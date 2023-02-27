@@ -27,7 +27,7 @@ class ElasticProvider implements ProviderInterface
 
     public function __construct($config)
     {
-        $connectionParams = new ConnectionParamsDTO($config['elastic']);
+        $connectionParams = new ConnectionParamsDTO($config);
         $this->client = ClientFactory::create($connectionParams);
     }
 
@@ -75,10 +75,7 @@ class ElasticProvider implements ProviderInterface
      */
     public function search(array $params): array
     {
-        $command = new ElasticSearchCommand(
-            $params[0],
-            $params[1],
-            $params[2]);
+        $command = new ElasticSearchCommand(...$params);
         $query = new SearchQuery($command, $this->client);
         $query->execute();
         return $query->getSearchResult();
@@ -93,14 +90,19 @@ class ElasticProvider implements ProviderInterface
         echo 'Connected to ElasticSearch version ' . $version['number'] . PHP_EOL;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function printSearchResult(array $result): void
     {
         printf("Total docs: %d\n", $result['hits']['total']['value']);
         printf("Max score : %.4f\n", $result['hits']['max_score']);
         printf("Took      : %d ms\n", $result['took']);
 
-        $printHelper = new PrintHelper();
-        $printHelper->printNestedArray($result['hits']['hits'], '_source');
+        if (!empty($result['hits']['hits'])) {
+            $printHelper = new PrintHelper();
+            $printHelper->printNestedArray($result['hits']['hits'], '_source');
+        }
     }
 
     /**
