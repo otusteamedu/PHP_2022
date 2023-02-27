@@ -65,4 +65,3 @@ class SearchQuery implements QueryInterface
         $this->searchResult = $searchResult;
     }
 }
-

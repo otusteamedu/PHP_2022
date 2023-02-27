@@ -8,10 +8,7 @@ use JsonException;
 
 class SearchCommand
 {
-    public function __construct(
-        private string $index,
-        private string $query
-    )
+    public function __construct(private string $index, private string $query)
     {
     }
 
