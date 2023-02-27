@@ -60,5 +60,4 @@ class Application
             default => new ListCommand(),
         };
     }
-
 }

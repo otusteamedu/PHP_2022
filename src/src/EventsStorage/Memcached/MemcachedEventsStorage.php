@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventsStorage\Memcached;
 
 use App\EventsStorage\EventsStorageInterface;
@@ -72,5 +74,4 @@ class MemcachedEventsStorage implements EventsStorageInterface
     {
         $this->memcached->flush();
     }
-
 }
