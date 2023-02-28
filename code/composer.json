@@ -1,0 +1,17 @@
+{
+    "name": "masteritua/src",
+    "description": "\"Package OTUS\"",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Masteritua\\Src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "masteritua",
+            "email": "masteritua@gmail.com"
+        }
+    ],
+    "require": {}
+}
