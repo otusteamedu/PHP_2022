@@ -1,0 +1,88 @@
+version: '3.0'
+
+services:
+
+  #контейне с Nginx
+  webserver:
+    image: nginx
+    restart: always
+    environment:
+      - VIRTUAL_HOST=mysite.local
+    depends_on:
+      - fpm
+    volumes:
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./html/:/var/www/html/
+    ports:
+      - "443:443"
+      - "8080:80"
+    networks:
+      - backend
+    
+  #подключаем Redis
+  redis:    
+    container_name: redis_srv
+    image: redis:latest
+    restart: always
+    command: redis-server
+    environment:
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - ./cache:/data
+    ports:
+     - "${REDIS_PORT}:${REDIS_PORT}"
+    networks:
+      - backend
+    
+
+  # контейнер с MySQL
+  db:
+    image: mysql:latest
+    restart: always
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+      #- ./mysql/my.ini:/etc/mysql/conf.d/my.ini
+    networks:
+      - backend
+
+  #контейне с memcached
+  memcached:
+    image: memcached:latest
+    container_name: mymemcached
+    restart: always
+    ports:
+      - "11211:11211"
+    networks:
+      - backend
+
+  #Контейнер с PHP-FPM
+  fpm:
+    build:
+       context: ./fpm
+       dockerfile: Dockerfile
+    image:  myapp/php
+    restart: always
+    container_name: app 
+    depends_on:
+      - memcached
+      - redis
+    volumes:
+       - ./html:/var/www/html
+    networks:
+      - backend 
+
+volumes:
+  cache:
+    driver: local
+
+#Docker Networks
+networks:
+  backend:
+    driver: bridge
