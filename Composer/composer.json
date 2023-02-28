@@ -1,0 +1,18 @@
+{
+    "name": "katya/composer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Katya\\Composer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "KateBlkv",
+            "email": "trapam@yandex.ru"
+        }
+    ],
+    "require": {
+        "katya/compliments210522": "^1.0"
+    }
+}
