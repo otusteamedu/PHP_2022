@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+
+  php-cli:
+    build:
+      context: .docker
+      dockerfile: ./php-cli/Dockerfile
+    environment:
+      - MEMCACHED_HOST=memcached
+      - MEMCACHED_PORT=${MEMCACHED_PORT}
+      - REDIS_HOST=redis
+      - REDIS_PORT=${REDIS_PORT}
+    volumes:
+      - ./src:/app
+
+  composer:
+    image: composer
+    volumes:
+      - ./src:/app
+    working_dir: /app
+
+  memcached:
+    image: memcached
+    ports:
+      - "${MEMCACHED_PORT}:11211"
+
+  redis:
+    image: redis
+    ports:
+      - "${REDIS_PORT}:6379"
+
+  redisinsight:
+    image: redislabs/redisinsight
+    ports:
+      - "8001:8001"
