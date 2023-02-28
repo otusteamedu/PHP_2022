@@ -1,0 +1,106 @@
+version: "3.4"
+services:
+  php-fpm:
+    build: ./docker/php
+    container_name: symfony
+    environment:
+      - "PSQL_PORT=5432"
+      - "PSQL_HOST=postgres"
+      - "PHP_IDE_CONFIG=serverName=Docker"
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+    networks:
+      - homework-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/config:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx
+    depends_on:
+      - php-fpm
+    ports:
+      - "85:80"
+    networks:
+      - homework-network
+
+  postgres:
+    image: postgres:11.2-alpine
+    container_name: postgres
+    volumes:
+      - ./../dbdata:/var/lib/postgresql/data/
+#      - postgres:/var/lib/postgresql/data
+    ports:
+      - "54333:5432"
+    environment:
+      - "POSTGRES_DB=homework"
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=root"
+    networks:
+      - homework-network
+
+  rabbitmq:
+    image: rabbitmq
+    container_name: hw-rabbitmq
+    volumes:
+      - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - hw-rabbitmq:/var/lib/rabbitmq
+    environment:
+      - "RABBITMQ_DEFAULT_USER=rabbit"
+      - "RABBITMQ_DEFAULT_PASS=rabbit"
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    networks:
+      - homework-network
+
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - homework-network
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./cache:/data/otus.local
+    networks:
+      - homework-network
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+
+###> doctrine/doctrine-bundle ###
+  db-data:
+###< doctrine/doctrine-bundle ###
+  hw-rabbitmq:
+
+networks:
+  homework-network:
+    driver: bridge
