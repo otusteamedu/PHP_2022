@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-
 use App\DataMapper\ClientMapper;
 
 class GetUserCommand implements CommandInterface
 {
-
     public function __construct(private array $config, private array $params)
     {
     }

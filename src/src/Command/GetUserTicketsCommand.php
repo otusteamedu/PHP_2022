@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-
 use App\DataMapper\ClientMapper;
 use App\Entity\Ticket;
 
 class GetUserTicketsCommand implements CommandInterface
 {
-
     public function __construct(private array $config, private array $params)
     {
     }
@@ -23,7 +21,12 @@ class GetUserTicketsCommand implements CommandInterface
         printf("Client id %d e-mail: %s\n", $client->getId(), $client->getEmail());
         printf("Found %d tickets:\n", count($client->getTickets()));
         foreach ($client->getTickets() as $ticket) {
-            printf("Price:%d Place:%d PurchaceTime:%s\n", $ticket->getPrice(), $ticket->getPlace(), $ticket->getPurchaseTime());
+            printf(
+                "Price:%d Place:%d PurchaceTime:%s\n",
+                $ticket->getPrice(),
+                $ticket->getPlace(),
+                $ticket->getPurchaseTime()
+            );
         }
     }
 }
