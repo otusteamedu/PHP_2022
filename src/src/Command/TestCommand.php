@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\EventsStorage\EventsStorage;
-use RedisException;
 
 class TestCommand implements CommandInterface
 {
@@ -16,12 +14,11 @@ class TestCommand implements CommandInterface
     {
     }
 
-    /**
-     * @throws RedisException
-     */
     public function execute(): void
     {
-        $storage = new EventsStorage($this->config);
-        echo $storage->testConnection() . PHP_EOL;
+        $pdo = new \PDO($this->config['database']['dsn']);
+        $pdoStatement = $pdo->query("SELECT 'Successful connection to db' as answer");
+        $result = $pdoStatement->fetch(\PDO::FETCH_ASSOC);
+        echo $result['answer'] . PHP_EOL;
     }
 }

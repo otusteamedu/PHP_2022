@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Command\AddEventCommand;
 use App\Command\CommandInterface;
-use App\Command\FlushAllCommand;
-use App\Command\GetEventCommand;
+use App\Command\GetUserCommand;
+use App\Command\GetUserTicketsCommand;
 use App\Command\ListCommand;
 use App\Command\TestCommand;
 use Exception;
@@ -54,9 +53,8 @@ class Application
     {
         return match ($commandName) {
             'test' => new TestCommand($this->config),
-            'event_add' => new AddEventCommand($this->config, $this->queryParams),
-            'event_get' => new GetEventCommand($this->config, $this->queryParams),
-            'flush_all' => new FlushAllCommand($this->config),
+            'get_client' => new GetUserCommand($this->config, $this->queryParams),
+            'get_client_tickets' => new GetUserTicketsCommand($this->config, $this->queryParams),
             default => new ListCommand(),
         };
     }
