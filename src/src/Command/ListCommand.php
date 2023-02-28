@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-class ListCommand implements CommandInterface
+class ListCommand extends AbstractCommand
 {
     public function execute(): void
     {
-        echo 'Available commands are:' . PHP_EOL . 'list, test, event_add, event_get, flush_all' . PHP_EOL;
+        $this->message = 'Available commands are: list, test, event_add, event_get, flush_all';
     }
 }

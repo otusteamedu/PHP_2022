@@ -15,7 +15,7 @@ class MemcachedEventsStorage implements EventsStorageInterface
     public function __construct(array $config)
     {
         $this->memcached = new Memcached();
-        $this->memcached->addServer($config['host'], $config['port']);
+        $this->memcached->addServer($config['host'], (int)$config['port']);
     }
 
     /**

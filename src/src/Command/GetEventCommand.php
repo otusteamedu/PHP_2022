@@ -7,7 +7,7 @@ namespace App\Command;
 use App\EventsStorage\EventsStorage;
 use RedisException;
 
-class GetEventCommand implements CommandInterface
+class GetEventCommand extends AbstractCommand
 {
     public function __construct(private array $config, private array $params)
     {
@@ -19,6 +19,6 @@ class GetEventCommand implements CommandInterface
     public function execute(): void
     {
         $storage = new EventsStorage($this->config);
-        echo $storage->getEvent(...$this->params) . PHP_EOL;
+        $this->message = $storage->getEvent(...$this->params);
     }
 }

@@ -19,7 +19,7 @@ class RedisEventsStorage implements EventsStorageInterface
     public function __construct(array $config)
     {
         $this->redis = new Redis();
-        $this->redis->connect($config['host'], $config['port']);
+        $this->redis->connect($config['host'], (int)$config['port']);
     }
 
     /**

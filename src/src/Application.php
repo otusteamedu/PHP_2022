@@ -30,6 +30,8 @@ class Application
         $command = $this->getCommand();
 
         $command->execute();
+
+        echo $command->getMessage() . PHP_EOL;
     }
 
     /**
