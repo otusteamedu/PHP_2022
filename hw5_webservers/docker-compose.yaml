@@ -1,0 +1,52 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  hw5-nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: hw5-nginx
+    # проброс портов
+    ports:
+      - "8083:80"
+    volumes:
+       - ./code:/data/hw5
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  hw5-php-fpm1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: hw5-php-fpm1 # имя контейнера после запуска
+    volumes:
+       - ./code:/data/hw5
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  hw5-php-fpm2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: hw5-php-fpm2 # имя контейнера после запуска
+    volumes:
+      - ./code:/data/hw5
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
