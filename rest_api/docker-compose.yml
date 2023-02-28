@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: app
+    build: ./fpm
+    environment:
+      - PHP_IDE_CONFIG=serverName=application
+    volumes:
+      - ./application:/var/www/html
+      - ./application/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - app-net
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    ports:
+      - ${APP_PORT}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./application:/var/www/html
+    networks:
+      - app-net
+
+  database:
+    image: postgres:13.1
+    container_name: postgres
+    volumes:
+      - ./volumes/db/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}
+    networks:
+      - app-net
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    working_dir: /application
+    hostname: rabbit-mq
+    container_name: 'rabbit-mq'
+    ports:
+      - ${RABBIT_MQ_HTTP_PORT}
+      - ${RABBIT_MQ_AMQP_PORT}
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
