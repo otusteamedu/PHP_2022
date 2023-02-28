@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+  elastic:
+    image: elasticsearch:8.3.3
+    container_name: elastic
+    volumes:
+      - ./elastic_data:/usr/share/elasticsearch/data/
+    environment:
+      - ES_JAVA_OPTS= -Xms512m -Xmx512m
+      - discovery.type= single-node
+      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD= 'psswd'
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    networks:
+      - app-network
+  kibana:
+    image: kibana:8.3.3
+    container_name: kibana
+    restart: always
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://localhost:9200
+    depends_on:
+      - elastic
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

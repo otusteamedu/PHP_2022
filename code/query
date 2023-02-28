@@ -1,0 +1,48 @@
+{
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": {
+                        "title": {
+                            "query": "терминfатор",
+                            "fuzziness": "auto"
+                        }
+                    }
+                }
+            ],
+            "filter": [
+                {
+                    "range": {
+                        "price": {
+                            "gte": 5000
+                        }
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "stock",
+                        "query": {
+                            "bool": {
+                                "filter": [
+                                    {
+                                        "match": {
+                                            "stock.shop": "Мира"
+                                        }
+                                    },
+                                    {
+                                        "range": {
+                                            "stock.stock": {
+                                                "gte": 15
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
