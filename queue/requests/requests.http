@@ -1,0 +1,8 @@
+###
+POST http://application.local/report/generate
+Content-Type: application/json
+
+{
+  "dateFrom": "2022-06-09",
+  "dateTo": "2022-06-17"
+}
