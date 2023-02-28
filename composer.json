@@ -1,0 +1,16 @@
+{
+    "name": "olehandrei/my-composer-lib",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Olehandrei\\MyComposerLib\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Andrei Olekh",
+            "email": "andr_vol@mail.ru"
+        }
+    ],
+    "require": {}
+}
