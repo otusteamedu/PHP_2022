@@ -17,8 +17,8 @@ composer-install:
 composer-update:
 	${DOCKER_COMPOSE} run --rm composer composer update
 
-start-server:
-	${DOCKER_COMPOSE} run --rm php-cli php bin/app.php server
+cs-check:
+	${DOCKER_COMPOSE} run --rm composer composer cs-check
 
-start-client:
-	${DOCKER_COMPOSE} run --rm php-cli php bin/app.php client
+cs-fix:
+	${DOCKER_COMPOSE} run --rm composer composer cs-fix
