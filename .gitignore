@@ -1,0 +1,7 @@
+.cache/
+.dbdata/
+.vscode/
+.env
+.idea/
+.tmp/
+.DS_Store/
