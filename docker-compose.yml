@@ -1,0 +1,189 @@
+version: '3'
+
+services:
+  app1:
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+    image: myapp/php-fpm
+    restart: always
+    container_name: app1
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  app2:
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+    image: myapp/php-fpm
+    restart: always
+    container_name: app2
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  app3:
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+    image: myapp/php-fpm
+    restart: always
+    container_name: app3
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - mcrouter1
+      - mcrouter2
+      - mcrouter3
+
+  nginx1:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    image: myapp/nginx
+    restart: always
+    container_name: nginx1
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    depends_on:
+      - app1
+      - app2
+      - app3
+
+  nginx2:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    image: myapp/nginx
+    restart: always
+    container_name: nginx2
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    depends_on:
+      - app1
+      - app2
+      - app3
+
+  nginx3:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    image: myapp/nginx
+    restart: always
+    container_name: nginx3
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    depends_on:
+      - app1
+      - app2
+      - app3
+
+  balancer:
+    build:
+      context: .
+      dockerfile: docker/balancer/Dockerfile
+    image: myapp/balancer
+    restart: always
+    container_name: balancer
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+    depends_on:
+      - nginx1
+      - nginx2
+      - nginx3
+
+  memcached1:
+    image: memcached:1.6.15-alpine
+    container_name: memcached1
+    restart: always
+    networks:
+      - app-network
+
+  memcached2:
+    image: memcached:1.6.15-alpine
+    container_name: memcached2
+    restart: always
+    networks:
+      - app-network
+
+  memcached3:
+    image: memcached:1.6.15-alpine
+    container_name: memcached3
+    restart: always
+    networks:
+      - app-network
+
+  mcrouter1:
+    build:
+      context: .
+      dockerfile: docker/mcrouter/Dockerfile
+    container_name: mcrouter1
+    command: mcrouter --config-str='{"pools":{"local":{"servers":["memcached1:11211"]},"remote":{"servers":["memcached2:11211","memcached3:11211"]},"all":{"servers":["memcached1:11211","memcached2:11211","memcached3:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"add":"AllSyncRoute|Pool|all","delete":"AllSyncRoute|Pool|all","get":{"type":"MissFailoverRoute","children":["PoolRoute|local","PoolRoute|remote"]},"set":"AllSyncRoute|Pool|all"}}}' -p 11211
+    networks:
+      - app-network
+    depends_on:
+      - memcached1
+      - memcached2
+      - memcached3
+
+  mcrouter2:
+    build:
+      context: .
+      dockerfile: docker/mcrouter/Dockerfile
+    container_name: mcrouter2
+    command: mcrouter --config-str='{"pools":{"local":{"servers":["memcached2:11211"]},"remote":{"servers":["memcached1:11211","memcached3:11211"]},"all":{"servers":["memcached1:11211","memcached2:11211","memcached3:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"add":"AllSyncRoute|Pool|all","delete":"AllSyncRoute|Pool|all","get":{"type":"MissFailoverRoute","children":["PoolRoute|local","PoolRoute|remote"]},"set":"AllSyncRoute|Pool|all"}}}' -p 11211
+    networks:
+      - app-network
+    depends_on:
+      - memcached1
+      - memcached2
+      - memcached3
+
+  mcrouter3:
+    build:
+      context: .
+      dockerfile: docker/mcrouter/Dockerfile
+    container_name: mcrouter3
+    command: mcrouter --config-str='{"pools":{"local":{"servers":["memcached3:11211"]},"remote":{"servers":["memcached1:11211","memcached2:11211"]},"all":{"servers":["memcached1:11211","memcached2:11211","memcached3:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"add":"AllSyncRoute|Pool|all","delete":"AllSyncRoute|Pool|all","get":{"type":"MissFailoverRoute","children":["PoolRoute|local","PoolRoute|remote"]},"set":"AllSyncRoute|Pool|all"}}}' -p 11211
+    networks:
+      - app-network
+    depends_on:
+      - memcached1
+      - memcached2
+      - memcached3
+
+  db:
+    image: mysql:5.7.39
+    restart: always
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

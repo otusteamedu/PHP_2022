@@ -1,0 +1,5 @@
+FROM nginx:1.23.1-alpine
+
+COPY ./docker/balancer/conf.d /etc/nginx/conf.d
+
+WORKDIR /app
