@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  php:
+#    image: php:7.4-fpm
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: fpm
+    container_name: app
+    volumes:
+      - './src:/data/app.local'
+      - './vendor:/data/app.local/vendor'
+
+    networks:
+      - app-network
+
+  nginx:
+#    image: nginx:latest
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    ports:
+       - "80:80"
+    image: nginx
+    container_name: nginx
+
+    volumes:
+      - './src:/data/app.local'
+      - './docker/nginx/conf.d:/etc/nginx/conf.d'
+      - './vendor:/data/app.local/vendor'
+
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
