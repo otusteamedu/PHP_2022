@@ -1,0 +1,33 @@
+version: "3.4"
+services:
+  php-fpm:
+    build: ./docker/php
+    container_name: symfony
+    environment:
+      - "PSQL_PORT=5432"
+      - "PSQL_HOST=postgres"
+      - "PHP_IDE_CONFIG=serverName=Docker"
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+    networks:
+      - homework-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/config:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx
+    depends_on:
+      - php-fpm
+    ports:
+      - "85:80"
+    networks:
+      - homework-network
+
+networks:
+  homework-network:
+    driver: bridge
