@@ -1,0 +1,12 @@
+{
+    "name": "viktor/otus-hw-6",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

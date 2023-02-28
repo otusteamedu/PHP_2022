@@ -1,0 +1,6 @@
+test@test.ru - false
+dasdas - false
+eeeee@google.com - success
+@mail.ru - false
+yarn@mail.ru - success
+ee@yandex.ru - success
