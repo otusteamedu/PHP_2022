@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Kogarkov\Es\Core\Service\Response;
 use Kogarkov\Es\Core\Service\Registry;
 use Kogarkov\Es\Core\Storage\Redis\Query\Event as EventQuery;
-use Kogarkov\Es\Core\Storage\Redis\Core as RManager;
+use Kogarkov\Es\Core\Storage\Redis\Core as StorageCLient;
 use Kogarkov\Es\Model\EventModel;
 
 class EventController
@@ -17,13 +17,14 @@ class EventController
         $this->request = Registry::instance()->get('request');
     }
 
-    public function index()
+    public function index(): void
     {
+        // TODO: Think about default methods
         $response = new Response();
-        $response->setData($this->request->get)->asJson()->isOk();
+        $response->setData(['message' => 'Hello!'])->asJson()->isOk();
     }
 
-    public function getOne()
+    public function getOne(): void
     {
         if ($this->request->server['REQUEST_METHOD'] !== 'GET') {
             throw new \Exception('Method not allowed');
@@ -33,7 +34,7 @@ class EventController
             throw new Exception('Request params is empty');
         }
 
-        $client = new RManager();
+        $client = new StorageCLient();
         $query = new EventQuery($client->get());
         $result = $query->getOne($this->request->get);
         
@@ -45,13 +46,13 @@ class EventController
         }
     }
     
-    public function getAll()
+    public function getAll(): void
     {
         if ($this->request->server['REQUEST_METHOD'] !== 'GET') {
             throw new \Exception('Method not allowed');
         }
 
-        $client = new RManager();
+        $client = new StorageCLient();
         $query = new EventQuery($client->get());
         $result = $query->getAll();
         
@@ -63,7 +64,7 @@ class EventController
         }
     }
 
-    public function add()
+    public function add(): void
     {
         if ($this->request->server['REQUEST_METHOD'] !== 'POST') {
             throw new \Exception('Method not allowed');
@@ -72,7 +73,7 @@ class EventController
         $model = new EventModel();
         $event = $model->fromJson($this->request->raw_post);
 
-        $client = new RManager();
+        $client = new StorageCLient();
         $query = new EventQuery($client->get());
         $result = $query->add($event);
         
@@ -84,13 +85,13 @@ class EventController
         }
     }
 
-    public function clear()
+    public function clear(): void
     {
         if ($this->request->server['REQUEST_METHOD'] !== 'DELETE') {
             throw new \Exception('Method not allowed');
         }
 
-        $client = new RManager();
+        $client = new StorageCLient();
         $query = new EventQuery($client->get());
         $result = $query->deleteAll();
 

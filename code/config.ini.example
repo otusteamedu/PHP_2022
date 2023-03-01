@@ -1,4 +1,2 @@
-[elastic_search]
-es_host = 
-es_index_name = otus-shop
-es_index_import_file_path = ./assets/books.json
+[redis]
+redis_host = 

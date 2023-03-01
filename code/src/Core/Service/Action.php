@@ -35,7 +35,7 @@ class Action
         return $this->id;
     }
 
-    public function execute($registry, array $args = array())
+    public function execute($registry, array $args = array()): mixed
     {
         if (!$this->route) {
             throw new \Exception('Error: Route is not allowed');
