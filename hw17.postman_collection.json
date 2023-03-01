@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "06f1e9c9-d749-4023-8035-6a7beab25459",
+		"name": "hw17",
+		"description": "Документация к запросам домашнего задания 17 (Otus PHP Professional)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12114546"
+	},
+	"item": [
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"test2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dev.site/api/v1/queries/create",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"path": [
+						"api",
+						"v1",
+						"queries",
+						"create"
+					]
+				},
+				"description": "Эендпоинт для создания пользовательского запроса.\n\nПоле **name** \\- обязательно для заполнения\n\nВ ответе возвращается **id** для получения данных о запросе."
+			},
+			"response": [
+				{
+					"name": "422 - validate error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://dev.site/api/v1/queries/create",
+							"protocol": "http",
+							"host": [
+								"dev",
+								"site"
+							],
+							"path": [
+								"api",
+								"v1",
+								"queries",
+								"create"
+							]
+						}
+					},
+					"status": "Unprocessable Content",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.23.3"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.16"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Feb 2023 15:39:44 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": [\n        \"The name field is required.\"\n    ]\n}"
+				},
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://dev.site/api/v1/queries/create",
+							"protocol": "http",
+							"host": [
+								"dev",
+								"site"
+							],
+							"path": [
+								"api",
+								"v1",
+								"queries",
+								"create"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.23.3"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.16"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Feb 2023 15:40:51 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 5\n}"
+				}
+			]
+		},
+		{
+			"name": "show",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://dev.site/api/v1/queries/8",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"site"
+					],
+					"path": [
+						"api",
+						"v1",
+						"queries",
+						"8"
+					]
+				},
+				"description": "Эендпоинт для получения информации о запросе.\n\nвместо цифры '8' - необходимо подставить id запроса, полученный при создании"
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://dev.site/api/v1/queries/7",
+							"protocol": "http",
+							"host": [
+								"dev",
+								"site"
+							],
+							"path": [
+								"api",
+								"v1",
+								"queries",
+								"7"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.23.3"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.16"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Feb 2023 15:52:39 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 7,\n    \"name\": \"test2\",\n    \"status\": \"Обрабатывается\",\n    \"created_at\": \"2023-02-28T15:52:34.000000Z\",\n    \"updated_at\": \"2023-02-28T15:52:35.000000Z\"\n}"
+				},
+				{
+					"name": "404 - not found",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://dev.site/api/v1/queries/8",
+							"protocol": "http",
+							"host": [
+								"dev",
+								"site"
+							],
+							"path": [
+								"api",
+								"v1",
+								"queries",
+								"8"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.23.3"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.16"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Feb 2023 15:53:30 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"No query results for model [App\\\\Modules\\\\Queries\\\\Domain\\\\Query] 8\"\n}"
+				}
+			]
+		}
+	]
+}

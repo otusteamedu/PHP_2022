@@ -1,0 +1,10 @@
+.idea
+/docker/nginx/logs/
+/socket/
+/vendor
+/docker/mysql/data
+/storage
+.env
+Homestead.json
+Homestead.yaml
+.phpunit.result.cache

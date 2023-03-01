@@ -1,0 +1,63 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: hw17/php
+    container_name: php-app
+    restart: always
+    volumes:
+      - ./:/var/www/dev.site
+      - ./socket:/socket
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-webserver
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/hosts:/etc/nginx/conf.d
+      - ./docker/nginx/logs/nginx:/var/log/nginx
+      - ./:/var/www/dev.site
+      - ./socket:/socket
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  mysql-db:
+    image: mysql:8.0
+    restart: always
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:latest
+    hostname: rabbitmq
+    container_name: rabbitmq-queue
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
