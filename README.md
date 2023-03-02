@@ -17,3 +17,4 @@
 3. Наблюдатель - *Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\Notifier*
 4. Прокси - *Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\QualityFood*
 5. Цепочка обязанностей - *Nikcrazy37\Hw14\Modules\Eatery\Application\Order\OrderInterface*
+6. Генерация через DI - *Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\Controller\EateryController*
