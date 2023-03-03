@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Command;
+namespace App\Infrastrucure\Command;
 
+use App\Infrastructure\Command\CommandInterface;
 use App\App\BookShop\BookSearcher;
 use App\App\BookShop\BookShopRepository;
 

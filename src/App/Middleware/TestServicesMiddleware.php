@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\App\Middleware;
 
-use App\App\Event\Event;
-use App\App\Event\EventStorageInterface;
 use App\Infrastructure\Http\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,42 +12,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class TestServicesMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly EventStorageInterface $eventStorage)
+    public function __construct()
     {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        // Пример использования хранилища событий
-        $this->eventStorage->deleteAll();
-        $event1 = new Event(1000, 'event1', ['param1' => 1]);
-        $event2 = new Event(2000, 'event2', ['param1' => 2, 'param2' => 2]);
-        $event3 = new Event(3000, 'event3', ['param1' => 1, 'param2' => 2]);
-
-        $this->eventStorage->add($event1);
-        $this->eventStorage->add($event2);
-        $this->eventStorage->add($event3);
-
-        $res = $this->eventStorage->findMostAppropriateEventByCondition(['param1' => 1, 'param2' => 2]);
-
-        echo '<pre>';
-        print_r($res);
-        echo '</pre>';
-
-// Выведет:
-//
-//App\App\Event\Event Object
-//(
-//    [priority] => 3000
-//    [event] => event3
-//    [conditions] => Array
-//        (
-//            [param1] => 1
-//            [param2] => 2
-//        )
-//
-//)
-
         if ($request->getUri()->getPath() === '/test') {
             return new Response($this->getResponseContent(), 200);
         }

@@ -18,7 +18,6 @@ return [
             'port'   => $_ENV['REDIS_PORT'],
         ]);
     },
-    \App\App\Event\EventStorageInterface::class => \App\App\Event\RedisEventStorage::class,
     \PDO::class => function() {
         return new \PDO($_ENV['DB_DSN'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
     },
