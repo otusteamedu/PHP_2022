@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DesignPatterns\TableDataGateway;
+namespace unsorted\DesignPatterns\TableDataGateway;
 
 class HallGateway
 {
