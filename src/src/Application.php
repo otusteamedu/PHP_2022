@@ -60,6 +60,7 @@ class Application
             'test' => new TestCommand($this->config),
             'get_client' => new GetUserCommand($this->config, $this->queryParams),
             'get_client_tickets' => new GetUserTicketsCommand($this->config, $this->queryParams),
+            'update_client' => new UpdateUserCommand($this->config, $this->queryParams),
             default => new ListCommand(),
         };
     }
