@@ -16,27 +16,27 @@ class ClientMapper
 
     private PDOStatement $insertStmt;
 
-    private PDOStatement $updateStmt;
-
     private PDOStatement $deleteStmt;
 
     private PDOStatement $selectTicketsStmt;
 
+    private PDO $pdo;
+
     public function __construct(PDO $pdo)
     {
+        $this->pdo = $pdo;
+
         $this->selectStmt = $pdo->prepare(
-            "SELECT \"E-mail\", \"Phone\" FROM" . " \"Client\" WHERE id = ?"
+            'SELECT "E-mail", "Phone" FROM "Client" WHERE id = ?'
         );
         $this->selectTicketsStmt = $pdo->prepare(
-            "SELECT id, \"Price\", \"Place\", \"Schedule\", \"PurchaseTime\" FROM" . " \"Ticket\" WHERE \"Client\" = ?"
+            'SELECT id, "Price", "Place", "Schedule", "PurchaseTime" FROM "Ticket" WHERE "Client" = ?'
         );
+
         $this->insertStmt = $pdo->prepare(
-            "INSERT INTO" . " \"Client\" (id, \"E-mail\", \"Phone\") VALUES (?, ?, ?)"
+            'INSERT INTO "Client" (id, "E-mail", "Phone") VALUES (?, ?, ?)'
         );
-        $this->updateStmt = $pdo->prepare(
-            "UPDATE" . " \"Client\" SET \"E-mail\" = ?, \"Phone\" = ? where id = ?"
-        );
-        $this->deleteStmt = $pdo->prepare("DELETE FROM" . " \"Client\" WHERE id = ?");
+        $this->deleteStmt = $pdo->prepare('DELETE FROM "Client" WHERE id = ?');
     }
 
     public function findById(int $id): Client
@@ -53,6 +53,11 @@ class ClientMapper
             $result['E-mail'],
             $result['Phone']
         );
+
+        $client->setState([
+            'E-mail' => $result['E-mail'],
+            'Phone' => $result['Phone']
+        ]);
 
         $reference = function () use ($id) {
             $this->selectTicketsStmt->execute([$id]);
@@ -93,10 +98,33 @@ class ClientMapper
 
     public function update(Client $client): bool
     {
-        return $this->updateStmt->execute([
+        $clientState = $client->getState();
+
+        /**
+         * @TODO think about returning val
+         */
+        if ($clientState['E-mail'] === $client->getEmail() && $clientState['Phone'] === $client->getPhone()) {
+            return true;
+        }
+
+        $query = 'UPDATE "Client" SET "E-mail" = ?, "Phone" = ? where id = ?';
+        $params = [
             $client->getEmail(),
-            $client->getPhone()
-        ]);
+            $client->getPhone(),
+            $client->getId()
+        ];
+
+        if ($clientState['E-mail'] !== $client->getEmail() && $clientState['Phone'] === $client->getPhone()) {
+            $query = 'UPDATE "Client" SET "E-mail" = ? where id = ?';
+            $params = [$client->getEmail(), $client->getId()];
+        }
+
+        if ($clientState['E-mail'] === $client->getEmail() && $clientState['Phone'] !== $client->getPhone()) {
+            $query = 'UPDATE "Client" SET "Phone" = ? where id = ?';
+            $params = [$client->getPhone(), $client->getId()];
+        }
+
+        return $this->pdo->prepare($query)->execute($params);
     }
 
     public function delete(Client $client): bool

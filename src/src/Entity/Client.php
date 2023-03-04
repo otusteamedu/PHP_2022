@@ -21,6 +21,8 @@ class Client
 
     private Closure $reference;
 
+    private array $state;
+
     public function __construct(int $id, string $email, string $phone)
     {
         $this->id = $id;
@@ -94,5 +96,21 @@ class Client
     public function setReference(Closure $reference): void
     {
         $this->reference = $reference;
+    }
+
+    /**
+     * @return array
+     */
+    public function getState(): array
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param array $state
+     */
+    public function setState(array $state): void
+    {
+        $this->state = $state;
     }
 }
