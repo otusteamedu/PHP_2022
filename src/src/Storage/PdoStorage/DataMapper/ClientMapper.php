@@ -60,23 +60,30 @@ class ClientMapper extends AbstractDataMapper
             'Phone' => $result['Phone']
         ]);
 
-        $reference = function () use ($id) {
-            $this->selectTicketsStmt->execute([$id]);
-            $result = $this->selectTicketsStmt->fetchAll(PDO::FETCH_ASSOC);
-            $tickets = [];
+        $reference =
+            /**
+             * @return Ticket[]
+             */
+            function () use ($id) {
+                $this->selectTicketsStmt->execute([$id]);
+                $result = $this->selectTicketsStmt->fetchAll(PDO::FETCH_ASSOC);
+                $tickets = [];
 
-            foreach ($result as $data) {
-                $tickets[] = new Ticket(
-                    $data['id'],
-                    $data['Schedule'],
-                    $data['Price'],
-                    $id,
-                    $data['Place'],
-                    $data['PurchaseTime']
-                );
-            }
-            return $tickets;
-        };
+                /**
+                 * @var array $data
+                 */
+                foreach ($result as $data) {
+                    $tickets[] = new Ticket(
+                        $data['id'],
+                        $data['Schedule'],
+                        $data['Price'],
+                        $id,
+                        $data['Place'],
+                        $data['PurchaseTime']
+                    );
+                }
+                return $tickets;
+            };
 
         $client->setReference($reference);
         return $client;

@@ -22,3 +22,9 @@ cs-check:
 
 cs-fix:
 	${DOCKER_COMPOSE} run --rm composer composer cs-fix
+
+psalm:
+	${DOCKER_COMPOSE} run --rm composer composer psalm
+
+psalm-info:
+	${DOCKER_COMPOSE} run --rm composer composer psalm-info

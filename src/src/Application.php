@@ -23,6 +23,14 @@ class Application
 
     public function __construct(array $config)
     {
+        if (!isset($_SERVER['argv'])) {
+            throw new RuntimeException(
+                "Error!" .
+                "Make sure the 'register_argc_argv'" .
+                " param in your php.ini is set to 1" . PHP_EOL
+            );
+        }
+        $this->queryParams = array_slice($_SERVER['argv'], 2);
         $this->storage = (new Storage($config))->getStorage();
     }
 
@@ -41,17 +49,7 @@ class Application
      */
     private function getCommand(): CommandInterface
     {
-        if (!isset($_SERVER['argv'])) {
-            throw new RuntimeException(
-                "Error!" .
-                "Make sure the 'register_argc_argv'" .
-                " param in your php.ini is set to 1" . PHP_EOL
-            );
-        }
-
         $commandName = $_SERVER['argv'][1] ?? $this->defaultCommand;
-        $this->queryParams = array_slice($_SERVER['argv'], 2);
-
         return $this->findCommand($commandName);
     }
 

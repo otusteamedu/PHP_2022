@@ -15,10 +15,13 @@
     }
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "^3.7"
+    "squizlabs/php_codesniffer": "^3.7",
+    "vimeo/psalm": "^5.7"
   },
   "scripts": {
     "cs-check": "phpcs",
-    "cs-fix": "phpcbf"
+    "cs-fix": "phpcbf",
+    "psalm": "psalm --config=psalm.xml",
+    "psalm-info": "psalm --config=psalm.xml --show-info=true"
   }
 }

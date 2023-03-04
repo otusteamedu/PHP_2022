@@ -9,20 +9,26 @@ use App\Storage\StorageInterface;
 
 class GetUserCommand implements CommandInterface
 {
-    private Client $client;
+    private ?Client $client = null;
+    private int $clientId;
 
-    public function __construct(private StorageInterface $storage, private array $params)
+    public function __construct(private StorageInterface $storage, array $params)
     {
+        $this->clientId = (int)$params[0];
     }
 
     public function execute(): void
     {
         $clientRepository = $this->storage->getClientRepository();
-        $this->client = $clientRepository->findOne((int)$this->params[0]);
+        $this->setClient($clientRepository->findOne($this->clientId));
     }
 
     public function printResult(): void
     {
+        if (!isset($this->client)) {
+            echo 'Client not found';
+            return;
+        }
         printf(
             "Client id %d e-mail: %s  phone:%s\n",
             $this->client->getId(),
@@ -31,8 +37,8 @@ class GetUserCommand implements CommandInterface
         );
     }
 
-    public function getClient(): Client
+    private function setClient(Client $client): void
     {
-        return $this->client;
+        $this->client = $client;
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Closure;
+use RuntimeException;
 
 class Client
 {
@@ -15,13 +16,13 @@ class Client
     private string $phone;
 
     /**
-     * @var Ticket[] $tickets
+     * @var ?Ticket[] $tickets
      */
-    private array $tickets;
+    private ?array $tickets = null;
 
-    private Closure $reference;
+    private ?Closure $reference = null;
 
-    private array $state;
+    private array $state = [];
 
     public function __construct(int $id, string $email, string $phone)
     {
@@ -79,11 +80,15 @@ class Client
     }
 
     /**
-     * @return array
+     * @return Ticket[]
+     * @throws RuntimeException
      */
     public function getTickets(): array
     {
         if (!isset($this->tickets)) {
+            if (!isset($this->reference)) {
+                throw new RuntimeException('Ticket reference is not set');
+            }
             $reference = $this->reference;
             $this->tickets = $reference();
         }
