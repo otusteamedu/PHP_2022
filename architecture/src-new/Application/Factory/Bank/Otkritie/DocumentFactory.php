@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Application\Factory\Bank\Otkritie;
 
-use Dvizh\BankBusDTO\NewBusPassport;
 use App\Application\DTO\Bank\Otkritie\DocType;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\Document;
 use App\Application\DTO\Bank\Otkritie\Id;
 use App\Application\DTO\Bank\Otkritie\IdList;
 use App\Application\DTO\Bank\Otkritie\SystemCode;
 use App\Application\Exception\InvalidValueException;
+use Document\Application\DTO\Bank\Otkritie\EnterApplication\Document\Document;
+use Dvizh\BankBusDTO\NewBusPassport;
 
 class DocumentFactory
 {

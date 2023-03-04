@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Factory\Bank\Otkritie;
 
-use Dvizh\BankBusDTO\RegisteredPlace;
 use Dvizh\BankBusDTO\AddressNormalized;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\Address;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\ClassCodes;
+use Dvizh\BankBusDTO\RegisteredPlace;
+use new\Application\DTO\Bank\Otkritie\EnterApplication\Address\Address;
+use new\Application\DTO\Bank\Otkritie\EnterApplication\Address\ClassCodes;
 
 class AddressFactory
 {

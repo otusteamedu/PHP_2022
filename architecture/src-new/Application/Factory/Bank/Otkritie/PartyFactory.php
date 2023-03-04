@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Application\Factory\Bank\Otkritie;
 
-use App\Domain\Entity\Deal;
-use Dvizh\BankBusDTO\NewBusLoanData;
-use Dvizh\BankBusDTO\NewBusPerson;
-use Dvizh\BankBusDTO\NewBusPersonRole;
-use Dvizh\BankBusDTO\NewBusRelationWithBorrower;
-use Dvizh\BankBusDTO\Types\EmploymentStatus;
-use Dvizh\BankBusDTO\Types\MaritalStatus;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\DocumentList;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\Party;
 use App\Application\DTO\Bank\Otkritie\IdList;
 use App\Application\DTO\Bank\Otkritie\Option;
 use App\Application\DTO\Bank\Otkritie\OptionList;
 use App\Application\DTO\Bank\Otkritie\OptionName;
 use App\Application\Exception\InvalidValueException;
+use App\Domain\Entity\Deal;
 use Dvizh\BankBusDTO\NewBusGender;
+use Dvizh\BankBusDTO\NewBusLoanData;
+use Dvizh\BankBusDTO\NewBusPerson;
+use Dvizh\BankBusDTO\NewBusPersonRole;
+use Dvizh\BankBusDTO\NewBusRelationWithBorrower;
+use Dvizh\BankBusDTO\Types\EmploymentStatus;
+use Dvizh\BankBusDTO\Types\MaritalStatus;
+use new\Application\DTO\Bank\Otkritie\EnterApplication\Document\DocumentList;
 
 class PartyFactory
 {

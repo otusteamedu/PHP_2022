@@ -4,14 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\UseCase\Bank\Otkritie;
 
-use App\Domain\Entity\Deal;
-use App\Domain\Entity\Document;
-use Doctrine\Common\Collections\Collection;
-use Dvizh\BankBusDTO\DeliveryFullQuestionnaire;
-use Dvizh\BankBusDTO\NewBusPerson;
-use Dvizh\BankBusDTO\NewBusPersonRole;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\Application;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\DocumentList;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\Main;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\OpenAPI;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\ParticipantList;
@@ -26,6 +19,13 @@ use App\Application\Factory\Bank\Otkritie\PartyFactory;
 use App\Application\Factory\Bank\Otkritie\ProductFactory;
 use App\Application\Gateway\Repository\DealRepositoryInterface;
 use App\Application\Gateway\Repository\ProfileRepositoryInterface;
+use App\Domain\Entity\Deal;
+use App\Domain\Entity\Document;
+use Doctrine\Common\Collections\Collection;
+use Dvizh\BankBusDTO\DeliveryFullQuestionnaire;
+use Dvizh\BankBusDTO\NewBusPerson;
+use Dvizh\BankBusDTO\NewBusPersonRole;
+use new\Application\DTO\Bank\Otkritie\EnterApplication\Document\DocumentList;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Application\Factory\Bank\Otkritie;
 
-use Dvizh\BankBusDTO\Types\CompanyIndustry;
-use Dvizh\BankBusDTO\Types\CompanyNumberOfStaff;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\AddressList;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Job\PartyInfo;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\Name;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\NameList;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\PartyInfo;
 use App\Application\Exception\InvalidValueException;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Address\AddressList;
 use Dvizh\BankBusDTO\NewBusCompany;
+use Dvizh\BankBusDTO\Types\CompanyIndustry;
+use Dvizh\BankBusDTO\Types\CompanyNumberOfStaff;
 
 class PartyInfoFactory
 {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\DTO\Bank\Otkritie\EnterApplication;
 
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Address\AddressList;
 use App\Application\DTO\Bank\Otkritie\IdList;
 use App\Application\DTO\Bank\Otkritie\OptionList;
 

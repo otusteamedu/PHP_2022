@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Application\Factory\Bank\Otkritie;
 
+use App\Application\DTO\Bank\Otkritie\EnterApplication\BoolStringValue;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Job\PartyInfo;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Job\WorkInfo;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Job\WorkPlace;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Name;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\NameList;
+use App\Application\Exception\InvalidValueException;
+use architecture\src\AddressList;
+use Dvizh\BankBusDTO\NewBusCompany;
 use Dvizh\BankBusDTO\NewBusPerson;
 use Dvizh\BankBusDTO\NewBusPersonRole;
 use Dvizh\BankBusDTO\NewBusYesNo;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\AddressList;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\BoolStringValue;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\Name;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\NameList;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\PartyInfo;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\WorkInfo;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\WorkPlace;
-use App\Application\Exception\InvalidValueException;
-use Dvizh\BankBusDTO\NewBusCompany;
 
 class WorkPlaceFactory
 {

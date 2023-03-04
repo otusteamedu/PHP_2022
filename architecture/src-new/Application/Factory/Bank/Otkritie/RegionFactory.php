@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Factory\Bank\Otkritie;
 
 use Dvizh\BankBusDTO\AddressNormalized;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\Region;
+use new\Application\DTO\Bank\Otkritie\EnterApplication\Address\Region;
 
 class RegionFactory
 {

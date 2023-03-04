@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Factory\Bank\Otkritie;
 
-use Dvizh\BankBusDTO\NewBusCompany;
 use App\Application\DTO\Bank\Otkritie\EnterApplication\BoolStringValue;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\WorkInfo;
+use App\Application\DTO\Bank\Otkritie\EnterApplication\Job\WorkInfo;
 use App\Application\Exception\InvalidValueException;
+use Dvizh\BankBusDTO\NewBusCompany;
 
 class WorkInfoFactory
 {

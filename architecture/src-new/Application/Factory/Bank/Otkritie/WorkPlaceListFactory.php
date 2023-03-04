@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Factory\Bank\Otkritie;
 
-use Dvizh\BankBusDTO\Types\EmploymentStatus;
-use App\Application\DTO\Bank\Otkritie\EnterApplication\WorkPlaceList;
 use Dvizh\BankBusDTO\NewBusPerson;
+use Dvizh\BankBusDTO\Types\EmploymentStatus;
+use new\Application\DTO\Bank\Otkritie\EnterApplication\Job\WorkPlaceList;
 
 class WorkPlaceListFactory
 {

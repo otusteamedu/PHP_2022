@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\DTO\Bank\Otkritie\EnterApplication;
+namespace Document\Application\DTO\Bank\Otkritie\EnterApplication\Document;
 
 /**
  * Список документов в заявке.
