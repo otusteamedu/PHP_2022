@@ -4,26 +4,24 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use PDO;
+use App\Storage\StorageInterface;
 
 class TestCommand implements CommandInterface
 {
-    private array $result;
+    private string $result;
 
-    public function __construct(private array $config)
+    public function __construct(private StorageInterface $storage)
     {
     }
 
     public function execute(): void
     {
-        $pdo = new PDO($this->config['database']['dsn']);
-        $pdoStatement = $pdo->query("SELECT 'Successful connection to db' as answer");
-        $this->result = $pdoStatement->fetch(PDO::FETCH_ASSOC);
+        $this->result = $this->storage->testConnection();
     }
 
 
     public function printResult(): void
     {
-        echo $this->result['answer'] . PHP_EOL;
+        echo $this->result . PHP_EOL;
     }
 }

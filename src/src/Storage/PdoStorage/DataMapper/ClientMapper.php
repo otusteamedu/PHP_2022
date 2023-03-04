@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\DataMapper;
+namespace App\Storage\PdoStorage\DataMapper;
 
 use App\Entity\Client;
 use App\Entity\Ticket;
+use App\DataMapper\AbstractDataMapper;
 use PDO;
 use PDOStatement;
 use RuntimeException;
 
-class ClientMapper
+class ClientMapper extends AbstractDataMapper
 {
     private PDOStatement $selectStmt;
 
@@ -39,7 +40,7 @@ class ClientMapper
         $this->deleteStmt = $pdo->prepare('DELETE FROM "Client" WHERE id = ?');
     }
 
-    public function findById(int $id): Client
+    public function findOne(int $id): Client
     {
         $this->selectStmt->execute([$id]);
         $result = $this->selectStmt->fetch(PDO::FETCH_ASSOC);

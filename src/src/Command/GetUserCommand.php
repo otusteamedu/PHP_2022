@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\DataMapper\ClientMapper;
 use App\Entity\Client;
-use PDO;
+use App\Storage\StorageInterface;
 
 class GetUserCommand implements CommandInterface
 {
     private Client $client;
 
-    public function __construct(private array $config, private array $params)
+    public function __construct(private StorageInterface $storage, private array $params)
     {
     }
 
     public function execute(): void
     {
-        $pdo = new PDO($this->config['database']['dsn']);
-        $clientMapper = new ClientMapper($pdo);
-        $this->client = $clientMapper->findById((int)$this->params[0]);
+        $clientRepository = $this->storage->getClientRepository();
+        $this->client = $clientRepository->findOne((int)$this->params[0]);
     }
 
     public function printResult(): void

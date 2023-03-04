@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\Client;
+use App\Storage\StorageInterface;
 
 class GetUserTicketsCommand implements CommandInterface
 {
     private Client $client;
 
-    public function __construct(private array $config, private array $params)
+    public function __construct(private StorageInterface $storage, private array $params)
     {
     }
 
     public function execute(): void
     {
-        $command = new GetUserCommand($this->config, $this->params);
-        $command->execute();
-        $this->client = $command->getClient();
+        $clientRepository = $this->storage->getClientRepository();
+        $this->client = $clientRepository->findOne((int)$this->params[0]);
     }
 
     public function printResult(): void

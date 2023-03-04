@@ -10,6 +10,8 @@ use App\Command\GetUserTicketsCommand;
 use App\Command\ListCommand;
 use App\Command\TestCommand;
 use App\Command\UpdateUserCommand;
+use App\Storage\Storage;
+use App\Storage\StorageInterface;
 use Exception;
 use RuntimeException;
 
@@ -17,9 +19,11 @@ class Application
 {
     private array $queryParams;
     private string $defaultCommand = 'list';
+    private StorageInterface $storage;
 
-    public function __construct(private array $config)
+    public function __construct(array $config)
     {
+        $this->storage = (new Storage($config))->getStorage();
     }
 
     /**
@@ -57,10 +61,10 @@ class Application
     private function findCommand(string $commandName): CommandInterface
     {
         return match ($commandName) {
-            'test' => new TestCommand($this->config),
-            'get_client' => new GetUserCommand($this->config, $this->queryParams),
-            'get_client_tickets' => new GetUserTicketsCommand($this->config, $this->queryParams),
-            'update_client' => new UpdateUserCommand($this->config, $this->queryParams),
+            'test' => new TestCommand($this->storage),
+            'get_client' => new GetUserCommand($this->storage, $this->queryParams),
+            'get_client_tickets' => new GetUserTicketsCommand($this->storage, $this->queryParams),
+            'update_client' => new UpdateUserCommand($this->storage, $this->queryParams),
             default => new ListCommand(),
         };
     }
