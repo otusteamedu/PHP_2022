@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  nginx:
+    container_name: webserver
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapplication/nginx
+    restart: always
+    ports:
+      - "82:82"
+    volumes:
+      - ./project:/data/application.local
+      - ./phpsocket:/var/run
+    networks:
+      - my-network
+    depends_on:
+      - app
+
+  app:
+    container_name: app
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapplication/fpm
+    restart: always
+    volumes:
+      - ./project:/data/application.local
+      - ./phpsocket:/var/run
+    networks:
+      - my-network
+    depends_on:
+      - memcached
+      - mysql
+      - redis
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7.40
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      TZ: "Europe/Moscow"
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./database/mysql:/var/lib/mysql
+    networks:
+      - my-network
+
+  redis:
+    container_name: redis
+    image: redis:7.0.9
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./database/redis:/var/lib/redis
+    networks:
+      - my-network
+
+  memcached:
+    container_name: memcached
+    image: memcached:1.6.18
+    restart: always
+    ports:
+      - "11211:11211"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
