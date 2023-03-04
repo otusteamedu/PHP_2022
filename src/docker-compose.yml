@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  app-hw17:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    image: otus-homework16
+    container_name: otus-hw17
+    env_file:
+      - .env
+    restart: unless-stopped
+    working_dir: /project
+    volumes:
+      - ./:/project
+      - ./../docker-settings/php/app.ini:/usr/local/etc/php/conf.d/app.ini
+    networks:
+      - otus
+
+  nginx-hw17:
+    image: nginx:alpine
+    container_name: nginx-hw17
+    restart: unless-stopped
+    ports:
+      - '8010:80'
+    volumes:
+      - ./:/project
+      - ./../docker-settings/nginx:/etc/nginx/conf.d/
+    networks:
+      - otus
+
+  db-hw17:
+    image: mysql:8.0.28
+    container_name: db-hw17
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./../docker-settings/mysql/conf:/etc/mysql/conf.d
+    networks:
+      - otus
+
+  phpmyadminer-hw17:
+    image: adminer:standalone
+    container_name: phpmyadminer-hw17
+    ports:
+      - '9991:8080'
+    depends_on:
+      - db-hw17
+    networks:
+      - otus
+
+  rabbitmq-hw17:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq-hw17
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./:/project
+      - ./volumes/rabbitmq/data/:/var/lib/rabbitmq
+      - ./volumes/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge
