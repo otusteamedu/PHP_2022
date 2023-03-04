@@ -9,6 +9,7 @@ use App\Command\GetUserCommand;
 use App\Command\GetUserTicketsCommand;
 use App\Command\ListCommand;
 use App\Command\TestCommand;
+use App\Command\UpdateUserCommand;
 use Exception;
 use RuntimeException;
 
@@ -27,8 +28,8 @@ class Application
     public function run(): void
     {
         $command = $this->getCommand();
-
         $command->execute();
+        $command->printResult();
     }
 
     /**
@@ -37,9 +38,11 @@ class Application
     private function getCommand(): CommandInterface
     {
         if (!isset($_SERVER['argv'])) {
-            throw new RuntimeException("Error!" .
+            throw new RuntimeException(
+                "Error!" .
                 "Make sure the 'register_argc_argv'" .
-                " param in your php.ini is set to 1" . PHP_EOL);
+                " param in your php.ini is set to 1" . PHP_EOL
+            );
         }
 
         $commandName = $_SERVER['argv'][1] ?? $this->defaultCommand;

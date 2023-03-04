@@ -7,4 +7,6 @@ namespace App\Command;
 interface CommandInterface
 {
     public function execute();
+
+    public function printResult(): void;
 }
