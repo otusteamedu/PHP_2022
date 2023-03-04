@@ -8,7 +8,7 @@ use App\Storage\StorageInterface;
 
 class TestCommand implements CommandInterface
 {
-    private string $result;
+    private string $result = '';
 
     public function __construct(private StorageInterface $storage)
     {
