@@ -27,7 +27,8 @@
         "leafs/form": "*",
         "leafs/bareui": "*",
         "zircote/swagger-php": "^4.7",
-        "leafs/db": "^2.1"
+        "leafs/db": "^2.1",
+        "robmorgan/phinx": "^0.13.4"
     },
     "autoload": {
         "psr-4": {

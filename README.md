@@ -14,3 +14,12 @@
   - Использование микрофреймворков (Lumen, Silex и т.п.)  
 
 ### Запуск
+- склонировать проект ```https://github.com/otusteamedu/PHP_2022/tree/AShvedov/hw17```
+- перейти в диреткорию проекта, из директории проекта в ```/src```
+- из директории ```/src``` выполнить последовательно ```cp .env.example .env```, ```docker-compose build```, ```docker-compose -p 'otus-hw17' up -d```
+- если все успешно, то будет создано 5 контейнеров  
+![img.png](img.png)  
+- теперь нужно зайти в контейнер ```otus-hw17``` и выполнить ```composer install```  
+- если все успешно, то в браузере по пути ```http://localhost:8010/``` откроется приветственное окно  
+![img_1.png](img_1.png)  
+- затем из этого же контейнера выполнить ```./vendor/bin/phinx migrate -e development```

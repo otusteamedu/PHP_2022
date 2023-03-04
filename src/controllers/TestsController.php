@@ -3,9 +3,16 @@
 namespace Controllers;
 
 use Models\Test;
+use OpenApi\Annotations as OA;
 
 class TestsController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/resource.json",
+     *     @OA\Response(response="200", description="An example resource")
+     * )
+     */
     public function index()
     {
         $data = [
