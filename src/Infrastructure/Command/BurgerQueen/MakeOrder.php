@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Command\BurgerQueen;
 
+use App\Application\UseCase\AdditionDecoratorResolver;
+use App\Application\UseCase\ProductCreatorResolver;
 use App\Domain\Entity\Product\ProductInterface;
 use App\Domain\UseCase\ProductCreatorInterface;
 use App\Infrastructure\Command\CommandInterface;
@@ -19,7 +21,7 @@ class MakeOrder implements CommandInterface
         return 'Сделать заказ в Burger Queen';
     }
 
-    //  bin/console order:make --product=burger --additions=mayo,spicy
+    //  bin/console order:make --product=burger --additions=mayonnaise,lettuce,ketchup
     public function execute(array $arguments): void
     {
         $options = [];
@@ -39,21 +41,19 @@ class MakeOrder implements CommandInterface
             throw new \RuntimeException('Опция product обязательна к заполнению');
         }
 
-        $product = $this->createProduct($options['product']);
+        $product = (ProductCreatorResolver::resolve($options['product']))->create();
+
+        $additions = \explode(',', $options['additions'] ?? '');
+        $product = $this->addAdditions($product, $additions);
+        dd($product);
     }
 
-    private function createProduct(string $productName): ProductInterface
+    private function addAdditions(ProductInterface $product, array $additions): ProductInterface
     {
-        $creatorClass = 'App\\Domain\\UseCase\\' . \ucfirst($productName) . 'Creator';
-        if (!\class_exists($creatorClass)) {
-            throw new \RuntimeException(\sprintf(
-                'Тип продукта %s не поддерживается',
-                $productName
-            ));
+        foreach ($additions as $addition) {
+            $product = AdditionDecoratorResolver::resolve($addition, $product);
         }
 
-        /** @var ProductCreatorInterface $creator */
-        $creator = new $creatorClass;
-        return $creator->create();
+        return $product;
     }
 }
