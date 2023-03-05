@@ -9,4 +9,8 @@ interface ResponseInterface
     public function withBody(string $body): self;
 
     public function getBody(): string;
+
+    public function withCode(int $code): self;
+
+    public function getCode(): int;
 }

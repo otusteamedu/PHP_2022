@@ -8,13 +8,13 @@ docker-compose up -d --build
 ```
 docker exec otus_web composer install
 ```
-# 3. Запуск консьюмера
+# 3. Запуск консьюмеров
 ```
-docker exec -it otus_consumer /bin/bash
-cd public
-php index.php --command=bank-statement-consumer
+docker exec otus_create_consumer bash -c "cd public && php index.php --command=create-operation-consumer"
+docker exec otus_find_consumer bash -c "cd public && php index.php --command=find-operation-consumer"
+docker exec otus_remove_consumer bash -c "cd public && php index.php --command=remove-operation-consumer"
 ```
-# 4. Отправка формы происходит со страницы
+# 4. Документация
 ```
-http://application.local/
+http://application.local:8080/
 ```

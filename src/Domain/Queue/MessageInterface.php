@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DKozlov\Otus\Infrastructure\Queue\DTO;
+namespace DKozlov\Otus\Domain\Queue;
 
 interface MessageInterface
 {

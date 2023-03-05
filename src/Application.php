@@ -11,7 +11,6 @@ use DKozlov\Otus\Infrastructure\Http\DTO\RequestInterface;
 use DKozlov\Otus\Infrastructure\Http\DTO\Response;
 use DKozlov\Otus\Infrastructure\Http\DTO\ResponseInterface;
 use ReflectionClass;
-use ReflectionObject;
 
 class Application
 {
@@ -24,6 +23,7 @@ class Application
 
     /**
      * @throws RouteNotFoundException
+     * @throws \ReflectionException
      */
     public function run(): void
     {
@@ -40,14 +40,14 @@ class Application
 
         $args = [];
 
-        foreach ($parameters as &$parameter) {
+        foreach ($parameters as $parameter) {
             $args[$parameter->getName()] = self::depency($parameter->getType()->getName());
         }
 
         $handler = $class->newInstanceArgs($args);
         $handler->$method($response, $request);
 
-        $this->handleResponse($response);
+        $this->handleResponse($response, $request);
     }
 
     public static function config(string $name): mixed
@@ -63,8 +63,12 @@ class Application
         return self::$config->depency($interface);
     }
 
-    private function handleResponse(ResponseInterface $response): void
+    private function handleResponse(ResponseInterface $response, RequestInterface $request): void
     {
+        if ($request->method() !== 'CLI') {
+            http_response_code($response->getCode());
+        }
+
         echo $response->getBody();
     }
 
@@ -78,14 +82,16 @@ class Application
 
         $uri = explode('?', $_SERVER['REQUEST_URI']);
         $uri = $uri[0];
-        $method = $_SERVER['REQUEST_METHOD'];
-        $data = file_get_contents('php://input');
 
-        if ($data) {
-            $data = json_decode($data, true);
-        } else {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        $data = json_decode(file_get_contents('php://input'));
+
+        if (!$data) {
             $data = [];
         }
+
+        $data = array_merge($data, $_REQUEST);
 
         return new Request($data, $method, $uri);
     }

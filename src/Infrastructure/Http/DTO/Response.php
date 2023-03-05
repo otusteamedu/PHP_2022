@@ -8,6 +8,8 @@ class Response implements ResponseInterface
 {
     private string $body = '';
 
+    private int $code = 200;
+
     public function withBody(string $body): self
     {
         $this->body = $body;
@@ -17,5 +19,16 @@ class Response implements ResponseInterface
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    public function withCode(int $code): self
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    public function getCode(): int
+    {
+        return $this->code;
     }
 }

@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: 'Operation API'
+  version: '1.0'
+paths:
+  /api/v1/operation/create:
+    post:
+      operationId: 6174df2f9f9beac1ee56f4795c8b644e
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'ID of the operation'
+          required: true
+        -
+          name: person
+          in: query
+          description: 'Person who performed operation'
+          required: true
+        -
+          name: amount
+          in: query
+          description: 'Amount of the operation'
+          required: true
+        -
+          name: date
+          in: query
+          description: 'Date of the operation'
+          required: true
+      responses:
+        '200':
+          description: 'If operation successfully created'
+        '500':
+          description: 'If an error occured durecing executing'
+        '400':
+          description: 'If missing required parameters'
+  /api/v1/operation/find:
+    get:
+      operationId: 242af60da418f465e3e7d0e9e5cee3a6
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the operation'
+          required: true
+      responses:
+        '200':
+          description: 'The operation with transmitted ID'
+        '404':
+          description: 'If the operation not found'
+        '500':
+          description: 'If an error occured durecing executing'
+        '400':
+          description: 'If missing required parameters'
+  /api/v1/operation/remove:
+    delete:
+      operationId: 17ffd7390d6ae8cfc2f19f13167a492c
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'ID of the operation'
+          required: true
+      responses:
+        '200':
+          description: 'If operation successfully removed'
+        '500':
+          description: 'If an error occured durecing executing'
+        '400':
+          description: 'If missing required parameters'

@@ -19,9 +19,25 @@ services:
     networks:
       - network
 
-  consumer:
+  create-consumer:
     build: ./docker/php-fpm
-    container_name: otus_consumer
+    container_name: otus_create_consumer
+    volumes:
+      - ./:/var/www/application.local
+    networks:
+      - network
+
+  find-consumer:
+    build: ./docker/php-fpm
+    container_name: otus_find_consumer
+    volumes:
+      - ./:/var/www/application.local
+    networks:
+      - network
+
+  remove-consumer:
+    build: ./docker/php-fpm
+    container_name: otus_remove_consumer
     volumes:
       - ./:/var/www/application.local
     networks:
@@ -37,6 +53,29 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    networks:
+      - network
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: otus_swagger
+    volumes:
+      - ./swagger:/usr/share/nginx/html/swagger
+    ports:
+      - "8080:8080"
+    environment:
+      API_URL: swagger/doc.yaml
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    volumes:
+      - ./docker/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:5432
     networks:
       - network
 
