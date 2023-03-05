@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\App\Middleware;
+namespace App\Application\Middleware;
 
-use App\App\Service\EmailVerifier;
-use App\App\Service\EmailVerifierMode;
+use App\Application\Service\EmailVerifier;
+use App\Application\Service\EmailVerifierMode;
 use App\Infrastructure\Http\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

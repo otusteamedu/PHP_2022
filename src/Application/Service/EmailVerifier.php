@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\App\Service;
+namespace App\Application\Service;
 
 /**
  * Сервис для определения корректности email адреса
