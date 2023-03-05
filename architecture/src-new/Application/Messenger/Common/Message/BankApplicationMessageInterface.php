@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Application\Messenger\Common\Message;
+
+use Dvizh\BankBusDTO\DeliveryFullQuestionnaire;
+
+/**
+ * Заявка, подготовленная для отправки в банк.
+ */
+interface BankApplicationMessageInterface
+{
+    public function __construct(DeliveryFullQuestionnaire $questionnaire);
+
+    public function getQuestionnaire(): DeliveryFullQuestionnaire;
+}
