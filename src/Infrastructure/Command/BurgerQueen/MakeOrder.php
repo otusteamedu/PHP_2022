@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Command\BurgerQueen;
 
+use App\Application\OrderHandling\CustomerHandler;
+use App\Application\OrderHandling\KitchenHandler;
+use App\Application\OrderHandling\RegisterHandler;
+use App\Application\OrderHandling\WaiterHandler;
 use App\Application\UseCase\AdditionDecoratorResolver;
 use App\Application\UseCase\ProductCreatorResolver;
+use App\Domain\Entity\Order;
 use App\Domain\Entity\Product\ProductInterface;
 use App\Domain\UseCase\ProductCreatorInterface;
 use App\Infrastructure\Command\CommandInterface;
@@ -45,6 +50,9 @@ class MakeOrder implements CommandInterface
 
         $additions = \explode(',', $options['additions'] ?? '');
         $product = $this->addAdditions($product, $additions);
+
+        $order = new Order([$product]);
+        $this->handlerOrder($order);
         dd($product);
     }
 
@@ -55,5 +63,22 @@ class MakeOrder implements CommandInterface
         }
 
         return $product;
+    }
+
+    private function handlerOrder(Order $order): void
+    {
+        $customerHandler = new CustomerHandler();
+        $customerHandler->setNext();
+
+        $waiterHandler = new WaiterHandler();
+        $waiterHandler->setNext($customerHandler);
+
+        $kitchenHandler = new KitchenHandler();
+        $kitchenHandler->setNext($waiterHandler);
+
+        $registerHandler = new RegisterHandler();
+        $registerHandler->setNext($kitchenHandler);
+
+        $registerHandler->handle($order);
     }
 }
