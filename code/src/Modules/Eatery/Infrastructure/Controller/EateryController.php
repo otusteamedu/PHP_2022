@@ -16,6 +16,7 @@ use Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\BurgerFood;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\HotDogFood;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\SandwichFood;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Recipe\FoodRecipe;
+use DI\Container;
 
 class EateryController extends BaseController
 {
@@ -42,7 +43,18 @@ class EateryController extends BaseController
             $ingredients = array_map(static fn($ingredient) => IngredientEnum::from($ingredient), $this->request->ingredients);
         }
 
-        $order = new OrderBurger(
+        try {
+            $container = new Container();
+
+            $order = $container->get(OrderBurger::class)
+                ->setNext($container->get(OrderHotDog::class))
+                ->setNext($container->get(OrderSandwich::class));
+        } catch (\Exception $e) {
+            echo "<pre>";
+            print_r($e->getMessage());
+            echo "</pre>";
+        }
+        /*$order = new OrderBurger(
             new QualityFood(
                 new BurgerFood(
                     new FoodRecipe($ingredients)
@@ -70,7 +82,7 @@ class EateryController extends BaseController
                     ),
                     new Notifier(),
                 )
-            );
+            );*/
 
         $res = $order->create($food);
 
