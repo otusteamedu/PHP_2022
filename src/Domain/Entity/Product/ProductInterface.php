@@ -10,4 +10,6 @@ interface ProductInterface
      * @return array<Ingredient>
      */
     public function getIngredients(): array;
+
+    public function show(): void;
 }

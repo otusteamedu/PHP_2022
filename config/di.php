@@ -21,4 +21,5 @@ return [
     \PDO::class => function() {
         return new \PDO($_ENV['DB_DSN'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
     },
+    \App\Application\UseCase\OrderStatusManagerInterface::class => \App\Application\UseCase\OrderStatusObserver::class,
 ];

@@ -20,4 +20,9 @@ class CheeseDecorator implements ProductInterface
     {
         return \array_merge($this->product->getIngredients(), [Ingredient::CHEESE]);
     }
+
+    public function show(): void
+    {
+        $this->product->show();
+    }
 }

@@ -20,4 +20,9 @@ class LettuceDecorator implements ProductInterface
     {
         return \array_merge($this->product->getIngredients(), [Ingredient::LETTUCE]);
     }
+
+    public function show(): void
+    {
+        $this->product->show();
+    }
 }

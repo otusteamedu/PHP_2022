@@ -28,6 +28,10 @@ class Order
         $this->products[] = $product;
     }
 
+    /**
+     * Аннотация ниже разрешает менять статус заказа только из статус-менеджера
+     * @psalm-internal App\Application\UseCase\OrderStatusManager
+     */
     public function changeStatus(OrderStatus $status): void
     {
         $this->status = $status;
@@ -36,5 +40,12 @@ class Order
     public function getStatus(): OrderStatus
     {
         return $this->status;
+    }
+
+    public function show(): void
+    {
+        foreach ($this->products as $product) {
+            $product->show();
+        }
     }
 }

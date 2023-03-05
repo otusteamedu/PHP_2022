@@ -20,4 +20,9 @@ class MayonnaiseDecorator implements ProductInterface
     {
         return \array_merge($this->product->getIngredients(), [Ingredient::MAYONNAISE]);
     }
+
+    public function show(): void
+    {
+        $this->product->show();
+    }
 }

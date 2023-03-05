@@ -20,4 +20,9 @@ class KetchupDecorator implements ProductInterface
     {
         return \array_merge($this->product->getIngredients(), [Ingredient::KETCHUP]);
     }
+
+    public function show(): void
+    {
+        $this->product->show();
+    }
 }

@@ -6,5 +6,23 @@ namespace App\Domain\Entity\Product;
 
 class Sandwich extends BaseProduct
 {
-
+    public function show(): void
+    {
+        $image = <<<image
+                    _.---._
+                _.-~       ~-._
+            _.-~               ~-._
+        _.-~                       ~---._
+    _.-~                                 ~\
+ .-~                                    _.;
+ :-._                               _.-~ ./
+ }-._~-._                   _..__.-~ _.-~)
+ `-._~-._~-._              / .__..--~_.-~
+     ~-._~-._\.        _.-~_/ _..--~~
+         ~-. \`--...--~_.-~/~~
+            \.`--...--~_.-~
+              ~-..----~
+image;
+        print_r($image);
+    }
 }

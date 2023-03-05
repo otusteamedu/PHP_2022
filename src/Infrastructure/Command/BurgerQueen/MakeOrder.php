@@ -9,14 +9,19 @@ use App\Application\OrderHandling\KitchenHandler;
 use App\Application\OrderHandling\RegisterHandler;
 use App\Application\OrderHandling\WaiterHandler;
 use App\Application\UseCase\AdditionDecoratorResolver;
+use App\Application\UseCase\OrderStatusManager;
+use App\Application\UseCase\OrderStatusManagerInterface;
 use App\Application\UseCase\ProductCreatorResolver;
 use App\Domain\Entity\Order;
 use App\Domain\Entity\Product\ProductInterface;
-use App\Domain\UseCase\ProductCreatorInterface;
 use App\Infrastructure\Command\CommandInterface;
 
 class MakeOrder implements CommandInterface
 {
+    public function __construct(private readonly OrderStatusManagerInterface $orderStatusManager)
+    {
+    }
+
     private const ALLOWED_OPTIONS = [
         'product',
         'additions'
@@ -30,6 +35,7 @@ class MakeOrder implements CommandInterface
     public function execute(array $arguments): void
     {
         $options = [];
+
         foreach ($arguments as $argument) {
             [$optionName, $optionValue] = \explode('=', \strtr($argument, ['--' => '']));
             if (!\in_array($optionName, self::ALLOWED_OPTIONS)) {
@@ -53,7 +59,8 @@ class MakeOrder implements CommandInterface
 
         $order = new Order([$product]);
         $this->handlerOrder($order);
-        dd($product);
+
+        $order->show();
     }
 
     private function addAdditions(ProductInterface $product, array $additions): ProductInterface
@@ -67,16 +74,16 @@ class MakeOrder implements CommandInterface
 
     private function handlerOrder(Order $order): void
     {
-        $customerHandler = new CustomerHandler();
+        $customerHandler = new CustomerHandler($this->orderStatusManager);
         $customerHandler->setNext();
 
-        $waiterHandler = new WaiterHandler();
+        $waiterHandler = new WaiterHandler($this->orderStatusManager);
         $waiterHandler->setNext($customerHandler);
 
-        $kitchenHandler = new KitchenHandler();
+        $kitchenHandler = new KitchenHandler($this->orderStatusManager);
         $kitchenHandler->setNext($waiterHandler);
 
-        $registerHandler = new RegisterHandler();
+        $registerHandler = new RegisterHandler($this->orderStatusManager);
         $registerHandler->setNext($kitchenHandler);
 
         $registerHandler->handle($order);
