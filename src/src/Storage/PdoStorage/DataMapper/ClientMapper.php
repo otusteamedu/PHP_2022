@@ -28,16 +28,16 @@ class ClientMapper extends AbstractDataMapper
         $this->pdo = $pdo;
 
         $this->selectStmt = $pdo->prepare(
-            'SELECT "E-mail", "Phone" FROM "Client" WHERE id = ?'
+            'SELECT email, phone FROM client WHERE id = ?'
         );
         $this->selectTicketsStmt = $pdo->prepare(
-            'SELECT id, "Price", "Place", "Schedule", "PurchaseTime" FROM "Ticket" WHERE "Client" = ?'
+            'SELECT id, price, place, schedule, purchase_time FROM ticket WHERE client = ?'
         );
 
         $this->insertStmt = $pdo->prepare(
-            'INSERT INTO "Client" (id, "E-mail", "Phone") VALUES (?, ?, ?)'
+            'INSERT INTO client (id, email, phone) VALUES (?, ?, ?)'
         );
-        $this->deleteStmt = $pdo->prepare('DELETE FROM "Client" WHERE id = ?');
+        $this->deleteStmt = $pdo->prepare('DELETE FROM client WHERE id = ?');
     }
 
     public function findOne(int $id): Client
@@ -51,13 +51,13 @@ class ClientMapper extends AbstractDataMapper
 
         $client = new Client(
             $id,
-            $result['E-mail'],
-            $result['Phone']
+            $result['email'],
+            $result['phone']
         );
 
         $client->setState([
-            'E-mail' => $result['E-mail'],
-            'Phone' => $result['Phone']
+            'email' => $result['email'],
+            'phone' => $result['phone']
         ]);
 
         $reference =
@@ -75,11 +75,11 @@ class ClientMapper extends AbstractDataMapper
                 foreach ($result as $data) {
                     $tickets[] = new Ticket(
                         $data['id'],
-                        $data['Schedule'],
-                        $data['Price'],
+                        $data['schedule'],
+                        $data['price'],
                         $id,
-                        $data['Place'],
-                        $data['PurchaseTime']
+                        $data['place'],
+                        $data['purchase_time']
                     );
                 }
                 return $tickets;
@@ -111,24 +111,24 @@ class ClientMapper extends AbstractDataMapper
         /**
          * @TODO think about returning val
          */
-        if ($clientState['E-mail'] === $client->getEmail() && $clientState['Phone'] === $client->getPhone()) {
+        if ($clientState['email'] === $client->getEmail() && $clientState['phone'] === $client->getPhone()) {
             return true;
         }
 
-        $query = 'UPDATE "Client" SET "E-mail" = ?, "Phone" = ? where id = ?';
+        $query = 'UPDATE client SET email = ?, phone = ? where id = ?';
         $params = [
             $client->getEmail(),
             $client->getPhone(),
             $client->getId()
         ];
 
-        if ($clientState['E-mail'] !== $client->getEmail() && $clientState['Phone'] === $client->getPhone()) {
-            $query = 'UPDATE "Client" SET "E-mail" = ? where id = ?';
+        if ($clientState['email'] !== $client->getEmail() && $clientState['phone'] === $client->getPhone()) {
+            $query = 'UPDATE client SET email = ? where id = ?';
             $params = [$client->getEmail(), $client->getId()];
         }
 
-        if ($clientState['E-mail'] === $client->getEmail() && $clientState['Phone'] !== $client->getPhone()) {
-            $query = 'UPDATE "Client" SET "Phone" = ? where id = ?';
+        if ($clientState['email'] === $client->getEmail() && $clientState['phone'] !== $client->getPhone()) {
+            $query = 'UPDATE client SET phone = ? where id = ?';
             $params = [$client->getPhone(), $client->getId()];
         }
 
