@@ -27,7 +27,7 @@ class OperationMapper implements OperationMapperInterface
      * @throws EntityNotFoundException
      * @throws Exception
      */
-    public function find(int $id): Operation
+    public function findById(int $id): Operation
     {
         if ($this->identityMap->exist($id)) {
             return $this->identityMap->get($id);

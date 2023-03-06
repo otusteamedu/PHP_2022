@@ -15,7 +15,7 @@ interface OperationMapperInterface
      * @throws EntityNotFoundException
      * @throws Exception
      */
-    public function find(int $id): Operation;
+    public function findById(int $id): Operation;
 
     /**
      * @throws ConnectionTimeoutException

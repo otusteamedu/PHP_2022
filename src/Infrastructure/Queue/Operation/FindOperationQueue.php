@@ -26,7 +26,7 @@ class FindOperationQueue extends AbstractQueue
         $operationMessage = FindOperationMessage::fromSerialize($message->getBody());
 
         try {
-            $operation = $this->operationMapper->find($operationMessage->getId());
+            $operation = $this->operationMapper->findById($operationMessage->getId());
 
             $result = $operation->toArray();
         } catch (EntityNotFoundException) {
