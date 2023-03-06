@@ -1,0 +1,27 @@
+{
+  "php": "^8.1",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "laminas/laminas-config-aggregator": "^1.11",
+    "elasticsearch/elasticsearch": "^8.6"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.7",
+    "vimeo/psalm": "^5.7"
+  },
+  "scripts": {
+    "cs-check": "phpcs",
+    "cs-fix": "phpcbf",
+    "psalm": "psalm --config=psalm.xml",
+    "psalm-info": "psalm --config=psalm.xml --show-info=true"
+  }
+}

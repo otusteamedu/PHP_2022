@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+
+  php-cli:
+    build:
+      context: .docker
+      dockerfile: ./php-cli/Dockerfile
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+    volumes:
+      - ./src:/app
+
+  composer:
+    image: composer
+    volumes:
+      - ./src:/app
+    working_dir: /app
+
+  postgres:
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - db-postgres:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+volumes:
+  db-postgres:
