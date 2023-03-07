@@ -10,6 +10,6 @@ class DefaultHandler extends BaseHandler
 {
     public function handle(Order $order): void
     {
-        print_r('Завершение обработки заказа' . PHP_EOL);
+        // ...
     }
 }

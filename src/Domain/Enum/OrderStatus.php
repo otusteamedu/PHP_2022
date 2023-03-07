@@ -15,4 +15,8 @@ enum OrderStatus
     case ACCEPTED_BY_CUSTOMER;
     /** на случай, если что-то пошло не так */
     case SOMETHING_WENT_WRONG;
+
+    /** Завершение обработки заказа */
+    case FINISHED;
+    case DELIVERED_TO_CUSTOMER;
 }

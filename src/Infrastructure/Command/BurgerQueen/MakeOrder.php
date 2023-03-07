@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Command\BurgerQueen;
 
+use App\Application\EventSystem\DispatcherInterface;
 use App\Application\OrderHandling\CustomerHandler;
 use App\Application\OrderHandling\KitchenHandler;
 use App\Application\OrderHandling\RegisterHandler;
@@ -18,7 +19,7 @@ use App\Infrastructure\Command\CommandInterface;
 
 class MakeOrder implements CommandInterface
 {
-    public function __construct(private readonly OrderStatusManagerInterface $orderStatusManager)
+    public function __construct(private readonly DispatcherInterface $dispatcher)
     {
     }
 
@@ -74,16 +75,16 @@ class MakeOrder implements CommandInterface
 
     private function handlerOrder(Order $order): void
     {
-        $customerHandler = new CustomerHandler($this->orderStatusManager);
+        $customerHandler = new CustomerHandler($this->dispatcher);
         $customerHandler->setNext();
 
-        $waiterHandler = new WaiterHandler($this->orderStatusManager);
+        $waiterHandler = new WaiterHandler($this->dispatcher);
         $waiterHandler->setNext($customerHandler);
 
-        $kitchenHandler = new KitchenHandler($this->orderStatusManager);
+        $kitchenHandler = new KitchenHandler($this->dispatcher);
         $kitchenHandler->setNext($waiterHandler);
 
-        $registerHandler = new RegisterHandler($this->orderStatusManager);
+        $registerHandler = new RegisterHandler($this->dispatcher);
         $registerHandler->setNext($kitchenHandler);
 
         $registerHandler->handle($order);

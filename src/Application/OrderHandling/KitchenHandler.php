@@ -4,28 +4,39 @@ declare(strict_types=1);
 
 namespace App\Application\OrderHandling;
 
-use App\Application\UseCase\OrderStatusManagerInterface;
+use App\Application\EventSystem\ChangeOrderStatusEvent;
+use App\Application\EventSystem\DispatcherInterface;
 use App\Domain\Entity\Order;
 use App\Domain\Enum\OrderStatus;
 
 class KitchenHandler extends BaseHandler
 {
-    public function __construct(private readonly OrderStatusManagerInterface $orderStatusManager)
+    public function __construct(private readonly DispatcherInterface $dispatcher)
     {
     }
 
     public function handle(Order $order): void
     {
-        $this->orderStatusManager->changeStatus($order, OrderStatus::COOKING);
-        print_r('Заказ принят на кухне' . PHP_EOL);
+        $this->dispatcher->dispatch(new ChangeOrderStatusEvent(
+            $order,
+            OrderStatus::COOKING,
+            'Заказ принят на кухне'
+        ));
+
         if (\random_int(1, 10) < 2) {
-            print_r('Не хватает ингредиентов' . PHP_EOL);
-            $this->orderStatusManager->changeStatus($order, OrderStatus::SOMETHING_WENT_WRONG);
+            $this->dispatcher->dispatch(new ChangeOrderStatusEvent(
+                $order,
+                OrderStatus::SOMETHING_WENT_WRONG,
+                'Не хватает ингредиентов'
+            ));
             throw new \RuntimeException('Не удалось завершить заказ');
         }
-        print_r('Заказ готовится' . PHP_EOL);
-        print_r('Заказ готов к выдаче' . PHP_EOL);
-        $this->orderStatusManager->changeStatus($order, OrderStatus::WAITING_FOR_WAITER);
+
+        $this->dispatcher->dispatch(new ChangeOrderStatusEvent(
+            $order,
+            OrderStatus::WAITING_FOR_WAITER,
+            'Заказ готов к выдаче'
+        ));
         $this->nextHandler->handle($order);
     }
 }
