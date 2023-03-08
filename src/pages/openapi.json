@@ -1,0 +1,202 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Otus homework 17 API",
+        "contact": {
+            "email": "ant-shvedov@yandex.ru"
+        },
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8010"
+        }
+    ],
+    "paths": {
+        "/api/v1/task/{task_uuid}": {
+            "get": {
+                "summary": "Receive host DNS records",
+                "operationId": "01754b00772bd32495f2ab583cf06018",
+                "parameters": [
+                    {
+                        "name": "task_uuid",
+                        "in": "path",
+                        "description": "uuid (v4) api task",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record receive",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/task_completed"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/task_pending"
+                                        }
+                                    ]
+                                },
+                                "examples": {
+                                    "task_completed": {
+                                        "$ref": "#/components/examples/task_completed"
+                                    },
+                                    "task_pending": {
+                                        "$ref": "#/components/examples/task_pending"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "app_auth": []
+                    },
+                    {
+                        "auth": [
+                            "write",
+                            "read"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/v1/dns-records/{host}": {
+            "post": {
+                "summary": "Start api task for receive host DNS records",
+                "operationId": "952cde46d7e3c656e1b4520f3c6cca2a",
+                "parameters": [
+                    {
+                        "name": "host",
+                        "in": "path",
+                        "description": "site domain name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "www.example.com"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "receive task uuid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/task_uuid"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "app_auth": []
+                    },
+                    {
+                        "auth": [
+                            "write",
+                            "read"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "task_uuid": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "a4a4cc90-3de8-439c-bc25-9e1bc455a9fb"
+                    }
+                },
+                "type": "object"
+            },
+            "task_completed": {
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "result": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "timestamp"
+                    },
+                    "updated_at": {
+                        "type": "timestamp"
+                    }
+                },
+                "type": "object"
+            },
+            "task_pending": {
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "result": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "timestamp"
+                    },
+                    "updated_at": {
+                        "type": "timestamp"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "examples": {
+            "task_completed": {
+                "summary": "task completed response",
+                "value": {
+                    "uudi": "a4a4cc90-3de8-439c-bc25-9e1bc455a9fb",
+                    "status": "COMPLETED",
+                    "result": "{'Status':0,'TC':false,'RD':true,'RA':true,'AD':false,'CD':false,'Question':[{'name':'www.xyz.com.','type':28}],'Answer':[{'name':'www.xyz.com.','type':5,'TTL':356,'data':'xyz.com.'}],'Authority':[{'name':'xyz.com.','type':6,'TTL':216,'data':'ns-1664.awsdns-16.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400'}]}",
+                    "created_at": "2023-03-08 14:44:33",
+                    "updated_at_at": "2023-03-08 14:44:42"
+                }
+            },
+            "task_pending": {
+                "summary": "task pending response",
+                "value": {
+                    "uudi": "a4a4cc90-3de8-439c-bc25-9e1bc455a9fb",
+                    "status": "PENDING",
+                    "result": "",
+                    "created_at": "2023-03-08 14:44:33",
+                    "updated_at_at": "2023-03-08 14:44:42"
+                }
+            }
+        },
+        "securitySchemes": {
+            "app_auth": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "tokenUrl": "/api/v1/login",
+                        "scopes": {
+                            "read": "read operations are available to the user",
+                            "write": "write operations are available to the user"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

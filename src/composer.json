@@ -1,0 +1,81 @@
+{
+    "name": "leafs/skeleton",
+    "description": "A boiler-plate application for rapid development with Leaf PHP.",
+    "type": "library",
+    "keywords": [
+        "framework",
+        "leaf",
+        "leafPHP",
+        "leaf api"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Darko",
+            "email": "mickdd22@gmail.com",
+            "homepage": "https://mychi.netlify.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "leafs/mvc-core": "*",
+        "leafs/leaf": "^3.2",
+        "leafs/logger": "*",
+        "leafs/cors": "*",
+        "leafs/router": "*",
+        "leafs/auth": "^2.2",
+        "leafs/form": "*",
+        "leafs/bareui": "*",
+        "zircote/swagger-php": "^4.7",
+        "leafs/db": "^2.1",
+        "robmorgan/phinx": "^0.13.4",
+        "ramsey/uuid": "^4.7",
+        "leafs/http": "^2.2",
+        "guzzlehttp/guzzle": "^7.5",
+        "symfony/event-dispatcher": "^6.2",
+        "php-amqplib/php-amqplib": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Db\\": "db/",
+            "Lib\\": "lib/",
+            "App\\": "app/",
+            "Config\\": "config/",
+            "Models\\": "models/",
+            "Helpers\\": "helpers/",
+            "Workers\\": "workers/",
+            "Database\\": "database/",
+            "App\\Http\\": "app/http/",
+            "App\\Utils\\": "app/utils/",
+            "App\\Views\\": "app/views/",
+            "App\\Models\\": "app/models/",
+            "Controllers\\": "controllers/",
+            "App\\Scripts\\": "app/scripts/",
+            "App\\Workers\\": "app/workers/",
+            "App\\Console\\": "app/console/",
+            "App\\Helpers\\": "app/helpers/",
+            "App\\Services\\": "app/services/",
+            "App\\Controllers\\": "app/controllers/",
+            "Middleware\\": "middleware/",
+            "Domain\\": "Domain/",
+            "Infrastructure\\": "Infrastructure/",
+            "ApplicationContracts\\": "ApplicationContracts/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": false
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php -r \"unlink('README.MD'); rename('README2.MD', 'README.MD');\""
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "squizlabs/php_codesniffer": "^3.7"
+    }
+}
