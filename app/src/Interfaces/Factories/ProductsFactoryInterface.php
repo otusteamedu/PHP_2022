@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace SGakhramanov\Patterns\Interfaces\Factories;
 
 use SGakhramanov\Patterns\Interfaces\Observers\NotifierInterface;
-use SGakhramanov\Patterns\Interfaces\Products\BurgerInterface;
-use SGakhramanov\Patterns\Interfaces\Products\SandwichInterface;
-use SGakhramanov\Patterns\Interfaces\Products\HotDogInterface;
+use SGakhramanov\Patterns\Interfaces\Products\ProductInterface;
 
 interface ProductsFactoryInterface
 {
-    public function makeBurger(NotifierInterface $notifier): BurgerInterface;
+    public function makeBurger(NotifierInterface $notifier): ProductInterface;
 
-    public function makeSandwich(NotifierInterface $notifier): SandwichInterface;
+    public function makeSandwich(NotifierInterface $notifier): ProductInterface;
 
-    public function makeHotDog(NotifierInterface $notifier): HotDogInterface;
+    public function makeHotDog(NotifierInterface $notifier): ProductInterface;
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SGakhramanov\Patterns\Classes\Services;
 
 use SGakhramanov\Patterns\Interfaces\Services\SubscriberInterface;

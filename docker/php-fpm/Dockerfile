@@ -22,6 +22,4 @@ RUN apt-get update && apt-get install -y \
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 
-COPY ./conf.d /usr/local/etc/php/conf.d
-
 WORKDIR /app

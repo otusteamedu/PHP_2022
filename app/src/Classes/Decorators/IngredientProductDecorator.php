@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SGakhramanov\Patterns\Classes\Decorators;
 
 use SGakhramanov\Patterns\Interfaces\Products\ProductInterface;
