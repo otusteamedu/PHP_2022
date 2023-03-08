@@ -35,9 +35,9 @@
 ![img_4.png](readme-imgs/img_4.png)  
 ![img_5.png](readme-imgs/img_5.png)  
 - из этого же контейнера выполнить ```chmod +x amqp_consumer.php```  
-- RabbitMQ должен быть доступен по адресу ```http://localhost:15672/``` (username: guest, password: guess)  
+- RabbitMQ должен быть доступен по адресу ```http://localhost:15672/``` (username: ```guest```, password: ```guest```)  
 ![img_6.png](readme-imgs/img_6.png)  
-- Документация по API доступна по адресу ```http://localhost:8010/swagger``` (для авторизации - username: developer, password: bitnami)
+- Документация по API доступна по адресу ```http://localhost:8010/swagger``` (для авторизации - username: ```developer```, password: ```bitnami```)
 ![img_7.png](readme-imgs/img_7.png)  
 
 ### Проверка работы
@@ -49,13 +49,13 @@
 ![img_10.png](readme-imgs/img_10.png)  
 - И ввести любое доменное имя и нажать ```execute```
 ![img_11.png](readme-imgs/img_11.png)  
-- системы выдала uuid апи задачи
+- система выдала ```uuid``` апи задачи
 ![img_12.png](readme-imgs/img_12.png)  
-- задача добавлилась в очередь
+- задача добавиилась в очередь
 ![img_13.png](readme-imgs/img_13.png)  
-- проверим выполнение задачи не запускаю консьюмер
+- проверим выполнение задачи не запуская консьюмер  
 ![img_14.png](readme-imgs/img_14.png)  
-- запустим консьюмер: для этого открыть в новой вкладке терминала контейнер ```otus-hw17``` и выполнить ```./amqp_consumer.php```
+- запустим консьюмер: для этого открыть в новой вкладке терминала контейнер ```otus-hw17``` и выполнить ```./amqp_consumer.php```  
 ![img_15.png](readme-imgs/img_15.png)  
-- проверим результат работы апи задачи
+- проверим результат работы апи задачи  
 ![img_16.png](readme-imgs/img_16.png)  
