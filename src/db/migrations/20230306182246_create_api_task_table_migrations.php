@@ -1,10 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
+use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 
-final class CreateUserTableMigrations extends AbstractMigration
+final class CreateApiTaskTableMigrations extends AbstractMigration
 {
     /**
      * Change Method.
@@ -19,16 +19,21 @@ final class CreateUserTableMigrations extends AbstractMigration
      */
     public function change(): void
     {
-        // create the table
-        $table = $this->table(tableName: 'users');
+        $table = $this->table(tableName: 'api_tasks', options: ['id' => false]);
 
-        $table->addColumn(columnName: 'username', type: 'string', options: ['null' => false])
-            ->addColumn(columnName: 'password', type: 'string', options: ['null' => false])
-            ->addColumn(columnName: 'api_token', type: 'string', options: ['null' => true])
-            ->addColumn(columnName: 'scopes', type: 'json', options: ['null' => false])
+        $table->addColumn(columnName: 'uuid', type: 'string', options: ['null' => false])
+            ->addColumn(columnName: 'status', type: 'string', options: ['null' => false])
+            ->addColumn(
+                columnName: 'result',
+                type: 'text',
+                options: [
+                    'null' => true,
+                    'limit' => MysqlAdapter::TEXT_MEDIUM,
+                    ]
+            )
             ->addColumn(columnName: 'created_at', type: 'datetime', options: ['null' => false])
             ->addColumn(columnName: 'updated_at', type: 'datetime', options: ['null' => false])
-            ->addIndex(['username'], ['unique' => true])
+            ->addIndex(['uuid'], ['unique' => true])
             ->create();
     }
 }

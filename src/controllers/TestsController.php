@@ -2,17 +2,10 @@
 
 namespace Controllers;
 
-use Models\Test;
-use OpenApi\Annotations as OA;
+use Models\Users;
 
 class TestsController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/api/resource.json",
-     *     @OA\Response(response="200", description="An example resource")
-     * )
-     */
     public function index()
     {
         $data = [
@@ -53,6 +46,6 @@ class TestsController extends Controller
 
     public function test()
     {
-        response()->json(Test::all());
+        response()->json(Users::all());
     }
 }

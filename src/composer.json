@@ -23,12 +23,17 @@
         "leafs/logger": "*",
         "leafs/cors": "*",
         "leafs/router": "*",
-        "leafs/auth": "*",
+        "leafs/auth": "^2.2",
         "leafs/form": "*",
         "leafs/bareui": "*",
         "zircote/swagger-php": "^4.7",
         "leafs/db": "^2.1",
-        "robmorgan/phinx": "^0.13.4"
+        "robmorgan/phinx": "^0.13.4",
+        "ramsey/uuid": "^4.7",
+        "leafs/http": "^2.2",
+        "guzzlehttp/guzzle": "^7.5",
+        "symfony/event-dispatcher": "^6.2",
+        "php-amqplib/php-amqplib": "^3.5"
     },
     "autoload": {
         "psr-4": {
@@ -50,7 +55,11 @@
             "App\\Console\\": "app/console/",
             "App\\Helpers\\": "app/helpers/",
             "App\\Services\\": "app/services/",
-            "App\\Controllers\\": "app/controllers/"
+            "App\\Controllers\\": "app/controllers/",
+            "Middleware\\": "middleware/",
+            "Domain\\": "Domain/",
+            "Infrastructure\\": "Infrastructure/",
+            "ApplicationContracts\\": "ApplicationContracts/"
         }
     },
     "config": {

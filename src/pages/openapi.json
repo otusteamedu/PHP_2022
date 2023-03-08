@@ -1,16 +1,57 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My First API",
+        "title": "Otus homework 17 API",
         "version": "0.1"
     },
+    "servers": [
+        {
+            "url": "http://localhost:8010"
+        }
+    ],
     "paths": {
-        "/api/resource.json": {
-            "get": {
-                "operationId": "7da3f798e7fd42bebfd8c5e907febf6f",
+        "/api/v1/dns-records/{host}": {
+            "post": {
+                "summary": "Start api task for receive host DNS records",
+                "operationId": "952cde46d7e3c656e1b4520f3c6cca2a",
+                "parameters": [
+                    {
+                        "name": "host",
+                        "in": "path",
+                        "description": "site domain name",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "An example resource"
+                        "description": "Record receive"
+                    }
+                },
+                "security": [
+                    {
+                        "app_auth": []
+                    },
+                    {
+                        "auth": [
+                            "write",
+                            "read"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "app_auth": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "tokenUrl": "/api/v1/login",
+                        "scopes": {
+                            "read": "read operations are available to the user",
+                            "write": "write operations are available to the user"
+                        }
                     }
                 }
             }

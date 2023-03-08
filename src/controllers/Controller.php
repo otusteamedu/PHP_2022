@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use OpenApi\Annotations as OA;
+define('APP_URL', _env(key: 'APP_URL'));
 
 /**
  * This is the base controller for your Leaf API Project.
@@ -10,9 +10,6 @@ use OpenApi\Annotations as OA;
  * them across all your other controllers which extend this one.
  */
 
-/**
- * @OA\Info(title="My First API", version="0.1")
- */
 class Controller extends \Leaf\Controller
 {
     //

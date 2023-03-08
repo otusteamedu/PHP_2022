@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 app()->get('/', function () {
     response()->page(viewsPath('index.html', false));
 });
