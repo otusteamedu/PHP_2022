@@ -8,6 +8,10 @@
     -->
     <file>controllers</file>
     <file>models</file>
+    <file>ApplicationContracts</file>
+    <file>Domain</file>
+    <file>Infrastructure</file>
+    <file>middleware</file>
 
     <!-- exclude our migrations directory from the violation check-->
     <exclude-pattern>*/migrations/*</exclude-pattern>
