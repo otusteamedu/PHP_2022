@@ -41,5 +41,6 @@ $auth->autoConnect();
 
 // You can break up routes into modules
 require __DIR__ . '/_app.php';
+require __DIR__ . '/_api_app.php';
 require __DIR__ . '/_auth_app.php';
 require __DIR__ . '/_dns_records_app.php';

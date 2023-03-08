@@ -10,6 +10,36 @@
         }
     ],
     "paths": {
+        "/api/v1/task/{task_uuid}": {
+            "get": {
+                "summary": "Receive receive host DNS records",
+                "operationId": "01754b00772bd32495f2ab583cf06018",
+                "parameters": [
+                    {
+                        "name": "task_uuid",
+                        "in": "path",
+                        "description": "uuid api task",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record receive"
+                    }
+                },
+                "security": [
+                    {
+                        "app_auth": []
+                    },
+                    {
+                        "auth": [
+                            "write",
+                            "read"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/v1/dns-records/{host}": {
             "post": {
                 "summary": "Start api task for receive host DNS records",

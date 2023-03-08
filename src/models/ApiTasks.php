@@ -23,7 +23,7 @@ final class ApiTasks extends Model implements ApiTaskRepositoryInterface
         return db()
             ->select(table: $this->table)
             ->where(condition: 'uuid', comparator: $uuid)
-            ->first();
+            ->get();
     }
 
     /**
