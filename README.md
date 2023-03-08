@@ -17,6 +17,7 @@
 - PHP 8.1
 - Leaf PHP
 - MySQL 8+
+- Phinx (для миграций)
 - RabbitMQ
 
 ### Запуск
