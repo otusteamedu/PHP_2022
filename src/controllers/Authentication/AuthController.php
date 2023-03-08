@@ -5,28 +5,9 @@ declare(strict_types=1);
 namespace Controllers\Authentication;
 
 use Controllers\Controller;
-use OpenApi\Annotations as OA;
 
 final class AuthController extends Controller
 {
-    /**
-     * @OA\Info(title="Otus homework 17 API", version="0.1")
-     *
-     * @OA\SecurityScheme(
-     *   type="oauth2",
-     *   securityScheme="app_auth",
-     *   @OA\Flow(
-     *      tokenUrl="/api/v1/login",
-     *      flow="password",
-     *      scopes={
-     *         "read": "read operations are available to the user",
-     *         "write": "write operations are available to the user"
-     *      }
-     *   )
-     * )
-     *
-     * @OA\Server(url=APP_URL)
-     */
     public function __construct()
     {
         parent::__construct();

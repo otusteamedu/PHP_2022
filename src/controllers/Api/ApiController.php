@@ -26,13 +26,42 @@ final class ApiController
      *      { "app_auth": {} },
      *      { "auth": {"write", "read"} }
      *     },
-     *     summary="Receive receive host DNS records",
-     *     @OA\Response(response="200", description="Record receive"),
+     *     summary="Receive host DNS records",
+     *     @OA\Response(
+     *         response="200",
+     *         description="Record receive",
+     *         @OA\JsonContent(
+     *             anyOf={
+     *                 @OA\Schema(
+     *                     ref="#/components/schemas/task_completed"
+     *                 ),
+     *                 @OA\Schema(
+     *                     ref="#/components/schemas/task_pending"
+     *                 ),
+     *             },
+     *             @OA\Examples(
+     *                 example="task_completed",
+     *                 summary="task completed response",
+     *                 ref="#/components/examples/task_completed"
+     *             ),
+     *             @OA\Examples(
+     *                 example="task_pending",
+     *                 summary="task pending response",
+     *                 ref="#/components/examples/task_pending"
+     *             ),
+     *         ),
+     *     ),
      *     @OA\Parameter(
-     *         name="task_uuid",
-     *         in="path",
-     *         description="uuid api task",
-     *         required=true
+     *          name="task_uuid",
+     *          in="path",
+     *          description="uuid (v4) api task",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *              @OA\MediaType(
+     *                  mediaType="application/json"
+     *              )
+     *          )
      *     )
      * )
      */

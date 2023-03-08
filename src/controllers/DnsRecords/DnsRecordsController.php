@@ -27,6 +27,9 @@ final class DnsRecordsController
     }
 
     /**
+     * @param string $host
+     * @return void
+     *
      * @OA\Post(
      *     path="/api/v1/dns-records/{host}",
      *     security={
@@ -34,12 +37,22 @@ final class DnsRecordsController
      *      { "auth": {"write", "read"} }
      *     },
      *     summary="Start api task for receive host DNS records",
-     *     @OA\Response(response="200", description="Record receive"),
+     *     @OA\Response(
+     *          response="200",
+     *          description="receive task uuid",
+     *          @OA\JsonContent(
+     *              ref="#/components/schemas/task_uuid"
+     *          )
+     *     ),
      *     @OA\Parameter(
-     *         name="host",
-     *         in="path",
-     *         description="site domain name",
-     *         required=true
+     *          name="host",
+     *          in="path",
+     *          description="site domain name",
+     *          example="www.example.com",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *     )
      * )
      */
