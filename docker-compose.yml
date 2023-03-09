@@ -41,11 +41,21 @@ services:
       file: common-services.yml
       service: php-fpm
 
-#  php-fpm_2:
-#    container_name: amarkhay_php-fpm_2
-#    extends:
-#      file: common-services.yml
-#      service: php-fpm
+  php-fpm_2:
+    container_name: amarkhay_php-fpm_2
+    extends:
+      file: common-services.yml
+      service: php-fpm
+
+  rabbit:
+    container_name: amarkhay_rabbit
+    image: rabbitmq:3-management
+    env_file:
+      - .env
+    ports:
+      - "15672:15672"
+    networks:
+      - app-network
 
   db:
     image: postgres:15
