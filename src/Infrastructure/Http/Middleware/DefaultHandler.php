@@ -13,6 +13,6 @@ class DefaultHandler implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response('Success', 200);
+        return new Response('Not found', 404);
     }
 }

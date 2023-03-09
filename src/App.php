@@ -4,29 +4,23 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Infrastructure\Http\Middleware\MiddlewareChain;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class App
 {
-    private MiddlewareChain $middleware;
+    private RequestHandlerInterface $handler;
 
-    public function __construct()
+    public function __construct(RequestHandlerInterface $handler)
     {
-        $this->middleware = new MiddlewareChain();
+        $this->handler = $handler;
     }
 
     public function run(ServerRequestInterface $request): void
     {
-        $response = $this->middleware->handle($request);
+        $response = $this->handler->handle($request);
         $this->sendResponse($response);
-    }
-
-    public function add(MiddlewareInterface $middleware): void
-    {
-        $this->middleware->add($middleware);
     }
 
     /**

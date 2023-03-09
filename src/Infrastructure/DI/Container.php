@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\DI;
 
-class Container
+use Psr\Container\ContainerInterface;
+
+class Container implements ContainerInterface
 {
     private $bindings = [];
 
@@ -45,5 +47,10 @@ class Container
 
             return $this->get($type->getName());
         }, $parameters);
+    }
+
+    public function has(string $id): bool
+    {
+        return isset($this->bindings[$id]);
     }
 }
