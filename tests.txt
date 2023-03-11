@@ -1,0 +1,226 @@
+10000 строк
+1) Nested Loop  (cost=0.29..222.30 rows=1 width=41)
+     ->  Seq Scan on seances s  (cost=0.00..214.00 rows=1 width=8)
+           Filter: (date = CURRENT_DATE)
+     ->  Index Scan using pk_film_id on films f  (cost=0.29..8.30 rows=1 width=41)
+           Index Cond: (id = s.film_id)
+2) Aggregate  (cost=16686.44..16686.45 rows=1 width=8)
+     ->  Gather  (cost=1000.00..16686.43 rows=1 width=4)
+           Workers Planned: 2
+           ->  Parallel Seq Scan on orders o  (cost=0.00..15686.33 rows=1 width=4)
+                 Filter: (date >= date_trunc('week'::text, (CURRENT_DATE)::timestamp with time zone))
+3) Nested Loop  (cost=0.29..222.30 rows=1 width=53)
+     ->  Seq Scan on seances s  (cost=0.00..214.00 rows=1 width=16)
+           Filter: (date = CURRENT_DATE)
+     ->  Index Scan using pk_film_id on films f  (cost=0.29..8.30 rows=1 width=41)
+           Index Cond: (id = s.film_id)
+4) GroupAggregate  (cost=36444.55..36444.57 rows=1 width=49)
+     Group Key: f.id
+     Filter: (sum(o.count) = $1)
+     InitPlan 1 (returns $1)
+       ->  Limit  (cost=19749.44..19749.44 rows=1 width=12)
+             ->  Sort  (cost=19749.44..19774.44 rows=10000 width=12)
+                   Sort Key: (sum(o_1.count)) DESC
+                   ->  Finalize HashAggregate  (cost=19599.44..19699.44 rows=10000 width=12)
+                         Group Key: f_1.id
+                         ->  Gather  (cost=17399.44..19499.44 rows=20000 width=12)
+                               Workers Planned: 2
+                               ->  Partial HashAggregate  (cost=16399.44..16499.44 rows=10000 width=12)
+                                     Group Key: f_1.id
+                                     ->  Hash Join  (cost=608.00..14316.10 rows=416667 width=12)
+                                           Hash Cond: (s_1.film_id = f_1.id)
+                                           ->  Hash Join  (cost=289.00..12902.88 rows=416667 width=12)
+                                                 Hash Cond: (o_1.seance_id = s_1.id)
+                                                 ->  Parallel Seq Scan on orders o_1  (cost=0.00..11519.67 rows=416667 width=12)
+                                                 ->  Hash  (cost=164.00..164.00 rows=10000 width=8)
+                                                       ->  Seq Scan on seances s_1  (cost=0.00..164.00 rows=10000 width=8)
+                                           ->  Hash  (cost=194.00..194.00 rows=10000 width=4)
+                                                 ->  Seq Scan on films f_1  (cost=0.00..194.00 rows=10000 width=4)
+     ->  Sort  (cost=16695.11..16695.12 rows=1 width=49)
+           Sort Key: f.id
+           ->  Nested Loop  (cost=1000.57..16695.10 rows=1 width=49)
+                 ->  Nested Loop  (cost=1000.28..16694.74 rows=1 width=12)
+                       ->  Gather  (cost=1000.00..16686.43 rows=1 width=12)
+                             Workers Planned: 2
+                             ->  Parallel Seq Scan on orders o  (cost=0.00..15686.33 rows=1 width=12)
+                                   Filter: (date >= date_trunc('week'::text, (CURRENT_DATE)::timestamp with time zone))
+                       ->  Index Scan using pk_seance_id on seances s  (cost=0.29..8.30 rows=1 width=8)
+                             Index Cond: (id = o.seance_id)
+                 ->  Index Scan using pk_film_id on films f  (cost=0.29..0.36 rows=1 width=41)
+                       Index Cond: (id = s.film_id)
+5) Seq Scan on seances s  (cost=0.00..164.00 rows=10000 width=20)
+6) HashAggregate  (cost=514.71..614.71 rows=10000 width=61)
+     Group Key: f.id, s.date
+     ->  Nested Loop  (cost=0.30..414.71 rows=10000 width=53)
+           ->  Seq Scan on seances s  (cost=0.00..164.00 rows=10000 width=16)
+           ->  Memoize  (cost=0.30..0.37 rows=1 width=41)
+                 Cache Key: s.film_id
+                 Cache Mode: logical
+                 ->  Index Scan using pk_film_id on films f  (cost=0.29..0.36 rows=1 width=41)
+                       Index Cond: (id = s.film_id)
+
+1000000 строк
+1) Nested Loop  (cost=1000.42..13628.54 rows=1 width=41)
+     ->  Gather  (cost=1000.00..13620.10 rows=1 width=8)
+           Workers Planned: 2
+           ->  Parallel Seq Scan on seances s  (cost=0.00..12620.00 rows=1 width=8)
+                 Filter: (date = CURRENT_DATE)
+     ->  Index Scan using pk_film_id on films f  (cost=0.42..8.44 rows=1 width=41)
+           Index Cond: (id = s.film_id)
+2) Aggregate  (cost=16686.44..16686.45 rows=1 width=8)
+     ->  Gather  (cost=1000.00..16686.43 rows=1 width=4)
+           Workers Planned: 2
+           ->  Parallel Seq Scan on orders o  (cost=0.00..15686.33 rows=1 width=4)
+                 Filter: (date >= date_trunc('week'::text, (CURRENT_DATE)::timestamp with time zone))
+3) Nested Loop  (cost=1000.42..13628.54 rows=1 width=53)
+     ->  Gather  (cost=1000.00..13620.10 rows=1 width=16)
+           Workers Planned: 2
+           ->  Parallel Seq Scan on seances s  (cost=0.00..12620.00 rows=1 width=16)
+                 Filter: (date = CURRENT_DATE)
+     ->  Index Scan using pk_film_id on films f  (cost=0.42..8.44 rows=1 width=41)
+           Index Cond: (id = s.film_id)
+4) GroupAggregate  (cost=172878.33..172878.35 rows=1 width=49)
+     Group Key: f.id
+     Filter: (sum(o.count) = $2)
+     InitPlan 1 (returns $2)
+       ->  Limit  (cost=156182.95..156182.95 rows=1 width=12)
+             ->  Sort  (cost=156182.95..158682.95 rows=1000000 width=12)
+                   Sort Key: (sum(o_1.count)) DESC
+                   ->  HashAggregate  (cost=131417.33..151182.95 rows=1000000 width=12)
+                         Group Key: f_1.id
+                         Planned Partitions: 16
+                         ->  Nested Loop  (cost=0.87..67354.83 rows=1000000 width=12)
+                               ->  Nested Loop  (cost=0.43..42353.94 rows=1000000 width=12)
+                                     ->  Seq Scan on orders o_1  (cost=0.00..17353.00 rows=1000000 width=12)
+                                     ->  Memoize  (cost=0.43..0.49 rows=1 width=8)
+                                           Cache Key: o_1.seance_id
+                                           Cache Mode: logical
+                                           ->  Index Scan using pk_seance_id on seances s_1  (cost=0.42..0.48 rows=1 width=8)
+                                                 Index Cond: (id = o_1.seance_id)
+                               ->  Memoize  (cost=0.43..0.46 rows=1 width=4)
+                                     Cache Key: s_1.film_id
+                                     Cache Mode: logical
+                                     ->  Index Only Scan using pk_film_id on films f_1  (cost=0.42..0.45 rows=1 width=4)
+                                           Index Cond: (id = s_1.film_id)
+     ->  Sort  (cost=16695.38..16695.38 rows=1 width=49)
+           Sort Key: f.id
+           ->  Nested Loop  (cost=1000.85..16695.37 rows=1 width=49)
+                 ->  Nested Loop  (cost=1000.42..16694.88 rows=1 width=12)
+                       ->  Gather  (cost=1000.00..16686.43 rows=1 width=12)
+                             Workers Planned: 2
+                             ->  Parallel Seq Scan on orders o  (cost=0.00..15686.33 rows=1 width=12)
+                                   Filter: (date >= date_trunc('week'::text, (CURRENT_DATE)::timestamp with time zone))
+                       ->  Index Scan using pk_seance_id on seances s  (cost=0.42..8.44 rows=1 width=8)
+                             Index Cond: (id = o.seance_id)
+                 ->  Index Scan using pk_film_id on films f  (cost=0.42..0.49 rows=1 width=41)
+                       Index Cond: (id = s.film_id)
+5) Seq Scan on seances s  (cost=0.00..16370.00 rows=1000000 width=20)
+6) HashAggregate  (cost=149495.96..179027.21 rows=1000000 width=61)
+     Group Key: f.id, s.date
+     Planned Partitions: 32
+     ->  Nested Loop  (cost=0.43..41370.96 rows=1000000 width=53)
+           ->  Seq Scan on seances s  (cost=0.00..16370.00 rows=1000000 width=16)
+           ->  Memoize  (cost=0.43..0.50 rows=1 width=41)
+                 Cache Key: s.film_id
+                 Cache Mode: logical
+                 ->  Index Scan using pk_film_id on films f  (cost=0.42..0.49 rows=1 width=41)
+                       Index Cond: (id = s.film_id)
+
+
+Оптимизация:
+Добавила индекс для поля date таблицы seances
+Добавление индекса:
+create index i_s_date on seances using btree ("date");
+Результаты:
+1 запрос: Nested Loop  (cost=0.85..12.89 rows=1 width=41)
+  ->  Index Scan using i_s_date on seances s  (cost=0.43..4.45 rows=1 width=8)
+        Index Cond: (date = CURRENT_DATE)
+  ->  Index Scan using pk_film_id on films f  (cost=0.42..8.44 rows=1 width=41)
+        Index Cond: (id = s.film_id)
+Вывод: время работы сильно сократилось
+
+
+Добавила индекс для поля date таблицы orders
+Добавление индекса:
+create index i_o_date on orders using btree ("date");
+Результаты:
+2 запрос:
+Aggregate  (cost=4.45..4.46 rows=1 width=8)
+  ->  Index Scan using i_o_date on orders o  (cost=0.43..4.45 rows=1 width=4)
+        Index Cond: (date >= date_trunc('week'::text, (CURRENT_DATE)::timestamp with time zone))
+Результаты также показали полодительную динамику
+
+3 запрос:
+Nested Loop  (cost=0.85..12.89 rows=1 width=53)
+  ->  Index Scan using i_s_date on seances s  (cost=0.43..4.45 rows=1 width=16)
+        Index Cond: (date = CURRENT_DATE)
+  ->  Index Scan using pk_film_id on films f  (cost=0.42..8.44 rows=1 width=41)
+        Index Cond: (id = s.film_id)
+Результаты также показали полодительную динамику
+
+4 запрос:
+Добавила индекс для поля id таблицы films
+create index i_f_id on films using btree ("id");
+Результаты:
+GroupAggregate  (cost=156196.35..156196.37 rows=1 width=49)
+  Group Key: f.id
+  Filter: (sum(o.count) = $2)
+  InitPlan 1 (returns $2)
+    ->  Limit  (cost=156182.95..156182.95 rows=1 width=12)
+          ->  Sort  (cost=156182.95..158682.95 rows=1000000 width=12)
+                Sort Key: (sum(o_1.count)) DESC
+                ->  HashAggregate  (cost=131417.33..151182.95 rows=1000000 width=12)
+                      Group Key: f_1.id
+                      Planned Partitions: 16
+                      ->  Nested Loop  (cost=0.87..67354.83 rows=1000000 width=12)
+                            ->  Nested Loop  (cost=0.43..42353.94 rows=1000000 width=12)
+                                  ->  Seq Scan on orders o_1  (cost=0.00..17353.00 rows=1000000 width=12)
+                                  ->  Memoize  (cost=0.43..0.49 rows=1 width=8)
+                                        Cache Key: o_1.seance_id
+                                        Cache Mode: logical
+                                        ->  Index Scan using pk_seance_id on seances s_1  (cost=0.42..0.48 rows=1 width=8)
+                                              Index Cond: (id = o_1.seance_id)
+                            ->  Memoize  (cost=0.43..0.46 rows=1 width=4)
+                                  Cache Key: s_1.film_id
+                                  Cache Mode: logical
+                                  ->  Index Only Scan using i_f_id on films f_1  (cost=0.42..0.45 rows=1 width=4)
+                                        Index Cond: (id = s_1.film_id)
+  ->  Sort  (cost=13.39..13.40 rows=1 width=49)
+        Sort Key: f.id
+        ->  Nested Loop  (cost=1.28..13.38 rows=1 width=49)
+              ->  Nested Loop  (cost=0.86..12.89 rows=1 width=12)
+                    ->  Index Scan using i_o_date on orders o  (cost=0.43..4.45 rows=1 width=12)
+                          Index Cond: (date >= date_trunc('week'::text, (CURRENT_DATE)::timestamp with time zone))
+                    ->  Index Scan using pk_seance_id on seances s  (cost=0.42..8.44 rows=1 width=8)
+                          Index Cond: (id = o.seance_id)
+              ->  Index Scan using i_f_id on films f  (cost=0.42..0.49 rows=1 width=41)
+                    Index Cond: (id = s.film_id)
+Запрос не стал сильно быстрее, но положительная динамика все равно есть
+
+5 и 6 запрос выполняются при созданных ранее индексах
+Результаты:
+Для 5 и 6 запроса реузльтаты не изменились
+
+Наиболее часто используемый индекс - i_o_date
+Статистика по индексам:
+16449	public	films	pk_film_id	1070037	1073420	1073404
+16454	public	halls	pk_hall_id	2010000	2010000	2010000
+16459	public	seances	pk_seance_id	2010008	2010008	2010008
+16469	public	orders	pk_order_id	2	3	2
+16492	public	seances	i_s_date	0	0	0
+16493	public	orders	i_o_date	0	0	0
+16494	public	films	i_f_id	0	0	0
+
+Размеры используемых объектов:
+halls	84459520	r
+films	76562432	r
+orders	60235776	r
+seances	52183040	r
+pk_order_id	44941312	i
+pk_hall_id	22708224	i
+pk_seance_id	22708224	i
+pk_film_id	22708224	i
+i_f_id	22487040	i
+i_s_date	6955008	i
+i_o_date	6955008	i
+
