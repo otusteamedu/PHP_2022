@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Http\Controller\Process;
 
 use App\Application\Queue\BusInterface;
+use App\Application\UseCase\Process\ProcessStatusManager;
 use App\Domain\Enum\ProcessStatus;
 use Bitty\Http\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,15 +15,19 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class GetProcessStatusController
 {
+    public function __construct(private readonly ProcessStatusManager $statusManager)
+    {
+    }
+
     public function __invoke(ServerRequestInterface $request): JsonResponse
     {
-        $processId = \uniqid('process', true);
+        $processId = $request->getAttribute('id');
 
-        // ... отправляем процесс на обработку, сохраняем в редисе
+        $status = $this->statusManager->getStatusById($processId);
 
         return new JsonResponse([
             'processId' => $processId,
-            'status' => ProcessStatus::CREATED->name,
+            'status' => $status->value,
         ]);
     }
 }

@@ -8,21 +8,24 @@ use App\Application\Queue\BusInterface;
 use App\Domain\Enum\ProcessStatus;
 use Bitty\Http\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
+use App\Application\UseCase\Process\ProcessCreator;
 
 /**
  * Контроллер для создания и проверки статуса каких-то долгих процессов. Поэтому над названием не заморачивался - process)
  */
 class CreateProcessController
 {
-    public function create(ServerRequestInterface $request): JsonResponse
+    public function __construct(private readonly ProcessCreator $processCreator)
     {
-        $processId = \uniqid('process', true);
+    }
 
-        // ... отправляем процесс на обработку, сохраняем в редисе
+    public function __invoke(ServerRequestInterface $request): JsonResponse
+    {
+        $process = $this->processCreator->create();
 
         return new JsonResponse([
-            'processId' => $processId,
-            'status' => ProcessStatus::CREATED->name,
+            'processId' => $process->getId(),
+            'status' => $process->getStatus()->name,
         ]);
     }
 }
