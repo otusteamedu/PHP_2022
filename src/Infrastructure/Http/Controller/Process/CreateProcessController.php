@@ -32,6 +32,6 @@ class CreateProcessController
         return new JsonResponse([
             'processId' => $process->getId(),
             'status' => $process->getStatus()->name,
-        ]);
+        ], 201);
     }
 }
