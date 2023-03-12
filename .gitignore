@@ -1,0 +1,9 @@
+### Composer template
+composer.phar
+/code/*/vendor
+/app
+/.idea/
+/db*/
+/*.env
+/app/public/logs
+/rabbitmq
