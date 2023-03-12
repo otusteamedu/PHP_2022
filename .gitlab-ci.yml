@@ -1,0 +1,39 @@
+stages:
+  - deploy
+  - rollback
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - export DIR=$(date +%Y%m%d_%H%M%S)
+
+deploy_server1:
+  stage: deploy
+  environment:
+    name: server1
+    url: $SERVER1
+  script:
+    - ssh $SSH_USER@$SERVER1 "cd /var/www/application &&
+      git clone https://deploy:3PW9ZmGx3AA4LqyZZWJf@gitlab.com/develop.dmitry/otus.git $DIR &&
+      sudo chown www-data:www-data $DIR -R &&
+      cd $DIR &&
+      sh ./deploy.sh $SERVER $DATABASE_HOST $DATABASE_USER $DATABASE_PASSWORD $DATABASE_NAME $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD &&
+      cd .. &&
+      ( [ ! -d /var/www/application/current ] || mv -Tf /var/www/application/current /var/www/application/previous ) &&
+      ln -s /var/www/application/$DIR /var/www/application/current"
+  only:
+    - main
+
+rollback:
+  stage: rollback
+  script:
+    - ssh $SSH_USER@$SERVER "unlink /var/www/application/current &&
+      mv -Tf /var/www/application/previous /var/www/application/current &&
+      cd /var/www/application/current &&
+      sh ./rollback.sh $SERVER"
+  when: manual
