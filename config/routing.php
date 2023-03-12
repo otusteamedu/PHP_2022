@@ -1,6 +1,8 @@
 <?php
 
 use App\Infrastructure\Http\Controller\BankAccount\StatisticController;
+use App\Infrastructure\Http\Controller\Process\GetProcessStatusController;
+use App\Infrastructure\Http\Controller\Process\CreateProcessController;
 use Bitty\Http\Response;
 use Bitty\Router\RouteCollection;
 use Bitty\Router\RouteMatcher;
@@ -20,5 +22,8 @@ $router->add('GET', '/', function (ServerRequestInterface $request) {
 });
 
 $router->add(['POST', 'GET'], '/bank-account/statistics/generate', StatisticController::class.':generate');
+
+$router->add(['POST'], '/process', CreateProcessController::class);
+$router->add(['GET'], '/process/{id}', GetProcessStatusController::class);
 
 return $router;
