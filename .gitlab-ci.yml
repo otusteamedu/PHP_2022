@@ -1,0 +1,70 @@
+stages:
+  - deploy
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - export DIR=$(date +%Y%m%d_%H%M%S)
+
+deploy_prod:
+  stage: deploy
+  environment: prod
+  script:
+    - ssh $SSH_USER@$SERVER "cd /var/www/app &&
+      git clone $REPOSITORY_URL $DIR &&
+      sudo chown www-data:www-data $DIR -R &&
+      cd $DIR &&
+      sh ./deploy.sh $POSTGRES_USER $POSTGRES_PASSWORD $POSTGRES_DB $REDIS_SCHEME $REDIS_HOST $REDIS_PORT $DB_DSN $DB_USER $DB_PASSWORD &&
+      cd .. &&
+      rm -rf /var/www/app/$DIR/var/log &&
+      ln -s /var/www/app/shared/log /var/www/demo/$DIR/var/log &&
+      ( [ ! -d /var/www/app/current ] || mv -Tf /var/www/app/current /var/www/app/previous ) &&
+      ln -s /var/www/app/$DIR /var/www/app/current"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: always
+
+deploy_preprod:
+  stage: deploy
+  environment: preprod
+  script:
+    - ssh $SSH_USER@SERVER "cd /var/www/app &&
+      git clone $REPOSITORY_URL $DIR &&
+      sudo chown www-data:www-data $DIR -R &&
+      cd $DIR &&
+      sh ./deploy.sh $POSTGRES_USER $POSTGRES_PASSWORD $POSTGRES_DB $REDIS_SCHEME $REDIS_HOST $REDIS_PORT $DB_DSN $DB_USER $DB_PASSWORD &&
+      cd .. &&
+      rm -rf /var/www/app/$DIR/var/log &&
+      ln -s /var/www/app/shared/log /var/www/app/$DIR/var/log &&
+      ( [ ! -d /var/www/app/current ] || mv -Tf /var/www/app/current /var/www/app/previous ) &&
+      ln -s /var/www/app/$DIR /var/www/app/current"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: always
+    - if: '$CI_COMMIT_BRANCH !~ "develop"'
+      when: manual
+
+deploy_test:
+  stage: deploy
+  environment: test
+  script:
+    - ssh $SSH_USER@$SERVER "cd /var/www/app &&
+      git clone $REPOSITORY_URL $DIR &&
+      sudo chown www-data:www-data $DIR -R &&
+      cd $DIR &&
+      sh ./deploy.sh $POSTGRES_USER $POSTGRES_PASSWORD $POSTGRES_DB $REDIS_SCHEME $REDIS_HOST $REDIS_PORT $DB_DSN $DB_USER $DB_PASSWORD &&
+      cd .. &&
+      rm -rf /var/www/app/$DIR/var/log &&
+      ln -s /var/www/app/shared/log /var/www/app/$DIR/var/log &&
+      ( [ ! -d /var/www/app/current ] || mv -Tf /var/www/app/current /var/www/app/previous ) &&
+      ln -s /var/www/app/$DIR /var/www/app/current"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: always
+    - if: '$CI_COMMIT_BRANCH !~ "develop"'
+      when: manual
