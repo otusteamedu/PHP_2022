@@ -1,7 +1,10 @@
 <?php
 
 // Здесь прописываем биндинг для реализаций интерфейсов
+use App\Application\Queue\BusInterface;
+use App\Infrastructure\Queue\Rabbit\RabbitBus;
 use Elastic\Elasticsearch\ClientBuilder;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 return [
     \Elastic\Elasticsearch\Client::class => function () {
@@ -20,5 +23,18 @@ return [
     },
     \PDO::class => function() {
         return new \PDO($_ENV['DB_DSN'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+    },
+    BusInterface::class => RabbitBus::class,
+    RabbitBus::class => function () {
+        return new RabbitBus(
+            new AMQPStreamConnection(
+                $_ENV['RABBITMQ_HOST'],
+                $_ENV['RABBITMQ_PORT'],
+                $_ENV['RABBITMQ_DEFAULT_USER'],
+                $_ENV['RABBITMQ_DEFAULT_PASS']
+            ),
+            $_ENV['RABBITMQ_EXCHANGE'],
+            $_ENV['RABBITMQ_QUEUE'],
+        );
     },
 ];

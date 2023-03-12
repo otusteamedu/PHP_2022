@@ -51,6 +51,6 @@ class Container implements ContainerInterface
 
     public function has(string $id): bool
     {
-        return isset($this->bindings[$id]);
+        return isset($this->bindings[$id]) || \class_exists($id);
     }
 }
