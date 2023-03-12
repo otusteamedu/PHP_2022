@@ -28,8 +28,9 @@ class RabbitBus implements BusInterface
 
     public function dispatch(MessageInterface $message): void
     {
+        $body = serialize(['message' => $message]);
         $AMQPMessage = new AMQPMessage(
-            $message->getBody(),
+            $body,
             [
                 'content_type' => 'text/plain',
                 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT

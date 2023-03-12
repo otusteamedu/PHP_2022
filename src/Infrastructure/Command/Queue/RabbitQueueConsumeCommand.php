@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Command\Queue;
 
-use App\Infrastructure\Command\CommandInterface;
+use App\Application\Queue\HandlerInterface;
+use App\Application\Queue\MessageInterface;
+use App\Infrastructure\Command\AbstractCommand;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Exchange\AMQPExchangeType;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitQueueConsumeCommand implements CommandInterface
+class RabbitQueueConsumeCommand extends AbstractCommand
 {
     /**
      * @var mixed|\PhpAmqpLib\Channel\AMQPChannel
@@ -54,18 +56,25 @@ class RabbitQueueConsumeCommand implements CommandInterface
         $this->channel->consume();
     }
 
-    public function processMessage(AMQPMessage $message) {
+    public function processMessage(AMQPMessage $AMQPMessage) {
         print_r('Получено новое сообщение' . PHP_EOL);
 
-        print_r(PHP_EOL . '--------' . PHP_EOL);
-        echo $message->body;
-        print_r(PHP_EOL . '--------' . PHP_EOL);
+        /** @var array{message: MessageInterface} $body */
+        $body = unserialize($AMQPMessage->getBody());
+        $message = $body['message'];
 
-        $message->ack();
+        /** @var HandlerInterface $handler */
+        $handler = $this->container->get($message->getHandlerClass());
+
+        print_r('Начало обработки сообщения ' . $message::class . PHP_EOL);
+        $handler->handle($message);
+        print_r('Сообщение обработано' . PHP_EOL . PHP_EOL);
+
+        $AMQPMessage->ack();
 
         // Send a message with the string "quit" to cancel the consumer.
-        if ($message->body === 'quit') {
-            $message->getChannel()->basic_cancel($message->getConsumerTag());
+        if ($AMQPMessage->body === 'quit') {
+            $AMQPMessage->getChannel()->basic_cancel($AMQPMessage->getConsumerTag());
         }
     }
 }

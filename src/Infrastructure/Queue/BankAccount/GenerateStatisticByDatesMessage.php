@@ -27,14 +27,8 @@ class GenerateStatisticByDatesMessage implements MessageInterface
         return $this->dateEnd;
     }
 
-    /**
-     * @throws \JsonException
-     */
-    public function getBody(): string
+    public function getHandlerClass(): string
     {
-        return \json_encode([
-            'dateStart' => $this->dateStart->format('Y-m-d'),
-            'dateEnd' => $this->dateEnd->format('Y-m-d'),
-        ], JSON_THROW_ON_ERROR);
+        return GenerateStatisticByDatesHandler::class;
     }
 }

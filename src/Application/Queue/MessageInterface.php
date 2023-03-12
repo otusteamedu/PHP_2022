@@ -4,5 +4,5 @@ namespace App\Application\Queue;
 
 interface MessageInterface
 {
-    public function getBody(): string;
+    public function getHandlerClass(): string;
 }
