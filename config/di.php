@@ -2,9 +2,11 @@
 
 // Здесь прописываем биндинг для реализаций интерфейсов
 use App\Application\Queue\BusInterface;
+use App\Infrastructure\Gateway\Process\RedisProcessStorage;
 use App\Infrastructure\Queue\Rabbit\RabbitBus;
 use Elastic\Elasticsearch\ClientBuilder;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use App\Application\Gateway\Process\ProcessStorageInterface;
 
 return [
     \Elastic\Elasticsearch\Client::class => function () {
@@ -33,4 +35,5 @@ return [
             $_ENV['RABBITMQ_DEFAULT_PASS']
         );
     },
+    ProcessStorageInterface::class => RedisProcessStorage::class,
 ];
