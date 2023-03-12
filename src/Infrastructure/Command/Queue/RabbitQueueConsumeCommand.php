@@ -18,18 +18,19 @@ class RabbitQueueConsumeCommand extends AbstractCommand
      * @var mixed|\PhpAmqpLib\Channel\AMQPChannel
      */
     private AMQPChannel $channel;
-    private string $queue;
+
+    private const DEFAULT_QUEUE = 'default';
+    private const DEFAULT_EXCHANGE = 'default';
+
+    private const ALLOWED_OPTIONS = [
+        'queue',
+        'exchange'
+    ];
 
     public function __construct(
         AMQPStreamConnection $connection
     ) {
-        $this->queue = 'msgs';
-        $exchange = 'router';
-
         $this->channel = $connection->channel();
-        $this->channel->queue_declare($this->queue, false, true, false,false);
-        $this->channel->exchange_declare($exchange, AMQPExchangeType::DIRECT, false, true, false);
-        $this->channel->queue_bind($this->queue, $exchange);
     }
 
     public static function getDescription(): string
@@ -37,20 +38,17 @@ class RabbitQueueConsumeCommand extends AbstractCommand
         return 'Обработка сообщений из очереди RabbitMQ';
     }
 
+    // Пример вызова:
+    // bin/console queue:consume --queue=msgs --exchange=router
     public function execute(array $arguments): void
     {
-        print_r('Настройка обработчика ...' . PHP_EOL);
-        $consumerTag = 'consumer';
+        $options = $this->getOptions($arguments);
 
-        $this->channel->basic_consume(
-            $this->queue,
-            $consumerTag,
-            false,
-            false,
-            false,
-            false,
-            [$this, 'processMessage']
-        );
+        $queue = $options['queue'] ?? self::DEFAULT_QUEUE;
+        $exchange = $options['exchange'] ?? self::DEFAULT_EXCHANGE;
+
+        print_r('Настройка обработчика ...' . PHP_EOL);
+        $this->configureChannel($queue, $exchange);
 
         print_r('Запускаем обработку сообщений' . PHP_EOL);
         $this->channel->consume();
@@ -76,5 +74,43 @@ class RabbitQueueConsumeCommand extends AbstractCommand
         if ($AMQPMessage->body === 'quit') {
             $AMQPMessage->getChannel()->basic_cancel($AMQPMessage->getConsumerTag());
         }
+    }
+
+    private function getOptions(array $arguments): array
+    {
+        $options = [];
+
+        foreach ($arguments as $argument) {
+            [$optionName, $optionValue] = \explode('=', \strtr($argument, ['--' => '']));
+            if (!\in_array($optionName, self::ALLOWED_OPTIONS)) {
+                throw new \RuntimeException(\sprintf(
+                    'Опция %s не поддерживается. Список поддерживаемых опций: %s',
+                    $optionName,
+                    \implode(',', self::ALLOWED_OPTIONS)
+                ));
+            }
+            $options[$optionName] = $optionValue;
+        }
+
+        return $options;
+    }
+
+    private function configureChannel(string $queue, string $exchange): void
+    {
+        $this->channel->queue_declare($queue, false, true, false,false);
+        $this->channel->exchange_declare($exchange, AMQPExchangeType::DIRECT, false, true, false);
+        $this->channel->queue_bind($queue, $exchange);
+
+        $consumerTag = 'consumer';
+
+        $this->channel->basic_consume(
+            $queue,
+            $consumerTag,
+            false,
+            false,
+            false,
+            false,
+            [$this, 'processMessage']
+        );
     }
 }
