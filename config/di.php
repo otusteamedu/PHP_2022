@@ -25,16 +25,12 @@ return [
         return new \PDO($_ENV['DB_DSN'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
     },
     BusInterface::class => RabbitBus::class,
-    RabbitBus::class => function () {
-        return new RabbitBus(
-            new AMQPStreamConnection(
-                $_ENV['RABBITMQ_HOST'],
-                $_ENV['RABBITMQ_PORT'],
-                $_ENV['RABBITMQ_DEFAULT_USER'],
-                $_ENV['RABBITMQ_DEFAULT_PASS']
-            ),
-            $_ENV['RABBITMQ_EXCHANGE'],
-            $_ENV['RABBITMQ_QUEUE'],
+    AMQPStreamConnection::class => function () {
+        return new AMQPStreamConnection(
+            $_ENV['RABBITMQ_HOST'],
+            $_ENV['RABBITMQ_PORT'],
+            $_ENV['RABBITMQ_DEFAULT_USER'],
+            $_ENV['RABBITMQ_DEFAULT_PASS']
         );
     },
 ];

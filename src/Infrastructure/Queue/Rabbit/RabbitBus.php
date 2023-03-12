@@ -14,16 +14,16 @@ use PhpAmqpLib\Message\AMQPMessage;
 class RabbitBus implements BusInterface
 {
     private AMQPChannel $channel;
+    private string $exchange;
 
-    public function __construct(
-        AMQPStreamConnection $connection,
-        private readonly string $exchange,
-        private readonly string $queue
-    ) {
+    public function __construct(AMQPStreamConnection $connection) {
+        $queue = 'msgs';
+        $this->exchange = 'router';
+
         $this->channel = $connection->channel();
         $this->channel->queue_declare($queue, false, true, false,false);
-        $this->channel->exchange_declare($exchange, AMQPExchangeType::DIRECT, false, true, false);
-        $this->channel->queue_bind($queue, $exchange);
+        $this->channel->exchange_declare($this->exchange, AMQPExchangeType::DIRECT, false, true, false);
+        $this->channel->queue_bind($queue, $this->exchange);
     }
 
     public function dispatch(MessageInterface $message): void

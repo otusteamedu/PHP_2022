@@ -41,8 +41,14 @@ services:
       file: common-services.yml
       service: php-fpm
 
-  php-fpm_2:
-    container_name: amarkhay_php-fpm_2
+#  php-fpm_2:
+#    container_name: amarkhay_php-fpm_2
+#    extends:
+#      file: common-services.yml
+#      service: php-fpm
+
+  php-consumer:
+    container_name: amarkhay_php-consumer
     extends:
       file: common-services.yml
       service: php-fpm
