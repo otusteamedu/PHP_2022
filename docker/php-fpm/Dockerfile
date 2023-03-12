@@ -19,7 +19,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pecl install -o -f redis memcache xdebug \
     && docker-php-ext-configure zip \
     && docker-php-ext-enable redis memcache xdebug \
-    && docker-php-ext-install pdo_pgsql mbstring zip \
+    && docker-php-ext-install pdo_pgsql mbstring zip bcmath sockets \
     && rm -rf /tmp/pear
 
 # Устанавливаем composer

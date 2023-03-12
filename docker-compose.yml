@@ -47,6 +47,22 @@ services:
 #      file: common-services.yml
 #      service: php-fpm
 
+  php-consumer:
+    container_name: amarkhay_php-consumer
+    extends:
+      file: common-services.yml
+      service: php-fpm
+
+  rabbit:
+    container_name: amarkhay_rabbit
+    image: rabbitmq:3-management
+    env_file:
+      - .env
+    ports:
+      - "15672:15672"
+    networks:
+      - app-network
+
   db:
     image: postgres:15
     env_file:

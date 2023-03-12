@@ -16,8 +16,16 @@
     "ext-pdo": "*",
     "ext-redis": "*",
     "ext-memcache": "*",
+    "ext-sockets": "*",
     "elasticsearch/elasticsearch": "^8.5",
     "vlucas/phpdotenv": "^5.5",
-    "predis/predis": "^2.0"
+    "predis/predis": "^2.0",
+    "bittyphp/router": "^3.0",
+    "php-amqplib/php-amqplib": "^3.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
   }
 }
