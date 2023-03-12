@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Enum;
 
-enum ProcessStatus
+enum ProcessStatus: string
 {
-    case CREATED;
-    case PROCESSING;
-    case FINISHED;
-    case NOT_FOUND;
+    case CREATED = 'created';
+    case PROCESSING = 'processing';
+    case FINISHED = 'finished';
+    case NOT_FOUND = 'not_found';
 }
