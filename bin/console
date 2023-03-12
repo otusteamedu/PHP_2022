@@ -4,44 +4,6 @@
 declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
+$app = require __DIR__ . '/../bootstrap/consoleApp.php';
 
-$commands = require __DIR__ . '/../config/commands.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../', '.env');
-$dotenv->load();
-
-$arguments = $argv;
-
-$fileName = \array_shift($arguments);
-$commandName = \array_shift($arguments);
-
-if ($commandName === 'list') {
-    foreach ($commands as $name => $class) {
-        print_r($name . ' => ' . $class::getDescription() . PHP_EOL);
-    }
-    return 0;
-}
-
-$commandClass = $commands[$commandName] ?? null;
-
-if (\is_null($commandClass)) {
-    throw new \RuntimeException('Команда ' . $commandName . ' не зарегистрирована');
-}
-
-if (
-    \class_exists($commandClass)
-    && \in_array(\App\Infrastructure\Command\CommandInterface::class, \class_implements($commandClass), true)
-) {
-    $bindings = require __DIR__ . '/../config/di.php';
-    $container = new \App\Infrastructure\DI\Container();
-    foreach ($bindings as $interface => $binding) {
-        $container->set($interface, $binding);
-    }
-
-    /** @var \App\Infrastructure\Command\AbstractCommand $command */
-    $command = $container->get($commandClass);
-    $command->setContainer($container);
-    $command->execute($arguments);
-} else {
-    throw new \RuntimeException('Некорректный класс ' . $commandClass);
-}
+$app->run();
