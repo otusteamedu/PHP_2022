@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "8081:80"
+    volumes:
+      - ./code/app:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM
+  app:
+    build:
+      context: ./fpm/app
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    env_file:
+      - .env
+    volumes:
+      - ./code/app:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM Consumer
+  consumer:
+    build:
+      context: ./fpm/consumer
+      dockerfile: Dockerfile
+    image: myapp/php-consumer
+    container_name: consumer
+    env_file:
+      - consumer.env
+    volumes:
+      - ./code/consumer:/data/
+    networks:
+      - app-network
+
+  #Queue RabbitMQ Server
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+    env_file:
+      - rabbitmq.env
+    volumes:
+      - ./rabbitmq/data/:/var/lib/rabbitmq/
+      - ./rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+

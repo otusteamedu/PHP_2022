@@ -1,0 +1,53 @@
+.main{
+    padding: 20px;
+}
+
+.main form input{
+    padding:5px;
+}
+
+.form-request-wrapper{
+    width: 300px;
+    padding:10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.form-request-wrapper .request-form{
+    width: 100%;
+}
+
+.form-request-wrapper .request-form input{
+    margin-bottom: 20px;
+    display: block;
+    width: 100%;
+}
+
+div[class^="form-feedback-wrapper-"]{
+    display: none;
+    margin-top: 20px;
+    width: 300px;
+    padding: 10px;
+}
+
+.main div.form-feedback-wrapper-success{
+    border: 1px solid #7ace77;
+    color: #333;
+    display: block;
+}
+
+.main div.form-feedback-wrapper-error{
+    padding: 10px;
+    border: 1px solid #e74949;
+    color: #333;
+    display: block;
+}
+
+.main .back-url{
+    margin: 20px 0 20px;
+}
+
+.main a{
+    color: #555;
+    text-decoration: none;
+}
