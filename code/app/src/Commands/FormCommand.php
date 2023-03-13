@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace Ppro\Hw27\App\Commands;
 
+use Ppro\Hw27\App\Application\Registry;
 use Ppro\Hw27\App\Application\Request;
-use Ppro\Hw27\App\Application\Queue;
+use Ppro\Hw27\App\Queue\Broker;
 use Ppro\Hw27\App\Entity\FormDto;
 use Ppro\Hw27\App\Exceptions\AppException;
 use Ppro\Hw27\App\Exceptions\BadFormRequestException;
@@ -37,8 +38,9 @@ class FormCommand extends Command
             );
             $formDTO->validate();
 
-            $queue = new Queue();
-            $queue->sendMessage($formDTO, 'BankAccountStatement');
+            $queueBrokerName = Registry::instance()->getConf()->get('QUEUE_BROKER');
+            $queueBroker = new Broker($queueBrokerName);
+            $queueBroker->getQueue()->sendMessage($formDTO, 'BankAccountStatement');
 
             $this->setProcessingResult($request, true,'Успешная отправка! Ожидайте отчет на '.$formDTO->email);
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ppro\Hw27\App\Application;
+namespace Ppro\Hw27\App\Queue;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -10,18 +10,18 @@ use Ppro\Hw27\App\Application\Conf;
 use Ppro\Hw27\App\Application\Registry;
 use Ppro\Hw27\App\Entity\DtoInterface;
 use Ppro\Hw27\App\Exceptions\AppException;
+use Ppro\Hw27\App\Queue\Config\RabbitmqConfig;
 
-class Queue
+class RabbitmqQueue implements QueueInterface
 {
-    private Conf $environment;
-    private Conf $conf;
-
     private ?AMQPStreamConnection $connection;
     private AMQPChannel $channel;
-    public function __construct()
+
+    private array $conf = [];
+
+    public function setConfig(array $config)
     {
-        $this->environment = Registry::instance()->getEnvironment();
-        $this->conf = Registry::instance()->getConf();
+        $this->conf = $config;
     }
 
     /** Публикует сообщение в очередь
@@ -57,10 +57,10 @@ class Queue
     private function getConnection()
     {
         $this->connection = new AMQPStreamConnection(
-          $this->conf->get('RABBITMQ_DEFAULT_HOST'),
-          $this->conf->get('RABBITMQ_DEFAULT_PORT'),
-          $this->environment->get('RABBITMQ_USER'),
-          $this->environment->get('RABBITMQ_PASSWORD')
+          $this->conf['RABBITMQ_HOST'],
+          $this->conf['RABBITMQ_PORT'],
+          $this->conf['RABBITMQ_USER'],
+          $this->conf['RABBITMQ_PASSWORD']
         );
     }
 

@@ -1,26 +1,27 @@
 <?php
 
-namespace Ppro\Hw27\Consumer\Application;
+namespace Ppro\Hw27\Consumer\Queue;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Exchange\AMQPExchangeType;
 use PhpAmqpLib\Message\AMQPMessage;
-use Ppro\Hw27\Consumer\Application\Registry;
+use Ppro\Hw27\App\Application\Conf;
+use Ppro\Hw27\App\Application\Registry;
 use Ppro\Hw27\Consumer\Entity\DtoInterface;
+use Ppro\Hw27\App\Exceptions\AppException;
+use Ppro\Hw27\App\Queue\Config\RabbitmqConfig;
 
-class Queue
+class RabbitmqQueue implements QueueInterface
 {
-    private Conf $environment;
-    private Conf $conf;
-
     private ?AMQPStreamConnection $connection;
     private AMQPChannel $channel;
-    public function __construct()
-    {
-        $this->environment = Registry::instance()->getEnvironment();
-        $this->conf = Registry::instance()->getConf();
 
+    private array $conf = [];
+
+    public function setConfig(array $config)
+    {
+        $this->conf = $config;
     }
 
     /** Прослушиваем канал $channelName, с возможностью ограничения кол-ва получаемых сообщений
@@ -48,7 +49,7 @@ class Queue
     }
 
     /** Отправляем сообщение в канал с именем $channelName
-     * @param DtoInterface $data
+     * @param \Ppro\Hw27\Consumer\Entity\DtoInterface $data
      * @param string|null $channelName
      * @return void
      */
@@ -63,23 +64,35 @@ class Queue
         $this->closeConnection();
     }
 
+    /**
+     * @param string $channelName
+     * @return void
+     */
     private function getChannel(string $channelName = 'default')
     {
         $this->channel = $this->connection->channel();
         $this->channel->queue_declare($channelName, false, false, false, false);
     }
 
+    /**
+     * @return void
+     * @throws \Exception
+     */
     private function getConnection()
     {
         $this->connection = new AMQPStreamConnection(
-          $this->conf->get('RABBITMQ_DEFAULT_HOST'),
-          $this->conf->get('RABBITMQ_DEFAULT_PORT'),
-          $this->environment->get('RABBITMQ_USER'),
-          $this->environment->get('RABBITMQ_PASSWORD')
+          $this->conf['RABBITMQ_HOST'],
+          $this->conf['RABBITMQ_PORT'],
+          $this->conf['RABBITMQ_USER'],
+          $this->conf['RABBITMQ_PASSWORD']
         );
     }
 
 
+    /**
+     * @return void
+     * @throws \Exception
+     */
     private function closeConnection()
     {
         $this->channel->close();

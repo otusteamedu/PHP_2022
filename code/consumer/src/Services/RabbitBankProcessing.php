@@ -4,7 +4,9 @@ namespace Ppro\Hw27\Consumer\Services;
 
 use PhpAmqpLib\Message\AMQPMessage;
 use Ppro\Hw27\Consumer\Application\Queue;
+use Ppro\Hw27\Consumer\Application\Registry;
 use Ppro\Hw27\Consumer\Entity\MailDto;
+use Ppro\Hw27\Consumer\Queue\Broker;
 use Ppro\Hw27\Consumer\Validators\MailValidator;
 
 class RabbitBankProcessing
@@ -43,6 +45,9 @@ class RabbitBankProcessing
         echo '[x] Processing -> sendToMailQueue'.PHP_EOL;
         $mail = new MailDto($this->requestBody, new MailValidator());
         $mail->validate();
-        (new Queue())->sendMessage($mail,'MailEvent');
+
+        $queueBrokerName = Registry::instance()->getConf()->get('QUEUE_BROKER');
+        $queueBroker = new Broker($queueBrokerName);
+        $queueBroker->getQueue()->sendMessage($mail,'MailEvent');
     }
 }

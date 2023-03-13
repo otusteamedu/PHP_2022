@@ -5,7 +5,8 @@ namespace Ppro\Hw27\Consumer\Commands;
 
 
 
-use Ppro\Hw27\Consumer\Application\Queue;
+use Ppro\Hw27\Consumer\Application\Registry;
+use Ppro\Hw27\Consumer\Queue\Broker;
 
 class DefaultCommand extends Command
 {
@@ -14,7 +15,8 @@ class DefaultCommand extends Command
      */
     public function execute()
     {
-        $queue = new Queue();
-        $queue->listenChannel('BankAccountStatement',['\Ppro\Hw27\Consumer\Services\RabbitBankProcessing','bankAccountStatementProcessing']);
+        $queueBrokerName = Registry::instance()->getConf()->get('QUEUE_BROKER');
+        $queueBroker = new Broker($queueBrokerName);
+        $queueBroker->getQueue()->listenChannel('BankAccountStatement',['\Ppro\Hw27\Consumer\Services\RabbitBankProcessing','bankAccountStatementProcessing']);
     }
 }
