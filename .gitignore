@@ -1,0 +1,11 @@
+/*
+
+!.github
+!src
+!tests
+
+!.gitignore
+!composer.json
+!phpcs.xml
+!README.md
+!phpunit.xml.dist
