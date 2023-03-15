@@ -10,6 +10,7 @@ class SandboxController {
 
     public function run (): string {
         $id = uniqid('id');
+
         $newUserData = [
             'id' => $id,
             'name' => uniqid('name'),
@@ -29,6 +30,7 @@ class SandboxController {
 
         $return .= PHP_EOL.'Записи, полученные с помощью Identity Map, '.($found3 === $found4 ? 'идентичны' : 'не идентичны.');
 
+        $return .= PHP_EOL.'Работа с БД проведена успешно';
         return $return;
     }
 
