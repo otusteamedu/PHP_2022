@@ -1,0 +1,22 @@
+stages:
+  - deploy
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git sshpass
+
+deploy_server1:
+  stage: deploy
+  environment:
+    name: server1
+    url: $SERVER1
+  script:
+    - sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER1 "cd /home/PHP_2022/www && 
+      rm -rf application.local &&
+      git clone $REP_URL application.local &&
+      cd application.local &&
+      sh ./deploy.sh $POSTGRES_USER $POSTGRES_PASSWORD $POSTGRES_HOST $POSTGRES_DB $POSTGRES_PORT &&
+      docker exec php_2022_php_1 bash -c 'cd application.local;composer install'
+      "
+  only:
+    - main
