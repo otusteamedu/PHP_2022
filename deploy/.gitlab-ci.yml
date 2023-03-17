@@ -1,0 +1,72 @@
+stages:
+  - deploy
+  - changeVersion
+  - rollback
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME ==  "develop"
+      variables:
+        DEVELOP: "true"
+        ENVIRONMENT_NAME: Develop
+        SERVER_NAME: $SERVER1
+
+    - if: $CI_COMMIT_REF_NAME == "main"
+      variables:
+        PRODUCTION:  "true"
+        ENVIRONMENT_NAME: PRODUCTION
+        SERVER_NAME: $SERVER1
+    - when: always
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - export DIR=tmp_deploy
+  - export CURRENT_DIR=$(date +%Y%m%d_%H%M%S)
+
+deploy_server1:
+  stage: deploy
+  environment:
+    name: $ENVIRONMENT_NAME
+    url: $SERVER1
+  script:
+    - ssh $SSH_USER@$SERVER1 " cd /var/www/tkt_school  &&
+      git clone https://albinamkh:XH8sFBaYdtsJzmFNCNCt@gitlab.com/symfony46/tkt_school.git $DIR &&
+      sudo chmod 777 -R $DIR &&
+      sudo chown www-data:www-data $DIR -R &&
+      cd $DIR/code &&
+      sh ../deploy.sh $SERVER1 $DATABASE_HOST $DATABASE_USER $DATABASE_PASSWORD $DATABASE_NAME $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD "
+
+
+changeVersion :
+  stage: changeVersion
+  environment:
+    name: $ENVIRONMENT_NAME
+    url: $SERVER1
+  script:
+    - ssh $SSH_USER@$SERVER1 " cd /var/www/tkt_school  &&
+      mv $DIR $CURRENT_DIR &&
+      rm -rf /var/www/tkt_school/$CURRENT_DIR/code/var/log &&
+      ln -s /var/www/tkt_school/shared/log  /var/www/tkt_school/$CURRENT_DIR/code/var/log &&
+      ( [ ! -d /var/www/tkt_school/current ] || mv -Tf /var/www/tkt_school/current /var/www/tkt_school/previous ) &&
+      ln -s /var/www/tkt_school/$CURRENT_DIR /var/www/tkt_school/current &&
+      cd /var/www/tkt_school/$CURRENT_DIR/code &&
+      sh ../deleteOldVersion.sh "
+
+
+rollback:
+  stage: rollback
+  script:
+    - ssh $SSH_USER@$SERVER1 "[ ! -d /var/www/tkt_school/previous ] || (
+      unlink /var/www/tkt_school/current &&
+      mv -Tf /var/www/tkt_school/previous /var/www/tkt_school/current &&
+      cd /var/www/tkt_school/current &&
+      sh ./rollback.sh $SERVER1
+      )"
+  when: manual
+
