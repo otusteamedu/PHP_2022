@@ -9,6 +9,7 @@ class IndexCommand
     public function __construct(private Client $client)
     {
     }
+
     public function create(): bool
     {
         try {
