@@ -61,7 +61,8 @@ class CreateCommand
             return array_map(
                 function (string $key) use ($res) {
                     return "{$key} => {$res[$key]}";
-                }, array_keys($res)
+                },
+                array_keys($res)
             );
         }
     }
