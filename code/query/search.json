@@ -1,0 +1,43 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "title": {
+              "query": "рыцори",
+              "fuzziness": "auto"
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "stock",
+            "query": {
+              "bool": {
+                "filter": [
+                  {
+                    "range": {
+                      "stock.stock": {
+                        "gt": 10
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "lte": 2000
+            }
+          }
+        }
+      ]
+    }
+  }
+}

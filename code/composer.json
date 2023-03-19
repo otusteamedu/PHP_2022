@@ -1,0 +1,24 @@
+{
+    "name": "svatel/code",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Svatel\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "svatel",
+            "email": "svatelnet@gmail.com"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.6",
+        "laminas/laminas-config-aggregator": "^1.13"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
