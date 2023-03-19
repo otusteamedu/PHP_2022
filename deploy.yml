@@ -1,0 +1,116 @@
+name: "Otus hw18"
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  clone_project:
+    runs-on: ubuntu-latest
+    environment: env
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+        
+      - name: Login to GitHub Container Registry
+        id: login
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ vars.REGISTRY }}/${{ github.repository }}
+          flavor: |
+            latest=true
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v4
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_APP_NAME: ${{ vars.APP_NAME }}
+          envkey_APP_ENV: ${{ vars.APP_ENV }}
+          envkey_APP_KEY: ${{ secrets.APP_KEY }}
+          envkey_APP_DOWN: ${{ vars.APP_DOWN }}
+          envkey_APP_DEBUG: ${{ vars.APP_DEBUG }}
+          envkey_APP_URL: ${{ vars.APP_URL }}
+          envkey_DB_CONNECTION: ${{ vars.APP_DB_CONNECTION }}
+          envkey_DB_HOST: ${{ vars.APP_DB_HOST }}
+          envkey_DB_PORT: ${{ vars.APP_DB_PORT }}
+          envkey_DB_DATABASE: ${{ secrets.APP_DB_DATABASE }}
+          envkey_DB_USERNAME: ${{ secrets.APP_DB_USERNAME }}
+          envkey_DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
+          envkey_DB_CHARSET: ${{ vars.APP_DB_CHARSET }}
+          envkey_DB_COLLATION: ${{ vars.APP_DB_COLLATION }}
+          envkey_PROD_SERVER: ${{ secrets.APP_PROD_SERVER }}
+          envkey_PROD_PORT: ${{ secrets.APP_PROD_PORT }}
+          envkey_PROD_USER: ${{ secrets.APP_PROD_USER }}
+          envkey_SERVER_NAME: ${{ secrets.APP_SERVER_NAME }}
+          envkey_SERVER_PORT: ${{ secrets.APP_SERVER_PORT }}
+          envkey_SERVER_USER: ${{ vars.APP_SERVER_USER }}
+          envkey_SERVER_PASSWORD: ${{ secrets.APP_SERVER_PASSWORD }}
+          envkey_APPLICATION_DIR: ${{ secrets.APP_APPLICATION_DIR }}
+          envkey_APPLICATION_PATH: ${{ secrets.APP_APPLICATION_PATH }}
+          envkey_RABBITMQ_HOST: ${{ vars.APP_RABBITMQ_HOST }}
+          envkey_RABBITMQ_PORT: ${{ vars.APP_RABBITMQ_PORT }}
+          envkey_RABBITMQ_USERNAME: ${{ secrets.APP_RABBITMQ_USERNAME }}
+          envkey_RABBITMQ_PASSWORD: ${{ secrets.APP_RABBITMQ_PASSWORD }}
+          envkey_RABBITMQ_EXCHANGE: ${{ vars.APP_RABBITMQ_EXCHANGE }}
+          envkey_RABBITMQ_EXCHANGE_TYPE: ${{ vars.APP_RABBITMQ_EXCHANGE_TYPE }}
+          envkey_QUEUE_NAME: ${{ vars.APP_QUEUE_NAME }}
+          envkey_QUEUE_ROUTING_KEY: ${{ vars.APP_QUEUE_ROUTING_KEY }}
+          file_name: .env
+          
+      - name: Upload docker-compose file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          source: "docker-compose.yml,.env,docker-settings/mysql/conf/custom.cnf,docker-settings/nginx/app.conf,docker-settings/php/app.ini"
+          target: ${{ secrets.PROJECT_FOLDER }}
+          overwrite: true
+      
+      - name: Run command on remote server
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          envs: |
+            GHCR_USERNAME,
+            GHCR_PAT
+          script: |
+            cd ${{ secrets.PROJECT_FOLDER }}
+            pwd
+            echo ${GHCR_PAT} | docker login ghcr.io -u ${GHCR_USERNAME} --password-stdin
+            docker stop rabbitmq-hw18 phpmyadminer-hw18 otus-hw18 nginx-hw18 db-hw18
+            docker system prune -a
+            docker-compose -p 'otus-hw18' up -d
+            docker logout
+        env:
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+          GHCR_PAT: ${{ secrets.GIT_DOCKER_TOKEN }}
