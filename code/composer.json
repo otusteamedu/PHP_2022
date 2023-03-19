@@ -1,0 +1,13 @@
+{
+  "name": "ppro/hw20",
+  "autoload": {
+    "psr-4": {
+      "Ppro\\Hw20\\": "src/"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.1"
+    }
+  }
+}
