@@ -6,16 +6,16 @@ use Elastic\Elasticsearch\Client;
 
 class SearchCommand
 {
-    public function __construct(private Client $client, private ?string $query = null)
+    public function __construct(private Client $client, private string $query)
     {
     }
 
     public function search(): array
     {
-        if (!is_null($this->query)) {
+        if (!file_exists($this->query)) {
             $params = json_decode($this->query, true);
         } else {
-            $params = json_decode(file_get_contents('/app/query/search.json'), true);
+            $params = json_decode(file_get_contents($this->query), true);
         }
 
         try {
