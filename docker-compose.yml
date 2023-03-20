@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/www/application.local
+      - ./run:/var/run/
+      - ./logs:/var/log/nginx
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - ./src:/www/application.local
+      - ./run:/var/run/
+    networks:
+      - app-network
+
+  memcached:
+    image: bitnami/memcached:latest
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:15.1
+    environment:
+      - POSTGRES_DB=PG_DATABASE
+      - POSTGRES_USER=PG_USERNAME
+      - POSTGRES_PASSWORD=PG_PASSWORD
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
