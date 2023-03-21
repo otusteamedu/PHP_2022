@@ -43,9 +43,9 @@ services:
   postgres:
     image: postgres:15.1
     environment:
-      - POSTGRES_DB=PG_DATABASE
-      - POSTGRES_USER=PG_USERNAME
-      - POSTGRES_PASSWORD=PG_PASSWORD
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ./data:/var/lib/postgresql/data
     ports:
