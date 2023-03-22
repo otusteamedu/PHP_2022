@@ -1,0 +1,6 @@
+
+code/vendor/*
+data/*
+.env
+code/config.ini
+mysql/*
