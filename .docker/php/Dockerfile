@@ -1,7 +1,5 @@
 FROM php:8.0-fpm
 
-ARG SERVER_NUMBER
-
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -16,18 +14,14 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) iconv mbstring zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
-    && pecl install memcache \
-    && docker-php-ext-enable memcache \
     && rm /usr/local/etc/php-fpm.d/* \
     && curl -sS https://getcomposer.org/installer > composer-setup.php \
-    && php composer-setup.php && rm composer-setup.php* \
-    && chmod +x composer.phar && mv composer.phar /usr/bin/composer
+        && php composer-setup.php && rm composer-setup.php* \
+        && chmod +x composer.phar && mv composer.phar /usr/bin/composer
 
 COPY application.local.conf /usr/local/etc/php-fpm.d/
 
-RUN echo "listen = /var/run/${SERVER_NUMBER}_php8-fpm.sock" >> /usr/local/etc/php-fpm.d/application.local.conf
-
-WORKDIR /www
-VOLUME /www
+WORKDIR /www/application.local
+VOLUME /www/application.local
 
 CMD ["php-fpm"]
