@@ -71,16 +71,29 @@ class User
 
     public function update(UserModel $user): int
     {
-        $this->client->query("
-            UPDATE user 
-            SET 
-                email = '" . $this->client->escape($user->getEmail()) . "', 
-                phone = '" . $this->client->escape($user->getPhone()) . "', 
-                age = " . (int)$user->getAge() . "
-            WHERE id = " . (int)$user->getId()
-        );
+        $current_user = $this->findOne($user->getId());
+        
+        $implode_sql = [];
 
-        return $this->client->countAffected();
+        if ($current_user->getEmail() !== $user->getEmail()) {
+            $implode_sql[] = "email = '" . $this->client->escape($user->getEmail()) . "'";
+        }
+
+        if ($current_user->getPhone() !== $user->getPhone()) {
+            $implode_sql[] = "phone = '" . $this->client->escape($user->getPhone()) . "'";
+        }
+
+        if ($current_user->getAge() !== $user->getAge()) {
+            $implode_sql[] = "age = '" . $user->getAge() . "'";
+        }
+
+        if ($implode_sql) {
+            $sql = "UPDATE user SET " . implode(', ', $implode_sql) . " WHERE id = " . (int)$user->getId();
+            $this->client->query($sql);
+            return $this->client->countAffected();
+        }
+
+        return 0;
     }
 
     public function delete(int $id): int

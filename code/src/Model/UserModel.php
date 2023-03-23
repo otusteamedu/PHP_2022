@@ -13,7 +13,7 @@ class UserModel implements \JsonSerializable
 
     public function getId(): int
     {
-        return $this->id;
+        return (int)$this->id;
     }
 
     public function getEmail(): string
@@ -28,7 +28,7 @@ class UserModel implements \JsonSerializable
 
     public function getAge(): int
     {
-        return $this->age;
+        return (int)$this->age;
     }
 
     public function setId($id): UserModel
