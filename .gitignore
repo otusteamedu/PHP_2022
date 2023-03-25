@@ -1,0 +1,10 @@
+### Composer template
+composer.phar
+/.idea/
+/db*/
+/*.env
+/code/public/logs
+/rabbitmq
+/code/vendor/
+/redis
+/redisinsight

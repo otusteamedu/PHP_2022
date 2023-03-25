@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: Api
+  description: Statements API
+  version: 1.0.0
+servers:
+  - url: http://mysite.local:8081
+paths:
+  /api/v1/statement/:
+    post:
+      summary: Creates a statement request.
+      tags:
+        - statement
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+              required:
+                - name
+                - email
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int64
+                    example: 123456
+                  status:
+                    type: string
+                    example: "success"
+                  data:
+                    type: object
+                    example: {"request_id": 123456}
+  /api/v1/statement/{id}/:
+    get:
+      summary: Returns a statement.
+      tags:
+        - statement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int64
+                    example: 123456
+                  status:
+                    type: string
+                    example: "success"
+                  data:
+                    type: object
+                    example: { "request_id": "123456","status":"pending"}
