@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "8081:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM
+  app:
+    build:
+      context: ./fpm/app
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./redis:/data
+    networks:
+      - app-network
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./code/docs/api.yaml:/api.yaml
+    environment:
+      SWAGGER_JSON: /api.yaml
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+

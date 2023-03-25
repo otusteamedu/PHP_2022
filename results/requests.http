@@ -1,0 +1,19 @@
+### Set Statement Request
+POST http://mysite.local:8081/api/v1/statement
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="name"
+Content-Type: text/plain
+
+Paul11
+
+--WebAppBoundary
+Content-Disposition: form-data; name="email"
+Content-Type: text/plain
+
+paul11@example.com
+
+### Get Statement Request
+GET http://mysite.local:8081/api/v1/statement/7121080
+Accept: application/json
