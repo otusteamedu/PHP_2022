@@ -13,7 +13,7 @@
 ### Приложение работает как API сервис.
 ### Endpoint:
 #### 1) Добавление полльзователя  
-    POST /user/add 
+    POST /user/create 
     {
         "email": "test2@test.ru",
         "phone": "2271230935533",
