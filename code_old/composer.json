@@ -1,0 +1,17 @@
+{
+    "name": "kogarkov/es",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Kogarkov\\Es\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
