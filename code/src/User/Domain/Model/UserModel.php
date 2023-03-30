@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Domain\Model;
+namespace App\User\Domain\Model;
 
-use Kogarkov\Es\User\Domain\ValueObject\Email;
-use Kogarkov\Es\User\Domain\ValueObject\Phone;
-use Kogarkov\Es\User\Domain\ValueObject\Age;
+use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\Phone;
+use App\User\Domain\ValueObject\Age;
 
 class UserModel
 {

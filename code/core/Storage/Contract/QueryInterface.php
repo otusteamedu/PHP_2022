@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core\Storage\Contract;
+namespace Core\Storage\Contract;
 
 interface QueryInterface
 {

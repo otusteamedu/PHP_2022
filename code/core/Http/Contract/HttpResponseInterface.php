@@ -1,6 +1,6 @@
 <?php
 
-namespace Kogarkov\Es\Core\Http\Contract;
+namespace Core\Http\Contract;
 
 interface HttpResponseInterface
 {

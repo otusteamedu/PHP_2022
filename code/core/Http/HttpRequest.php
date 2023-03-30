@@ -1,10 +1,10 @@
 <?php
 
-namespace Kogarkov\Es\Core\Http;
+namespace Core\Http;
 
-use Kogarkov\Es\Core\Http\Contract\HttpRequestInterface;
+use Core\Http\Contract\HttpRequestInterface;
 
-class HttpRequest //implements HttpRequestInterface
+class HttpRequest implements HttpRequestInterface
 {
     private $get = [];
     private $raw_post = [];

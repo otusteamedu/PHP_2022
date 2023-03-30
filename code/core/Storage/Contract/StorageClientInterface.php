@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core\Storage\Contract;
+namespace Core\Storage\Contract;
 
-use Kogarkov\Es\Core\Storage\Mysql\Query;
+use Core\Storage\Mysql\Query;
 
 interface StorageClientInterface
 {

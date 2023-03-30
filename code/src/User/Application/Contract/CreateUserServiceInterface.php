@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Contract;
+namespace App\User\Application\Contract;
 
-use Kogarkov\Es\User\Application\Dto\CreateUserRequest;
-use Kogarkov\Es\User\Application\Dto\CreateUserResponse;
+use App\User\Application\Dto\CreateUserRequest;
+use App\User\Application\Dto\CreateUserResponse;
 
 interface CreateUserServiceInterface
 {

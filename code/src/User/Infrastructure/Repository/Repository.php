@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Domain\Repository;
+namespace App\User\Infrastructure\Repository;
 
-use Kogarkov\Es\Core\Storage\Contract\StorageClientInterface;
-use Kogarkov\Es\User\Domain\Model\UserModel;
+use Core\Storage\Contract\StorageClientInterface;
+use App\User\Domain\Model\UserModel;
+use App\User\Application\Contract\RepositoryInterface;
 
-class UserRepository
+class Repository implements RepositoryInterface
 {
     private $client;
 
-    public function __construct()
+    public function __construct(StorageClientInterface $client)
     {
-        $this->client = new StorageClientInterface();
+        $this->client = $client;
     }
 
     public function create(UserModel $user): int
@@ -39,8 +40,8 @@ class UserRepository
             $model = new UserModel(
                 $user['email'],
                 $user['phone'],
-                $user['age'],
-                $user['id']
+                (int)$user['age'],
+                (int)$user['id']
             );
             return $model;
         } else {
@@ -59,8 +60,8 @@ class UserRepository
                 $result[] = new UserModel(
                     $user['email'],
                     $user['phone'],
-                    $user['age'],
-                    $user['id']
+                    (int)$user['age'],
+                    (int)$user['id']
                 );
             }
             return $result;

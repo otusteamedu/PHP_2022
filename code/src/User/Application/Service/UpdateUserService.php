@@ -2,16 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Service;
+namespace App\User\Application\Service;
 
-use Kogarkov\Es\User\Application\Dto\UpdateUserRequest;
-use Kogarkov\Es\User\Application\Dto\UpdateUserResponse;
-use Kogarkov\Es\User\Application\Contract\UpdateUserServiceInterface;
-use Kogarkov\Es\User\Domain\Model\UserModel;
-use Kogarkov\Es\User\Domain\Repository\UserRepository;
+use App\User\Application\Contract\RepositoryInterface;
+use App\User\Application\Contract\UpdateUserServiceInterface;
+use App\User\Application\Dto\UpdateUserRequest;
+use App\User\Application\Dto\UpdateUserResponse;
+use App\User\Domain\Model\UserModel;
 
 class UpdateUserService implements UpdateUserServiceInterface
 {
+    private $repository;
+
+    public function __construct(RepositoryInterface $repository) 
+    {
+        $this->repository = $repository;
+    }
+
     public function updateUser(UpdateUserRequest $request): UpdateUserResponse
     {
         $response = new UpdateUserResponse();
@@ -19,8 +26,7 @@ class UpdateUserService implements UpdateUserServiceInterface
         try {
             $user = new UserModel($request->email, $request->phone, $request->age, $request->id);
 
-            $repository = new UserRepository();
-            $result = $repository->update($user);
+            $result = $this->repository->update($user);
 
             if (!$result) {
                 throw new \Exception('Nothing to update');

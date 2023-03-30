@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Contract;
+namespace App\User\Application\Contract;
 
-use Kogarkov\Es\User\Application\Dto\GetUserRequest;
-use Kogarkov\Es\User\Application\Dto\GetOneUserResponse;
-use Kogarkov\Es\User\Application\Dto\GetAllUserResponse;
+use App\User\Application\Dto\GetUserRequest;
+use App\User\Application\Dto\GetOneUserResponse;
+use App\User\Application\Dto\GetAllUserResponse;
 
 interface GetUserServiceInterface
 {

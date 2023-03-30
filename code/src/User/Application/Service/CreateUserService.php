@@ -2,16 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Service;
+namespace App\User\Application\Service;
 
-use Kogarkov\Es\User\Application\Contract\CreateUserServiceInterface;
-use Kogarkov\Es\User\Application\Dto\CreateUserRequest;
-use Kogarkov\Es\User\Application\Dto\CreateUserResponse;
-use Kogarkov\Es\User\Domain\Model\UserModel;
-use Kogarkov\Es\User\Domain\Repository\UserRepository;
+use App\User\Domain\Model\UserModel;
+use App\User\Application\Contract\RepositoryInterface;
+use App\User\Application\Contract\CreateUserServiceInterface;
+use App\User\Application\Dto\CreateUserRequest;
+use App\User\Application\Dto\CreateUserResponse;
 
 class CreateUserService implements CreateUserServiceInterface
 {
+    private $repository;
+
+    public function __construct(RepositoryInterface $repository) 
+    {
+        $this->repository = $repository;
+    }
+
     public function createUser(CreateUserRequest $request): CreateUserResponse
     {
         $response = new CreateUserResponse();
@@ -19,8 +26,7 @@ class CreateUserService implements CreateUserServiceInterface
         try {
             $user = new UserModel($request->email, $request->phone, $request->age);
 
-            $repository = new UserRepository();
-            $result = $repository->create($user);
+            $result = $this->repository->create($user);
 
             if ($result) {
                 $response->id = $result;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Contract;
+namespace App\User\Application\Contract;
 
-use Kogarkov\Es\User\Application\Dto\DeleteUserRequest;
-use Kogarkov\Es\User\Application\Dto\DeleteUserResponse;
+use App\User\Application\Dto\DeleteUserRequest;
+use App\User\Application\Dto\DeleteUserResponse;
 
 interface DeleteUserServiceInterface
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Contract;
+namespace App\User\Application\Contract;
 
-use Kogarkov\Es\User\Application\Dto\UpdateUserRequest;
-use Kogarkov\Es\User\Application\Dto\UpdateUserResponse;
+use App\User\Application\Dto\UpdateUserRequest;
+use App\User\Application\Dto\UpdateUserResponse;
 
 interface UpdateUserServiceInterface
 {

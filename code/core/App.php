@@ -2,21 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core;
+namespace Core;
 
-use Kogarkov\Es\Core\Config\Config;
-use Kogarkov\Es\Core\Router\Router;
-use Kogarkov\Es\Core\Service\Registry;
-use Kogarkov\Es\Core\Http\HttpRequest;
-use Kogarkov\Es\Core\Http\HttpResponse;
+use Core\Config\Config;
+use Core\Router\Router;
+use Core\Service\Container;
 
 class App
 {
     public function __construct()
     {
-        Registry::instance()->set('config', new Config());
-        Registry::instance()->set('request', new HttpRequest());
-        Registry::instance()->set('response', new HttpResponse());
+        Container::instance()->set('config', new Config());
     }
 
     public function run(): void

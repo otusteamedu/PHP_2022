@@ -2,23 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Service;
+namespace App\User\Application\Service;
 
-use Kogarkov\Es\User\Application\Contract\GetUserServiceInterface;
-use Kogarkov\Es\User\Application\Dto\GetUserRequest;
-use Kogarkov\Es\User\Application\Dto\GetOneUserResponse;
-use Kogarkov\Es\User\Application\Dto\GetAllUserResponse;
-use Kogarkov\Es\User\Domain\Repository\UserRepository;
+use App\User\Application\Contract\RepositoryInterface;
+use App\User\Application\Contract\GetUserServiceInterface;
+use App\User\Application\Dto\GetUserRequest;
+use App\User\Application\Dto\GetOneUserResponse;
+use App\User\Application\Dto\GetAllUserResponse;
 
 class GetUserService implements GetUserServiceInterface
 {
+    private $repository;
+
+    public function __construct(RepositoryInterface $repository) 
+    {
+        $this->repository = $repository;
+    }
+
     public function getOne(GetUserRequest $request): GetOneUserResponse
     {
         $response = new GetOneUserResponse();
 
         try {
-            $repository = new UserRepository();
-            $result = $repository->findOne($request->id);
+            $result = $this->repository->findOne((int)$request->id);
 
             if (!$result) {
                 throw new \Exception('User not found');
@@ -40,11 +46,10 @@ class GetUserService implements GetUserServiceInterface
         $response = new GetAllUserResponse();
 
         try {
-            $repository = new UserRepository();
-            $results = $repository->getAll();
+            $results = $this->repository->getAll();
 
             foreach ($results as $result) {
-                $response['users'][] = [
+                $response->users[] = [
                     'id' => $result->getId(),
                     'email' => $result->getEmail()->getValue(),
                     'phone' => $result->getPhone()->getValue(),
@@ -54,7 +59,7 @@ class GetUserService implements GetUserServiceInterface
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
-
+        
         return $response;
     }
 }

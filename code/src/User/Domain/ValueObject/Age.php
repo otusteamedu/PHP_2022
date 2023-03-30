@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Domain\ValueObject;
+namespace App\User\Domain\ValueObject;
 
 class Age
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core\Config;
+namespace Core\Config;
 
 class Config
 {

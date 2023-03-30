@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Application\Dto;
+namespace App\User\Application\Dto;
 
 class GetOneUserResponse
 {

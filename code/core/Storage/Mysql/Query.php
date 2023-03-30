@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core\Storage\Mysql;
+namespace Core\Storage\Mysql;
 
-use Kogarkov\Es\Core\Storage\Contract\QueryInterface;
+use Core\Storage\Contract\QueryInterface;
 
 class Query implements QueryInterface
 {

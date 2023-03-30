@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\User\Domain\ValueObject;
+namespace App\User\Domain\ValueObject;
 
 class Email
 {
@@ -17,7 +17,7 @@ class Email
     private function assertValidEmail(string $value): void
     {
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException("Телефон должен содержать 10 цифр");
+            throw new \InvalidArgumentException("Email не валиден");
         }
     }
 

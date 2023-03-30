@@ -1,9 +1,10 @@
 {
-    "name": "kogarkov/es",
+    "name": "kogarkov/app",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Kogarkov\\Es\\": ""
+            "Core\\": "core/",
+            "App\\": "src/"
         }
     },
     "minimum-stability": "stable",

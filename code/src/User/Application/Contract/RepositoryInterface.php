@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core\Storage\Mysql;
+namespace App\User\Application\Contract;
 
-use Kogarkov\Es\Domain\User\Model\UserModel;
+use App\User\Domain\Model\UserModel;
 
-interface StorageCrudInterface
+interface RepositoryInterface
 {
     public function create(UserModel $user): int;
     public function findOne(int $id): UserModel;

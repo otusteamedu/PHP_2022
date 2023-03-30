@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core\Storage\Mysql;
+namespace Core\Storage\Mysql;
 
-use Kogarkov\Es\Core\Service\Registry;
-use Kogarkov\Es\Core\Storage\Contract\StorageClientInterface;
-use Kogarkov\Es\Core\Storage\Mysql\Query;
+use Core\Service\Container;
+use Core\Storage\Contract\StorageClientInterface;
+use Core\Storage\Mysql\Query;
 
 class Client implements StorageClientInterface
 {
@@ -15,7 +15,7 @@ class Client implements StorageClientInterface
 
     public function __construct()
     {
-        $this->config = Registry::instance()->get('config');
+        $this->config = Container::instance()->get('config');
         $this->client = new \mysqli(
             $this->config->get('db_host'),
             $this->config->get('db_user'),

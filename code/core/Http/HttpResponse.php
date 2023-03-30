@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kogarkov\Es\Core\Http;
+namespace Core\Http;
 
-use Kogarkov\Es\Core\Http\Contract\HttpResponseInterface;
+use Core\Http\Contract\HttpResponseInterface;
 
 class HttpResponse implements HttpResponseInterface
 {
