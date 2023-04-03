@@ -43,7 +43,6 @@ final class App
                     $controller->delete();
                     break;
             }
-
         } else {
             throw new \Exception('Выберите тип метода');
         }

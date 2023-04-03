@@ -14,7 +14,6 @@ final class RedisClient
     public function __construct()
     {
         $this->client = new Client(['host' => 'redis_otus']);
-
     }
 
     public function getClient(): Client
