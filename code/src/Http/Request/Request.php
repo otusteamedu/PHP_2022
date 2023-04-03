@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace src\Http\Request;
+namespace Svatel\Code\Http\Request;
 
 final class Request
 {

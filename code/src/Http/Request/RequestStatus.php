@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace src\Http\Request;
+namespace Svatel\Code\Http\Request;
 
 final class RequestStatus
 {
@@ -18,6 +18,21 @@ final class RequestStatus
         }
 
         return true;
+    }
+
+    public function isPost(array $server): bool
+    {
+        return (bool) $server['REQUEST_METHOD'] == 'POST';
+    }
+
+    public function isGet(array $server): bool
+    {
+        return (bool) $server['REQUEST_METHOD'] == 'GET';
+    }
+
+    public function isDelete(array $server): bool
+    {
+        return (bool) $server['REQUEST_METHOD'] == 'DELETE';
     }
 
     public function checkEmpty(array $data): bool
