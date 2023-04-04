@@ -23,25 +23,46 @@ final class App
         if ($this->requestStatus->checkMethod($_SERVER)) {
             $client = new RedisClient();
             $controller = new Controller\Controller($client);
-
+            $uri = $_SERVER['REQUEST_URI'];
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $post = json_decode(file_get_contents("php://input"), true);
                     $request = new Http\Request\Request($post);
-                    $controller->add($request);
+                    if (strpos($uri, 'getByBody')) {
+                        $request = new Http\Request\Request($post);
+                        $res = $controller->getByBody($request);
+                        if ($res->getStatusCode() == 201) {
+                            print_r($res->getBody());
+                        } else {
+                            print_r($res->getMessage());
+                        }
+                    } elseif (strpos($uri, 'add')) {
+                        $res = $controller->add($request);
+                        print_r($res->getMessage());
+                    } else {
+                        print_r('Неверный роут');
+                    }
                     break;
                 case 'GET':
-                    if (strpos($_SERVER['REQUEST_URI'], 'param1')) {
-                        preg_match_all('/param\d=\d/', $_SERVER['REQUEST_URI'], $query);
-                        $request = new Http\Request\Request($query);
-                        $controller->getByPriority($request);
+                    if (strpos($uri, 'all')) {
+                        $res = $controller->all();
+                        if ($res->getStatusCode() == 201) {
+                            print_r($res->getBody());
+                        } else {
+                            print_r($res->getMessage());
+                        }
                     } else {
-                        $controller->all();
+                        print_r('Неверный роут');
                     }
                     break;
                 case 'DELETE':
-                    $controller->delete();
-                    break;
+                    if (strpos($uri, 'delete')) {
+                        $res = $controller->delete();
+                        print_r($res->getMessage());
+                        break;
+                    } else {
+                        print_r('Неверный роут');
+                    }
             }
         } else {
             throw new \Exception('Выберите тип метода');

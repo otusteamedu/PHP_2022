@@ -6,6 +6,7 @@ namespace Svatel\Code\Controller;
 
 use Svatel\Code\Client\RedisClient;
 use Svatel\Code\Http\Request\Request;
+use Svatel\Code\Http\Response\Response;
 
 final class Controller
 {
@@ -18,36 +19,67 @@ final class Controller
 
     public function add(Request $request)
     {
-        return  $this->client->add($request->getData());
+        $eventKey = 'conditions:';
+        $count = 0;
+        foreach ($request->getData()['conditions'] as $key => $value) {
+            $eventKey .= $key . '=' . $value;
+            if ($count == 0) {
+                $eventKey .= ',';
+            }
+            $count++;
+        }
+
+        $res = $this->client->add([$eventKey => $request->getData()['priority']]);
+
+        return $res
+            ? new Response(201, 'Добавление прошло успешно')
+            : new Response(500,'Ошибка при добавлени');
     }
 
-    public function delete(): bool
+    public function delete(): Response
     {
-        return $this->client->delete();
+        $res = $this->client->delete();
+        return $res
+            ? new Response(201, 'Удаление прошло успешно')
+            : new Response(500,'Ошибка при удалении');
     }
 
-    public function all(): array
+    public function all(): Response
     {
         try {
-            return $this->client->getAll();
+            $res = $this->client->getAll();
+            return new Response(201, '', $res);
         } catch (\Exception $e) {
-            return [];
+            return new Response(500, 'Произошла ошибка');
         }
     }
 
-    public function getByPriority(Request $request): array
+    public function getByBody(Request $request): Response
     {
-        $events = $this->client->getOne();
-        $res = [];
+        try {
+            $events = $this->client->getOne();
 
-        foreach ($events as $key => $value) {
-            foreach ($request->getData()[0] as $key1 => $value1) {
-                if (strpos($key, $value1)) {
+            $res = [];
+
+            $search = '';
+            $count = 0;
+            foreach ($request->getData()['params'] as $key => $value) {
+                $search .= $value;
+                if ($count == 0) {
+                    $search .= ',';
+                }
+                $count++;
+            }
+
+            foreach ($events as $key => $value) {
+                if (strpos($key, $search)) {
                     $res[] = [$key => $value];
                 }
             }
-        }
 
-        return $res;
+            return new Response(201, '', $res);
+        } catch (\Exception $e) {
+            return new Response(500, 'Произошла ошибка');
+        }
     }
 }
