@@ -4,24 +4,28 @@ namespace App\Entity;
 
 
 use App\Repository\StudentRepository;
-use App\Resolver\StudentResolver;
+//use App\Resolver\StudentResolver;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+/*
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Resolver\StudentCollectionResolver;
-
+*/
 
 #[ORM\Table(name: 'student')]
+#[ORM\UniqueConstraint(name: 'inx_uniq__student__user_id', columns: ['user_id'])]
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
-#[ApiFilter(OrderFilter::class, properties: ['name'])]
-
+##[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
+##[ApiFilter(OrderFilter::class, properties: ['name'])]
+##[ApiResource(graphql: ['itemQuery' => ['item_query' => StudentResolver::class, 'args' => ['id' => ['type' => 'Int'], 'name' => ['type' => 'String']], 'read' => false],
+ #   'collectionQuery' => ['collection_query' => StudentCollectionResolver::class]])]
+//#[ApiResource]
 class Student
 {
     #[ORM\Column(name: 'id', type: 'bigint', unique: true)]
@@ -29,34 +33,29 @@ class Student
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 256, nullable: false)]
-    private string $fullName;
-
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: 'Score')]
     private Collection $score;
 
-    #[ORM\Column(type: 'integer', nullable: false)]
-    private int $age;
 
-
-
+/*
     #[ORM\OneToMany(targetEntity: 'StudentCourse', mappedBy: 'student')]
     #[ORM\JoinColumn(name: 'student_id', referencedColumnName: 'id')]
     private Collection $studentCourses;
+*/
 
-/*
     #[ORM\ManyToMany(targetEntity: 'Course', inversedBy: 'students')]
     #[ORM\JoinTable(name: 'student_course')]
     #[ORM\JoinColumn(name: 'student_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'course_id', referencedColumnName: 'id')]
     private ?Collection $courses;
-*/
+
 
     #[ORM\Column(name: 'created_at', type: 'datetime', nullable: false)]
     private DateTime $createdAt;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: false)]
     private DateTime $updatedAt;
+
 
     #[ORM\OneToOne(targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
@@ -69,8 +68,8 @@ class Student
     public function __construct()
     {
         $this->score = new ArrayCollection();
-       // $this->courses = new ArrayCollection();
-        $this->studentCourses = new ArrayCollection();
+        $this->courses = new ArrayCollection();
+       // $this->studentCourses = new ArrayCollection();
 
     }
 
@@ -82,16 +81,6 @@ class Student
     public function setId(int $id): void
     {
         $this->id = $id;
-    }
-
-    public function getName(): string
-    {
-        return $this->fullName;
-    }
-
-    public function setName(string $fullName): void
-    {
-        $this->fullName = $fullName;
     }
 
     public function getScore(): Collection
@@ -107,16 +96,6 @@ class Student
         }
     }
 
-    public function getAge(): int
-    {
-        return $this->age;
-    }
-
-    public function setAge(int $age): void
-    {
-        $this->age = $age;
-    }
-/*
     public function addCourse(Course $course): void
     {
         if (!$this->courses->contains($course)) {
@@ -125,11 +104,19 @@ class Student
         }
     }
 
+    public function deleteCourse(Course $course): void
+    {
+        //if (!$this->courses->contains($course)) {
+            $this->courses->removeElement($course);
+           // $course->deleteStudent($this);
+       // }
+    }
+
     public function getCourses(): Collection
     {
         return $this->courses;
     }
-*/
+/*
     public function isActive(): bool
     {
         return $this->isActive;
@@ -140,17 +127,12 @@ class Student
         $this->isActive = $isActive;
     }
 
-    /**
-     * @param User $user
-     */
+*/
     public function setUser(User $user): void
     {
         $this->user = $user;
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User
     {
         return $this->user;
@@ -190,9 +172,9 @@ class Student
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'fullName' => $this->fullName,
-            'age' => $this->age,
+            'id' => $this->getId(),
+            'fullName' => $this->getUser()->getFullName(),
+            //'age' => $this->getAge(),
             'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
             //'score' => array_map(static fn(Course $course) => $course->toArray(), $this->course->toArray()),
@@ -217,10 +199,10 @@ class Student
         $this->courseScore = $courseScore;
     }
 
-
+/*
     public function getStudentCourses(): ?Collection
     {
         return $this->studentCourses;
     }
-
+*/
 }

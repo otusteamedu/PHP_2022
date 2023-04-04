@@ -20,9 +20,11 @@ class CourseRepository extends ServiceEntityRepository
     public function getCoursesSortByTitle(int $page, int $perPage): array
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
-        $queryBuilder->select('l')
-            ->from($this->getClassName(), 'l')
-            ->orderBy('l.title', 'ASC')
+        $queryBuilder->select('c.*, u.*')
+            ->from($this->getClassName(), 'c')
+            ->leftJoin('c.teacher', 't')
+            ->leftJoin('t.user', 'u')
+            ->orderBy('c.title', 'ASC')
             ->setFirstResult($perPage * $page)
             ->setMaxResults($perPage);
 

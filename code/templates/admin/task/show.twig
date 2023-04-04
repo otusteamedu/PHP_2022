@@ -1,0 +1,36 @@
+{% extends 'admin/layout.twig' %}
+
+{% block title %}
+    TKT-School.Задание
+{% endblock %}
+{% block body %}
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <a href="/admin/course" ><h5 style="display: inline"> Все курсы </h5></a>
+                ->  <a href="/admin/course/{{ course.id }}" ><h5 style="display: inline"> {{ course.title }}   </h5> </a>
+                ->  <a href="/admin/lesson/{{ lesson.id }}" ><h5 style="display: inline"> {{ lesson.title }}   </h5> </a>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3">
+
+                    <h4 style="display: inline; font-weight: 700"> Задание  "{{ title }}"   </h4>
+                </div>
+
+                <div class="panel-body">
+
+                    {{ text }}
+                </div>
+           </div>
+
+
+
+        </div>
+
+    </div>
+
+{% endblock  %}

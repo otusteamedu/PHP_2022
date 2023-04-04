@@ -30,7 +30,7 @@ class Task
     #[ORM\Column(type: 'string', length: 100, nullable: false)]
     private string $title;
 
-    #[ORM\Column(type: 'string', length: 512, nullable: false)]
+    #[ORM\Column(type: 'text', length: 512, nullable: false)]
     private string $text;
 
     #[ORM\ManyToOne(targetEntity: 'Lesson', inversedBy: 'tasks')]

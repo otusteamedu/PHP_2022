@@ -21,4 +21,17 @@ class UserRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    public function getUsersByRole(string $role, int $page, int $perPage): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u')
+            ->from($this->getClassName(), 'u')
+            ->andWhere($qb->expr()->like('u.roles', $qb->expr()->literal('%' . $role . '%')))
+            ->orderBy('u.login', 'ASC')
+            ->setFirstResult($perPage * $page)
+            ->setMaxResults($perPage);
+
+       // print ($qb->getQuery()->getSQL());
+        return $qb->getQuery()->getResult();
+    }
 }

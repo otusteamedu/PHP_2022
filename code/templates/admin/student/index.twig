@@ -1,0 +1,101 @@
+{% extends 'admin/layout.twig' %}
+
+{% block body %}
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2> {{ id }}  {{ title }} </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="">
+                    <h2> <a href="/admin/student/create/{{ id }}"> Добавить студента </a> </h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <!-- start accordion -->
+                <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                    {% for student in students %}
+                        <div class="panel">
+                            <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne{{ student.id }}" aria-expanded="false" aria-controls="collapseOne">
+                                <h4 class="panel-title">  {{ student.title }} </h4>
+                            </a>
+                            <div id="collapseOne{{ student.id }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+
+                                    Описание урока и список заданий
+                                    <table class="table table-hover">
+                                        <tbody>
+                                        <tr>
+                                            <td><h4 class="panel-title"> <a href="/admin/student/{{ student.id }}"> {{ student.title }} </a> </h4></td>
+                                            <td> <a href="/admin/student/edit/{{ student.id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a> </td>
+                                            <!--  <td> <a href="/admin/student/delete/{{ student.id }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a> </td>-->
+                                            <td> <a   href="/admin/student/delete/{{ student.id }}" data-studentId = "{{ student.id }}"  id="student{{ student.id }}" name="studentname{{ student.id }}" class = ""  onclick="handler(event)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a> </td>
+                                        </tr>
+                                        </tbody></table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <input type="hidden" id="delete_studentId"/>
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>Text in a modal</h4>
+                    <p> Вы уверены, что хотите удалить запись? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmDelete">Save changes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function handler(event) {
+            var studentId = event.currentTarget.dataset.studentid;
+            $('#delete_studentId').val(studentId);
+            $('#myModal').modal('show');
+            event.preventDefault();
+        }
+
+        $('#myModal').on('hidden.bs.modal', function (event) {
+            //  alert(event.currentTarget.id);
+        });
+
+        $('#confirmDelete').on('click', function (event) {
+            alert($('#delete_studentId').val());
+            var studentId = $('#delete_studentId').val();
+            var url = '/admin/student/delete/'+studentId;
+
+            var link = document.createElement('a');
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
+
+        })
+    </script>
+
+{% endblock  %}
+

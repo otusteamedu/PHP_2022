@@ -119,7 +119,7 @@ class Score
     {
         return [
             'id' => $this->id,
-            'student' =>$this->student->getName(),
+            //'student' =>$this->student->getName(),
             'task' =>$this->task->getTitle(),
             'score' => $this->score,
             'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),

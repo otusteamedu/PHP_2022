@@ -1,0 +1,37 @@
+{% extends 'admin/layout.twig' %}
+
+{% block title %}
+    TKT-School.Задания урока
+{% endblock %}
+{% block body %}
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+            </div>
+            <div class="x_content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr> <th>#</th><th><a href="/admin/task/create/{}">Добавить задание </a></th> </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Имя</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            <tr>
+                                <th scope="row"><a href="/admin/task/{{ task.id }}">{{ task.id }} </a></th>
+                                <td> <a href="/admin/task/{{ task.id }}">{{ task.title }}</a> </td>
+                                <td> <a href="/admin/task/edit/{{ task.id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a> </td>
+                                <td> <a href="/admin/task/delete/{{ task.id }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a> </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

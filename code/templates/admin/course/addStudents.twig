@@ -1,0 +1,83 @@
+{% extends 'admin/layout.twig' %}
+{% block title %}
+    TKT-School.Курс
+{% endblock %}
+{% block body %}
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2> {{ id }}  {{ title }} </h2>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <form class="form-horizontal form-label-left" novalidate action="/admin/course/students/add" method ="post">
+                    <input id="id"  name="id" value = "{{ id }}"  required="required" type="hidden">
+                            <!-- Start to do list -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Список студентов</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+
+                                        <div class="">
+                                            <ul class="to_do">
+                                                {% for user in users %}
+                                                    <li>
+                                                        <p>
+                                                            <input type="checkbox" id ="{{ user.id }}"  name = "user[]" value = "{{ user.id }}" class="flat" > {{ user.fullName }}
+                                                        </p>
+
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End to do list -->
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <a href="/admin/course/students/{{ id }}" class="btn btn-primary">Назад</a>
+                                    <button id="send" type="submit" class="btn btn-success">Сохранить</button>
+                                </div>
+                            </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+
+        function handler(event) {
+            var studentId = event.currentTarget.dataset.studentid;
+            $('#delete_studentId').val(studentId);
+            $('#myModal').modal('show');
+            event.preventDefault();
+        }
+
+        $('#myModal').on('hidden.bs.modal', function (event) {
+          //  alert(event.currentTarget.id);
+        });
+
+        $('#confirmDelete').on('click', function (event) {
+            alert($('#delete_studentId').val());
+            var studentId = $('#delete_studentId').val();
+            var url = '/admin/student/delete/'+studentId;
+
+            var link = document.createElement('a');
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
+
+        })
+    </script>
+
+{% endblock  %}
+

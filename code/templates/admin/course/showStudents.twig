@@ -1,0 +1,58 @@
+{% extends 'admin/layout.twig' %}
+
+{% block title %}
+    TKT-School.Список студентов курса
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <a href="/admin/course" ><h5 style="display: inline"> Все курсы </h5></a> -> <h4 style="display: inline"> {{ title }}   </h4>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="col-md-offset-9">
+                    <a href="/admin/course/students/addForm/{{ id }}"> <h6> Добавить студента </h6> </a>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="">
+                    <table class="table table-hover">
+                        <thead>
+                        <th colspan="2">Студенты курса</th>
+                        </thead>
+                        <tbody>
+
+                        {% for student in students %}
+                        <tr>
+                            <td><a href="/admin/student/{{ student.id }}" > {{ student.fullName }}   </a></td>
+                            <td><a data-url="/admin/course/students/delete/{{ id }}/{{ student.id }}"  onclick="deleteRow(event)">  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="col-md-12 col-md-offset-10">
+                        <a href="/admin/course/{{ id }}" class="btn btn-primary">Назад</a>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock  %}
+

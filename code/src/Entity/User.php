@@ -19,6 +19,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ApiResource]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    const USER_ROLE_STUDENT = 'ROLE_STUDENT';
+    const USER_ROLE_TEACHER = 'ROLE_TEACHER';
+
     #[ORM\Column(name: 'id', type: 'bigint', unique: true)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -30,6 +34,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 100, nullable: false)]
     private string $password;
+
+    #[ORM\Column(type: 'string', length: 256, nullable: false)]
+    private string $fullName;
+
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private int $age;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
     private string $isActive;
@@ -122,6 +132,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    public function getFullName(): string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): void
+    {
+        $this->fullName = $fullName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAge(): int
+    {
+        return $this->age;
+    }
+
+    /**
+     * @param int $age
+     */
+    public function setAge(int $age): void
+    {
+        $this->age = $age;
+    }
+
+
     /**
      * @param string[] $roles
      *
@@ -191,8 +228,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'password' => $this->password,
             'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
-
-
 
         ];
     }
