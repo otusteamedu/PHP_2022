@@ -33,7 +33,7 @@ final class Controller
 
         return $res
             ? new Response(201, 'Добавление прошло успешно')
-            : new Response(500,'Ошибка при добавлени');
+            : new Response(500, 'Ошибка при добавлени');
     }
 
     public function delete(): Response
@@ -41,7 +41,7 @@ final class Controller
         $res = $this->client->delete();
         return $res
             ? new Response(201, 'Удаление прошло успешно')
-            : new Response(500,'Ошибка при удалении');
+            : new Response(500, 'Ошибка при удалении');
     }
 
     public function all(): Response
