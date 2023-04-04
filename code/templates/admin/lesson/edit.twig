@@ -9,6 +9,8 @@
     <div class="x_panel">
         <div class="x_title">
             <a href="/admin/course" ><h5 style="display: inline"> Все курсы </h5></a>
+            ->  <a href="/admin/course/{{ course.id }}" ><h5 style="display: inline"> {{ course.title }}   </h5> </a>
+            ->  <h5 style="display: inline"> {{ title }}   </h5>
 
             <div class="clearfix"></div>
         </div>
@@ -18,7 +20,7 @@
         <form class="form-horizontal form-label-left" novalidate action="/admin/lesson/{{id}}" method ="post">
 
             <span class="section">Редактироавние урока</span>
-            <input id="courseId"  name="courseId" value = "{{ courseId }}"  required="required" type="hidden">
+            <input id="courseId"  name="courseId" value = "{{ course.id }}"  required="required" type="hidden">
             <input id="id"  name="id" value = "{{ id }}"  required="required" type="text" hidden>
             <div class="item form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Название урока <span class="required">*</span>
@@ -53,7 +55,7 @@
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-3">
-                    <a href="/admin/course/{{ courseId }}" class="btn btn-primary">Назад</a>
+                    <a href="/admin/course/{{ course.id }}" class="btn btn-primary">Назад</a>
                     <button id="send" type="submit" class="btn btn-success">Сохранить</button>
                 </div>
             </div>

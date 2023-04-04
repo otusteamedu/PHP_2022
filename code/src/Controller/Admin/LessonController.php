@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 
 use App\DTO\LessonDTO;
+use App\Manager\CourseManager;
 use App\Manager\LessonManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,28 +17,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class LessonController extends AbstractController
 {
     private LessonManager $lessonManager;
+    private CourseManager $courseManager;
     private ValidatorInterface $validator;
 
-    public function __construct(LessonManager $lessonManager, ValidatorInterface $validator )
+    public function __construct(LessonManager $lessonManager, ValidatorInterface $validator, CourseManager $courseManager )
     {
         $this->lessonManager = $lessonManager;
+        $this->courseManager = $courseManager;
         $this->validator = $validator;
     }
-/*
-    #[Route(path: '', name: 'lesson.get_lessons',  methods: ['GET'])]
-    public function getLessonsAction(Request $request): Response
-    {
-        $perPage = $request->query->get('perPage');
-        $page = $request->query->get('page');
-        $lessons = $this->lessonManager->getLessons($page ?? $this->lessonManager::PAGINATION_DEFAULT_PAGE, $perPage ?? $this->lessonManager::PAGINATION_DEFAULT_PER_PAGE);
-        $code = empty($lessons) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK;
-        $data = [
-            'lessons' => $lessons
-        ];
-        return $this->render('admin/lesson/index.twig', $data );
 
-    }
-*/
     #[Route(path: '/{id}', name: 'lesson.get_lesson', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getLessonAction(int $id): Response
     {
@@ -60,9 +49,10 @@ class LessonController extends AbstractController
 
         $data = [
             'id' => $lesson->getId(),
-            'courseId' => $lesson->getCourse()->getId(),
+            'course' => $lesson->getCourse(),
             'title' => $lesson->getTitle(),
             'tasks' =>  $lesson->getTasks(),
+
         ];
         return $this->render('admin/lesson/edit.twig', $data );
     }
@@ -75,7 +65,9 @@ class LessonController extends AbstractController
         $errors = $this->validator->validate( $lessonDTO );
 
         if (count( $errors ) > 0) {
-            return  $this->render('admin/lesson/edit.twig', ['id' => $lessonDTO->getId(), 'title' => $lessonDTO->getTitle(), 'courseId' => $lessonDTO->getCourseId(), 'errors' => $errors ]);
+
+            $course = $this->courseManager->getCourse($lessonDTO->getCourseId());
+            return  $this->render('admin/lesson/edit.twig', ['id' => $lessonDTO->getId(), 'title' => $lessonDTO->getTitle(), 'course' => $course, 'errors' => $errors ]);
 
         } else {
 
@@ -84,12 +76,12 @@ class LessonController extends AbstractController
         }
     }
 
-
     #[Route(path: '/create/{courseId}', name: 'lesson.get_create_form', requirements: ['courseId' => '\d+'], methods: ['GET'])]
     public function createLessonForm(int $courseId): Response
     {
+        $course = $this->courseManager->getCourse($courseId);
         $data = [
-            'courseId' => $courseId
+            'course' => $course
         ];
         return $this->render('admin/lesson/create.twig', $data );
     }
@@ -97,20 +89,18 @@ class LessonController extends AbstractController
     #[Route(path: '', name: 'lesson.create', methods: ['POST'])]
     public function saveLessonAction(Request $request): Response
     {
-
         $lessonDTO = LessonDTO::fromRequest( $request );
         $errors = $this->validator->validate( $lessonDTO );
 
         if (count( $errors ) > 0) {
-            return $this->render('admin/lesson/create.twig',  [ 'errors' => $errors, 'title' => $lessonDTO->getTitle(), 'courseId' => $lessonDTO->getCourseId() ]);
+            $course = $this->courseManager->getCourse($lessonDTO->getCourseId());
+            return $this->render('admin/lesson/create.twig',  [ 'errors' => $errors, 'title' => $lessonDTO->getTitle(), 'course' => $course ]);
 
         } else {
 
             $lessonId = $this->lessonManager->saveLesson($lessonDTO->getTitle(), $lessonDTO->getCourseId());
             return $this->redirectToRoute('course.get_course', ['id' => $lessonDTO->getCourseId()] );
         }
-
-
 
     }
 
