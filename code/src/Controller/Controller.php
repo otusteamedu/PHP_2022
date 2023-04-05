@@ -20,10 +20,11 @@ final class Controller
     public function add(Request $request)
     {
         $eventKey = 'conditions:';
+        $conditions = $request->getData()['conditions'];
         $count = 0;
-        foreach ($request->getData()['conditions'] as $key => $value) {
+        foreach ($conditions as $key => $value) {
             $eventKey .= $key . '=' . $value;
-            if ($count == 0) {
+            if ($count != count($conditions) - 1) {
                 $eventKey .= ',';
             }
             $count++;
@@ -62,10 +63,11 @@ final class Controller
             $res = [];
 
             $search = '';
+            $params = $request->getData()['params'];
             $count = 0;
-            foreach ($request->getData()['params'] as $key => $value) {
+            foreach ($params as $key => $value) {
                 $search .= $value;
-                if ($count == 0) {
+                if ($count != count($params) - 1) {
                     $search .= ',';
                 }
                 $count++;
