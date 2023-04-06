@@ -18,7 +18,8 @@ final class UserMapper
         $this->client = new PDO(
             'mysql:host=host.docker.internal;dbname=' . $this->config->getForName('db_name'),
             $this->config->getForName('db_user'),
-            $this->config->getForName('db_password'));
+            $this->config->getForName('db_password')
+        );
     }
 
     public function create(User $user): bool
