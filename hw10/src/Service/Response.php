@@ -15,9 +15,8 @@ class Response
         $this->table = new ConsoleTable();
     }
 
-    public function getResult(array $headers, array $rows)
+    public function getResult(array $rows)
     {
-        $this->table->setHeaders($headers);
         foreach ($rows as $row) {
             $row['stock'] = array_map(fn($item) => $item['stock'] . ' ' . $item['shop'], $row['stock']);
             $row['stock'] = implode(', ', $row['stock']);

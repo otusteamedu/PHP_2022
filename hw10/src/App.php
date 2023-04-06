@@ -34,8 +34,7 @@ class App
             $data = $this->client->search($params);
 
             $response = new Response();
-            $headers = array('title', 'category', 'price','stock');
-            $response->getResult($headers, $data);
+            $response->getResult($data);
         } catch(Exception $e) {
             echo $e->getMessage();
         }

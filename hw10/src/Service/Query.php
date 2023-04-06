@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace VeraAdzhieva\Hw10\Service;
 
+use VeraAdzhieva\Hw10\ElasticSearch\QueryDTO;
 use VeraAdzhieva\Hw10\Service\InputParams;
 
 class Query
 {
     private InputParams $inputParams;
+    private string $category;
+    private string $title;
+    private string $stock;
+    private int $price;
 
-    public function __construct(InputParams $inputParams)
+    public function __construct(InputParams $inputParams, QueryDTO $dto)
     {
         $this->inputParams = $inputParams;
+        $this->stock = $dto->stock;
+        $this->title = $dto->title;
+        $this->category = $dto->category;
+        $this->price = $dto->price;
     }
 
     public function getParam()
