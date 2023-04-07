@@ -68,32 +68,53 @@ final class UserMapper
             return false;
         }
 
+        $updateFields = [];
+
         if ($user->getName() != $userUpd->getName()) {
-            $query = "UPDATE `users` SET `name` = :name WHERE `id` = :id";
-            $params = [
-                ':id' => $userUpd->getId(),
-                ':name' => $userUpd->getName()
-            ];
-            $stmt = $this->client->prepare($query);
-            $stmt->execute($params);
+            $updateFields[':name'] = [$userUpd->getName()];
         }
 
         if ($user->getEmail() != $userUpd->getEmail()) {
-            $query = "UPDATE `users` SET `email` = :email WHERE `id` = :id";
-            $params = [
-                ':id' => $userUpd->getId(),
-                ':email' => $userUpd->getEmail()
-            ];
-            $stmt = $this->client->prepare($query);
-            $stmt->execute($params);
+            $updateFields[':email'] = [$userUpd->getEmail()];
         }
 
         if ($user->getNumber() != $userUpd->getNumber()) {
-            $query = "UPDATE `users` SET `number` = :number WHERE `id` = :id";
+            $updateFields[':number'] = [$userUpd->getNumber()];
+        }
+
+        if (!empty($updateFields)) {
+            $res = '';
             $params = [
                 ':id' => $userUpd->getId(),
-                ':number' => $userUpd->getNumber()
             ];
+            if (count($updateFields) == 1) {
+                if (isset($updateFields['name'])) {
+                    $res = "`name` = :name";
+                    $params[':name'] = $updateFields['name'];
+                }
+                if (isset($updateFields['email'])) {
+                    $res = "`email` = :email";
+                    $params[':email'] = $updateFields['email'];
+                }
+                if (isset($updateFields['number'])) {
+                    $res = "`number` = :number";
+                    $params[':number'] = $updateFields['number'];
+                }
+            } else {
+                $count = 0;
+                foreach ($updateFields as $key => $value) {
+                    $count++;
+                    $params[$key] = $value[0];
+                    $fixParam = trim($key, ':');
+                    if ($count != count($updateFields)) {
+                        $res .= '`' . $fixParam . '` = :' . $fixParam . ', ';
+                    } else {
+                        $res .= '`' . $fixParam . '` = :' . $fixParam . ' ';
+                    }
+                }
+            }
+
+            $query = "UPDATE `users` SET " . $res . "WHERE `id` = :id";
             $stmt = $this->client->prepare($query);
             $stmt->execute($params);
         }
