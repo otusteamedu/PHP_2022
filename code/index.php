@@ -9,4 +9,5 @@ try {
     $app = new \Svatel\Code\Gateway\ApiGateway($requestStatus);
     $app->run();
 } catch (Exception $e) {
+    print_r($e->getMessage());
 }

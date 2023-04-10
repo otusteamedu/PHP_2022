@@ -13,7 +13,8 @@ final class Controller
     private Request $request;
     private EmailService $service;
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         $this->request = $request;
     }
 

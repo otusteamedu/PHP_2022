@@ -12,7 +12,8 @@ final class ApiGateway
 {
     private RequestStatus $requestStatus;
 
-    public function __construct(RequestStatus $requestStatus) {
+    public function __construct(RequestStatus $requestStatus)
+    {
         $this->requestStatus = $requestStatus;
     }
 

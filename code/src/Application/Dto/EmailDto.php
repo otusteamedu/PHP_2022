@@ -11,7 +11,8 @@ final class EmailDto
     private Email $email;
     private bool $checkEmail;
 
-    public function __construct(Email $email, bool $checkEmail) {
+    public function __construct(Email $email, bool $checkEmail)
+    {
         $this->email = $email;
         $this->checkEmail = $checkEmail;
     }
