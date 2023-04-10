@@ -29,6 +29,5 @@ final class Controller
         } catch (\Exception $e) {
             return new Response(500, 'Ошибка при валидации');
         }
-
     }
 }
