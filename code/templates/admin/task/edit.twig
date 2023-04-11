@@ -36,6 +36,7 @@
                     <textarea id="text" required="required" name="text" value = "{{ text| default('') }}" class="form-control col-md-7 col-xs-12">
                         {{ text| default('') }}
                     </textarea>
+                    {{ text| default('') }}
                 </div>
             </div>
 
@@ -50,8 +51,121 @@
                             {% endfor %}
                         {% endif %}
                     </ul>
+                    <ul class="parsley-errors-list filled" >
+                        {% if errors_logic is defined  %}
+                            {% for error in errors_logic %}
+                                <li class="parsley-required" >{{ error.message }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
+
+
+            <h4> Варианты ответов </h4>
+            <p>Добавить ответы <a href="addLine" onclick="addAnswerRow(event)">++</a></p>
+
+            {% set i = 0 %}
+            <input type="hidden" value="{{ i }}" id="answerLinesCounter">
+            <ul id = 'answersList'>
+
+                {% if answers is defined  %}
+                    {% for answer in answers %}
+                        <li>
+                            <div class="item form-group">
+                                <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                                    <input type="text" required="required"  name = "answerText[]" placeholder="Текст ответа"   value="{{ answer.text | default('')}} "
+                                           class="form-control">
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <input type="checkbox"   name = "answerIsCorrect[]"  value="{{ i }}"  {{ answer.isCorrect == true ? 'checked' : '' }} class="flat" >
+
+                                </div>
+
+                            </div>
+                        </li>
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                {% endif %}
+
+                <li>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                            <input type="text" name = "answerText[]"  required="required" placeholder="Текст ответа"   value="{{ answer.text | default('')}} "
+                                   class="form-control">
+                        </div>
+
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <input type="checkbox"   name = "answerIsCorrect[]"  value="{{ i }}" class="flat" >
+
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <a href="deleteLine" onclick="deleteAnswerRow(event)">--</a>
+                        </div>
+
+
+
+                    </div>
+                </li>
+            </ul>
+
+
+            <h4> Навыки, которые развивает задание. </h4>
+            <p>Добавить навыки <a href="addLine" onclick="addRow(event)">++</a></p>
+
+            <ul id = 'skillList'>
+
+                {% if taskSkills is defined  %}
+                    {% for taskSkill in taskSkills %}
+                        <li>
+                            <div class="item form-group">
+                                <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                                    <select class="form-control" name="skillTitle[]" >
+                                        {% for skill in skills %}
+                                            <option {{ skill.id == taskSkill.skill.id ? 'selected' : '' }}   value="{{ skill.id }}">
+                                                    {{ skill.title }}
+                                            </option>
+                                        {% endfor %}
+
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <input type="text" name = "skillPercent[]" placeholder="Процент в задании"
+                                           value="{{ taskSkill.percent | default(0) }}"
+                                           class="form-control">
+                                </div>
+
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+
+                <li>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                            <select class="form-control" name="skillTitle[]" >
+                                <option  value="0">
+                                    Укажите навык
+                                </option>
+                                {% for skill in skills %}
+                                    <option  value="{{ skill.id }}">
+                                        {{ skill.title }}
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <input type="text" name = "skillPercent[]" placeholder="Процент в задании"
+                                   value=""  class="form-control">
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+
 
 
             <div class="ln_solid"></div>
@@ -66,5 +180,96 @@
     </div>
     </div>
 </div>
+    <style>
+        li {
+            list-style-type: none; /* Убираем маркеры */
+        }
+        ul {
+            margin-left: 0; /* Отступ слева в браузере IE и Opera */
+            padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+        }
 
+    </style>
+
+<script>
+    function addAnswerRow(event) {
+
+        event.preventDefault();
+
+        var ul = document.getElementById('answersList');
+        var cnt = document.getElementById('answerLinesCounter');
+
+        var i  = parseInt(cnt.value) + 1;
+        document.getElementById('answerLinesCounter').value = i;
+
+        var li = `
+          <li>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                            <input type="text" required="required"  name = "answerText[]" placeholder="Текст ответа"   value=" "
+                                class="form-control">
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                           <input type="checkbox"   name = "answerIsCorrect[]"  value="${i}" class="flat" >
+
+                        </div>
+                         <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <a href="deleteLine" onclick="deleteAnswerRow(event)">--</a>
+                        </div>
+
+                    </div>
+          </li>
+        `;
+        ul.insertAdjacentHTML("beforeend", li);
+
+    }
+
+    function deleteAnswerRow(event) {
+
+        event.preventDefault();
+
+        var ul = document.getElementById('answersList');
+        var cnt = document.getElementById('answerLinesCounter');
+
+        var i = parseInt(cnt.value) - 1;
+        document.getElementById('answerLinesCounter').value = i;
+        ul.removeChild(ul.lastChild);
+
+    }
+    function addRow(event) {
+
+        event.preventDefault();
+
+        var ul = document.getElementById('skillList');
+        var li = `
+          <li>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                            <select class="form-control" name="skillTitle[]" >
+                                <option  value="0">
+                                    Укажите навык
+                                </option>
+                                {% for skill in skills %}
+                                    <option  value="{{ skill.id }}">
+                                        {{ skill.title }}
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <input type="text" name = "skillPercent[]" placeholder="Процент в задании"
+                                   value=""
+                                   class="form-control">
+                        </div>
+
+                    </div>
+          </li>
+        `;
+        ul.insertAdjacentHTML("beforeend", li);
+
+    }
+
+</script>
 {% endblock  %}

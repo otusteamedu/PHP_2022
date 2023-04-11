@@ -1,0 +1,6 @@
+<h3>При сохранение возникли ошибки </h3>
+<ul>
+    {% for error in errors %}
+    <li>{{ error.message }}</li>
+    {% endfor %}
+</ul>

@@ -36,7 +36,8 @@ class LessonController extends AbstractController
             'id' => $lesson->getId(),
             'title' => $lesson->getTitle(),
             'tasks' =>  $lesson->getTasks(),
-            'course' => $lesson->getCourse()
+            'course' => $lesson->getCourse(),
+
         ];
         return $this->render('admin/lesson/show.twig', $data );
 

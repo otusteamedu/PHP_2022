@@ -24,6 +24,18 @@
                 <div class="panel-body">
 
                     {{ text }}
+
+                    <ul id = 'skillList'>
+
+                        {% if taskSkills is defined  %}
+                            {% for taskSkill in taskSkills %}
+                                <li>
+                                    {{ taskSkill.skill.title | default('') }} -  {{ taskSkill.percent | default('') }}
+
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div>
            </div>
 

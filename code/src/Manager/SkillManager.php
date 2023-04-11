@@ -66,5 +66,12 @@ class SkillManager implements CommonManager
 
         return $skillRepository->getSkillsSortByTitle($page ?? self::PAGINATION_DEFAULT_PAGE, $perPage ?? self::PAGINATION_DEFAULT_PER_PAGE);
     }
+    public function getSkill(int $skillId): Skill
+    {
+        /** @var SkillRepository $skillRepository */
+        $skillRepository = $this->entityManager->getRepository(Skill::class);
+
+        return $skillRepository->find($skillId);
+    }
 
 }

@@ -44,6 +44,10 @@ class Task
     #[ORM\JoinColumn(name: 'task_id', referencedColumnName: 'id')]
     private Collection $taskSkills;
 
+    #[ORM\OneToMany(mappedBy: 'task', targetEntity: 'TaskAnswers')]
+    #[ORM\JoinColumn(name: 'task_id', referencedColumnName: 'id')]
+    private Collection $answers;
+
 
 
     #[ORM\Column(name: 'created_at', type: 'datetime', nullable: false)]
@@ -57,6 +61,7 @@ class Task
     {
         $this->score = new ArrayCollection();
         $this->taskSkills = new ArrayCollection();
+        $this->answers = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -144,5 +149,12 @@ class Task
     public function getTaskSkills(): array
     {
         return $this->taskSkills->toArray();
+    }
+    /**
+     * @return TaskSkills[]
+     */
+    public function getAnswers(): array
+    {
+        return $this->answers->toArray();
     }
 }

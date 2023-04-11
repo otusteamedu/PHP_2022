@@ -25,13 +25,23 @@ class TaskService
                                 private FormFactoryInterface $formFactory
     ){ }
 
+
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('title', TextType::class)
+            ->add('text', TextType::class)
+            ->add('submit', SubmitType::class);
+        ;
+    }
+
     public function getSaveForm(): FormInterface
     {
         return $this->formFactory->createBuilder()
             ->add('title', TextType::class)
             ->add('text', TextType::class)
-            ->add('submit', SubmitType::class)
-            ->getForm();
+            ->add('submit', SubmitType::class);
+            //->getForm();
     }
     public function  getUpdateForm(int $taskId): ?FormInterface
     {

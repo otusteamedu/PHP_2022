@@ -52,6 +52,7 @@
                                         <span style="margin-left: 10px">
                                              <a data-url = "/admin/task/delete/{{ task.id }}"  onclick="deleteRow(event)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
                                         </span>
+                                        <span><a href="/admin/task/show/{{ task.id }}" style="display: inline"> {{ task.title }} </a> </span>
                                     </p>
 
                                    {{ task.text }}

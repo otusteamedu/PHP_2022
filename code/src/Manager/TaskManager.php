@@ -38,7 +38,7 @@ class TaskManager implements CommonManager
         }
         $task = new Task();
         $task->setTitle($title);
-        $task->setText($text);
+        $task->setText(trim($text));
         $task->setLesson($lesson);
         $task->setCreatedAt();
         $task->setUpdatedAt();
@@ -62,7 +62,7 @@ class TaskManager implements CommonManager
             return false;
         }
         $task->setTitle($title);
-        $task->setText($text);
+        $task->setText(trim($text));
         $task->setLesson($lesson);
         $task->setUpdatedAt();
         $this->entityManager->flush();

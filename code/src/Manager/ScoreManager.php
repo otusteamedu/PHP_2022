@@ -74,6 +74,21 @@ class ScoreManager implements CommonManager
         return true;
     }
 
+    public function deleteScoreByTaskId(int $taskId, int $studentId): bool
+    {
+        /** @var ScoreRepository $scoreRepository */
+        $scoreRepository = $this->entityManager->getRepository(Score::class);
+        /** @var Score $score */
+        $score = $scoreRepository->findOneBy([ 'task'=>$taskId, 'student' => $studentId]);
+        if ($score === null) {
+            return false;
+        }
+        $this->entityManager->remove($score);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
     /**
      * @return Score[]
      */

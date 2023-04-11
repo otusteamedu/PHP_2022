@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+<div style="width:50%;margin-left:10px;margin-top:10px">
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.text) }}
+    {% if form.skills is defined %}
+    <h3>Skills</h3>
+    <ul class="skills" >
+        {% for skill in form.skills %}
+
+            <li> {{ form_errors(skill) }}
+                 {{ form_row(skill.skillTitle) }}
+                 {{ form_row(skill.percent) }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {{ form_row(form.submit) }}
+    {{ form_end(form, {'render_rest': false}) }}
+</div>
+{% endblock %}

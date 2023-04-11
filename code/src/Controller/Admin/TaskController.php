@@ -4,9 +4,15 @@ namespace App\Controller\Admin;
 
 
 use App\DTO\TaskDTO;
+use App\DTO\TaskSkillsDTO;
 use App\Manager\LessonManager;
+use App\Manager\SkillManager;
+use App\Manager\TaskAnswersManager;
 use App\Manager\TaskManager;
+use App\Manager\TaskSkillsManager;
+use App\Manager\ScoreManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,14 +23,27 @@ class TaskController extends AbstractController
 {
     private TaskManager $taskManager;
     private LessonManager $lessonManager;
+    private SkillManager $skillManager;
+    private TaskSkillsManager $taskSkillsManager;
+    private TaskAnswersManager $taskAnswersManager;
     private ValidatorInterface $validator;
+    private ScoreManager $scoreManager;
 
 
-    public function __construct(TaskManager $taskManager, LessonManager $lessonManager, ValidatorInterface $validator)
+    public function __construct(TaskManager $taskManager, LessonManager $lessonManager, ValidatorInterface $validator,
+                                SkillManager $skillManager,TaskSkillsManager $taskSkillsManager,
+                                TaskAnswersManager $taskAnswersManager , ScoreManager $scoreManager
+
+    )
     {
         $this->taskManager = $taskManager;
         $this->lessonManager = $lessonManager;
+        $this->skillManager = $skillManager;
+        $this->taskSkillsManager = $taskSkillsManager;
+        $this->taskAnswersManager = $taskAnswersManager;
+        $this->scoreManager = $scoreManager;
         $this->validator = $validator;
+
 
     }
 
@@ -38,11 +57,13 @@ class TaskController extends AbstractController
             'text' => $task->getText(),
             'course' => $task->getLesson()->getCourse(),
             'lesson' => $task->getLesson(),
+            'taskSkills' => $task->getTaskSkills(),
 
         ];
         return $this->render('admin/task/show.twig', $data );
 
     }
+
 
     #[Route(path: '/edit/{id}',  name: 'task.get_edit_form', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function editForm(int $id): Response
@@ -55,8 +76,11 @@ class TaskController extends AbstractController
             'text' => $task->getText(),
             'lesson' => $task->getLesson(),
             'course' => $task->getLesson()->getCourse(),
-
+            'skills' => $this->skillManager->getSkills(0,20),
+            'taskSkills' => $task->getTaskSkills(),
+            'answers' => $task->getAnswers(),
         ];
+
         return $this->render('admin/task/edit.twig', $data );
     }
 
@@ -64,44 +88,63 @@ class TaskController extends AbstractController
     public function updateTask(Request $request): Response
     {
 
-       /* $title = $request->request->get('title');
-        $text = $request->request->get('text');
-        $id = $request->request->get('id');
-        $lessonId = $request->request->get('lessonId');
-
-        $this->taskManager->updateTask($id, $title, $text,  $lessonId);
-
-        return $this->redirectToRoute('lesson.get_lesson', ['id' => $lessonId] );
-
-*/
         $taskDTO = TaskDTO::fromRequest( $request );
-        $errors = $this->validator->validate( $taskDTO );
 
-        if (count( $errors ) > 0) {
+        $errors = $this->validator->validate( $taskDTO );
+        $task = $this->taskManager->getTask($taskDTO->getId());
+
+        $errors_logic = [];
+        //по идее проверить таскскилл  и ансверс
+        $skills =  $request->request->get('skillTitle');
+        $percents = $request->request->get('skillPercent');
+
+
+        //ансверс - не менее 5, хотя бы один коррект
+        $answerText = $request->request->get('answerText');
+        $answerIsCorrect = $request->request->get('answerIsCorrect');
+
+
+        if (count($answerText) < TaskAnswersManager::MIN_ANSWERS_FOR_TASK)
+                array_push($errors_logic, [ 'message' => sprintf("Необходимо указать ответов не меньше  %d.", TaskAnswersManager::MIN_ANSWERS_FOR_TASK) ]);
+
+        if (is_null($answerIsCorrect) || count($answerIsCorrect) == 0)
+                array_push($errors_logic, [ 'message' => sprintf("Должен быть хотя бы один правильный ответ.") ]);
+
+
+        if ( count( $errors ) > 0 || (count( $errors_logic ) > 0) ) {
 
             $lesson = $this->lessonManager->getLesson($taskDTO->getLessonId());
+
             $data = [
                 'id' => $taskDTO->getId(),
                 'title' => $taskDTO->getTitle(),
                 'text' =>  $taskDTO->getText(),
                 'lesson' => $lesson,
                 'course' => $lesson->getCourse(),
-                'errors' => $errors
-
+                'taskSkills' => $task->getTaskSkills(),
+                'answers' => $task->getAnswers(),
+                'skills' => $this->skillManager->getSkills(0,20),
+                'errors' => $errors,
+                'errors_logic' => $errors_logic
 
             ];
             return $this->render('admin/task/edit.twig',  $data);
 
         } else {
 
+
+
             $taskId = $this->taskManager->updateTask($taskDTO->getId(),  $taskDTO->getTitle(),$taskDTO->getText(),  $taskDTO->getLessonId());
+
+            $this->taskSkillsManager->saveOrUpdateTaskSkills($taskDTO->getId(), $skills, $percents );
+
+
+            $this->taskAnswersManager->saveOrUpdateAnswers($taskDTO->getId(), $answerText, $answerIsCorrect );
+
             return $this->redirectToRoute('lesson.get_lesson', ['id' => $taskDTO->getLessonId()] );
         }
 
-
-
     }
-
 
     #[Route(path: '/create/{lessonId}',  name: 'task.get_create_form', requirements: ['lessonId' => '\d+'], methods: ['GET'])]
     public function createTaskForm(int $lessonId): Response
@@ -109,7 +152,8 @@ class TaskController extends AbstractController
         $lesson = $this->lessonManager->getLesson($lessonId);
         $data = [
             'lesson' => $lesson,
-            'course' => $lesson->getCourse()
+            'course' => $lesson->getCourse(),
+            'skills' => $this->skillManager->getSkills(0,20),
         ];
         return $this->render('admin/task/create.twig', $data );
     }
@@ -121,7 +165,29 @@ class TaskController extends AbstractController
         $taskDTO = TaskDTO::fromRequest( $request );
         $errors = $this->validator->validate( $taskDTO );
 
-        if (count( $errors ) > 0) {
+        $errors_logic = [];
+        //по идее проверить таскскис
+        //id число, $percents - меньше 100
+        $skills =  $request->request->get('skillTitle');
+        $percents = $request->request->get('skillPercent');
+
+        $taskSkillsDTO = TaskSkillsDTO::
+
+
+        //ансверс - не менее 5, хотя бы один коррект
+        //по дто - текст
+        $answerTexts = $request->request->get('answerText');
+        $answerIsCorrects = $request->request->get('answerIsCorrect');
+
+
+        if (count($answerTexts) < TaskAnswersManager::MIN_ANSWERS_FOR_TASK)
+            array_push($errors_logic, [ 'message' => sprintf("Необходимо указать ответов не меньше  %d.", TaskAnswersManager::MIN_ANSWERS_FOR_TASK) ]);
+
+        if (is_null($answerIsCorrects) || count($answerIsCorrects) == 0)
+            array_push($errors_logic, [ 'message' => sprintf("Должен быть хотя бы один правильный ответ.") ]);
+
+
+        if ( count( $errors ) > 0 || (count( $errors_logic ) > 0) ) {
 
             $lesson = $this->lessonManager->getLesson($taskDTO->getLessonId());
             $data = [
@@ -129,17 +195,29 @@ class TaskController extends AbstractController
                 'text'  =>  $taskDTO->getText(),
                 'lesson' => $lesson,
                 'course' => $lesson->getCourse(),
-                'errors' => $errors
+                'skills' => $this->skillManager->getSkills(0,20),
+                'errors' => $errors,
+                'errors_logic' => $errors_logic,
+
 
             ];
             return $this->render('admin/task/create.twig',  $data);
 
         } else {
 
+
+            $skills =  $request->request->get('skillTitle');
+            $percents = $request->request->get('skillPercent');
+
+            //кинуть исключение. Надо ли удалять таску, если ошибка дальше?
             $taskId = $this->taskManager->saveTask($taskDTO->getTitle(),  $taskDTO->getLessonId(), $taskDTO->getText());
+            if($taskId)
+                $this->taskSkillsManager->saveOrUpdateTaskSkills($taskId, $skills, $percents );
+            if($taskId)
+                $this->taskAnswersManager->saveOrUpdateAnswers($taskId, $answerTexts, $answerIsCorrects );
             return $this->redirectToRoute('lesson.get_lesson', ['id' => $taskDTO->getLessonId()] );
         }
-        
+
         
     }
 
@@ -147,8 +225,86 @@ class TaskController extends AbstractController
     public function deleteTaskByIdAction(int $id): Response
     {
         $task = $this->taskManager->getTask($id);
+        $this->taskSkillsManager->deleteTaskSkillsByTaskId($id);
         $result = $this->taskManager->deleteTask($id);
 
         return $this->redirectToRoute('lesson.get_lesson', ['id' => $task->getLesson()->getId()] );
+    }
+
+
+    #[Route(path: '/show/{id}',  name: 'task.show_for_student', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function showForStudent(int $id): Response
+    {
+        $task = $this->taskManager->getTask($id);
+        $data = [
+            'id' => $task->getId(),
+            'title' => $task->getTitle(),
+            'text' => $task->getText(),
+            'course' => $task->getLesson()->getCourse(),
+            'lesson' => $task->getLesson(),
+            'answers' => $task->getAnswers(),
+
+        ];
+        return $this->render('admin/task/showForStudent.twig', $data );
+    }
+
+    #[Route(path: '/saveAnswer', name: 'task.save_answer', methods: ['POST'])]
+    public function saveAnswer(Request $request): Response
+    {
+       $errors = [];
+
+       $taskId =  $request->request->get("taskId");
+       if(!$taskId)
+           array_push($errors, ['message' => 'Не указано задание']);
+       $task = $this->taskManager->getTask($taskId);
+       $answersFromStudent = $request->request->get("answerIsCorrect");
+       if(empty($answersFromStudent)) {
+           array_push($errors,  ['message' =>'Не указано  ни одного ответа. ']);
+
+       }
+
+       if(!empty($errors)) {
+
+           $data = [
+               'id' => $task->getId(),
+               'title' => $task->getTitle(),
+               'text' => $task->getText(),
+               'course' => $task->getLesson()->getCourse(),
+               'lesson' => $task->getLesson(),
+               'answers' => $task->getAnswers(),
+               'errors' => $errors
+
+           ];
+
+           return $this->render('admin/task/showForStudent.twig', $data );
+       }
+
+        // сравнить с правильными ответами и посчитать скоре
+        $correctAnswers =  $this->taskAnswersManager->getCorrectTaskAnswersByTaskId($taskId);
+
+        $corrects = [];
+        foreach ($correctAnswers as  $answer ) {
+            array_push($corrects, $answer['id']);
+        }
+
+        $i = 0;
+        foreach ($answersFromStudent as $key => $answerId ) {
+            if(in_array($answerId, $corrects)) {
+                $i++;
+            }
+            else {
+                $i--;
+            }
+       }
+        $score = 0;
+        if($i==count($correctAnswers)){
+            $score = 10;
+        }
+
+        //сохранить скоре
+        $this->scoreManager->deleteScoreByTaskId($taskId, 1);
+        $this->scoreManager->saveScore($taskId, 1 , $score);
+        return $this->redirectToRoute('lesson.get_lesson', ['id' =>  $task->getLesson()->getId()] );
+
     }
 }

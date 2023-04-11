@@ -3,6 +3,7 @@
 namespace App\DTO;
 
 use App\Entity\TaskSkills;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class TaskSkillsDTO
@@ -38,5 +39,17 @@ class TaskSkillsDTO
             'skillId' => $taskSkills->getSkill()->getId(),
             'skillTitle' => $taskSkills->getSkill()->getTitle(),
         ]);
+    }
+    public static function fromRequest(Request $request): self
+    {
+
+        return new self(
+            [
+               // 'id' => $request->request->get('id') ?? $request->query->get('id'),
+                'percent' => $request->request->get('percent') ?? $request->query->get('percent'),
+                'text' => $request->request->get('text') ?? $request->query->get('text'),
+                'lessonId' => $request->request->get('lessonId') ?? $request->query->get('lessonId'),
+            ]
+        );
     }
 }

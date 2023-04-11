@@ -5,7 +5,7 @@ namespace App\DTO;
 
 
 use App\Consumer\AddScores\Input\Message;
-use Symfony\Component\HttpFoundation\Request;
+
 
 class SaveScoreDTO
 {

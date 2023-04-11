@@ -2,9 +2,10 @@
 
 namespace App\Controller\Api\v1;
 
-//use App\DTO\TaskDTO;
-use App\Entity\Task;
-//use App\Manager\TaskFormManager;
+
+
+use App\DTO\TaskSkillsDTO;
+use App\Form\TaskSkillsType;
 use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -12,10 +13,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-//use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
 #[Route(path: '/api/v1/task/form')]
+
 class TaskFormController extends AbstractController
 {
     public function __construct( private Environment $twig,
@@ -26,11 +27,16 @@ class TaskFormController extends AbstractController
     #[Route(path: '', methods: ['GET'])]
     public function getSaveFormAction(): Response
     {
-        $form = $this->taskService->getSaveForm();
-        $content = $this->twig->render('task/taskForm.twig', [
-            'form' => $form->createView(),
+        $dto = new TaskSkillsDTO([
+            'title'=>'dd',
+            'percent' => 20,
         ]);
-        return new Response($content);
+
+        $form = $this->createForm(TaskSkillsType::class, $dto);
+        return $this->render('task/taskForm.twig', [
+            'form' => $form,
+        ]);
+
     }
 
     #[Route(path: '', methods: ['POST'])]

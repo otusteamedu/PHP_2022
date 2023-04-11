@@ -27,8 +27,7 @@ class TaskSkillsManager
         $taskSkills->setSkill($skill);
         $taskSkills->setTask($task);
         $taskSkills->setPercent($percent);
-        $taskSkills->setCreatedAt();
-        $taskSkills->setUpdatedAt();
+
         $this->entityManager->persist($taskSkills);
         $this->entityManager->flush();
 
@@ -43,6 +42,27 @@ class TaskSkillsManager
         $taskSkillsRepository = $this->entityManager->getRepository(TaskSkills::class);
         /** @var TaskSkills $taskSkills */
         $taskSkills = $taskSkillsRepository->find($taskSkillsId);
+        if ($taskSkills === null) {
+            return false;
+        }
+
+        $taskSkills->setSkill($skill);
+        $taskSkills->setTask($task);
+        $taskSkills->setPercent($percent);
+        $taskSkills->setUpdatedAt();
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function updateTaskSkillsByTaskSkill(int $taskId, int $skillId, $percent): bool
+    {
+        $skill = $this->entityManager->getRepository(Skill::class)->find($skillId);
+        $task = $this->entityManager->getRepository(Task::class)->find($taskId);
+        /** @var TaskSkillsRepository $taskSkillsRepository */
+        $taskSkillsRepository = $this->entityManager->getRepository(TaskSkills::class);
+        /** @var TaskSkills $taskSkills */
+        $taskSkills  = $taskSkillsRepository->findOneBy(['task' => $taskId, 'skill' => $skillId ]);
         if ($taskSkills === null) {
             return false;
         }
@@ -71,6 +91,25 @@ class TaskSkillsManager
         return true;
     }
 
+    public function deleteTaskSkillsByTaskId(int $taskId): bool
+    {
+        /** @var TaskSkillsRepository $taskSkillsRepository */
+        $taskSkillsRepository = $this->entityManager->getRepository(TaskSkills::class);
+        /** @var TaskSkills $taskSkills */
+        $taskSkills = $taskSkillsRepository->findBy(['task' => $taskId]);
+
+        if (empty($taskSkills)) {
+            return false;
+        }
+        foreach ($taskSkills as $taskSkill) {
+            $this->entityManager->remove($taskSkill);
+        }
+
+        $this->entityManager->flush();
+
+        return true;
+    }
+
     /**
      * @return TaskSkills[]
      */
@@ -80,6 +119,33 @@ class TaskSkillsManager
         $taskSkillsRepository = $this->entityManager->getRepository(TaskSkills::class);
 
         return $taskSkillsRepository->findAll();
+    }
+
+    public function getTaskSkill(int $taskId, int $skillId): ?TaskSkills
+    {
+
+        /** @var TaskSkillsRepository $taskSkillsRepository */
+        $taskSkillsRepository = $this->entityManager->getRepository(TaskSkills::class);
+
+        return $taskSkillsRepository->findOneBy(['task' => $taskId, 'skill' => $skillId ]);
+    }
+
+
+    public function saveOrUpdateTaskSkills(int $taskId, array $skills, array $percents)
+    {
+        $i = 0;
+        foreach ($skills as $skill) {
+            if(empty($skills[$i])) continue;
+
+            if($this->getTaskSkill($taskId,$skills[$i])){
+                $this->updateTaskSkillsByTaskSkill($taskId, $skills[$i], $percents[$i]);
+            }
+            else
+                $this->saveTaskSkills($taskId, $skills[$i], $percents[$i] );
+            $i++;
+
+        }
+
     }
 
 }
