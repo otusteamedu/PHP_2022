@@ -59,9 +59,11 @@
                 </div>
             </div>
 
+            <hr />
 
             <h4> Варианты ответов </h4>
-            <p>Добавить ответы <a href="addLine" onclick="addAnswerRow(event)">++</a></p>
+
+                <p> <strong>Добавить ответы </strong><a href="addLine" onclick="addAnswerRow(event)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></p>
 
             {% set i = 0 %}
             <input type="hidden" value="{{ i }}" id="answerLinesCounter">
@@ -93,12 +95,12 @@
                                    class="form-control">
                         </div>
 
-                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <div class="col-md-1 form-group">
                             <input type="checkbox"   name = "answerIsCorrect[]"  value="{{ i }}" class="flat" >
 
                         </div>
-                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                            <a href="deleteLine" onclick="deleteAnswerRow(event)">--</a>
+                        <div class="col-md-1 form-group">
+                            <a href="deleteLine" onclick="deleteAnswerRow(event)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </div>
 
 
@@ -107,10 +109,10 @@
                 </li>
             </ul>
 
-
+            <hr />
 
             <h4> Навыки, которые развивает задание. </h4>
-            <p>Добавить навыки <a href="addLine" onclick="addRow(event)">++</a></p>
+           <p><strong> Добавить навыки </strong><a href="addLine" onclick="addRow(event)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></p>
             <ul id = 'skillList'>
                 {% if taskSkills is defined  %}
                     {% for taskSkill in taskSkills %}
@@ -211,12 +213,12 @@
                             <input type="text" required="required"  name = "answerText[]" placeholder="Текст ответа"   value=" "
                                 class="form-control">
                         </div>
-                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <div class="col-md-1  form-group">
                            <input type="checkbox"   name = "answerIsCorrect[]"  value="${i}" class="flat" >
 
                         </div>
-                         <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                            <a href="deleteLine" onclick="deleteAnswerRow(event)">--</a>
+                         <div class="col-md-1 form-group">
+                            <a href="deleteLine" onclick="deleteAnswerRow(event)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </div>
 
                     </div>

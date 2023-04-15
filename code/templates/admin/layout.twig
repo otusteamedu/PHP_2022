@@ -36,7 +36,10 @@
     <![endif]-->
 
 </head>
-<body>
+<body onload="checkElementsForDisplay()">
+
+    <input type="hidden" id ="userRoles" value="{{ roles }}" />
+
     {% block body %}{% endblock %}
     {% block footer %}{% endblock %}
 
@@ -255,6 +258,39 @@
             if (this.checked)
                 $('form .alert').remove();
         }).prop('checked', false);
+    </script>
+
+
+/**/
+    <style>
+        .invisible {
+            display: none;
+        }
+
+    </style>
+    <script >
+        function  checkElementsForDisplay(){
+
+            var userRoles_str = document.getElementById("userRoles").value;
+            var userRoles = JSON.parse(userRoles_str);
+            var elements = document.querySelectorAll('[data-roles]');
+            console.log(userRoles_str);
+
+            if(userRoles.includes("ROLE_ADMIN")){
+                return;
+            }
+
+            for (var i in elements) if (elements.hasOwnProperty(i)) {
+                // elements[i].classList.add("invisible");
+                var roleRequiredForElement = elements[i].getAttribute('data-roles');
+                if(!userRoles.includes(roleRequiredForElement))
+                    elements[i].classList.add("invisible");
+
+               // console.log(elements[i].id);
+
+
+            }
+        }
     </script>
 
 </body>

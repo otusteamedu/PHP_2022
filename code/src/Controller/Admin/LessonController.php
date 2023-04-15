@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route(path: '/admin/lesson')]
-class LessonController extends AbstractController
+class LessonController extends BaseController
 {
     private LessonManager $lessonManager;
     private CourseManager $courseManager;
@@ -37,6 +37,7 @@ class LessonController extends AbstractController
             'title' => $lesson->getTitle(),
             'tasks' =>  $lesson->getTasks(),
             'course' => $lesson->getCourse(),
+           // //'roles' => json_encode($this->getUser()->getRoles()),
 
         ];
         return $this->render('admin/lesson/show.twig', $data );

@@ -15,7 +15,7 @@
             </div>
             <div class="x_content">
 
-                <div class="col-md-offset-9">
+                <div class="col-md-offset-9" data-roles = "ROLE_ADMIN" >
                     <a href="/admin/course/students/addForm/{{ id }}"> <h6> Добавить студента </h6> </a>
                     <div class="clearfix"></div>
                 </div>
@@ -30,7 +30,7 @@
                         {% for student in students %}
                         <tr>
                             <td><a href="/admin/student/{{ student.id }}" > {{ student.fullName }}   </a></td>
-                            <td><a data-url="/admin/course/students/delete/{{ id }}/{{ student.id }}"  onclick="deleteRow(event)">  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
+                            <td data-roles = "ROLE_ADMIN" ><a data-url="/admin/course/students/delete/{{ id }}/{{ student.id }}"  onclick="deleteRow(event)">  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
                             </td>
                         </tr>
                         {% endfor %}

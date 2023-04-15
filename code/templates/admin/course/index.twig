@@ -4,19 +4,21 @@
     TKT-School.Курсы
 {% endblock %}
 {% block body %}
+
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_content">
                 <table class="table table-hover">
                     <thead>
-                    <tr> <th colspan="5"></th><th><a href="/admin/course/create"> Добавить курс </a></th> </tr>
+                    <tr data-roles = "ROLE_ADMIN"  > <th colspan="5"></th><th><a href="/admin/course/create"> Добавить курс </a></th> </tr>
                     <tr>
                         <th>#</th>
                         <th>Название</th>
-                        <th>Преподаватель</th>
+                        <th >Преподаватель</th>
                         <th>Студенты</th>
-                        <th>Редактировать</th>
-                        <th>Удалить</th>
+                        <th data-roles = "ROLE_ADMIN" > Редактировать</th>
+                        <th data-roles = "ROLE_ADMIN" >Удалить</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -25,10 +27,18 @@
                             <tr>
                                 <td scope="row"><a href="/admin/course/{{ course.id }}">{{ course.id }} </a></td>
                                 <td> <a href="/admin/course/{{ course.id }}">   {{ course.title }} </a> </td>
-                                <td> <a href="/admin/course/teacher/setForm/{{ course.id }}"> {{course.teacher | default('не указан') }} </a> </td>
+
+
+                                {% if 'ROLE_ADMIN' in roles  %}
+                                    <td data-roles = "ROLE_ADMIN"> <a href="/admin/course/teacher/setForm/{{ course.id }}"> {{course.teacher | default('не указан') }} </a> </td>
+                                {% else %}
+                                    <td >  {{course.teacher | default('не указан') }} </td>
+                                {% endif %}
+
+
                                 <td> <a href="/admin/course/students/{{ course.id }}"> посмотреть </a> </td>
-                                <td> <a href="/admin/course/edit/{{ course.id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a> </td>
-                                <td> <a data-url="/admin/course/delete/{{ course.id }}"  onclick="deleteRow(event)"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a> </td>
+                                <td id = "editLnk" data-roles = "ROLE_ADMIN" class=""> <a href="/admin/course/edit/{{ course.id }}" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a> </td>
+                                <td id = "deleteLnk" data-roles = "ROLE_ADMIN" class=""> <a data-url="/admin/course/delete/{{ course.id }}"  onclick="deleteRow(event)"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a> </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -37,7 +47,6 @@
             </div>
         </div>
     </div>
-
 
 {% endblock %}
 

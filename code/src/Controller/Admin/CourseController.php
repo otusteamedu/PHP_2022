@@ -15,8 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+
 #[Route(path: '/admin/course')]
-class CourseController extends AbstractController
+class CourseController extends BaseController
 {
     private CourseManager $courseManager;
     private UserManager $userManager;
@@ -32,11 +33,14 @@ class CourseController extends AbstractController
     #[Route(path: '', name: 'course.get_courses',  methods: ['GET'])]
     public function getCoursesAction(Request $request): Response
     {
+
+        //print_r($this->getUser()->getUserIdentifier());
         $perPage = $request->query->get('perPage');
         $page = $request->query->get('page');
         $courses = $this->courseManager->getCourses($page ?? $this->courseManager::PAGINATION_DEFAULT_PAGE, $perPage ?? $this->courseManager::PAGINATION_DEFAULT_PER_PAGE);
         $data = [
-            'courses' => array_map(static fn(Course $course) => $course->toArray(), $courses)
+            'courses' => array_map(static fn(Course $course) => $course->toArray(), $courses),
+            //'roles' => json_encode($this->getUser()->getRoles()),
         ];
 
         return $this->render('admin/course/index.twig', $data );
@@ -51,6 +55,7 @@ class CourseController extends AbstractController
             'id' => $course->getId(),
             'title' => $course->getTitle(),
             'lessons' =>  $course->getLessons(),
+           // //'roles' => json_encode($this->getUser()->getRoles()),
         ];
 
         return $this->render('admin/course/show.twig', $data );
@@ -65,6 +70,7 @@ class CourseController extends AbstractController
             'id' => $course->getId(),
             'title' => $course->getTitle(),
             'lessons' =>  $course->getLessons(),
+            ////'roles' => json_encode($this->getUser()->getRoles()),
         ];
         return $this->render('admin/course/edit.twig', $data );
 
@@ -78,7 +84,15 @@ class CourseController extends AbstractController
         $errors = $this->validator->validate( $courseDTO );
 
         if (count( $errors ) > 0) {
-             return  $this->render('admin/course/edit.twig', ['id' => $courseDTO->getId(), 'title' => $courseDTO->getTitle(), 'errors' => $errors ]);
+
+            $data =  [
+                'id' => $courseDTO->getId(),
+                'title' => $courseDTO->getTitle(),
+                'errors' => $errors,
+                ////'roles' => json_encode($this->getUser()->getRoles()),
+            ];
+
+             return  $this->render('admin/course/edit.twig',);
 
         } else {
 
@@ -136,6 +150,7 @@ class CourseController extends AbstractController
         return $this->render('admin/course/index.twig', $data );
     }
 
+
     #[Route(path: '/students/{id}',  name: 'course.get_course_students',  requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getCourseStudentsAction(int $id): Response
     {
@@ -151,7 +166,6 @@ class CourseController extends AbstractController
         return $this->render('admin/course/showStudents.twig', $data );
 
     }
-
 
     #[Route(path: '/students/addForm/{id}',  name: 'course.add_students_form',  requirements: ['id' => '\d+'], methods: ['GET'])]
     public function addStudentsFormAction(int $id): Response

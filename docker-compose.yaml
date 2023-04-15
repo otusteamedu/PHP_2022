@@ -77,9 +77,10 @@ services:
 
   memcached:
     image: memcached:latest
-    container_name: memcached
+    container_name: 'memcached'
+    restart: always
     ports:
-      - "11211:11211"
+      - 11211:11211
     networks:
       - app-network
 

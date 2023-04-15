@@ -7,6 +7,7 @@ use App\DTO\TaskDTO;
 use App\DTO\TaskSkillsDTO;
 use App\Manager\LessonManager;
 use App\Manager\SkillManager;
+use App\Manager\StudentManager;
 use App\Manager\TaskAnswersManager;
 use App\Manager\TaskManager;
 use App\Manager\TaskSkillsManager;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route(path: '/admin/task')]
-class TaskController extends AbstractController
+class TaskController extends BaseController
 {
     private TaskManager $taskManager;
     private LessonManager $lessonManager;
@@ -28,11 +29,13 @@ class TaskController extends AbstractController
     private TaskAnswersManager $taskAnswersManager;
     private ValidatorInterface $validator;
     private ScoreManager $scoreManager;
+    private StudentManager $studentManager;
 
 
     public function __construct(TaskManager $taskManager, LessonManager $lessonManager, ValidatorInterface $validator,
                                 SkillManager $skillManager,TaskSkillsManager $taskSkillsManager,
-                                TaskAnswersManager $taskAnswersManager , ScoreManager $scoreManager
+                                TaskAnswersManager $taskAnswersManager , ScoreManager $scoreManager,
+                                StudentManager $studentManager
 
     )
     {
@@ -42,6 +45,7 @@ class TaskController extends AbstractController
         $this->taskSkillsManager = $taskSkillsManager;
         $this->taskAnswersManager = $taskAnswersManager;
         $this->scoreManager = $scoreManager;
+        $this->studentManager = $studentManager;
         $this->validator = $validator;
 
 
@@ -58,6 +62,7 @@ class TaskController extends AbstractController
             'course' => $task->getLesson()->getCourse(),
             'lesson' => $task->getLesson(),
             'taskSkills' => $task->getTaskSkills(),
+            //'roles' => json_encode($this->getUser()->getRoles()),
 
         ];
         return $this->render('admin/task/show.twig', $data );
@@ -79,6 +84,7 @@ class TaskController extends AbstractController
             'skills' => $this->skillManager->getSkills(0,20),
             'taskSkills' => $task->getTaskSkills(),
             'answers' => $task->getAnswers(),
+            //'roles' => json_encode($this->getUser()->getRoles()),
         ];
 
         return $this->render('admin/task/edit.twig', $data );
@@ -125,7 +131,8 @@ class TaskController extends AbstractController
                 'answers' => $task->getAnswers(),
                 'skills' => $this->skillManager->getSkills(0,20),
                 'errors' => $errors,
-                'errors_logic' => $errors_logic
+                'errors_logic' => $errors_logic,
+                //'roles' => json_encode($this->getUser()->getRoles()),
 
             ];
             return $this->render('admin/task/edit.twig',  $data);
@@ -171,7 +178,7 @@ class TaskController extends AbstractController
         $skills =  $request->request->get('skillTitle');
         $percents = $request->request->get('skillPercent');
 
-        $taskSkillsDTO = TaskSkillsDTO::
+       // $taskSkillsDTO = TaskSkillsDTO::
 
 
         //ансверс - не менее 5, хотя бы один коррект
@@ -198,6 +205,7 @@ class TaskController extends AbstractController
                 'skills' => $this->skillManager->getSkills(0,20),
                 'errors' => $errors,
                 'errors_logic' => $errors_logic,
+                //'roles' => json_encode($this->getUser()->getRoles()),
 
 
             ];
@@ -235,6 +243,7 @@ class TaskController extends AbstractController
     #[Route(path: '/show/{id}',  name: 'task.show_for_student', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function showForStudent(int $id): Response
     {
+
         $task = $this->taskManager->getTask($id);
         $data = [
             'id' => $task->getId(),
@@ -243,6 +252,7 @@ class TaskController extends AbstractController
             'course' => $task->getLesson()->getCourse(),
             'lesson' => $task->getLesson(),
             'answers' => $task->getAnswers(),
+            //'roles' => json_encode($this->getUser()->getRoles()),
 
         ];
         return $this->render('admin/task/showForStudent.twig', $data );
@@ -272,7 +282,8 @@ class TaskController extends AbstractController
                'course' => $task->getLesson()->getCourse(),
                'lesson' => $task->getLesson(),
                'answers' => $task->getAnswers(),
-               'errors' => $errors
+               'errors' => $errors,
+               //'roles' => json_encode($this->getUser()->getRoles()),
 
            ];
 
@@ -302,9 +313,17 @@ class TaskController extends AbstractController
         }
 
         //сохранить скоре
-        $this->scoreManager->deleteScoreByTaskId($taskId, 1);
-        $this->scoreManager->saveScore($taskId, 1 , $score);
-        return $this->redirectToRoute('lesson.get_lesson', ['id' =>  $task->getLesson()->getId()] );
+        $userId  =  $this->getUser()->getId();
+
+        $student = $this->studentManager->getStudentByUserId($userId);
+
+        $this->scoreManager->deleteScoreByTaskId($taskId, $student->getId());
+        $this->scoreManager->saveScore($taskId, $student->getId() , $score);
+        $data = [
+            'id' =>  $task->getLesson()->getId(),
+            //'roles' => json_encode($this->getUser()->getRoles()),
+        ];
+        return $this->redirectToRoute('lesson.get_lesson', $data );
 
     }
 }
