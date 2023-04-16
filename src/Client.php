@@ -19,7 +19,6 @@ enum ProductEnum{
 class Client{
     public function __invoke(): void
     {
-        echo '<pre>';
         $order = new OrderStrategy(
             ProductEnum::HotDog,
             new CustomIngredientsStrategy(new BunIngredient(new SausageIngredient(new SaladIngredient(new SauceIngredient()))))
