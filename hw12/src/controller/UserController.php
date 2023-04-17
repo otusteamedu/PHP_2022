@@ -22,9 +22,9 @@ class UserController
         }
     }
 
-    public function updateUser(User $user) {
+    public function updateUser($params) {
         try {
-            $this->mapper->update($user);
+            $this->mapper->update($params);
         } catch (Exception $e) {
             return $e->getMessage();
         }

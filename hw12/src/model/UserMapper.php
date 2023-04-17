@@ -30,17 +30,27 @@ class UserMapper
     /**
      * Обновление пользователя.
      *
-     * @param User $user
+     * @param array $params
      */
-    public function update(User $user)
+    public function update($params)
     {
-        $query = 'UPDATE users SET username=?,phone=? WHERE id=?';
-        $this->connection->query($query,
-            array(
-                $user->getUsername(),
-                $user->getPhone(),
-                $user->getId()
-        ));
+        $user = $this->findById($params['id']);
+        if ($params['username'] && $params['username'] !== $user->getUsername()) {
+            $query = 'UPDATE users SET username=? WHERE id=?';
+            $this->connection->query($query,
+                array(
+                    $params['username'],
+                    $user->getId()
+                ));
+        }
+        if ($params['phone'] && $params['phone'] !== $user->getPhone()) {
+            $query = 'UPDATE users SET phone=? WHERE id=?';
+            $this->connection->query($query,
+                array(
+                    $params['phone'],
+                    $user->getId()
+                ));
+        }
     }
 
     /**
