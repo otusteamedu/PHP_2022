@@ -8,6 +8,7 @@ use App\Entity\Task;
 use App\Entity\Student;
 use App\Repository\ScoreRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use DateTime;
 
 class ScoreManager implements CommonManager
 {
@@ -124,5 +125,13 @@ class ScoreManager implements CommonManager
 
         return $score->getId();
     }
+
+    public function getScoreGroupByLessons(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null)
+    {
+        return $this->entityManager->getRepository(Score::class)->getScoreGroupByLesson($students,$courseId, $startDate, $finishDate );
+    }
+
+
+
 
 }

@@ -16,14 +16,14 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="col-md-3">
+                <div class="col-md-12" style=" margin-bottom: 20px">
 
-                    <h4 style="display: inline; font-weight: 700"> Задание  "{{ title }}"   </h4>
+                    <h4 style="display: inline; font-weight: 700; margin-bottom: 20px"> Задание  "{{ title }}"   </h4>
                 </div>
 
                 <div class="panel-body">
                  <form class="form-horizontal form-label-left" novalidate action="/admin/task/saveAnswer" method ="post">
-                    {{ text }}
+                  <p> {{ text }}</p>
                      <input type="hidden"  name = "taskId"  value="{{ id }}">
                     <ul>
                         {% if answers is defined  %}

@@ -93,7 +93,8 @@ class StudentManager implements CommonManager
         /** @var StudentRepository $studentRepository */
         $studentRepository = $this->entityManager->getRepository(Student::class);
 
-        return $studentRepository->getStudents($page ?? self::PAGINATION_DEFAULT_PAGE, $perPage ?? self::PAGINATION_DEFAULT_PER_PAGE);
+        //return $studentRepository->getStudents($page ?? self::PAGINATION_DEFAULT_PAGE, $perPage ?? self::PAGINATION_DEFAULT_PER_PAGE);
+        return $studentRepository->findAll();
     }
 
     public function getStudentByUserLogin(string $login): Student

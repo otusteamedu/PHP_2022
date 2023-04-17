@@ -44,28 +44,33 @@ class ScoreRepository extends ServiceEntityRepository
 
         return $result;
     }
-    public function getScoreByAllLessons(int $studentId, DateTime $startDate = null, DateTime $finishDate = null) : array
+    public function getScoreGroupByLesson(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null) : array
     {
+        $studentIds = join(",", $students);
+
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('st.fullName fullName, l.title as lesson, sum(s.score) as sc')
+        $qb->select('st.id fullName, l.title as lesson, sum(s.score) as sc')
             ->from($this->getClassName(), 's')
             ->join('s.student', 'st')
             ->join('s.task', 't')
             ->join('t.lesson', 'l')
-            ->where('s.student = :studentId');
+            ->join('l.course', 'c')
+            ->where('s.student in(:studentIds)')
+            ->andWhere('l.course = :courseId');
         if(isset($startDate))
             $qb->andWhere('s.createdAt >= :startDate');
         if(isset($finishDate))
             $qb->andWhere('s.createdAt <= :finishDate');
         $qb->groupBy('fullName, lesson');
 
-        $qb->setParameter('studentId', $studentId);
+        $qb->setParameter('studentIds', $studentIds);
+        $qb->setParameter('courseId', $courseId);
         if(isset($startDate))
             $qb->setParameter('startDate', $startDate);
         if(isset($finishDate))
             $qb->setParameter('finishDate', $finishDate);
         //print $qb->getQuery()->getSQL();
-        $result =  $qb->getQuery()->enableResultCache(3600,"score_{$studentId}" )->getResult();
+        $result =  $qb->getQuery()->enableResultCache(3600,"score_{$studentIds}" )->getResult();
         return $qb->getQuery()->getResult();
     }
     public function getScoreBySkills(int $studentId, DateTime $startDate = null, DateTime $finishDate = null) : array
@@ -133,7 +138,6 @@ class ScoreRepository extends ServiceEntityRepository
             $qb->andWhere('s.createdAt >= :startDate');
         if(isset($finishDate))
             $qb->andWhere('s.createdAt <= :finishDate');
-
 
         $qb->setParameter('studentId', $studentId);
         $qb->setParameter('courseId', $courseId);
