@@ -44,35 +44,7 @@ class ScoreRepository extends ServiceEntityRepository
 
         return $result;
     }
-    public function getScoreGroupByLesson(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null) : array
-    {
-        $studentIds = join(",", $students);
 
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('st.id fullName, l.title as lesson, sum(s.score) as sc')
-            ->from($this->getClassName(), 's')
-            ->join('s.student', 'st')
-            ->join('s.task', 't')
-            ->join('t.lesson', 'l')
-            ->join('l.course', 'c')
-            ->where('s.student in(:studentIds)')
-            ->andWhere('l.course = :courseId');
-        if(isset($startDate))
-            $qb->andWhere('s.createdAt >= :startDate');
-        if(isset($finishDate))
-            $qb->andWhere('s.createdAt <= :finishDate');
-        $qb->groupBy('fullName, lesson');
-
-        $qb->setParameter('studentIds', $studentIds);
-        $qb->setParameter('courseId', $courseId);
-        if(isset($startDate))
-            $qb->setParameter('startDate', $startDate);
-        if(isset($finishDate))
-            $qb->setParameter('finishDate', $finishDate);
-        //print $qb->getQuery()->getSQL();
-        $result =  $qb->getQuery()->enableResultCache(3600,"score_{$studentIds}" )->getResult();
-        return $qb->getQuery()->getResult();
-    }
     public function getScoreBySkills(int $studentId, DateTime $startDate = null, DateTime $finishDate = null) : array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -149,6 +121,109 @@ class ScoreRepository extends ServiceEntityRepository
         $result  =  $qb->getQuery()->getResult();
 
         return $result[0]['score'];
+    }
+
+
+
+    public function getScoreGroupByLesson(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null) : array
+    {
+        $studentIds = join(",", $students);
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u.fullName fullName, l.title as lesson, sum(s.score) as sc, count(t.id)*10 as maxScore')
+            ->from($this->getClassName(), 's')
+            ->join('s.student', 'st')
+            ->join('st.user', 'u')
+            ->join('s.task', 't')
+            ->join('t.lesson', 'l')
+            ->join('l.course', 'c')
+            ->where('s.student in (:studentIds)')
+            ->andWhere('l.course = :courseId');
+        if(isset($startDate))
+            $qb->andWhere('s.createdAt >= :startDate');
+        if(isset($finishDate))
+            $qb->andWhere('s.createdAt <= :finishDate');
+        $qb->groupBy('fullName, lesson');
+
+        $qb->setParameter('studentIds', $students);
+        $qb->setParameter('courseId', $courseId);
+        if(isset($startDate))
+            $qb->setParameter('startDate', $startDate);
+        if(isset($finishDate))
+            $qb->setParameter('finishDate', $finishDate);
+        //print $qb->getQuery()->getSQL();
+        $result =  $qb->getQuery()->enableResultCache(3600,"score_{$studentIds}" )->getResult();
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getScoreGroupByLessonAndSkill(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null) : array
+    {
+        $studentIds = join(",", $students);
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u.fullName fullName, l.title as lesson,  skill.title skillTitle,  sum(s.score * ts.percent/100) as sc')
+            ->from($this->getClassName(), 's')
+            ->join('s.student', 'st')
+            ->join('st.user', 'u')
+            ->join('s.task', 't')
+            ->join('t.lesson', 'l')
+            ->join('l.course', 'c')
+            ->join('t.taskSkills', 'ts')
+            ->join('ts.skill', 'skill')
+            ->where('s.student in (:studentIds) ')
+            ->andWhere('l.course = :courseId');
+        if(isset($startDate))
+            $qb->andWhere('s.createdAt >= :startDate');
+        if(isset($finishDate))
+            $qb->andWhere('s.createdAt <= :finishDate');
+        $qb->groupBy('fullName, lesson, skill');
+
+        $qb->setParameter('studentIds', $students);
+        $qb->setParameter('courseId', $courseId);
+        if(isset($startDate))
+            $qb->setParameter('startDate', $startDate);
+        if(isset($finishDate))
+            $qb->setParameter('finishDate', $finishDate);
+
+
+       // dd($qb->getQuery()->getSQL());
+        $result =  $qb->getQuery()->enableResultCache(3600,"score_{$studentIds}" )->getResult();
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getScoreGroupByLessonAndSkillAndTask(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null) : array
+    {
+        $studentIds = join(",", $students);
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u.fullName fullName, l.title as lesson,  skill.title skillTitle,  t.title task, sum(s.score * ts.percent/100 ) as sc')
+            ->from($this->getClassName(), 's')
+            ->join('s.student', 'st')
+            ->join('st.user', 'u')
+            ->join('s.task', 't')
+            ->join('t.lesson', 'l')
+            ->join('l.course', 'c')
+            ->join('t.taskSkills', 'ts')
+            ->join('ts.skill', 'skill')
+            ->where('s.student in (:studentIds)')
+            ->andWhere('l.course = :courseId');
+        if(isset($startDate))
+            $qb->andWhere('s.createdAt >= :startDate');
+        if(isset($finishDate))
+            $qb->andWhere('s.createdAt <= :finishDate');
+        $qb->groupBy('fullName, lesson, task, skill');
+
+        $qb->setParameter('studentIds', $students);
+        $qb->setParameter('courseId', $courseId);
+        if(isset($startDate))
+            $qb->setParameter('startDate', $startDate);
+        if(isset($finishDate))
+            $qb->setParameter('finishDate', $finishDate);
+
+
+         //dd($qb->getQuery()->getSQL());
+        $result =  $qb->getQuery()->enableResultCache(3600,"score_{$studentIds}" )->getResult();
+        return $qb->getQuery()->getResult();
     }
 
 

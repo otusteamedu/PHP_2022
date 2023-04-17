@@ -88,25 +88,7 @@
                     {% endfor %}
                 {% endif %}
 
-                <li>
-                    <div class="item form-group">
-                        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
-                            <input type="text" name = "answerText[]"  required="required" placeholder="Текст ответа"   value="{{ answer.text | default('')}} "
-                                   class="form-control">
-                        </div>
 
-                        <div class="col-md-1 form-group">
-                            <input type="checkbox"   name = "answerIsCorrect[]"  value="{{ i }}" class="flat" >
-
-                        </div>
-                        <div class="col-md-1  form-group">
-                            <a href="deleteLine" onclick="deleteAnswerRow(event)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-                        </div>
-
-
-
-                    </div>
-                </li>
             </ul>
 
 

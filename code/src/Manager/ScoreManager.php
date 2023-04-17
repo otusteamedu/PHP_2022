@@ -131,6 +131,16 @@ class ScoreManager implements CommonManager
         return $this->entityManager->getRepository(Score::class)->getScoreGroupByLesson($students,$courseId, $startDate, $finishDate );
     }
 
+    public function getScoreGroupByLessonsAndSkill(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null)
+    {
+        return $this->entityManager->getRepository(Score::class)->getScoreGroupByLessonAndSkill($students,$courseId, $startDate, $finishDate );
+    }
+
+    public function getScoreGroupByLessonsAndSkillAndTask(array $students, int $courseId,  DateTime $startDate = null, DateTime $finishDate = null)
+    {
+        return $this->entityManager->getRepository(Score::class)->getScoreGroupByLessonAndSkillAndTask($students,$courseId, $startDate, $finishDate );
+    }
+
 
 
 

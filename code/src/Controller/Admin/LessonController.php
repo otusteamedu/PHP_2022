@@ -73,7 +73,7 @@ class LessonController extends BaseController
 
         } else {
 
-            $this->lessonManager->updateLesson($lessonDTO->getCourseId(), $lessonDTO->getTitle(), $lessonDTO->getCourseId());
+            $this->lessonManager->updateLesson($lessonDTO->getId(), $lessonDTO->getTitle(), $lessonDTO->getCourseId());
             return $this->redirectToRoute('course.get_course', ['id' => $lessonDTO->getCourseId()] );
         }
     }

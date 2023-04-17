@@ -252,9 +252,9 @@ class TaskController extends BaseController
             'course' => $task->getLesson()->getCourse(),
             'lesson' => $task->getLesson(),
             'answers' => $task->getAnswers(),
-            //'roles' => json_encode($this->getUser()->getRoles()),
 
         ];
+
         return $this->render('admin/task/showForStudent.twig', $data );
     }
 

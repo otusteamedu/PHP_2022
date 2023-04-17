@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Report;
 
 
+
 use App\Controller\Admin\BaseController;
 use App\Entity\Student;
 use App\Manager\CourseManager;
 use App\Manager\ScoreManager;
 use App\Manager\StudentManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -18,8 +20,8 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx as reader;
 
 use DateTime;
 
-#[Route(path: '/report/report1')]
-class ReportAction extends BaseController
+#[Route(path: '/report/report2')]
+class Report2Controller extends BaseController
 {
     /**
      * @Route("/report.xlsx")
@@ -33,7 +35,7 @@ class ReportAction extends BaseController
     {
 
     }
-    #[Route(path: '', name: 'report.get_form_report1',  methods: ['GET'])]
+    #[Route(path: '', name: 'report.get_form_report2',  methods: ['GET'])]
     public function getReportForm(Request $request)
     {
 
@@ -43,10 +45,10 @@ class ReportAction extends BaseController
              'students' =>  array_map(static fn(Student $student) => $student->toArray(), $this->studentManager->getStudents(1,20)),
         ];
 
-        return $this->render('admin/report/report_one_student.twig',$data );
+        return $this->render('admin/report/report_lesson_skill.twig',$data );
     }
 
-    #[Route(path: '/save', name: 'report.get_report1',  methods: ['POST'])]
+    #[Route(path: '/save', name: 'report.get_report2',  methods: ['POST'])]
     public function getCoursesAction(Request $request)
     {
 
@@ -55,36 +57,46 @@ class ReportAction extends BaseController
         $students = $request->request->get("students");
         $courseId = $request->request->get("course");
 
+        //$students = join(",",  $students);
+
         $startDate =  \DateTime::createFromFormat('m/d/Y', $startDate);
         $finishDate =  \DateTime::createFromFormat('m/d/Y', $finishDate);
 
+       // dd($courseId,$students,$startDate, $finishDate);
+
         if($courseId && !empty($students)) {
-            $result =  $this->scoreManager->getScoreGroupByLessons($students, (int) $courseId,  $startDate, $finishDate);
+            $result =  $this->scoreManager->getScoreGroupByLessonsAndSkill($students, (int) $courseId,  $startDate, $finishDate);
         }
 
         $spreadsheet = new Spreadsheet();
         $activeWorksheet = $spreadsheet->getActiveSheet();
 
+
         $activeWorksheet->setCellValue('A1', 'ФИО студента');
         $activeWorksheet->setCellValue('B1', 'Урок');
-        $activeWorksheet->setCellValue('C1', 'Балл');
-        $activeWorksheet->setCellValue('D1', 'Максимальный балл');
+        $activeWorksheet->setCellValue('C1', 'Навык');
+        $activeWorksheet->setCellValue('D1', 'Балл');
 
         $activeWorksheet->getStyle("A1:D1")->getFont()->setBold(true);
 
         $i = 2;
-        foreach ($result as $row) {
+        foreach ($result as $row){
             $activeWorksheet->setCellValue('A'.$i, $row['fullName']);
             $activeWorksheet->setCellValue('B'.$i, $row['lesson']);
-            $activeWorksheet->setCellValue('C'.$i, $row['sc']);
-            $activeWorksheet->setCellValue('D'.$i, $row['maxScore']);
+            $activeWorksheet->setCellValue('C'.$i, $row['skillTitle']);
+            $activeWorksheet->setCellValue('D'.$i, $row['sc']);
             $i++;
         }
 
-        $writer = new writer($spreadsheet);
-        $writer->save('reports/report_lesson.xlsx');
 
-        return $this->render('admin/report/ready.twig',['filename' => 'report_lesson.xlsx'] );
+        $writer = new writer($spreadsheet);
+        $writer->save('reports/report_lesson_skill.xlsx');
+
+
+        $reader = new reader();
+
+
+        return $this->render('admin/report/ready.twig',['filename' => 'report_lesson_skill.xlsx'] );
 
 
     }
