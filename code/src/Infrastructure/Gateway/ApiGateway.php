@@ -36,7 +36,7 @@ final class ApiGateway
         if (strpos($uri, 'addEvent')) {
             $res = $controller->addEvent();
         } elseif (strpos($uri, 'addSubscribe')) {
-            $res =$controller->addSubscribe();
+            $res = $controller->addSubscribe();
         } else {
             throw new \Exception('Не валидный метод');
         }
