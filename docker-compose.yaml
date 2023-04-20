@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver_otus
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app_otus
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0.29
+    ports:
+      - "3306:3306"
+    container_name: mysql_otus
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password111'
+      MYSQL_ROOT_PASSWORD: 'password111'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
