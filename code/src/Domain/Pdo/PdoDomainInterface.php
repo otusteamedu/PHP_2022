@@ -6,5 +6,5 @@ use PDO;
 
 interface PdoDomainInterface
 {
-    public function getClient(): PDO;
+    public function getClient(): ?PDO;
 }

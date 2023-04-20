@@ -22,71 +22,66 @@ final class Publisher implements PublisherInterface
      */
     private array $subscribers;
 
+    private ?EventMapper $eventMapper = null;
+    public ?SubscribeMapper $subscribeMapper = null;
+
+    public function __construct()
+    {
+        $pdo = new PdoGatewayApp();
+        if (!is_null($pdo->getClient())) {
+            $this->subscribeMapper = new SubscribeMapper($pdo);
+            $this->eventMapper = new EventMapper($pdo);
+        }
+    }
+
     /**
      * @throws \Exception
      */
     public function subscribe(SubscriberInterface $subscriber): void
     {
-        switch ($subscriber) {
-            case $subscriber->getType() == 'sport':
-                $type = 'sport';
-                break;
-            case $subscriber->getType() == 'concert':
-                $type = 'concert';
-                break;
-            case $subscriber->getType() == 'exhibition':
-                $type = 'exhibition';
-                break;
-            case $subscriber->getType() == 'concert_exhibition':
-                $type = 'concert_exhibition';
-                break;
-            default:
-                throw new \Exception('Неверный тип');
-        }
-        $pdo = new PdoGatewayApp();
-        $mapperSubscriber = new SubscribeMapper($pdo);
-        $mapperEvent = new EventMapper($pdo);
-        $event = $mapperEvent->findByType($type);
-        $subscriberModel = $mapperSubscriber->findByUserIdAndType($event->getId(), $subscriber->getId());
-        if (!is_null($subscriberModel)) {
-            $mapperSubscriber->update($subscriber->getId(), $event->getId());
+        if (!is_null($this->eventMapper)) {
+            $event = $this->eventMapper->findByType($subscriber->getType());
+            $subscriberModel = $this->subscribeMapper->findByUserIdAndType($event->getId(), $subscriber->getId());
+            if (!is_null($subscriberModel)) {
+                $this->subscribeMapper->update($subscriber->getId(), $event->getId());
+            } else {
+                $subscriberModel = new Subscriber(
+                    mt_rand(1, 100),
+                    $event->getId(),
+                    [$subscriber->getId()]
+                );
+                $this->subscribeMapper->create($subscriberModel);
+            }
         } else {
-            $subscriberModel = new Subscriber(
-                mt_rand(1, 100),
-                $event->getId(),
-                [$subscriber->getId()]
-            );
-            $mapperSubscriber->create($subscriberModel);
+            $this->subscribers[] = $subscriber;
         }
     }
 
     public function notify(AbstractEvent $event): void
     {
-        $pdo = new PdoGatewayApp();
-        $mapperSubscriber = new SubscribeMapper($pdo);
-        $mapperEvent = new EventMapper($pdo);
-        $eventModel = $mapperEvent->findByType($event->getTitle());
-        $subscribers = $mapperSubscriber->findByUserIdAndType($eventModel->getId())->getUsers();
+        if (!is_null($this->eventMapper)) {
+            $eventModel = $this->eventMapper->findByType($event->getTitle());
+            $subscribers = $this->subscribeMapper->findByUserIdAndType($eventModel->getId())->getUsers();
 
-        foreach ($subscribers as $subscriber) {
-            switch ($event->getTitle()) {
-                case $event->getTitle() == 'sport':
-                    $this->subscribers[] = new SportSubscriber($subscriber);
-                    break;
-                case $event->getTitle() == 'concert':
-                    $this->subscribers[] = new ConcertSubscriber($subscriber);
-                    break;
-                case $event->getTitle() == 'exhibition':
-                    $this->subscribers[] = new ExhibitionSubscriber($subscriber);
-                    break;
-                case $event->getTitle() == 'concert_exhibition':
-                    $this->subscribers[] = new ConcertExhibitionSubscriber($subscriber);
-                    break;
-                default:
-                    throw new \Exception('Неверный тип');
+            foreach ($subscribers as $subscriber) {
+                switch ($event->getTitle()) {
+                    case $event->getTitle() == 'sport':
+                        $this->subscribers[] = new SportSubscriber($subscriber);
+                        break;
+                    case $event->getTitle() == 'concert':
+                        $this->subscribers[] = new ConcertSubscriber($subscriber);
+                        break;
+                    case $event->getTitle() == 'exhibition':
+                        $this->subscribers[] = new ExhibitionSubscriber($subscriber);
+                        break;
+                    case $event->getTitle() == 'concert_exhibition':
+                        $this->subscribers[] = new ConcertExhibitionSubscriber($subscriber);
+                        break;
+                    default:
+                        throw new \Exception('Неверный тип');
+                }
             }
         }
-
         foreach ($this->subscribers as $subscriber) {
             $subscriber->update($event, $subscriber->getId());
         }
