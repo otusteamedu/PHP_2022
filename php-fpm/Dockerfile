@@ -8,9 +8,9 @@ RUN apk update && apk add \
         libmemcached-dev zlib-dev \ 
         #пакеты для postgres
         postgresql-dev \
-    && pecl install memcached \
+    && pecl install memcached-3.1.5 \
     && docker-php-ext-enable memcached \
-    && pecl install redis \
+    && pecl install redis-5.3.7 \
     && docker-php-ext-enable redis \
     && docker-php-ext-install pgsql pdo_pgsql
         
