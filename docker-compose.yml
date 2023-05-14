@@ -1,0 +1,87 @@
+version: '3'
+
+services: 
+
+    #php_1
+    application_1:
+        build:
+            context: ./php-fpm_1
+            dockerfile: Dockerfile
+        image: application/php-fpm
+        container_name: application_1
+        volumes:
+            - ./volumes/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./volumes/phpfpmsocket_1:/var/run
+            - ./www/application.local:/www/application.local
+        networks:
+            - app-network   
+                
+    #nginx_wserver_1
+    webserver_1:
+        build:
+            context: ./nginx_wserver_1
+            dockerfile: Dockerfile
+        image: application/nginx
+        container_name: webserver_1
+        volumes:
+            - ./volumes/nginx_wserver/vhosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ./volumes/phpfpmsocket_1:/var/run
+            - ./www/application.local:/www/application.local
+        networks:
+            - app-network 
+            
+    #php_2
+    application_2:
+        build:
+            context: ./php-fpm_2
+            dockerfile: Dockerfile
+        image: application/php-fpm
+        container_name: application_2
+        volumes:
+            - ./volumes/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./volumes/phpfpmsocket_2:/var/run
+            - ./www/application.local:/www/application.local
+        networks:
+            - app-network   
+                
+    #nginx_wserver_2
+    webserver_2:
+        build:
+            context: ./nginx_wserver_2
+            dockerfile: Dockerfile
+        image: application/nginx
+        container_name: webserver_2
+        volumes:
+            - ./volumes/nginx_wserver/vhosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ./volumes/phpfpmsocket_2:/var/run
+            - ./www/application.local:/www/application.local
+        networks:
+            - app-network
+
+    #nginx_balancer
+    balancer:
+        build:
+            context: ./nginx_balancer
+            dockerfile: Dockerfile
+        image: application/nginx
+        container_name: balancer
+        ports:
+            - "80:80"
+        volumes:
+            - ./volumes/nginx_balancer/balancer.conf:/etc/nginx/nginx.conf
+        networks:
+            - app-network   
+
+    #memcached
+    memcached:
+        build:
+            context: ./memcached
+            dockerfile: Dockerfile
+        image: application/memcached
+        container_name: memcached
+        networks:
+            - app-network            
+
+networks:
+    app-network:
+        driver: bridge    
