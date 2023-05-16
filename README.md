@@ -9,6 +9,7 @@ PHP Developer. Professional
 ## Использование
 
 ```cmd
+composer install
 docker-compose up -d
 ```
 

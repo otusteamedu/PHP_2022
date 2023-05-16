@@ -1,0 +1,16 @@
+{
+    "name": "rehkzylbz/otus-hw4",
+    "description": "otus php hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Rehkzylbz\\OtusHw4\\": "www/application.local/src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "rehkzylbz"
+        }
+    ],
+    "require": {}
+}
