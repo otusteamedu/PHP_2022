@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/bootstrap.php';
+use App\Kernel;
 
-(new App\Controller())(Symfony\Component\HttpFoundation\Request::createFromGlobals())->send();
+if (!is_file(dirname(__DIR__) . '/vendor/autoload_runtime.php')) {
+    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
+}
+
+require_once dirname(__DIR__) . '/vendor/autoload_runtime.php';
+
+return function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};

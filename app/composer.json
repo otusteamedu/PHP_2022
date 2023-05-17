@@ -1,8 +1,8 @@
 {
     "name": "atlance/otus-php-2022",
     "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
-    "type": "project",
     "license": "MIT",
+    "type": "project",
     "authors": [
         {
             "name": "Anton Stepanov",
@@ -18,32 +18,46 @@
         "ext-mbstring": "*",
         "ext-memcached": "*",
         "ext-pdo": "*",
-        "symfony/dotenv": "^6.1",
-        "symfony/http-foundation": "^6.2",
-        "symfony/validator": "^6.2"
+        "symfony/flex": "^2.2",
+        "symfony/framework-bundle": "^6.2",
+        "symfony/runtime": "^6.2",
+        "symfony/serializer": "^6.2",
+        "symfony/validator": "^6.2",
+        "symfony/yaml": "^6.2"
     },
     "require-dev": {
-        "brianium/paratest": "^6.8",
-        "symfony/http-client": "^6.2"
-    },
-    "scripts": {
-        "tests": "vendor/bin/paratest --runner WrapperRunner"
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "sort-packages": true,
-        "preferred-install": {
-            "*": "dist"
-        }
+        "brianium/paratest": "^7.1",
+        "ergebnis/composer-normalize": "^2.31",
+        "symfony/browser-kit": "^6.2"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "App\\Core\\": "core/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "App\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "ergebnis/composer-normalize": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "tests": "vendor/bin/paratest --runner WrapperRunner",
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }

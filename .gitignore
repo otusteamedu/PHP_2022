@@ -1,15 +1,15 @@
 /*
-!/**/
-/**/.*
 
-/app/var/cache/*
-/app/var/run/*
-/app/var/log/*
+!/app
+/app/var
 /app/public/*
+!/app/public/index.php
 /app/vendor
 
+/**/.*
 !/**/.gitkeep
 !/**/*.php
+/**/.*.php
 !/**/*.dist
 !/**/.gitignore
 
