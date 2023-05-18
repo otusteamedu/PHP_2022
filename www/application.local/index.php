@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 require '/vendor/autoload.php';
 
-use Rehkzylbz\OtusHw4\SessionProvider;
-use Rehkzylbz\OtusHw4\RequestProvider;
-use Rehkzylbz\OtusHw4\StringValidator;
-use Rehkzylbz\OtusHw4\ResponseProvider;
+use Rehkzylbz\OtusHw4\App;
 
-$session = (new SessionProvider('memcached'))->start();
-$string = (new RequestProvider())->get_post_parameter('string', ')(');
-$validation = (new StringValidator())->is_valid_parenthesis($string);
-(new ResponseProvider($validation))->send($session->get_info_message());
+(new App())->run(')(');

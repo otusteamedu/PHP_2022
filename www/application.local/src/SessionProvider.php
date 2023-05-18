@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rehkzylbz\OtusHw4;
 
 class SessionProvider {
@@ -13,11 +15,19 @@ class SessionProvider {
         }
     }
 
+    /**
+     * 
+     * @return $this
+     */
     public function start() {
         session_start();
         return $this;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function get_info_message(): string {
         $message = '<br>PHP Контейнер ID: ' . $_SERVER['HOSTNAME'] . ' <br>Session ID: ' . session_id() . PHP_EOL;
         return $message;

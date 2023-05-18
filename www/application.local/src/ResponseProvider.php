@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rehkzylbz\OtusHw4;
 
 class ResponseProvider {
@@ -17,6 +19,11 @@ class ResponseProvider {
         $this->_response_text = $status ? self::GOOD_TEXT : self::BAD_TEXT;
     }
 
+    /**
+     * 
+     * @param string $message
+     * @return void
+     */
     public function send(string $message = ''): void {
         http_response_code($this->_response_code);
         echo $this->_response_text;
