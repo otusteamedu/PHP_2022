@@ -12,7 +12,7 @@ interface OrderInterface
      * @param FoodFactory $food
      * @param SplObserver $observer
      */
-    public function __construct(FoodFactory $food, SplObserver $observer);
+//    public function __construct(FoodFactory $food, SplObserver $observer);
 
     /**
      * @param OrderInterface $stream

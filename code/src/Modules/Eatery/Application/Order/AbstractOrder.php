@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw14\Modules\Eatery\Application\Order;
 
+use DI\Container;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Order\Order;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\FoodFactory;
 use SplObserver;
+use Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\Notifier;
+use Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\DTO\Ingredients;
+use Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\QualityFood;
 
 abstract class AbstractOrder implements OrderInterface, \SplSubject
 {
@@ -16,11 +20,15 @@ abstract class AbstractOrder implements OrderInterface, \SplSubject
     private OrderInterface $next;
     private \SplObjectStorage $observers;
 
-    public function __construct(FoodFactory $food, SplObserver $observer)
+    public function __construct(Container $container)
     {
+
         $this->observers = new \SplObjectStorage();
-        $this->food = $food;
-        $this->observer = $observer;
+//        $this->food = $container->get(FoodFactory::class);
+        $this->food = $container->get(QualityFood::class);
+        $this->observer = $container->get(Notifier::class);
+//        $this->food = $food;
+//        $this->observer = $observer;
     }
 
     /**
@@ -45,6 +53,12 @@ abstract class AbstractOrder implements OrderInterface, \SplSubject
         }
 
         return $this->next->create($food);
+    }
+
+    public function addIngredients(?Ingredients $ingredients)
+    {
+        $this->food->addIngredients($ingredients);
+        return $this;
     }
 
     /**

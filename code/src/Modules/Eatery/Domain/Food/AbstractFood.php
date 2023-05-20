@@ -21,14 +21,21 @@ use Nikcrazy37\Hw14\Modules\Eatery\Domain\Recipe\Ingredient\AddBread;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Recipe\Ingredient\AddHam;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Recipe\Ingredient\AddChicken;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Recipe\Recipe;
+use DI\Container;
+use Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\DTO\Ingredients;
 
 abstract class AbstractFood implements FoodFactory
 {
     protected Recipe $recipe;
 
-    public function __construct(Recipe $recipe)
+    public function __construct(Container $container)
     {
-        $this->recipe = $recipe;
+        $this->recipe = $container->get(FoodRecipe::class);
+    }
+
+    public function addIngredients(?Ingredients $ingredients)
+    {
+        $this->recipe->addIngredients($ingredients);
     }
 
     /**

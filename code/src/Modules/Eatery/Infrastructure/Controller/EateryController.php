@@ -17,6 +17,9 @@ use Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\HotDogFood;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Food\SandwichFood;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Recipe\FoodRecipe;
 use DI\Container;
+use DI\ContainerBuilder;
+use Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\Model\OrderProcess;
+use Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\DTO\Ingredients;
 
 class EateryController extends BaseController
 {
@@ -38,17 +41,38 @@ class EateryController extends BaseController
     {
         $food = $this->request->food;
 
-        $ingredients = array();
+        $ingredients = null;
         if ($this->request->exist("ingredients")) {
-            $ingredients = array_map(static fn($ingredient) => IngredientEnum::from($ingredient), $this->request->ingredients);
+            $ingredients = new Ingredients(
+                array_map(static fn($ingredient) => IngredientEnum::from($ingredient), $this->request->ingredients)
+            );
         }
 
-        try {
+        /*try {
             $container = new Container();
 
             $order = $container->get(OrderBurger::class)
                 ->setNext($container->get(OrderHotDog::class))
                 ->setNext($container->get(OrderSandwich::class));
+        } catch (\Exception $e) {
+            echo "<pre>";
+            print_r($e->getMessage());
+            echo "</pre>";
+        }*/
+
+
+
+        try {
+            $containerBuilder = new ContainerBuilder();
+            $containerBuilder->addDefinitions(__DIR__ . "/../definitions.php");
+            $container = $containerBuilder->build();
+            $orderProcess = $container->get(OrderProcess::class);
+
+            $res = $orderProcess->addIngredients($ingredients)->start();
+
+//            $order = $container->get(OrderBurger::class)
+//                ->setNext($container->get(OrderHotDog::class))
+//                ->setNext($container->get(OrderSandwich::class));
         } catch (\Exception $e) {
             echo "<pre>";
             print_r($e->getMessage());
@@ -83,8 +107,6 @@ class EateryController extends BaseController
                     new Notifier(),
                 )
             );*/
-
-        $res = $order->create($food);
 
         if ($res !== null) {
             $result["orderId"] = $res->getId()->getValue();

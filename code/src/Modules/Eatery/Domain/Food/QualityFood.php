@@ -6,18 +6,33 @@ namespace Nikcrazy37\Hw14\Modules\Eatery\Domain\Food;
 
 use Nikcrazy37\Hw14\Libs\Config;
 use Nikcrazy37\Hw14\Modules\Eatery\Domain\Exception\QualityFoodException;
+use Nikcrazy37\Hw14\Modules\Eatery\Infrastructure\DTO\Ingredients;
+use DI\Container;
 
 class QualityFood extends AbstractFood
 {
     private FoodFactory $food;
+    private Container $container;
 
     /**
-     * @param FoodFactory $food
+     * @param Container $container
      */
-    public function __construct(FoodFactory $food)
+    public function __construct(Container $container)
     {
-        $this->food = $food;
-        parent::__construct($this->food->recipe);
+        $this->container = $container;
+//        $food = $this->getFood();
+        $food = $this->container->get(BurgerFood::class);
+        parent::__construct($container);
+    }
+
+    public function getFood()
+    {
+        return $this->food;
+    }
+
+    public function setFood($foodName)
+    {
+        $this->food = $this->container->get($foodName);
     }
 
     /**
@@ -33,6 +48,11 @@ class QualityFood extends AbstractFood
         }
 
         return $recipe;
+    }
+
+    public function addIngredients(?Ingredients $ingredients)
+    {
+        parent::addIngredients($ingredients);
     }
 
     /**
