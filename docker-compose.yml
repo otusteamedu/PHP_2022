@@ -1,0 +1,40 @@
+version: '3'
+
+services: 
+
+    #php_1
+    application_server:
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+        image: application/php8.1
+        container_name: application_server
+        command: tail -f /dev/null
+        volumes:
+            - ./docker/volumes/php_socket:/var/run/php_socket
+            - ./project:/project
+            - ./vendor:/vendor
+        networks:
+            - app-network    
+            
+    #php_2
+    
+    application_client:
+        depends_on:
+            - application_server
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+        image: application/php8.1
+        container_name: application_client
+        command: tail -f /dev/null
+        volumes:
+            - ./docker/volumes/php_socket:/var/run/php_socket
+            - ./project:/project
+            - ./vendor:/vendor
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge    
