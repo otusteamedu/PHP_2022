@@ -1,0 +1,15 @@
+{
+    "name": "rehkzylbz/otus-hw7",
+    "description": "otus php hw7",
+    "autoload": {
+        "psr-4": {
+            "Rehkzylbz\\OtusHw7\\": "project/src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "rehkzylbz"
+        }
+    ],
+    "require": {}
+}
