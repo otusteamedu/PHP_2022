@@ -22,7 +22,8 @@ CREATE TABLE "attribute_values" (
   "value_text" text,
   "value_date" date,
   "value_boolean" boolean,
-  "value_integer" integer
+  "value_integer" integer,
+  "value_numeric" numeric(16, 4)
 );
 
 CREATE INDEX attribute_values_film_id ON attribute_values (film_id);
