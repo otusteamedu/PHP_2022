@@ -1,0 +1,79 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local/
+    depends_on:
+      - app_sender
+    networks:
+      - app-network
+
+  app_sender:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    container_name: app_sender
+    volumes:
+      - ./code:/data/mysite.local/
+      - .env:/data/mysite.local/.env
+    depends_on:
+      - app_receiver
+    networks:
+      - app-network
+
+  app_receiver:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    container_name: app_receiver
+    restart: always
+    command: "php receive.php"
+    volumes:
+      - ./code:/data/mysite.local/
+      - .env:/data/mysite.local/.env
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  rabbitmq:
+    build:
+      context: docker/rabbitmq
+      dockerfile: Dockerfile
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+    networks:
+      - app-network
+
+  telegram-bot-api:
+    image: aiogram/telegram-bot-api:latest
+    container_name: telegram_bot
+    environment:
+      TELEGRAM_API_ID: ${TELEGRAM_API_ID}
+      TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
+    volumes:
+      - ./data/telegram-bot-api-data:/var/lib/telegram-bot-api
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
