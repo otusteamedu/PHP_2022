@@ -25,7 +25,8 @@ class Sender extends Builder
     {
         return array(
             "name" => $user->getName(),
-            "date" => $statement->getDate()
+            "dateFrom" => $statement->getDateFrom(),
+            "dateTo" => $statement->getDateTo(),
         );
     }
 

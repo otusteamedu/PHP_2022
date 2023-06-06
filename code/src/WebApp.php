@@ -6,6 +6,8 @@ namespace Nikcrazy37\Hw16;
 
 use Nikcrazy37\Hw16\Libs\Core\DI\DIContainer;
 use Dotenv\Dotenv;
+use Nikcrazy37\Hw16\Libs\ExceptionHandler;
+use Throwable;
 
 class WebApp
 {
@@ -19,14 +21,8 @@ class WebApp
 
             $container->get(Dotenv::class);
             $container->get(Router::class);
-        } catch (\Throwable $e) {
-            http_response_code($e->getCode());
-
-            print_r($e->getMessage());
-
-            echo "<br><pre>";
-            print_r($e->getTraceAsString());
-            echo "</pre>";
+        } catch (Throwable $e) {
+            ExceptionHandler::printMessage($e);
         }
     }
 }

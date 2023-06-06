@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw16\Modules\Statement\Infrastructure\Queue;
 
-use Nikcrazy37\Hw16\Modules\Statement\Domain\QueueConnection;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Channel\AbstractChannel;

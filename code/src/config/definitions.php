@@ -6,7 +6,7 @@ use function DI\get;
 use function DI\autowire;
 use Dotenv\Dotenv;
 use Nikcrazy37\Hw16\Router;
-use Nikcrazy37\Hw16\Modules\Statement\Domain\QueueConnection;
+use Nikcrazy37\Hw16\Modules\Statement\Infrastructure\Queue\QueueConnection;
 use Nikcrazy37\Hw16\Modules\Statement\Infrastructure\Queue\Sender;
 use Nikcrazy37\Hw16\Modules\Statement\Infrastructure\Queue\Receiver;
 use Nikcrazy37\Hw16\Modules\Statement\Infrastructure\Queue\Connection;

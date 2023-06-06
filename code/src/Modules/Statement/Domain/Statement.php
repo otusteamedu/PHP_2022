@@ -4,22 +4,30 @@ declare(strict_types=1);
 
 namespace Nikcrazy37\Hw16\Modules\Statement\Domain;
 
+use DateTimeImmutable;
+use Exception;
+use Nikcrazy37\Hw16\Modules\Statement\Domain\Exception\InvalidDate;
+
 readonly class Statement
 {
-    private string $date;
-    private string $dateFrom;
-    private string $dateTo;
+    private const DATE_FORMAT = "d.m.Y";
+
+    private DateTimeImmutable $dateFrom;
+    private DateTimeImmutable $dateTo;
 
     /**
-     * @param string $date
+     * @param string $dateFrom
+     * @param string $dateTo
+     * @throws InvalidDate
      */
-    public function __construct(string $date)
+    public function __construct(string $dateFrom, string $dateTo)
     {
-        $this->date = $date;
-        $tmpDate = explode("-", $date);
-
-        $this->dateFrom = $tmpDate[0];
-        $this->dateTo = $tmpDate[1];
+        try {
+            $this->dateFrom = new DateTimeImmutable($dateFrom);
+            $this->dateTo = new DateTimeImmutable($dateTo);
+        } catch (Exception $e) {
+            throw new InvalidDate($e->getMessage());
+        }
     }
 
     /**
@@ -27,7 +35,7 @@ readonly class Statement
      */
     public function getDate(): string
     {
-        return $this->date;
+        return $this->dateFrom->format(self::DATE_FORMAT) . " - " . $this->dateTo->format(self::DATE_FORMAT);
     }
 
     /**
@@ -35,7 +43,7 @@ readonly class Statement
      */
     public function getDateFrom(): string
     {
-        return $this->dateFrom;
+        return $this->dateFrom->format(self::DATE_FORMAT);
     }
 
     /**
@@ -43,6 +51,6 @@ readonly class Statement
      */
     public function getDateTo(): string
     {
-        return $this->dateTo;
+        return $this->dateTo->format(self::DATE_FORMAT);
     }
 }

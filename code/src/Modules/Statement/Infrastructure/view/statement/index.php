@@ -22,8 +22,15 @@
 
     <p>
         <label>
-            Дата:<br>
-            <input type="text" name="date" placeholder="01.01.2001-01.01.2011" value="01.01.2001-01.01.2011" style="margin-top:5px">
+            Дата(от):<br>
+            <input type="text" name="dateFrom" placeholder="01.01.2001" value="01.01.2001" style="margin-top:5px">
+        </label>
+    </p>
+
+    <p>
+        <label>
+            Дата(до):<br>
+            <input type="text" name="dateTo" placeholder="01.01.2002" value="01.01.2002" style="margin-top:5px">
         </label>
     </p>
 

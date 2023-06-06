@@ -45,7 +45,7 @@ class Receiver extends Builder
 
         $statement = StatementGenerator::generate(
             new User($data["name"]),
-            new Statement($data["date"])
+            new Statement($data["dateFrom"], $data["dateTo"])
         );
 
         ReceiveLogger::done();
