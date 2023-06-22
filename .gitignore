@@ -1,0 +1,11 @@
+/*
+
+!.github
+!docs
+!docker
+
+
+!.gitignore
+!docker-compose.yml
+!Makefile
+!.*.dist
