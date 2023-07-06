@@ -12,13 +12,13 @@ app/coverage.xml
 
 !docker
 !docs
+!make
 
 !Makefile
 !phpcs.xml
 !.gitignore
 /app/.gitignore
-/bank/.gitignore
-!docker-compose.yml
+!docker-compose.*.yml
 
 **.cache
 !**.lock

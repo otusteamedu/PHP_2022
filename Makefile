@@ -1,24 +1,26 @@
-$(shell cp -n .env.dist .env && cp -n ./app/.env.dist ./app/.env && mkdir -p ./app/var/log ./app/var/run)
+$(shell cp -n .env.dev.dist .env && \
+	cp -n ./app/.env.dev.dist ./app/.env && \
+	mkdir -p ./app/var/log ./app/var/run && \
+	chmod 777 ./app/var/log ./app/var/run)
 
 include ./.env
-export $(shell sed 's/=.*//' ./.env)
+export $(shell sed 's/=.*//' .env)
 
-init:	## Install and run service.
-	@make up
-	@make composer-install
-	@make migrations-migrate
+-include ./make/common/*.mk
+-include ./make/${APP_ENV}/*.mk
 
-up:	## Start service. Rebuild if necessary.
-	docker-compose up --build -d
+RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+$(eval $(RUN_ARGS):;@:)
 
-composer-install:	## Install packages dependencies.
-	docker-compose run --rm php-cli composer install --no-interaction --no-progress
+env:
+	cp .env.${RUN_ARGS}.dist .env
+	cp ./app/.env.${RUN_ARGS}.dist ./app/.env
 
-migrations-migrate:	## DB migrate migrations.
-	docker-compose run --rm php-cli bin/console doctrine:migration:migrate --no-interaction --allow-no-migration
-
-consume:	## Run consumers in the background.
-	docker-compose run --rm -d consumer supervisord -c /etc/supervisor/supervisord.conf
+init:	## Build & run app developments containers.
+	@make env ${RUN_ARGS}
+	@make docker-compose ${RUN_ARGS}
+	@make docker-build
+	@make docker-up
 
 down:	## Down service.
 	docker-compose down --remove-orphans
@@ -26,12 +28,6 @@ down:	## Down service.
 down-clear:	## Down service and remove volumes.
 	docker-compose down --remove-orphans -v
 	rm -rf ./app/var/*
-
-php-analyze:	## Run static analyze - phpcs, phplint, phpstan, psalm.
-	docker-compose run --rm php-cli composer php-analyze
-
-test:	## Run phpunit tests.
-	docker-compose run --rm php-cli composer test
 
 .PHONY: help
 
