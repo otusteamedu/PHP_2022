@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local/
+    depends_on:
+      - app_sender
+    networks:
+      - app-network
+
+  app_sender:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    container_name: app_sender
+    volumes:
+      - ./code:/data/mysite.local/
+      - .env:/data/mysite.local/.env
+    depends_on:
+      - app_receiver
+    networks:
+      - app-network
+
+  app_receiver:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    container_name: app_receiver
+    restart: always
+    command: "php receive.php"
+    volumes:
+      - ./code:/data/mysite.local/
+      - .env:/data/mysite.local/.env
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  rabbitmq:
+    build:
+      context: docker/rabbitmq
+      dockerfile: Dockerfile
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command:
+      - '--save 1 1'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

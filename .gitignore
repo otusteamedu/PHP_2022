@@ -1,0 +1,6 @@
+/idea/
+/data/
+/code/vendor/
+/code/public/example/
+/code/src/log/
+.env

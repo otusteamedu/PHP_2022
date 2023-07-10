@@ -1,0 +1,25 @@
+{
+    "name": "nikcrazy37/hw20",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nikcrazy37\\Hw20\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nikcrazy37",
+            "email": "nik_crazy@bk.ru"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": "^3.5",
+        "php-di/php-di": "^7.0",
+        "ext-curl": "*",
+        "vlucas/phpdotenv": "^5.5",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.6",
+        "predis/predis": "^2.2",
+        "zircote/swagger-php": "^4.7"
+    }
+}
