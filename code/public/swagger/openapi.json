@@ -1,0 +1,73 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Request API",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "/api/v1"
+        }
+    ],
+    "paths": {
+        "/request": {
+            "post": {
+                "description": "Создаёт новый запрос в системе",
+                "operationId": "send",
+                "responses": {
+                    "200": {
+                        "description": "Запрос создан в системе",
+                        "content": {
+                            "string": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/request/{uid}": {
+            "get": {
+                "description": "Проверяет состояние запроса в системе",
+                "operationId": "check",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "Идентификатор запроса в системе",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос создан в системе",
+                        "content": {
+                            "string": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Response": {
+                "description": "uid",
+                "type": "string"
+            },
+            "ResponseStatus": {
+                "description": "status",
+                "type": "string"
+            }
+        }
+    }
+}

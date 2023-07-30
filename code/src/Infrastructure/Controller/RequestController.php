@@ -11,7 +11,22 @@ use DI\Container;
 use Nikcrazy37\Hw20\Infrastructure\Queue\Sender;
 use OpenApi\Attributes as OA;
 
+#[OA\Server('/api/v1')]
 #[OA\Info(version: '0.1', title: 'Request API')]
+#[OA\Components(
+    schemas: [
+        new OA\Schema(
+            schema: "Response",
+            description: "uid",
+            type: "string"
+        ),
+        new OA\Schema(
+            schema: "ResponseStatus",
+            description: "status",
+            type: "string"
+        )
+    ]
+)]
 class RequestController
 {
     private Container $container;
@@ -24,11 +39,18 @@ class RequestController
     }
 
     #[OA\Post(
-        path: '/api/v1/request',
+        path: '/request',
         operationId: 'send',
         description: 'Создаёт новый запрос в системе',
         responses: [
-            new OA\Response(response: 201, description: 'Запрос создан в системе')
+            new OA\Response(
+                response: 200,
+                description: 'Запрос создан в системе',
+                content: new OA\MediaType(
+                    mediaType: 'string',
+                    schema: new OA\Schema(ref: '#/components/schemas/Response')
+                )
+            )
         ]
     )]
     public function send(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -43,14 +65,27 @@ class RequestController
     }
 
     #[OA\Get(
-        path: '/api/v1/request/{uid}',
+        path: '/request/{uid}',
         operationId: 'check',
         description: 'Проверяет состояние запроса в системе',
         parameters: [
-            new OA\Parameter(name: 'uid', description: 'Идентификатор запроса в системе', in: 'path', required: true)
+            new OA\Parameter(
+                name: 'uid',
+                description: 'Идентификатор запроса в системе',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string')
+            )
         ],
         responses: [
-            new OA\Response(response: 200, description: 'Запрос создан в системе')
+            new OA\Response(
+                response: 200,
+                description: 'Запрос создан в системе',
+                content: new OA\MediaType(
+                    mediaType: 'string',
+                    schema: new OA\Schema(ref: '#/components/schemas/ResponseStatus')
+                )
+            )
         ],
     )]
     public function check(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
