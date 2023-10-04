@@ -1,5 +1,7 @@
 <?php
 
+namespace find_the_pivot_integer;
+
 /**
  *  Сложность линейная O(n)
  *
@@ -10,12 +12,11 @@
 
 class Solution
 {
-
     /**
      * @param Integer $n
      * @return Integer
      */
-    function pivotInteger($n)
+    public function pivotInteger($n)
     {
         if ($n === 1) {
             return 1;
@@ -34,5 +35,4 @@ class Solution
     {
         return 0.5 * ($m + $n) * ($m - $n + 1);
     }
-
 }

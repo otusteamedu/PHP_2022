@@ -1,5 +1,7 @@
 <?php
 
+namespace  product_of_array_except_self;
+
 /**
  *  Сложность линейная O(n + n-1 + n-1) = O(n)
  *   три цикла по n, n-1, n-1       ~3n, константу отбрасываем
@@ -11,12 +13,11 @@
 
 class Solution
 {
-
     /**
-     * @param Integer[] $nums
+     * @param  Integer[] $nums
      * @return Integer[]
      */
-    function productExceptSelf($nums)
+    public function productExceptSelf($nums)
     {
         $answer = [];
 

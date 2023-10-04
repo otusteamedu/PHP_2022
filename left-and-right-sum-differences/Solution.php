@@ -1,5 +1,7 @@
 <?php
 
+namespace left_and_right_sum_differences;
+
 /**
  *  Сложность линейная O(n + n-1 + n-1) = O(n)
  *   три цикла по n, n-1, n-1       ~3n, константу отбрасываем
@@ -11,12 +13,11 @@
 
 class Solution
 {
-
     /**
-     * @param Integer[] $nums
+     * @param  Integer[] $nums
      * @return Integer[]
      */
-    function leftRightDifference($nums)
+    public function leftRightDifference($nums)
     {
         $answer = [];
 
