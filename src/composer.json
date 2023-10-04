@@ -6,6 +6,7 @@
         }
     },
     "require": {
-        "laminas/laminas-config-aggregator": "^1.11"
+        "laminas/laminas-config-aggregator": "^1.11",
+        "php-di/php-di": "^7.0"
     }
 }
