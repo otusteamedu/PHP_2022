@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Chat\SocketChat\Factory;
 
 use Exception;
+use RuntimeException;
 use Socket;
 
 class SocketFactory
@@ -16,8 +17,9 @@ class SocketFactory
     {
         $socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
 
-        if (!$socket)
-            throw new Exception('Unable to create AF_UNIX socket');
+        if (!$socket) {
+            throw new RuntimeException('Unable to create AF_UNIX socket');
+        }
 
         self::loadSocketDir(pathinfo($socketFullPath, PATHINFO_DIRNAME));
 
@@ -29,9 +31,10 @@ class SocketFactory
      */
     private static function loadSocketDir($socketDir): void
     {
-        if (!is_dir($socketDir))
+        if (!is_dir($socketDir)) {
             mkdir($socketDir, 0777, true) or
-            throw new Exception('Error by creating dir for socket file');
+            throw new RuntimeException('Error by creating dir for socket file');
+        }
     }
 
     /**
@@ -39,10 +42,12 @@ class SocketFactory
      */
     private static function bindSocket(Socket $socket, $socketFullPath): Socket
     {
-        if (file_exists($socketFullPath))
+        if (file_exists($socketFullPath)) {
             unlink($socketFullPath);
-        if (!socket_bind($socket, $socketFullPath))
-            throw new Exception("Unable to bind to $socketFullPath");
+        }
+        if (!socket_bind($socket, $socketFullPath)) {
+            throw new RuntimeException("Unable to bind to $socketFullPath");
+        }
 
         return $socket;
     }

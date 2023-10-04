@@ -6,9 +6,28 @@ namespace App\Command;
 
 class ListCommand implements CommandInterface
 {
-    public function execute()
+    public const ALIAS = 'list';
+
+    public function execute(): void
     {
-        echo 'Available commands are:' . PHP_EOL . 'list, server, client' . PHP_EOL;
+        $this->printAliases();
     }
 
+    /**
+     * @return array<string>
+     */
+    public function getAliases(): array
+    {
+        return [
+            self::ALIAS,
+            ServerCommand::ALIAS,
+            ClientCommand::ALIAS
+        ];
+    }
+
+    public function printAliases(): void
+    {
+        $aliases = $this->getAliases();
+        printf("Available commands are:\n'%s'\n", implode(', ', $aliases));
+    }
 }
