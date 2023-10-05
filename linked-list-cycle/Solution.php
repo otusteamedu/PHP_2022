@@ -5,7 +5,7 @@ namespace linked_list_cycle;
 /**
  *  Сложность линейная O(n)
  *
- *  по памяти константная O(1)
+ *  по памяти линейная O(n), где n - кол-во узлов в списке
  *
  *  https://leetcode.com/problems/linked-list-cycle/submissions/1065855879/
  */
