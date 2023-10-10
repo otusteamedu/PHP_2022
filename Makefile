@@ -1,5 +1,7 @@
 DOCKER_COMPOSE = docker compose
 
+init: up composer-install
+
 up:
 	${DOCKER_COMPOSE} up -d
 
