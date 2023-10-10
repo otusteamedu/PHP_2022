@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Chat;
+namespace App\Application\Chat;
 
-enum ServerMode
+enum Mode
 {
     case SERVER;
     case CLIENT;

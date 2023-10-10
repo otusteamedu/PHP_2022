@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-use App\Chat\ChatInterface;
-use App\Command\ClientCommand;
-use App\Command\ListCommand;
-use App\Command\ServerCommand;
+use App\Application\Chat\ClientInterface;
+use App\Application\Chat\ServerInterface;
+use App\Application\Command\ClientCommand;
+use App\Application\Command\ServerCommand;
+use App\Infrastructure\Command\ListCommand;
 use Psr\Container\ContainerInterface;
 
 return [
     'commands' => [
         ServerCommand::ALIAS => static function (ContainerInterface $container): ServerCommand {
-            return new ServerCommand($container->get(ChatInterface::class));
+            return new ServerCommand($container->get(ServerInterface::class));
         },
         ClientCommand::ALIAS => static function (ContainerInterface $container): ClientCommand {
-            return new ClientCommand($container->get(ChatInterface::class));
+            return new ClientCommand($container->get(ClientInterface::class));
         },
         ListCommand::ALIAS => static function (): ListCommand {
             return new ListCommand();

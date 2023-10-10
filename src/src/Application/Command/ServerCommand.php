@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Application\Command;
 
-use App\Chat\ChatInterface;
-use App\Chat\ServerMode;
+use App\Application\Chat\ServerInterface;
 use Exception;
 
 class ServerCommand implements CommandInterface
 {
     public const ALIAS = 'server';
 
-    public function __construct(readonly private ChatInterface $chat)
+    public function __construct(readonly private ServerInterface $chat)
     {
     }
 
@@ -21,7 +20,7 @@ class ServerCommand implements CommandInterface
      */
     public function execute(): void
     {
-        $this->chat->start(ServerMode::SERVER);
+        $this->chat->start();
         $this->chat->stop();
     }
 }

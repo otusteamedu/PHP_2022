@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Chat\SocketChat\Factory;
+namespace App\Infrastructure\Chat\SocketMode\Factory;
 
 use Exception;
 use RuntimeException;
@@ -29,10 +29,9 @@ class SocketFactory
     /**
      * @throws Exception
      */
-    private static function loadSocketDir($socketDir): void
+    private static function loadSocketDir(string $socketDir): void
     {
-        if (!is_dir($socketDir)) {
-            mkdir($socketDir, 0777, true) or
+        if (!is_dir($socketDir) && !mkdir($socketDir) && !is_dir($socketDir)) {
             throw new RuntimeException('Error by creating dir for socket file');
         }
     }
@@ -40,7 +39,7 @@ class SocketFactory
     /**
      * @throws Exception
      */
-    private static function bindSocket(Socket $socket, $socketFullPath): Socket
+    private static function bindSocket(Socket $socket, string $socketFullPath): Socket
     {
         if (file_exists($socketFullPath)) {
             unlink($socketFullPath);

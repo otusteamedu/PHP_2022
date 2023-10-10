@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Infrastructure\Command;
+
+use App\Application\Command\ClientCommand;
+use App\Application\Command\CommandInterface;
+use App\Application\Command\ServerCommand;
 
 class ListCommand implements CommandInterface
 {
