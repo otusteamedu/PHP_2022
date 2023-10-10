@@ -8,5 +8,10 @@
     "require": {
         "laminas/laminas-config-aggregator": "^1.11",
         "php-di/php-di": "^7.0"
+    },
+    "require-dev": {
+        "qossmic/deptrac-shim": "^1.0",
+        "vimeo/psalm": "^5.13",
+        "squizlabs/php_codesniffer": "^3.7"
     }
 }
